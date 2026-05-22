@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+
+  <title>Lp(a) — HeartFirst by Shyntesy</title>
+  <meta name="description" content="A HeartFirst resource on Lipoprotein(a), or Lp(a): inherited cardiovascular risk, testing, interpretation, risk reduction, and questions to ask your health team.">
+  <meta name="author" content="HeartFirst by Shyntesy">
+
+  <link rel="canonical" href="https://heartfirst.shyntesy.com/lpa/">
+
+  <meta property="og:title" content="Lp(a) — HeartFirst by Shyntesy">
+  <meta property="og:description" content="Inherited risk. Often overlooked. A clear HeartFirst resource on Lp(a), testing, interpretation, and what to ask your health team.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://heartfirst.shyntesy.com/lpa/">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Lp(a) — HeartFirst by Shyntesy">
+  <meta name="twitter:description" content="Inherited risk. Often overlooked. A clear HeartFirst resource on Lp(a), testing, interpretation, and what to ask your health team.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --color-primary: #102A43;
+      --color-secondary: #C7A44A;
+      --color-tertiary: #2F6F73;
+
+      --bg-light: #FAFAF7;
+      --surface-light: #FFFFFF;
+      --text-light: #111827;
+      --muted-light: #4B5563;
+      --border-light: #D7DCE2;
+
+      --bg-dark: #0B1220;
+      --surface-dark: #111827;
+      --text-dark: #F9FAFB;
+      --muted-dark: #CBD5E1;
+      --border-dark: #334155;
+
+      --bg: var(--bg-light);
+      --surface: var(--surface-light);
+      --text: var(--text-light);
+      --muted: var(--muted-light);
+      --border: var(--border-light);
+
+      --serif: "Source Serif 4", Georgia, Cambria, "Times New Roman", serif;
+      --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --shadow-soft: 0 18px 50px rgba(15, 23, 42, 0.12);
+      --transition: 180ms ease;
+    }
+
+    html[data-theme="dark"] {
+      --bg: var(--bg-dark);
+      --surface: var(--surface-dark);
+      --text: var(--text-dark);
+      --muted: var(--muted-dark);
+      --border: var(--border-dark);
+      color-scheme: dark;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme]) {
+        --bg: var(--bg-dark);
+        --surface: var(--surface-dark);
+        --text: var(--text-dark);
+        --muted: var(--muted-dark);
+        --border: var(--border-dark);
+        color-scheme: dark;
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 17px;
+      scrollbar-gutter: stable;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--serif);
+      background:
+        radial-gradient(circle at 80% 0%, rgba(199, 164, 74, 0.12), transparent 32%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      letter-spacing: 0;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color var(--transition), color var(--transition);
+    }
+
+    h1, h2, h3, button, .eyebrow, .meta-line, .card, footer {
+      font-family: var(--sans);
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 800;
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      color: #FFFFFF;
+      margin-bottom: 1.1rem;
+    }
+
+    h2 {
+      margin: 2.4rem 0 0.75rem;
+      font-size: clamp(1.25rem, 2.4vw, 1.65rem);
+      font-weight: 750;
+      line-height: 1.2;
+      color: var(--color-primary);
+      letter-spacing: -0.02em;
+    }
+
+    html[data-theme="dark"] h2 {
+      color: #E8F0FC;
+    }
+
+    p {
+      margin-bottom: 1.1rem;
+    }
+
+    a {
+      color: var(--color-tertiary);
+      text-decoration: underline;
+      text-underline-offset: 0.16em;
+      text-decoration-thickness: 0.06em;
+    }
+
+    a:hover {
+      color: var(--color-primary);
+    }
+
+    html[data-theme="dark"] a {
+      color: #D4A946;
+    }
+
+    html[data-theme="dark"] a:hover {
+      color: #E7D293;
+    }
+
+    strong {
+      font-weight: 700;
+    }
+
+    :focus-visible {
+      outline: 3px solid rgba(199, 164, 74, 0.65);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 3000;
+      padding: 10px 14px;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      transform: translateY(-140%);
+      transition: transform var(--transition);
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      text-decoration: none;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .theme-toggle-btn {
+      position: fixed;
+      top: max(14px, env(safe-area-inset-top));
+      right: max(14px, env(safe-area-inset-right));
+      z-index: 100;
+      min-height: 42px;
+      padding: 0 15px;
+      border: 1px solid color-mix(in srgb, var(--border) 78%, transparent);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--surface) 94%, transparent);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.84rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      box-shadow: 0 10px 30px rgba(15,23,42,.18);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      cursor: pointer;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--color-secondary);
+    }
+
+    .page {
+      width: min(1040px, calc(100vw - 40px));
+      margin: 0 auto;
+      padding: clamp(24px, 5vw, 56px) 0;
+    }
+
+    .shell {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(34px, 6vw, 68px);
+      background:
+        radial-gradient(circle at 86% 16%, rgba(199,164,74,.18), transparent 28%),
+        linear-gradient(145deg, #071522 0%, var(--color-primary) 58%, #071522 100%);
+      color: #F9FAFB;
+    }
+
+    .eyebrow {
+      margin-bottom: 1.3rem;
+      color: #E7D293;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .hero-strapline {
+      max-width: 780px;
+      color: #DCE7F3;
+      font-family: var(--sans);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      line-height: 1.55;
+      margin-bottom: 0;
+    }
+
+    .content {
+      padding: clamp(28px, 4vw, 48px);
+    }
+
+    .lead {
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+
+    .feature-list {
+      margin: 1rem 0 1.6rem;
+      padding-left: 1.35rem;
+    }
+
+    .feature-list li {
+      margin: 0.5rem 0;
+      padding-left: 0.1rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1.4rem 0 1.8rem;
+    }
+
+    .card {
+      height: 100%;
+      padding: 1rem 1.05rem;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--color-tertiary);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      box-shadow: 0 10px 24px rgba(15,23,42,0.05);
+    }
+
+    .card h3 {
+      margin-bottom: 0.45rem;
+      color: var(--color-primary);
+      font-size: 0.98rem;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    html[data-theme="dark"] .card h3 {
+      color: #E7D293;
+    }
+
+    .card p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-family: var(--serif);
+      font-size: 0.94rem;
+      line-height: 1.55;
+    }
+
+    .notice {
+      margin: 1.6rem 0;
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--color-secondary);
+      border-radius: var(--radius-md);
+      background: color-mix(in srgb, var(--surface) 92%, var(--color-secondary));
+    }
+
+    .notice p {
+      margin-bottom: 0;
+      color: var(--text);
+    }
+
+    .related {
+      margin-top: 2.2rem;
+      padding-top: 1.6rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .related ul {
+      margin: 1rem 0 0;
+      padding-left: 1.35rem;
+    }
+
+    .related li {
+      margin: 0.45rem 0;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      padding: 1.2rem clamp(28px, 4vw, 48px);
+      border-top: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface) 91%, var(--color-tertiary));
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    footer p {
+      margin-bottom: 0.45rem;
+    }
+
+    footer p:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100%, calc(100vw - 20px));
+        padding: 10px 0;
+      }
+
+      .shell {
+        border-radius: 16px;
+      }
+
+      .hero,
+      .content,
+      footer {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: clamp(2.1rem, 12vw, 3.2rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <button class="theme-toggle-btn" id="themeToggle" type="button" aria-label="Switch colour theme">Theme</button>
+
+  <main id="main-content" class="page" tabindex="-1">
+    <article class="shell">
+      <header class="hero">
+        <div class="eyebrow">HeartFirst Resource · Lp(a)</div>
+        <h1>Lp(a)</h1>
+        <p class="hero-strapline">Inherited risk. Often overlooked. Usually measured once.</p>
+      </header>
+
+      <section class="content" aria-label="Lp(a) resource introduction">
+        <p class="lead"><strong>Lipoprotein(a), or Lp(a),</strong> is an inherited cardiovascular risk marker linked with heart attack, stroke, and aortic stenosis. Many people with elevated Lp(a) have never been tested.</p>
+
+        <p>This HeartFirst resource is being prepared as a clear, evidence-based guide for people who want to understand Lp(a), what testing can show, and what to discuss with their health team.</p>
+
+        <h2>What you will find here</h2>
+        <div class="card-grid" aria-label="Lp(a) resource topics">
+          <div class="card">
+            <h3>What Lp(a) is</h3>
+            <p>Why it can matter even when standard cholesterol results look reassuring.</p>
+          </div>
+
+          <div class="card">
+            <h3>Testing and interpretation</h3>
+            <p>Who should consider testing and how results may be reported in nmol/L or mg/dL.</p>
+          </div>
+
+          <div class="card">
+            <h3>Current management</h3>
+            <p>How risk reduction focuses on LDL-C, ApoB where relevant, blood pressure, metabolic risk, and other modifiable factors.</p>
+          </div>
+
+          <div class="card">
+            <h3>Emerging therapies</h3>
+            <p>What Lp(a)-lowering therapies are being studied, and why outcome evidence matters.</p>
+          </div>
+        </div>
+
+        <div class="notice">
+          <p><strong>Coming first:</strong> a short Lp(a) briefing and a patient-facing “what to ask your health team” handout.</p>
+        </div>
+
+        <section class="related" aria-label="Related resources">
+          <h2>Related resources</h2>
+          <ul>
+            <li><a href="/clarity/">Heart Risk Clarity Check</a> — organise your heart-risk picture and choose one next action.</li>
+            <li><a href="/cholesterol/">Cholesterol Testing Report</a> — understand the standard lipid panel as a baseline, not always the full picture.</li>
+            <li><a href="/briefings/">Briefings</a> — short summaries, one-pagers, and practical explainers.</li>
+          </ul>
+        </section>
+
+        <a href="/" class="back-link">← Back to HeartFirst</a>
+      </section>
+
+      <footer>
+        <p>HeartFirst by Shyntesy · <a href="mailto:heartfirst@shyntesy.com">heartfirst@shyntesy.com</a></p>
+        <p>For education only. Not medical advice or diagnosis. If symptoms may be urgent, seek urgent medical care.</p>
+      </footer>
+    </article>
+  </main>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggle = document.getElementById('themeToggle');
+      const key = 'heartfirst-theme';
+
+      function setTheme(theme) {
+        root.setAttribute('data-theme', theme);
+        try {
+          localStorage.setItem(key, theme);
+        } catch (e) {}
+        toggle.textContent = theme === 'dark' ? 'Light' : 'Theme';
+        toggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch colour theme');
+      }
+
+      let saved = null;
+      try {
+        saved = localStorage.getItem(key);
+      } catch (e) {}
+
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      if (saved) {
+        setTheme(saved);
+      } else if (prefersDark) {
+        root.setAttribute('data-theme', 'dark');
+        toggle.textContent = 'Light';
+      } else {
+        root.setAttribute('data-theme', 'light');
+        toggle.textContent = 'Theme';
+      }
+
+      toggle.addEventListener('click', function () {
+        const current = root.getAttribute('data-theme') || 'light';
+        setTheme(current === 'dark' ? 'light' : 'dark');
+      });
+    })();
+  </script>
+</body>
+</html>

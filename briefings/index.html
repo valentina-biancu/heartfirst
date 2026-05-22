@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Briefings — HeartFirst by Shyntesy</title>
+  <meta name="description" content="Short, practical HeartFirst summaries for quick reference, sharing, and better health‑team conversations. Topics include cholesterol, Lp(a), ApoB, and risk clarity.">
+  
+  <!-- Canonical + correct URL (single‑word /briefings/) -->
+  <link rel="canonical" href="https://heartfirst.shyntesy.com/briefings/">
+  <meta property="og:url" content="https://heartfirst.shyntesy.com/briefings/">
+  <meta property="og:title" content="Briefings — HeartFirst by Shyntesy">
+  <meta property="og:description" content="One‑page At a Glance cards, printable summaries, clinician briefs, and more – coming soon.">
+  <meta property="og:type" content="website">
+  
+  <style>
+    /* HeartFirst baseline – consistent with other pages */
+    :root {
+      --color-bg: #ffffff;
+      --color-text: #111827;
+      --color-primary: #0f2b3d;
+      --color-secondary: #e7d293;
+      --color-tertiary: #2c5f6e;
+      --sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    [data-theme="dark"] {
+      --color-bg: #111827;
+      --color-text: #f3f4f6;
+      --color-primary: #1f3a4b;
+      --color-secondary: #e7d293;
+      --color-tertiary: #3b82b6;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--sans);
+      line-height: 1.5;
+      padding: 2rem 1rem;
+    }
+    
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.25rem;
+    }
+    
+    .hero-strapline {
+      font-size: 1.2rem;
+      color: #4b5563;
+      margin-bottom: 1.5rem;
+      border-left: 3px solid var(--color-secondary);
+      padding-left: 1rem;
+    }
+    
+    [data-theme="dark"] .hero-strapline {
+      color: #9ca3af;
+    }
+    
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.75rem;
+    }
+    
+    p {
+      margin: 1rem 0;
+    }
+    
+    a {
+      color: var(--color-primary);
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+    
+    a:hover {
+      color: var(--color-tertiary);
+    }
+    
+    /* Dark‑mode link hover fix (gold) */
+    [data-theme="dark"] a:hover {
+      color: #e7d293;
+    }
+    
+    /* Feature list */
+    .feature-list {
+      margin: 1rem 0 1.5rem;
+      padding-left: 1.4rem;
+    }
+    
+    .feature-list li {
+      margin: 0.45rem 0;
+    }
+    
+    hr {
+      margin: 2rem 0 1rem;
+      border: 0;
+      height: 1px;
+      background: #e5e7eb;
+    }
+    
+    [data-theme="dark"] hr {
+      background: #2d3748;
+    }
+    
+    .back-link {
+      margin-top: 2rem;
+      display: inline-block;
+    }
+    
+    @media (max-width: 640px) {
+      h1 { font-size: 1.8rem; }
+      .hero-strapline { font-size: 1rem; }
+      .container { padding: 0 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Briefings</h1>
+  <div class="hero-strapline">Short, practical HeartFirst summaries for quick reference, sharing, and better health‑team conversations.</div>
+  
+  <p>HeartFirst Briefings are short, focused resources designed to make complex cardiovascular risk topics easier to understand, discuss, and act on.</p>
+  
+  <p>Briefings may include one‑page At a Glance cards, printable summaries, clinician‑facing briefs, policy notes, and practical explainers.</p>
+  
+  <h2>Topics being prepared</h2>
+  <ul class="feature-list">
+    <li>Cholesterol testing as a baseline, not always the full picture</li>
+    <li>Lipoprotein(a), or Lp(a), and inherited risk</li>
+    <li>ApoB, particle burden, and discordant lipid results</li>
+    <li>Heart‑risk clarity, family history, blood pressure, metabolic risk, and next actions</li>
+  </ul>
+  
+  <p>The first briefings will appear here soon.</p>
+  
+  <hr>
+  <a href="/" class="back-link">← Back to HeartFirst</a>
+</div>
+
+<!-- Simple dark/light mode persistence -->
+<script>
+  (function() {
+    const stored = localStorage.getItem('heartfirst-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = stored === 'dark' || (stored === null && prefersDark);
+    if (isDark) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  })();
+</script>
+</body>
+</html>
