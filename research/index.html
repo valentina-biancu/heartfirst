@@ -1,540 +1,102 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="color-scheme" content="light dark">
-
-  <title>HeartFirst Research — Evidence Reviews and White Papers</title>
-  <meta name="description" content="HeartFirst Research publishes evidence reviews, white papers, reference summaries, and research notes on cardiovascular risk, testing, prevention, and implementation.">
-  <meta name="author" content="HeartFirst by Shyntesy">
-
-  <link rel="canonical" href="https://heartfirst.shyntesy.com/research/">
-
-  <meta property="og:title" content="HeartFirst Research — Evidence Reviews and White Papers">
-  <meta property="og:description" content="Evidence reviews, white papers, and reference summaries on cardiovascular risk, testing, prevention, and implementation.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://heartfirst.shyntesy.com/research/">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="HeartFirst Research">
-  <meta name="twitter:description" content="Evidence reviews, white papers, and reference summaries on cardiovascular risk, testing, and prevention.">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --color-primary: #102A43;
-      --color-secondary: #C7A44A;
-      --color-tertiary: #2F6F73;
-
-      --bg-light: #FAFAF7;
-      --surface-light: #FFFFFF;
-      --text-light: #111827;
-      --muted-light: #4B5563;
-      --border-light: #D7DCE2;
-
-      --bg-dark: #0B1220;
-      --surface-dark: #111827;
-      --text-dark: #F9FAFB;
-      --muted-dark: #CBD5E1;
-      --border-dark: #334155;
-
-      --bg: var(--bg-light);
-      --surface: var(--surface-light);
-      --text: var(--text-light);
-      --muted: var(--muted-light);
-      --border: var(--border-light);
-
-      --serif: "Source Serif 4", Georgia, Cambria, "Times New Roman", serif;
-      --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-
-      --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 22px;
-      --shadow-soft: 0 18px 50px rgba(15, 23, 42, 0.12);
-      --transition: 180ms ease;
-    }
-
-    html[data-theme="dark"] {
-      --bg: var(--bg-dark);
-      --surface: var(--surface-dark);
-      --text: var(--text-dark);
-      --muted: var(--muted-dark);
-      --border: var(--border-dark);
-      color-scheme: dark;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      html:not([data-theme]) {
-        --bg: var(--bg-dark);
-        --surface: var(--surface-dark);
-        --text: var(--text-dark);
-        --muted: var(--muted-dark);
-        --border: var(--border-dark);
-        color-scheme: dark;
-      }
-    }
-
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      font-size: 17px;
-      scrollbar-gutter: stable;
-    }
-
-    body {
-      min-height: 100vh;
-      font-family: var(--serif);
-      background:
-        radial-gradient(circle at 80% 0%, rgba(199, 164, 74, 0.12), transparent 32%),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.75;
-      letter-spacing: 0;
-      text-rendering: optimizeLegibility;
-      -webkit-font-smoothing: antialiased;
-      transition: background-color var(--transition), color var(--transition);
-    }
-
-    h1, h2, h3, button, .eyebrow, .card, .badge, footer {
-      font-family: var(--sans);
-    }
-
-    h1 {
-      font-size: clamp(2.2rem, 6vw, 4rem);
-      font-weight: 800;
-      line-height: 0.98;
-      letter-spacing: -0.055em;
-      color: #FFFFFF;
-      margin-bottom: 1.1rem;
-    }
-
-    h2 {
-      margin: 2.4rem 0 0.75rem;
-      font-size: clamp(1.25rem, 2.4vw, 1.65rem);
-      font-weight: 700;
-      line-height: 1.2;
-      color: var(--color-primary);
-      letter-spacing: -0.02em;
-    }
-
-    html[data-theme="dark"] h2 {
-      color: #E8F0FC;
-    }
-
-    p {
-      margin-bottom: 1.1rem;
-    }
-
-    a {
-      color: var(--color-tertiary);
-      text-decoration: underline;
-      text-underline-offset: 0.16em;
-      text-decoration-thickness: 0.06em;
-    }
-
-    a:hover {
-      color: var(--color-primary);
-    }
-
-    html[data-theme="dark"] a {
-      color: #D4A946;
-    }
-
-    html[data-theme="dark"] a:hover {
-      color: #E7D293;
-    }
-
-    strong {
-      font-weight: 700;
-    }
-
-    :focus-visible {
-      outline: 3px solid rgba(199, 164, 74, 0.65);
-      outline-offset: 3px;
-      border-radius: 4px;
-    }
-
-    .skip-link {
-      position: fixed;
-      top: 12px;
-      left: 12px;
-      z-index: 3000;
-      padding: 10px 14px;
-      background: var(--surface);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      transform: translateY(-140%);
-      transition: transform var(--transition);
-      font-family: var(--sans);
-      font-size: 0.85rem;
-      text-decoration: none;
-    }
-
-    .skip-link:focus {
-      transform: translateY(0);
-    }
-
-    .theme-toggle-btn {
-      position: fixed;
-      top: max(14px, env(safe-area-inset-top));
-      right: max(14px, env(safe-area-inset-right));
-      z-index: 100;
-      min-height: 42px;
-      padding: 0 15px;
-      border: 1px solid color-mix(in srgb, var(--border) 78%, transparent);
-      border-radius: 999px;
-      background: color-mix(in srgb, var(--surface) 94%, transparent);
-      color: var(--text);
-      font-family: var(--sans);
-      font-size: 0.84rem;
-      font-weight: 700;
-      letter-spacing: 0.01em;
-      box-shadow: 0 10px 30px rgba(15,23,42,.18);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      cursor: pointer;
-    }
-
-    .theme-toggle-btn:hover {
-      border-color: var(--color-secondary);
-    }
-
-    .page {
-      width: min(1040px, calc(100vw - 40px));
-      margin: 0 auto;
-      padding: clamp(24px, 5vw, 56px) 0;
-    }
-
-    .shell {
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: var(--surface);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .hero {
-      padding: clamp(34px, 6vw, 68px);
-      background:
-        radial-gradient(circle at 86% 16%, rgba(199,164,74,.18), transparent 28%),
-        linear-gradient(145deg, #071522 0%, var(--color-primary) 58%, #071522 100%);
-      color: #F9FAFB;
-    }
-
-    .eyebrow {
-      margin-bottom: 1.3rem;
-      color: #E7D293;
-      font-size: 0.76rem;
-      font-weight: 800;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-
-    .hero-strapline {
-      max-width: 800px;
-      color: #DCE7F3;
-      font-family: var(--sans);
-      font-size: clamp(1rem, 2vw, 1.25rem);
-      line-height: 1.55;
-      margin-bottom: 0;
-    }
-
-    .content {
-      padding: clamp(28px, 4vw, 48px);
-    }
-
-    .lead {
-      font-size: 1.05rem;
-      color: var(--text);
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
-      margin: 1.4rem 0 1.8rem;
-    }
-
-    .card {
-      height: 100%;
-      padding: 1rem 1.05rem;
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--color-tertiary);
-      border-radius: var(--radius-md);
-      background: var(--surface);
-      box-shadow: 0 10px 24px rgba(15,23,42,0.05);
-    }
-
-    .card.featured {
-      border-left-color: var(--color-secondary);
-    }
-
-    .card h3 {
-      margin-bottom: 0.45rem;
-      color: var(--color-primary);
-      font-size: 0.98rem;
-      font-weight: 800;
-      line-height: 1.25;
-    }
-
-    html[data-theme="dark"] .card h3 {
-      color: #E7D293;
-    }
-
-    .card p {
-      margin-bottom: 0.7rem;
-      color: var(--muted);
-      font-family: var(--serif);
-      font-size: 0.94rem;
-      line-height: 1.55;
-    }
-
-    .card p:last-child {
-      margin-bottom: 0;
-    }
-
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-      margin: 0.4rem 0 0.7rem;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.15rem 0.5rem;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      color: var(--muted);
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-    }
-
-    .feature-list {
-      margin: 1rem 0 1.5rem;
-      padding-left: 1.4rem;
-    }
-
-    .feature-list li {
-      margin: 0.45rem 0;
-    }
-
-    .notice {
-      margin: 1.6rem 0;
-      padding: 1rem 1.1rem;
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--color-secondary);
-      border-radius: var(--radius-md);
-      background: color-mix(in srgb, var(--surface) 92%, var(--color-secondary));
-    }
-
-    .notice p {
-      margin-bottom: 0;
-      color: var(--text);
-    }
-
-    .related {
-      margin-top: 2.2rem;
-      padding-top: 1.6rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .related ul {
-      margin: 1rem 0 0;
-      padding-left: 1.35rem;
-    }
-
-    .related li {
-      margin: 0.45rem 0;
-    }
-
-    .back-link {
-      display: inline-block;
-      margin-top: 2rem;
-      font-family: var(--sans);
-      font-size: 0.9rem;
-    }
-
-    footer {
-      padding: 1.2rem clamp(28px, 4vw, 48px);
-      border-top: 1px solid var(--border);
-      background: color-mix(in srgb, var(--surface) 91%, var(--color-tertiary));
-      color: var(--muted);
-      font-family: var(--sans);
-      font-size: 0.8rem;
-      line-height: 1.5;
-      text-align: center;
-    }
-
-    footer p {
-      margin-bottom: 0.45rem;
-    }
-
-    footer p:last-child {
-      margin-bottom: 0;
-    }
-
-    @media (max-width: 720px) {
-      .page {
-        width: min(100%, calc(100vw - 20px));
-        padding: 10px 0;
-      }
-
-      .shell {
-        border-radius: 16px;
-      }
-
-      .hero,
-      .content,
-      footer {
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-
-      .card-grid {
-        grid-template-columns: 1fr;
-      }
-
-      h1 {
-        font-size: clamp(2.1rem, 12vw, 3.2rem);
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
-        animation-duration: 0.01ms !important;
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+
+<title>HeartFirst Research — Evidence Reviews and White Papers by Shyntesy</title>
+<meta name="description" content="HeartFirst Research is the evidence layer behind HeartFirst tools, briefings, glossary entries, and public education on cardiovascular risk, testing, prevention, and implementation.">
+<meta name="author" content="HeartFirst by Shyntesy">
+<link rel="canonical" href="https://heartfirst.shyntesy.com/research/">
+
+<meta property="og:title" content="HeartFirst Research — Evidence Reviews and White Papers">
+<meta property="og:description" content="Evidence reviews, white papers, reference summaries, and research notes supporting clearer cardiovascular risk decisions.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://heartfirst.shyntesy.com/research/">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="HeartFirst Research">
+<meta name="twitter:description" content="Evidence reviews, white papers, and reference summaries on cardiovascular risk, testing, prevention, and implementation.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,ital,wght@8..60,0,300;8..60,0,400;8..60,0,600;8..60,0,700;8..60,1,400;8..60,1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+
+<!-- Schema.org structured data for research collection -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "HeartFirst Research",
+  "description": "Evidence reviews, white papers, and reference summaries on cardiovascular risk, testing, prevention, and implementation.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "HeartFirst by Shyntesy",
+    "url": "https://heartfirst.shyntesy.com"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "Cardiovascular disease prevention"
+  }
+}
+</script>
+
+<style>
+:root{--navy:#0D2236;--navy2:#102A43;--gold:#C7A44A;--gold2:#E7D293;--teal:#2F6F73;--teal2:#1B4F52;--cream:#F7F4EF;--white:#FFFFFF;--ink:#111820;--ink2:#2C3440;--muted:#5A6270;--border:#D8D3CA;--r:12px;--R:22px;--serif:"Source Serif 4",Georgia,serif;--sans:"DM Sans",system-ui,sans-serif;--t:220ms ease;--shadow:0 12px 40px rgba(13,34,54,.13);--shadow-lg:0 24px 60px rgba(13,34,54,.18);--bg:var(--cream);--surface:var(--white);--text:var(--ink);--text2:var(--ink2);--subdued:var(--muted);--line:var(--border)}
+html[data-theme="dark"]{--bg:#0B1220;--surface:#111827;--text:#F9FAFB;--text2:#CBD5E1;--subdued:#94A3B8;--line:#1E3A52;color-scheme:dark}
+@media(prefers-color-scheme:dark){html:not([data-theme]){--bg:#0B1220;--surface:#111827;--text:#F9FAFB;--text2:#CBD5E1;--subdued:#94A3B8;--line:#1E3A52;color-scheme:dark}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;font-size:17px;scrollbar-gutter:stable}body{font-family:var(--serif);color:var(--text);background:var(--bg);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background var(--t),color var(--t)}a{color:var(--teal);text-decoration:none}a:hover{text-decoration:underline}html[data-theme="dark"] a{color:#8BCCC8}html[data-theme="dark"] a:hover{color:var(--gold2)}:focus-visible{outline:3px solid var(--gold);outline-offset:4px;border-radius:4px}.skip-link{position:fixed;top:12px;left:12px;z-index:3000;padding:10px 14px;border-radius:8px;background:var(--surface);color:var(--text);border:1px solid var(--line);font-family:var(--sans);font-size:.84rem;font-weight:700;text-decoration:none;transform:translateY(-140%);transition:transform var(--t)}.skip-link:focus{transform:translateY(0)}#main{scroll-margin-top:86px}
+.nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0 clamp(20px,4vw,48px);height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,34,54,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(199,164,74,.18);transition:background var(--t)}.nav-brand{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-size:.95rem;font-weight:700;color:#F9FAFB;text-decoration:none}.nav-brand:hover{text-decoration:none}.nav-links{display:flex;align-items:center;gap:24px}.nav-link{font-family:var(--sans);font-size:.82rem;color:#8AABB8;transition:color var(--t)}.nav-link:hover,.nav-link[aria-current="page"]{color:#DCE8F4;text-decoration:none}.nav-right{display:flex;align-items:center;gap:14px}.theme-btn{appearance:none;border:1px solid rgba(199,164,74,.3);border-radius:999px;background:rgba(199,164,74,.08);color:#E7D293;padding:5px 14px;font-family:var(--sans);font-size:.78rem;font-weight:600;cursor:pointer;transition:background var(--t),border-color var(--t)}.theme-btn:hover{background:rgba(199,164,74,.15);border-color:rgba(199,164,74,.55)}.menu-btn{display:flex;align-items:center;justify-content:center;width:39px;height:39px;border-radius:999px;border:1px solid rgba(199,164,74,.3);background:rgba(199,164,74,.08);color:#E7D293;cursor:pointer;transition:background var(--t),border-color var(--t),transform var(--t)}.menu-btn:hover{background:rgba(199,164,74,.15);border-color:rgba(199,164,74,.55)}.menu-btn:active{transform:translateY(1px)}.menu-icon{position:relative;width:18px;height:12px;display:block}.menu-icon span{position:absolute;left:0;width:18px;height:2px;border-radius:99px;background:currentColor;transition:transform var(--t),opacity var(--t),top var(--t)}.menu-icon span:nth-child(1){top:0}.menu-icon span:nth-child(2){top:5px}.menu-icon span:nth-child(3){top:10px}.menu-btn[aria-expanded="true"] .menu-icon span:nth-child(1){top:5px;transform:rotate(45deg)}.menu-btn[aria-expanded="true"] .menu-icon span:nth-child(2){opacity:0}.menu-btn[aria-expanded="true"] .menu-icon span:nth-child(3){top:5px;transform:rotate(-45deg)}.mobile-menu-backdrop{position:fixed;inset:64px 0 0;z-index:830;background:rgba(5,15,26,.46);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity var(--t)}.mobile-menu{position:fixed;top:76px;right:clamp(12px,4vw,28px);z-index:860;width:min(410px,calc(100vw - 24px));padding:.7rem;border:1px solid rgba(199,164,74,.24);border-radius:18px;background:rgba(13,34,54,.98);box-shadow:0 24px 70px rgba(5,15,26,.42);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);opacity:0;pointer-events:none;transform:translateY(-10px) scale(.985);transition:opacity var(--t),transform var(--t)}body.menu-open{overflow:hidden}body.menu-open .mobile-menu-backdrop{opacity:1;pointer-events:auto}body.menu-open .mobile-menu{opacity:1;pointer-events:auto;transform:translateY(0) scale(1)}.mobile-menu a{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.86rem 1rem;border-radius:12px;color:#DCE8F4;font-family:var(--sans);font-size:.94rem;font-weight:600;text-decoration:none;transition:background var(--t),color var(--t),transform var(--t)}.mobile-menu a:hover{background:rgba(255,255,255,.07);color:#FFFFFF;text-decoration:none;transform:translateX(2px)}.mobile-menu a span{color:#8AABB8;font-size:.78rem;font-weight:500}.mobile-menu .mobile-menu-cta{margin-top:.35rem;justify-content:center;background:var(--gold);color:var(--navy);font-weight:800}.mobile-menu .mobile-menu-cta:hover{background:#D4B25A;color:var(--navy);transform:translateY(-1px)}
+.hero{min-height:82svh;display:grid;place-items:center;padding:120px clamp(20px,4vw,48px) 78px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 68% 18%,rgba(47,111,115,.28),transparent 48%),radial-gradient(ellipse at 14% 78%,rgba(199,164,74,.13),transparent 44%),linear-gradient(158deg,#050F1A 0%,var(--navy) 48%,#071520 100%)}.hero::before,.closing-cta::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");opacity:.55}.hero-inner{position:relative;z-index:2;max-width:min(930px,calc(100vw - 48px));margin:0 auto;text-align:center}.hero-kicker{font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);margin-bottom:1.4rem;display:flex;align-items:center;justify-content:center;gap:10px;animation:fade-up .7s .1s both cubic-bezier(.22,1,.36,1)}.hero-kicker::before,.hero-kicker::after{content:'';display:block;width:32px;height:1px;background:var(--gold)}.hero-h1{font-family:var(--serif);font-size:clamp(2.7rem,5.6vw,5.15rem);font-weight:600;line-height:1.04;letter-spacing:-.03em;color:#fff;margin-bottom:1.5rem;font-optical-sizing:auto;animation:fade-up .7s .22s both cubic-bezier(.22,1,.36,1)}.hero-h1 em{font-style:italic;color:var(--gold2)}.hero-sub{font-family:var(--sans);font-size:clamp(1rem,1.7vw,1.2rem);color:#B8C8D8;line-height:1.68;font-weight:300;max-width:760px;margin:0 auto 2.7rem;animation:fade-up .7s .36s both cubic-bezier(.22,1,.36,1)}.hero-actions{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;animation:fade-up .7s .48s both cubic-bezier(.22,1,.36,1)}.btn-primary,.btn-secondary{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:.96rem;font-weight:700;padding:14px 30px;border-radius:999px;transition:transform var(--t),box-shadow var(--t),background var(--t),border-color var(--t)}.btn-primary{background:var(--gold);color:var(--navy);box-shadow:0 8px 28px rgba(199,164,74,.38)}.btn-primary:hover{background:#D4B25A;transform:translateY(-2px);box-shadow:0 14px 36px rgba(199,164,74,.48);text-decoration:none}.btn-secondary{color:#DCE8F4;border:1px solid rgba(220,232,244,.28);background:rgba(255,255,255,.04)}.btn-secondary:hover{border-color:rgba(199,164,74,.55);background:rgba(255,255,255,.07);text-decoration:none}
+.ecg-div{position:relative;width:100%;height:28px;overflow:hidden;background:color-mix(in srgb,var(--bg) 72%,var(--surface))}.ecg-div::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='28' viewBox='0 0 1200 28'%3E%3Cpath d='M0 14 H478 L500 5 L518 23 L531 14 H1200' fill='none' stroke='%23C7A44A' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% 28px no-repeat;opacity:.72}.ecg-div--dark{background:linear-gradient(180deg,rgba(13,34,54,.98),rgba(13,34,54,.98))}.ecg-div--dark::before{opacity:.38}html[data-theme="dark"] .ecg-div{background:color-mix(in srgb,var(--bg) 82%,#0D2236)}html[data-theme="dark"] .ecg-div::before{opacity:.42}html[data-theme="dark"] .ecg-div--dark::before{opacity:.34}
+.section{padding:clamp(64px,9vw,112px) clamp(20px,4vw,48px)}.section--dark{background:var(--navy);color:#F9FAFB}.section--navy2{background:var(--navy2);color:#F9FAFB}.section--cream{background:var(--cream)}.section--white{background:var(--white)}html[data-theme="dark"] .section--cream{background:var(--bg)}html[data-theme="dark"] .section--white{background:var(--surface)}.container{width:min(1060px,calc(100vw - 48px));margin:0 auto}.container--mid{width:min(900px,calc(100vw - 48px));margin:0 auto}.section-kicker{font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:10px}.section-kicker::before{content:'';display:block;width:22px;height:1px;background:var(--gold)}.section-h2{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,3.5vw,3rem);line-height:1.13;letter-spacing:-.022em;margin-bottom:1.1rem;font-optical-sizing:auto}.section-lead{font-family:var(--sans);font-size:clamp(1rem,1.45vw,1.1rem);color:var(--subdued);line-height:1.72;max-width:720px;font-weight:300}.section--dark .section-lead,.section--navy2 .section-lead{color:#9DB4C8}
+.research-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.1rem;margin-top:2.5rem}.research-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--R);padding:1.5rem 1.55rem;box-shadow:0 1px 0 rgba(13,34,54,.02);transition:border-color var(--t),box-shadow var(--t),background var(--t)}.research-card:hover{border-color:var(--gold);box-shadow:var(--shadow);background:color-mix(in srgb,var(--gold) 3%,var(--surface))}.research-card--featured{border-left:4px solid var(--gold)}.research-card--teal{border-left:4px solid var(--teal)}.research-card-kicker{font-family:var(--sans);font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.65rem}.research-title{font-family:var(--sans);font-size:1.05rem;font-weight:800;color:var(--text);line-height:1.24;margin-bottom:.5rem}.research-copy{font-family:var(--sans);font-size:.89rem;color:var(--subdued);line-height:1.62;font-weight:300;margin-bottom:.9rem}.research-meta{font-family:var(--sans);font-size:.74rem;color:var(--subdued);margin:.6rem 0 .9rem}.research-meta strong{color:var(--text)}.badge-row{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0 .95rem}.badge{display:inline-flex;align-items:center;padding:.18rem .55rem;border:1px solid var(--line);border-radius:999px;color:var(--subdued);font-family:var(--sans);font-size:.68rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;background:color-mix(in srgb,var(--surface) 92%,var(--teal))}.card-link{font-family:var(--sans);font-size:.86rem;font-weight:800;color:var(--teal)}.card-actions{display:flex;gap:.6rem;margin-top:1rem}.card-actions .btn-secondary{padding:6px 14px;font-size:.82rem}.dark-card{padding:1.45rem 1.45rem;border-radius:var(--r);border:1px solid rgba(199,164,74,.2);border-left:3px solid var(--gold);background:rgba(255,255,255,.04);transition:background var(--t),border-color var(--t),box-shadow var(--t)}.dark-card:hover{background:rgba(255,255,255,.07);border-color:rgba(199,164,74,.38);box-shadow:0 18px 44px rgba(0,0,0,.18)}.dark-card-title{font-family:var(--sans);font-size:.96rem;font-weight:800;color:#F0F4F8;line-height:1.25;margin-bottom:.45rem}.dark-card-copy{font-family:var(--sans);font-size:.86rem;color:#9DB4C8;line-height:1.58;font-weight:300}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.45rem}.topic-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;margin-top:2.4rem;background:var(--line);border-radius:var(--R);overflow:hidden}.topic{padding:1.25rem 1.3rem;background:var(--surface);transition:background var(--t),border-left-color var(--t);border-left:3px solid var(--line)}.topic:hover{background:color-mix(in srgb,var(--teal) 5%,var(--surface));border-left-color:var(--gold)}.topic-title{font-family:var(--sans);font-size:.94rem;font-weight:800;color:var(--text);margin-bottom:.35rem;line-height:1.25}.topic-copy{font-family:var(--sans);font-size:.84rem;color:var(--subdued);line-height:1.55;font-weight:300}.note-card{margin-top:2.5rem;border:1px solid rgba(199,164,74,.22);border-radius:var(--R);overflow:hidden;background:var(--surface);box-shadow:var(--shadow)}.note-head{padding:1.45rem 1.6rem;background:linear-gradient(135deg,#071522 0%,var(--navy2) 100%)}.note-title{font-family:var(--serif);font-size:clamp(1.35rem,2.2vw,1.9rem);font-weight:600;color:#fff;line-height:1.18;margin-bottom:.45rem}.note-copy{font-family:var(--sans);font-size:.94rem;color:#B8C8D8;line-height:1.62;font-weight:300;max-width:760px}.note-body{padding:1.35rem 1.55rem;font-family:var(--sans);font-size:.9rem;color:var(--text2);line-height:1.65}.note-body strong{color:var(--text)}.status-card{margin-top:2.5rem;border:1px solid rgba(199,164,74,.22);border-radius:var(--R);overflow:hidden;background:var(--surface);box-shadow:var(--shadow);border-left:3px solid var(--teal)}.status-card .card-title{font-family:var(--sans);font-size:1.02rem;font-weight:800;color:var(--text);margin-bottom:.45rem}.status-card .card-copy{font-family:var(--sans);font-size:.89rem;color:var(--subdued);line-height:1.62;font-weight:300}
+.closing-cta{text-align:center;padding:clamp(68px,9vw,112px) clamp(20px,4vw,48px);background:radial-gradient(ellipse at 50% 0%,rgba(47,111,115,.26),transparent 52%),radial-gradient(ellipse at 50% 100%,rgba(199,164,74,.10),transparent 44%),linear-gradient(160deg,#050F1A 0%,var(--navy) 100%);position:relative;overflow:hidden}.closing-inner{position:relative;z-index:2;max-width:760px;margin:0 auto}.closing-h2{font-family:var(--serif);font-size:clamp(2rem,3.8vw,3.2rem);font-weight:600;line-height:1.12;letter-spacing:-.022em;color:#fff;margin-bottom:1rem;font-optical-sizing:auto}.closing-h2 em{font-style:italic;color:var(--gold2)}.closing-sub{font-family:var(--sans);font-size:1rem;color:#9DB4C8;max-width:620px;margin:0 auto 2.4rem;line-height:1.68;font-weight:300}.closing-links{display:flex;align-items:center;justify-content:center;gap:1.2rem;flex-wrap:wrap;margin-top:2rem}.closing-links a{font-family:var(--sans);font-size:.84rem;color:#7A9AB0;transition:color var(--t)}.closing-links a:hover{color:#B8D0E0;text-decoration:none}.closing-links span{color:rgba(122,154,176,.4)}.footer{background:var(--navy);border-top:1px solid rgba(199,164,74,.14);padding:2.4rem clamp(20px,4vw,48px)}.footer-inner{width:min(1060px,calc(100vw - 48px));margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}.footer-brand{font-family:var(--sans);font-size:.82rem;font-weight:700;color:#F9FAFB}.footer-meta{font-family:var(--sans);font-size:.75rem;color:#5A7A94;text-align:right;line-height:1.6}.footer-meta a{color:#5A7A94;text-decoration:underline}
+.reveal{--reveal-x:0;--reveal-y:0;--hover-y:0;opacity:0;transform:translate3d(var(--reveal-x),var(--reveal-y),0) translateY(var(--hover-y));transition:opacity 760ms ease,transform 760ms cubic-bezier(.22,1,.36,1),border-color var(--t),box-shadow var(--t),background var(--t);will-change:opacity,transform}.reveal.from-left{--reveal-x:-52px}.reveal.from-right{--reveal-x:52px}.reveal.from-below{--reveal-y:34px}.reveal.visible{--reveal-x:0;--reveal-y:0;opacity:1}.reveal-d1{transition-delay:100ms}.reveal-d2{transition-delay:210ms}.reveal-d3{transition-delay:320ms}.research-card.reveal.visible:hover,.dark-card.reveal.visible:hover,.topic.reveal.visible:hover{--hover-y:-5px}
+/* Contrast lock: gold-background CTAs must keep dark/navy text in every theme. */
+a.btn-primary,a.btn-primary:link,a.btn-primary:visited,a.btn-primary:hover,a.btn-primary:focus-visible,html[data-theme="dark"] a.btn-primary,html[data-theme="dark"] a.btn-primary:link,html[data-theme="dark"] a.btn-primary:visited,html[data-theme="dark"] a.btn-primary:hover,html[data-theme="dark"] a.btn-primary:focus-visible,.mobile-menu a.mobile-menu-cta,.mobile-menu a.mobile-menu-cta:link,.mobile-menu a.mobile-menu-cta:visited,.mobile-menu a.mobile-menu-cta:hover,.mobile-menu a.mobile-menu-cta:focus-visible,html[data-theme="dark"] .mobile-menu a.mobile-menu-cta,html[data-theme="dark"] .mobile-menu a.mobile-menu-cta:link,html[data-theme="dark"] .mobile-menu a.mobile-menu-cta:visited,html[data-theme="dark"] .mobile-menu a.mobile-menu-cta:hover,html[data-theme="dark"] .mobile-menu a.mobile-menu-cta:focus-visible{color:var(--navy)!important;text-decoration:none!important}
+/* Dark buttons stay light text in every theme. */
+a.btn-secondary,a.btn-secondary:link,a.btn-secondary:visited,a.btn-secondary:hover,a.btn-secondary:focus-visible,html[data-theme="dark"] a.btn-secondary,html[data-theme="dark"] a.btn-secondary:link,html[data-theme="dark"] a.btn-secondary:visited,html[data-theme="dark"] a.btn-secondary:hover,html[data-theme="dark"] a.btn-secondary:focus-visible{color:#DCE8F4!important;text-decoration:none!important}
+@keyframes fade-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}.reveal{opacity:1!important;transform:none!important;transition:none!important}.research-card:hover,.dark-card:hover,.topic:hover,.mobile-menu a:hover{transform:none!important;box-shadow:none!important}}
+@media(max-width:1040px){.grid-3{grid-template-columns:repeat(2,1fr)}.nav-links{display:none}}
+@media(max-width:760px){.research-grid,.topic-list{grid-template-columns:1fr}.footer-meta{text-align:left}.hero{min-height:76svh}.hero-kicker{font-size:.66rem}.nav{padding:0 16px}.nav-right{gap:9px}.mobile-menu{right:12px}}
+@media(max-width:540px){html{font-size:16px}.grid-3{grid-template-columns:1fr}.hero-actions{align-items:stretch}.btn-primary,.btn-secondary{width:100%;justify-content:center}.footer-inner{display:block}.footer-meta{margin-top:.8rem}.theme-btn{padding:5px 11px}.nav-brand{font-size:.9rem}.mobile-menu a{padding:.82rem .9rem}.research-card,.dark-card,.note-body{padding:1.25rem}.note-head{padding:1.35rem 1.25rem}}
+</style>
 </head>
 
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-  <button class="theme-toggle-btn" id="themeToggle" type="button" aria-label="Switch colour theme">Theme</button>
+<a class="skip-link" href="#main">Skip to main content</a>
 
-  <main id="main-content" class="page" tabindex="-1">
-    <article class="shell">
-      <header class="hero">
-        <div class="eyebrow">HeartFirst Research</div>
-        <h1>Evidence for clearer heart-risk decisions.</h1>
-        <p class="hero-strapline">Evidence reviews, white papers, reference summaries, and research notes supporting HeartFirst tools, briefings, and public education.</p>
-      </header>
+<nav class="nav" aria-label="Site navigation">
+  <a class="nav-brand" href="/" aria-label="HeartFirst home">
+    <svg width="26" height="26" viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="M50 85 C50 85 8 55 8 33 C8 18 18 10 29 10 C38 10 45 16 50 22 C50 22 50 85 50 85Z" fill="#102A43"/><path d="M50 85 C50 85 92 55 92 33 C92 18 82 10 71 10 C62 10 55 16 50 22 C50 22 50 85 50 85Z" fill="#C0392B"/><polyline points="20,42 30,42 36,28 42,55 47,38 53,38 58,38 64,28 70,55 75,38 81,42" fill="none" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    HeartFirst
+  </a>
+  <div class="nav-links" aria-label="Primary navigation">
+    <a href="/" class="nav-link">Home</a><a href="/about/" class="nav-link">About</a><a href="/products/" class="nav-link">Products</a><a href="/briefings/" class="nav-link">Briefings</a><a href="/research/" class="nav-link" aria-current="page">Research</a>
+  </div>
+  <div class="nav-right"><button class="theme-btn" id="themeBtn" type="button" aria-label="Switch colour theme">Dark</button><button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu"><span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span></button></div>
+</nav>
+<div class="mobile-menu-backdrop" id="mobileMenuBackdrop" aria-hidden="true"></div>
+<nav class="mobile-menu" id="mobileMenu" aria-label="Research navigation" aria-hidden="true">
+  <a href="#featured">Featured research <span>reports and syntheses</span></a><a href="#topics">Research themes <span>current focus areas</span></a><a href="#belongs-here">What belongs here <span>research output types</span></a><a href="#translation">How research is used <span>from evidence to tools</span></a><a href="/briefings/">Briefings <span>short summaries</span></a><a href="/products/">Products <span>Clarify → Navigate → Prevent</span></a><a href="https://legal.shyntesy.com">Legal and compliance <span>trust hub</span></a><a class="mobile-menu-cta" href="/briefings/">View briefings</a>
+</nav>
 
-      <section class="content" aria-label="HeartFirst research hub">
-        <p class="lead">HeartFirst Research is the evidence layer behind our tools, briefings, glossary entries, and public-facing education. It brings together deeper reviews, technical reports, white papers, and reference summaries on cardiovascular risk and prevention.</p>
-
-        <h2>Featured research</h2>
-        <div class="card-grid">
-          <div class="card featured">
-            <h3>From Routine to Baseline: Cholesterol Testing</h3>
-            <div class="badge-row">
-              <span class="badge">Evidence review</span>
-              <span class="badge">Report</span>
-            </div>
-            <p>A full evidence review on the history, value, global reality, limits, and future role of standard cholesterol testing.</p>
-            <p><a href="/cholesterol/">View report →</a></p>
-          </div>
-
-          <div class="card featured">
-            <h3>Lipoprotein(a) and Insulin Resistance</h3>
-            <div class="badge-row">
-              <span class="badge">Evidence synthesis</span>
-              <span class="badge">Clinical roadmap</span>
-            </div>
-            <p>A research synthesis on the Lp(a)-insulin resistance relationship and its implications for cardiovascular risk interpretation.</p>
-            <p><a href="/lpa/">View Lp(a) resources →</a></p>
-          </div>
-        </div>
-
-        <h2>What belongs here</h2>
-        <ul class="feature-list">
-          <li>Evidence reviews and longer-form reports</li>
-          <li>White papers and executive briefs</li>
-          <li>Reference summaries supporting HeartFirst products</li>
-          <li>Policy and public-health notes</li>
-          <li>Research updates on risk markers, testing, prevention, and implementation</li>
-        </ul>
-
-        <h2>How HeartFirst uses research</h2>
-        <p>HeartFirst research is translated into practical tools, briefing cards, glossary entries, and patient-facing resources. The goal is not to overwhelm people with evidence, but to make the evidence usable.</p>
-
-        <p>Our working pathway is <strong>Clarify → Navigate → Prevent</strong>: clarify what is known and unknown, navigate health-team conversations and decisions, and support prevention through practical next actions.</p>
-
-        <div class="notice">
-          <p>Where available, HeartFirst research outputs may include DOI-linked records, downloadable PDFs, version notes, and related briefing materials.</p>
-        </div>
-
-        <section class="related" aria-label="Related HeartFirst resources">
-          <h2>Related resources</h2>
-          <ul>
-            <li><a href="/clarity/">Heart Risk Clarity Check</a> — a practical kit for organising heart-risk information and choosing one next action.</li>
-            <li><a href="/briefings/">Briefings</a> — short summaries, one-pagers, and practical explainers.</li>
-            <li><a href="/glossary/">Heart Risk and Protection Glossary</a> — plain-language and specialist definitions.</li>
-            <li><a href="/toolkit/">Toolkit</a> — practical HeartFirst tools and worksheets.</li>
-          </ul>
-        </section>
-
-        <a href="/" class="back-link">← Back to HeartFirst</a>
-      </section>
-
-      <footer>
-        <p>HeartFirst by Shyntesy · <a href="mailto:heartfirst@shyntesy.com">heartfirst@shyntesy.com</a></p>
-        <p>For education only. Not medical advice or diagnosis. If symptoms may be urgent, seek urgent medical care.</p>
-      </footer>
-    </article>
-  </main>
-
-  <script>
-    (function () {
-      const root = document.documentElement;
-      const toggle = document.getElementById('themeToggle');
-      const key = 'heartfirst-theme';
-
-      function setTheme(theme) {
-        root.setAttribute('data-theme', theme);
-        try {
-          localStorage.setItem(key, theme);
-        } catch (e) {}
-        toggle.textContent = theme === 'dark' ? 'Light' : 'Theme';
-        toggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch colour theme');
-      }
-
-      let saved = null;
-      try {
-        saved = localStorage.getItem(key);
-      } catch (e) {}
-
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-      if (saved) {
-        setTheme(saved);
-      } else if (prefersDark) {
-        root.setAttribute('data-theme', 'dark');
-        toggle.textContent = 'Light';
-      } else {
-        root.setAttribute('data-theme', 'light');
-        toggle.textContent = 'Theme';
-      }
-
-      toggle.addEventListener('click', function () {
-        const current = root.getAttribute('data-theme') || 'light';
-        setTheme(current === 'dark' ? 'light' : 'dark');
-      });
-    })();
-  </script>
+<main id="main">
+<section class="hero" aria-labelledby="hero-h1"><div class="hero-inner"><div class="hero-kicker">HeartFirst Research</div><h1 id="hero-h1" class="hero-h1">Evidence for clearer<br><em>heart-risk decisions.</em></h1><p class="hero-sub">HeartFirst Research is the evidence layer behind our tools, briefings, glossary entries, and public education — deeper reviews, white papers, reference summaries, and research notes on cardiovascular risk, testing, prevention, and implementation.</p><div class="hero-actions"><a href="#featured" class="btn-primary">Explore research <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M7.5 3v9M3.5 9l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a href="/briefings/" class="btn-secondary">View briefings</a></div></div></section>
+<div class="ecg-div ecg-div--dark" aria-hidden="true"></div>
+<section class="section section--white" id="featured" aria-labelledby="featured-h"><div class="container"><div class="reveal from-below"><div class="section-kicker">Featured research</div><h2 id="featured-h" class="section-h2">The deeper work behind the public summaries.</h2><p class="section-lead">Briefings are designed for fast reading. Research pages are where the fuller evidence story lives: what is known, what is contested, what is changing, and how the evidence can be translated into practical preparation.</p></div><div class="research-grid"><article class="research-card research-card--featured reveal from-left"><div class="research-card-kicker">Evidence review</div><h3 class="research-title">From Routine to Baseline: Cholesterol Testing</h3><p class="research-copy">A full evidence review on the history, value, global reality, limits, and future role of standard cholesterol testing — foundational, but not always complete.</p><div class="research-meta"><strong>Last reviewed:</strong> May 2026</div><div class="badge-row"><span class="badge">Cholesterol</span><span class="badge">Testing</span><span class="badge">Prevention</span></div><a class="card-link" href="/research/cholesterol/">View cholesterol research →</a><div class="card-actions"><a href="#" class="btn-secondary" title="Coming soon">Download PDF</a><a href="#" class="btn-secondary" title="Coming soon">Cite this</a></div></article><article class="research-card research-card--teal reveal from-right reveal-d1"><div class="research-card-kicker">Evidence synthesis</div><h3 class="research-title">Lipoprotein(a) and Insulin Resistance</h3><p class="research-copy">A research synthesis on the Lp(a)-insulin resistance relationship and its implications for cardiovascular risk interpretation, metabolic context, and future clinical conversations.</p><div class="research-meta"><strong>Last reviewed:</strong> May 2026</div><div class="badge-row"><span class="badge">Lp(a)</span><span class="badge">Metabolic risk</span><span class="badge">Clinical roadmap</span></div><a class="card-link" href="/research/lpa-insulin/">View Lp(a) resources →</a><div class="card-actions"><a href="#" class="btn-secondary" title="Coming soon">Download PDF</a><a href="#" class="btn-secondary" title="Coming soon">Cite this</a></div></article></div></div></section>
+<div class="ecg-div" aria-hidden="true"></div>
+<section class="section section--dark" id="belongs-here" aria-labelledby="belongs-here-h"><div class="container--mid"><div class="reveal from-below"><div class="section-kicker">What belongs here</div><h2 id="belongs-here-h" class="section-h2" style="color:#fff">Research is the long-form evidence layer, not the quick-read library.</h2><p class="section-lead">The research section is for deeper material: evidence reviews, white papers, technical summaries, policy notes, implementation arguments, and source-grounded reference work.</p></div><div class="grid-3"><div class="dark-card reveal from-left"><div class="dark-card-title">Evidence reviews</div><div class="dark-card-copy">Longer reports that map what is known, where guidelines agree, where interpretation remains difficult, and what this means for prevention.</div></div><div class="dark-card reveal from-below reveal-d1"><div class="dark-card-title">White papers and briefs</div><div class="dark-card-copy">Public-facing and professional-facing documents that connect scientific evidence to policy, practice, education, and implementation.</div></div><div class="dark-card reveal from-right reveal-d2"><div class="dark-card-title">Reference summaries</div><div class="dark-card-copy">Structured evidence notes supporting HeartFirst product language, briefing cards, glossary entries, and core claims.</div></div><div class="dark-card reveal from-left reveal-d1"><div class="dark-card-title">Risk-marker research</div><div class="dark-card-copy">Deeper reviews of Lp(a), ApoB, LDL-C, hs-CRP, blood pressure, metabolic risk, family history, and other risk layers.</div></div><div class="dark-card reveal from-below reveal-d2"><div class="dark-card-title">Testing and access</div><div class="dark-card-copy">Research on what standard testing includes, what it does not include, where access varies, and how earlier risk recognition can improve prevention.</div></div><div class="dark-card reveal from-right reveal-d3"><div class="dark-card-title">Implementation notes</div><div class="dark-card-copy">Practical translation work: how evidence becomes tools, conversations, portal messages, appointment preparation, and family-risk action.</div></div></div></div></section>
+<div class="ecg-div ecg-div--dark" aria-hidden="true"></div>
+<section class="section section--cream" id="translation" aria-labelledby="translation-h"><div class="container--mid"><div class="reveal from-below"><div class="section-kicker">From evidence to use</div><h2 id="translation-h" class="section-h2">Research only matters here if it changes what someone can understand, decide, or do.</h2><p class="section-lead">HeartFirst does not publish research to overwhelm people with evidence. We use research to build clearer public education, stronger briefings, more accurate glossary entries, and better preparation tools.</p></div><div class="note-card reveal from-below"><div class="note-head"><h3 class="note-title">The working translation pathway</h3><p class="note-copy">Research does not sit apart from the rest of HeartFirst. It feeds the practical system.</p></div><div class="note-body"><strong>Research → Briefings → Glossary → Products → Health-team conversations.</strong> The deeper evidence work supports short public summaries, term definitions, product language, portal messages, appointment preparation, and the Clarify → Navigate → Prevent pathway. The goal is not to flatten complexity. The goal is to make complexity usable without pretending it is simple.</div></div></div></section>
+<div class="ecg-div" aria-hidden="true"></div>
+<section class="section section--white" id="topics" aria-labelledby="topics-h"><div class="container--mid"><div class="reveal from-below"><div class="section-kicker">Research themes</div><h2 id="topics-h" class="section-h2">Current and emerging focus areas.</h2><p class="section-lead">This section will expand as the HeartFirst library grows. For launch, the priority is quality and coherence over volume.</p></div><div class="topic-list" aria-label="Research themes"><div class="topic reveal from-left"><div class="topic-title">Cholesterol testing</div><div class="topic-copy">Routine panels, baseline testing, LDL-C, non-HDL-C, ApoB, and where standard testing is useful but incomplete.</div></div><div class="topic reveal from-right reveal-d1"><div class="topic-title">Lipoprotein(a)</div><div class="topic-copy">Inherited risk, family testing, risk thresholds, Lp(a) context, public education, and clinical readiness.</div></div><div class="topic reveal from-left reveal-d1"><div class="topic-title">Risk multiplexing</div><div class="topic-copy">How risk layers interact: plaque, inflammation, clot, valve, ApoB burden, insulin resistance, blood pressure, and family history.</div></div><div class="topic reveal from-right reveal-d2"><div class="topic-title">Testing access and equity</div><div class="topic-copy">What people can realistically access across systems, why "routine" is not globally routine, and where policy gaps remain.</div></div><div class="topic reveal from-left reveal-d2"><div class="topic-title">Prevention translation</div><div class="topic-copy">How evidence becomes practical next actions, health-team questions, family conversations, and sustainable prevention habits.</div></div><div class="topic reveal from-right reveal-d3"><div class="topic-title">Professional and policy use</div><div class="topic-copy">Materials that can support health educators, preventive cardiology conversations, workplace health, and public-health advocacy.</div></div></div><div class="status-card reveal from-below"><h3 class="card-title">Our research standards</h3><p class="card-copy">HeartFirst Research follows a transparent methodology: guideline-aware synthesis, human review, clear sourcing, and regular updates. We distinguish consensus from controversy, and we update content when evidence changes.</p></div></div></section>
+<section class="closing-cta" aria-labelledby="closing-h"><div class="closing-inner"><div class="section-kicker" style="justify-content:center"><span style="width:22px;height:1px;background:var(--gold);display:block"></span>Next</div><h2 id="closing-h" class="closing-h2">Need the shorter version?<br><em>Start with Briefings.</em></h2><p class="closing-sub">Research is the evidence layer. Briefings are the quick-reference layer: one-pagers, summaries, and practical explainers designed for reading, sharing, and better health-team conversations.</p><a href="/briefings/" class="btn-primary">Go to Briefings <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M3 7.5h9M8 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a><div class="closing-links"><a href="/">Home</a><span>&middot;</span><a href="/products/">Products</a><span>&middot;</span><a href="https://legal.shyntesy.com/disclaimer">Medical disclaimer</a><span>&middot;</span><a href="https://legal.shyntesy.com/contact">Contact</a></div></div></section>
+</main>
+<footer class="footer"><div class="footer-inner"><div style="display:flex;align-items:center;gap:9px"><svg width="22" height="22" viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="M50 85 C50 85 8 55 8 33 C8 18 18 10 29 10 C38 10 45 16 50 22 C50 22 50 85 50 85Z" fill="#102A43"/><path d="M50 85 C50 85 92 55 92 33 C92 18 82 10 71 10 C62 10 55 16 50 22 C50 22 50 85 50 85Z" fill="#C0392B"/><polyline points="20,42 30,42 36,28 42,55 47,38 53,38 58,38 64,28 70,55 75,38 81,42" fill="none" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="footer-brand">HeartFirst by Shyntesy</span></div><div class="footer-meta"><a href="https://legal.shyntesy.com/terms">Terms</a> &middot; <a href="https://legal.shyntesy.com/privacy">Privacy</a> &middot; <a href="https://legal.shyntesy.com/cookies">Cookies</a> &middot; <a href="https://legal.shyntesy.com/refunds">Refunds</a> &middot; <a href="https://legal.shyntesy.com/disclaimer">Disclaimer</a> &middot; <a href="https://legal.shyntesy.com/accessibility">Accessibility</a> &middot; <a href="https://legal.shyntesy.com/contact">Contact</a><br>&copy; 2026 HeartFirst by Shyntesy &middot; <a href="https://shyntesy.com" target="_blank" rel="noopener">shyntesy.com</a><br>Educational use only &mdash; not medical advice, diagnosis, or treatment.</div></div></footer>
+<script>(function(){'use strict';var btn=document.getElementById('themeBtn');var root=document.documentElement;var KEY='hf-theme';function setTheme(t){root.setAttribute('data-theme',t);try{localStorage.setItem(KEY,t)}catch(e){}if(btn){btn.textContent=t==='dark'?'Light':'Dark';btn.setAttribute('aria-label',t==='dark'?'Switch to light theme':'Switch to dark theme');btn.setAttribute('aria-pressed',t==='dark'?'true':'false')}}var stored;try{stored=localStorage.getItem(KEY)}catch(e){}var dark=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;setTheme(stored||(dark?'dark':'light'));if(btn){btn.addEventListener('click',function(){setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark')})}var menuBtn=document.getElementById('menuBtn');var mobileMenu=document.getElementById('mobileMenu');var mobileBackdrop=document.getElementById('mobileMenuBackdrop');function setMenu(open){if(!menuBtn||!mobileMenu)return;document.body.classList.toggle('menu-open',open);menuBtn.setAttribute('aria-expanded',open?'true':'false');menuBtn.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');mobileMenu.setAttribute('aria-hidden',open?'false':'true');if(mobileBackdrop){mobileBackdrop.setAttribute('aria-hidden',open?'false':'true')}}if(menuBtn&&mobileMenu){menuBtn.addEventListener('click',function(){setMenu(menuBtn.getAttribute('aria-expanded')!=='true')});if(mobileBackdrop){mobileBackdrop.addEventListener('click',function(){setMenu(false)})}mobileMenu.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){setMenu(false)})});document.addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false)})}var nav=document.querySelector('.nav');if(nav){window.addEventListener('scroll',function(){nav.style.background=window.scrollY>60?'rgba(13,34,54,.99)':'rgba(13,34,54,.94)'},{passive:true})}var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;if('IntersectionObserver'in window&&!reduced){var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(!e.isIntersecting)return;requestAnimationFrame(function(){e.target.classList.add('visible')});obs.unobserve(e.target)})},{threshold:.18,rootMargin:'0px 0px -60px 0px'});document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)})}else{document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('visible')})}document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:reduced?'auto':'smooth',block:'start'})}})})})();</script>
 </body>
 </html>

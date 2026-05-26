@@ -1,168 +1,245 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Briefings — HeartFirst by Shyntesy</title>
-  <meta name="description" content="Short, practical HeartFirst summaries for quick reference, sharing, and better health‑team conversations. Topics include cholesterol, Lp(a), ApoB, and risk clarity.">
-  
-  <!-- Canonical + correct URL (single‑word /briefings/) -->
-  <link rel="canonical" href="https://heartfirst.shyntesy.com/briefings/">
-  <meta property="og:url" content="https://heartfirst.shyntesy.com/briefings/">
-  <meta property="og:title" content="Briefings — HeartFirst by Shyntesy">
-  <meta property="og:description" content="One‑page At a Glance cards, printable summaries, clinician briefs, and more – coming soon.">
-  <meta property="og:type" content="website">
-  
-  <style>
-    /* HeartFirst baseline – consistent with other pages */
-    :root {
-      --color-bg: #ffffff;
-      --color-text: #111827;
-      --color-primary: #0f2b3d;
-      --color-secondary: #e7d293;
-      --color-tertiary: #2c5f6e;
-      --sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    }
-    
-    [data-theme="dark"] {
-      --color-bg: #111827;
-      --color-text: #f3f4f6;
-      --color-primary: #1f3a4b;
-      --color-secondary: #e7d293;
-      --color-tertiary: #3b82b6;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      background: var(--color-bg);
-      color: var(--color-text);
-      font-family: var(--sans);
-      line-height: 1.5;
-      padding: 2rem 1rem;
-    }
-    
-    .container {
-      max-width: 720px;
-      margin: 0 auto;
-    }
-    
-    h1 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      margin-bottom: 0.25rem;
-    }
-    
-    .hero-strapline {
-      font-size: 1.2rem;
-      color: #4b5563;
-      margin-bottom: 1.5rem;
-      border-left: 3px solid var(--color-secondary);
-      padding-left: 1rem;
-    }
-    
-    [data-theme="dark"] .hero-strapline {
-      color: #9ca3af;
-    }
-    
-    h2 {
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin: 1.5rem 0 0.75rem;
-    }
-    
-    p {
-      margin: 1rem 0;
-    }
-    
-    a {
-      color: var(--color-primary);
-      text-decoration: underline;
-      text-underline-offset: 0.2em;
-    }
-    
-    a:hover {
-      color: var(--color-tertiary);
-    }
-    
-    /* Dark‑mode link hover fix (gold) */
-    [data-theme="dark"] a:hover {
-      color: #e7d293;
-    }
-    
-    /* Feature list */
-    .feature-list {
-      margin: 1rem 0 1.5rem;
-      padding-left: 1.4rem;
-    }
-    
-    .feature-list li {
-      margin: 0.45rem 0;
-    }
-    
-    hr {
-      margin: 2rem 0 1rem;
-      border: 0;
-      height: 1px;
-      background: #e5e7eb;
-    }
-    
-    [data-theme="dark"] hr {
-      background: #2d3748;
-    }
-    
-    .back-link {
-      margin-top: 2rem;
-      display: inline-block;
-    }
-    
-    @media (max-width: 640px) {
-      h1 { font-size: 1.8rem; }
-      .hero-strapline { font-size: 1rem; }
-      .container { padding: 0 0.5rem; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Briefings — HeartFirst by Shyntesy</title>
+<meta name="description" content="Short, practical HeartFirst briefings for quick reference, sharing, printing, and better health-team conversations. Topics include cholesterol testing, Lipoprotein(a), ApoB, and risk clarity.">
+<link rel="canonical" href="https://heartfirst.shyntesy.com/briefings/">
+<meta property="og:url" content="https://heartfirst.shyntesy.com/briefings/">
+<meta property="og:title" content="Briefings — HeartFirst by Shyntesy">
+<meta property="og:description" content="Short, practical HeartFirst summaries for quick reference, sharing, printing, and better health-team conversations.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,ital,wght@8..60,0,300;8..60,0,400;8..60,0,600;8..60,0,700;8..60,1,400;8..60,1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0D2236;--navy2:#102A43;--gold:#C7A44A;--gold2:#E7D293;
+  --teal:#2F6F73;--teal2:#1B4F52;--cream:#F7F4EF;--white:#FFFFFF;
+  --ink:#111820;--ink2:#2C3440;--muted:#5A6270;--border:#D8D3CA;
+  --r:12px;--R:22px;--serif:"Source Serif 4",Georgia,serif;--sans:"DM Sans",system-ui,sans-serif;
+  --t:220ms ease;--shadow:0 12px 40px rgba(13,34,54,.13);--shadow-lg:0 24px 60px rgba(13,34,54,.18);
+  --bg:var(--cream);--surface:var(--white);--text:var(--ink);--text2:var(--ink2);--subdued:var(--muted);--line:var(--border);
+}
+html[data-theme="dark"]{--bg:#0B1220;--surface:#111827;--text:#F9FAFB;--text2:#CBD5E1;--subdued:#94A3B8;--line:#1E3A52;color-scheme:dark;}
+@media(prefers-color-scheme:dark){html:not([data-theme]){--bg:#0B1220;--surface:#111827;--text:#F9FAFB;--text2:#CBD5E1;--subdued:#94A3B8;--line:#1E3A52;color-scheme:dark;}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;font-size:17px;scrollbar-gutter:stable;}
+body{font-family:var(--serif);color:var(--text);background:var(--bg);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background var(--t),color var(--t);}
+a{color:var(--teal);text-decoration:none;}a:hover{text-decoration:underline;} html[data-theme="dark"] a{color:#8BCCC8;}
+:focus-visible{outline:3px solid var(--gold);outline-offset:4px;border-radius:4px;}
+.skip-link{position:fixed;top:12px;left:12px;z-index:3000;padding:10px 14px;border-radius:8px;background:var(--surface);color:var(--text);border:1px solid var(--line);font-family:var(--sans);font-size:.84rem;font-weight:700;text-decoration:none;transform:translateY(-140%);transition:transform var(--t);}
+.skip-link:focus{transform:translateY(0);}#main{scroll-margin-top:86px;}
+.nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0 clamp(20px,4vw,48px);height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,34,54,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(199,164,74,.18);transition:background var(--t);}
+.nav-brand{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-size:.95rem;font-weight:700;color:#F9FAFB;text-decoration:none;}.nav-brand:hover{text-decoration:none;}
+.nav-links{display:flex;align-items:center;gap:24px;}.nav-link{font-family:var(--sans);font-size:.82rem;color:#8AABB8;transition:color var(--t);}.nav-link:hover,.nav-link[aria-current="page"]{color:#DCE8F4;text-decoration:none;}
+.nav-right{display:flex;align-items:center;gap:14px;}.theme-btn{appearance:none;border:1px solid rgba(199,164,74,.3);border-radius:999px;background:rgba(199,164,74,.08);color:#E7D293;padding:5px 14px;font-family:var(--sans);font-size:.78rem;font-weight:600;cursor:pointer;transition:background var(--t),border-color var(--t);} .theme-btn:hover{background:rgba(199,164,74,.15);border-color:rgba(199,164,74,.55);}
+.menu-btn{display:flex;align-items:center;justify-content:center;width:39px;height:39px;border-radius:999px;border:1px solid rgba(199,164,74,.3);background:rgba(199,164,74,.08);color:#E7D293;cursor:pointer;transition:background var(--t),border-color var(--t),transform var(--t);} .menu-btn:hover{background:rgba(199,164,74,.15);border-color:rgba(199,164,74,.55);} .menu-btn:active{transform:translateY(1px);}
+.menu-icon{position:relative;width:18px;height:12px;display:block;}.menu-icon span{position:absolute;left:0;width:18px;height:2px;border-radius:99px;background:currentColor;transition:transform var(--t),opacity var(--t),top var(--t);}.menu-icon span:nth-child(1){top:0}.menu-icon span:nth-child(2){top:5px}.menu-icon span:nth-child(3){top:10px}.menu-btn[aria-expanded="true"] .menu-icon span:nth-child(1){top:5px;transform:rotate(45deg)}.menu-btn[aria-expanded="true"] .menu-icon span:nth-child(2){opacity:0}.menu-btn[aria-expanded="true"] .menu-icon span:nth-child(3){top:5px;transform:rotate(-45deg)}
+.mobile-menu-backdrop{position:fixed;inset:64px 0 0;z-index:830;background:rgba(5,15,26,.46);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity var(--t);}
+.mobile-menu{position:fixed;top:76px;right:clamp(12px,4vw,28px);z-index:860;width:min(410px,calc(100vw - 24px));padding:.7rem;border:1px solid rgba(199,164,74,.24);border-radius:18px;background:rgba(13,34,54,.98);box-shadow:0 24px 70px rgba(5,15,26,.42);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);opacity:0;pointer-events:none;transform:translateY(-10px) scale(.985);transition:opacity var(--t),transform var(--t);}
+body.menu-open{overflow:hidden;}body.menu-open .mobile-menu-backdrop{opacity:1;pointer-events:auto;}body.menu-open .mobile-menu{opacity:1;pointer-events:auto;transform:translateY(0) scale(1);}
+.mobile-menu a{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.86rem 1rem;border-radius:12px;color:#DCE8F4;font-family:var(--sans);font-size:.94rem;font-weight:600;text-decoration:none;transition:background var(--t),color var(--t),transform var(--t);}.mobile-menu a:hover{background:rgba(255,255,255,.07);color:#fff;text-decoration:none;transform:translateX(2px);}.mobile-menu a span{color:#8AABB8;font-size:.78rem;font-weight:500;}.mobile-menu .mobile-menu-cta{margin-top:.35rem;justify-content:center;background:var(--gold);color:var(--navy);font-weight:800;}.mobile-menu .mobile-menu-cta:hover{background:#D4B25A;color:var(--navy);transform:translateY(-1px);}
+.hero{min-height:78svh;display:grid;place-items:center;padding:118px clamp(20px,4vw,48px) 72px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 72% 18%,rgba(47,111,115,.28),transparent 48%),radial-gradient(ellipse at 12% 82%,rgba(199,164,74,.13),transparent 44%),linear-gradient(158deg,#050F1A 0%,var(--navy) 50%,#071520 100%);} .hero::before,.closing-cta::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");opacity:.55;}
+.hero-inner{position:relative;z-index:2;max-width:min(920px,calc(100vw - 48px));margin:0 auto;text-align:center;}.hero-kicker{font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);margin-bottom:1.4rem;display:flex;align-items:center;justify-content:center;gap:10px;animation:fade-up .7s .1s both cubic-bezier(.22,1,.36,1);}.hero-kicker::before,.hero-kicker::after{content:'';display:block;width:32px;height:1px;background:var(--gold);}
+.hero-h1{font-family:var(--serif);font-size:clamp(2.65rem,5.4vw,5rem);font-weight:600;line-height:1.04;letter-spacing:-.03em;color:#fff;margin-bottom:1.45rem;font-optical-sizing:auto;animation:fade-up .7s .22s both cubic-bezier(.22,1,.36,1);}.hero-h1 em{font-style:italic;color:var(--gold2);}.hero-sub{font-family:var(--sans);font-size:clamp(1rem,1.7vw,1.2rem);color:#B8C8D8;line-height:1.68;font-weight:300;max-width:750px;margin:0 auto 2.6rem;animation:fade-up .7s .36s both cubic-bezier(.22,1,.36,1);} .hero-sub strong{color:#DCE8F4;font-weight:500;}
+.hero-actions{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;animation:fade-up .7s .48s both cubic-bezier(.22,1,.36,1);} .btn-primary,.btn-secondary{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:.96rem;font-weight:700;padding:14px 30px;border-radius:999px;transition:transform var(--t),box-shadow var(--t),background var(--t),border-color var(--t);}.btn-primary{background:var(--gold);color:var(--navy);box-shadow:0 8px 28px rgba(199,164,74,.38);} .btn-primary:hover{background:#D4B25A;transform:translateY(-2px);box-shadow:0 14px 36px rgba(199,164,74,.48);text-decoration:none;}.btn-secondary{color:#DCE8F4;border:1px solid rgba(220,232,244,.28);background:rgba(255,255,255,.04);} .btn-secondary:hover{border-color:rgba(199,164,74,.55);background:rgba(255,255,255,.07);text-decoration:none;}
+.ecg-div{position:relative;width:100%;height:28px;overflow:hidden;background:color-mix(in srgb,var(--bg) 72%,var(--surface));}.ecg-div::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='28' viewBox='0 0 1200 28'%3E%3Cpath d='M0 14 H478 L500 5 L518 23 L531 14 H1200' fill='none' stroke='%23C7A44A' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% 28px no-repeat;opacity:.72;}.ecg-div--dark{background:linear-gradient(180deg,rgba(13,34,54,.98),rgba(13,34,54,.98));}.ecg-div--dark::before{opacity:.38;}html[data-theme="dark"] .ecg-div{background:color-mix(in srgb,var(--bg) 82%,#0D2236);}html[data-theme="dark"] .ecg-div::before{opacity:.42;}html[data-theme="dark"] .ecg-div--dark::before{opacity:.34;}
+.section{padding:clamp(64px,9vw,112px) clamp(20px,4vw,48px);} .section--dark{background:var(--navy);color:#F9FAFB;} .section--cream{background:var(--cream);} .section--white{background:var(--white);} html[data-theme="dark"] .section--cream{background:var(--bg);} html[data-theme="dark"] .section--white{background:var(--surface);}
+.container{width:min(1060px,calc(100vw - 48px));margin:0 auto;}.container--mid{width:min(900px,calc(100vw - 48px));margin:0 auto;}.container--narrow{width:min(740px,calc(100vw - 48px));margin:0 auto;}.section-kicker{font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:10px;}.section-kicker::before{content:'';display:block;width:22px;height:1px;background:var(--gold);}.section-h2{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,3.5vw,3rem);line-height:1.13;letter-spacing:-.022em;margin-bottom:1.1rem;font-optical-sizing:auto;}.section-lead{font-family:var(--sans);font-size:clamp(1rem,1.45vw,1.1rem);color:var(--subdued);line-height:1.72;max-width:720px;font-weight:300;}.section--dark .section-lead{color:#9DB4C8;}
+.briefing-intro{max-width:780px;margin:0 auto;text-align:center;}.briefing-intro p{font-family:var(--sans);font-size:1rem;color:var(--subdued);line-height:1.72;font-weight:300;margin-top:1rem;}.briefing-intro strong{color:var(--text);font-weight:700;}
+.format-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.6rem;}.format-card,.topic-card,.status-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--R);padding:1.45rem 1.35rem;transition:border-color var(--t),box-shadow var(--t),background var(--t);}.format-card:hover,.topic-card:hover,.status-card:hover{border-color:var(--gold);box-shadow:var(--shadow);background:color-mix(in srgb,var(--gold) 3%,var(--surface));}.card-icon{width:42px;height:42px;border-radius:12px;background:color-mix(in srgb,var(--teal) 10%,transparent);display:flex;align-items:center;justify-content:center;color:var(--teal);margin-bottom:.9rem;transition:background var(--t),color var(--t);}.format-card:hover .card-icon,.topic-card:hover .card-icon{background:color-mix(in srgb,var(--teal) 18%,transparent);color:var(--gold);}.card-title{font-family:var(--sans);font-size:.96rem;font-weight:700;color:var(--text);line-height:1.25;margin-bottom:.45rem;}.card-copy{font-family:var(--sans);font-size:.86rem;color:var(--subdued);line-height:1.58;font-weight:300;}.card-copy strong{color:var(--text);font-weight:700;}
+.topic-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:2.6rem;}.topic-card{border-left:3px solid var(--gold);}.topic-card:nth-child(even){border-left-color:var(--teal);}.topic-status{display:inline-flex;align-items:center;gap:.35rem;margin-top:.95rem;padding:.34rem .6rem;border-radius:999px;background:color-mix(in srgb,var(--gold) 10%,var(--surface));border:1px solid color-mix(in srgb,var(--gold) 34%,var(--line));font-family:var(--sans);font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);}html[data-theme="dark"] .topic-status{color:#E7D293;}
+.use-panel{margin-top:2.8rem;border:1px solid rgba(199,164,74,.22);border-radius:var(--R);overflow:hidden;background:rgba(255,255,255,.04);box-shadow:var(--shadow-lg);}.use-head{padding:1.55rem 1.7rem;border-bottom:1px solid rgba(199,164,74,.16);background:linear-gradient(135deg,#071522 0%,var(--navy2) 100%);}.use-title{font-family:var(--serif);font-size:clamp(1.45rem,2.4vw,2rem);font-weight:600;color:#fff;line-height:1.16;margin-bottom:.45rem;}.use-copy{font-family:var(--sans);font-size:.95rem;color:#B8C8D8;line-height:1.6;font-weight:300;max-width:760px;}.use-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(199,164,74,.14);}.use-step{padding:1.25rem;background:var(--surface);font-family:var(--sans);font-size:.84rem;color:var(--subdued);line-height:1.54;font-weight:300;}.use-step strong{display:block;color:var(--text);font-weight:800;margin-bottom:.25rem;}.status-card{max-width:780px;margin:2.6rem auto 0;border-left:3px solid var(--teal);}.status-card .card-title{font-size:1.02rem;}
+.closing-cta{text-align:center;padding:clamp(68px,9vw,112px) clamp(20px,4vw,48px);background:radial-gradient(ellipse at 50% 0%,rgba(47,111,115,.26),transparent 52%),radial-gradient(ellipse at 50% 100%,rgba(199,164,74,.10),transparent 44%),linear-gradient(160deg,#050F1A 0%,var(--navy) 100%);position:relative;overflow:hidden;}.closing-inner{position:relative;z-index:2;max-width:760px;margin:0 auto;}.closing-h2{font-family:var(--serif);font-size:clamp(2rem,3.8vw,3.2rem);font-weight:600;line-height:1.12;letter-spacing:-.022em;color:#fff;margin-bottom:1rem;font-optical-sizing:auto;}.closing-h2 em{font-style:italic;color:var(--gold2);}.closing-sub{font-family:var(--sans);font-size:1rem;color:#9DB4C8;max-width:620px;margin:0 auto 2.4rem;line-height:1.68;font-weight:300;}.closing-links{display:flex;align-items:center;justify-content:center;gap:1.2rem;flex-wrap:wrap;margin-top:2rem;}.closing-links a{font-family:var(--sans);font-size:.84rem;color:#7A9AB0;transition:color var(--t);}.closing-links a:hover{color:#B8D0E0;text-decoration:none;}.closing-links span{color:rgba(122,154,176,.4);}
+.footer{background:var(--navy);border-top:1px solid rgba(199,164,74,.14);padding:2.4rem clamp(20px,4vw,48px);}.footer-inner{width:min(1060px,calc(100vw - 48px));margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}.footer-brand{font-family:var(--sans);font-size:.82rem;font-weight:700;color:#F9FAFB;}.footer-meta{font-family:var(--sans);font-size:.75rem;color:#5A7A94;text-align:right;line-height:1.6;}.footer-meta a{color:#5A7A94;text-decoration:underline;}
+.reveal{--reveal-x:0;--reveal-y:0;--hover-y:0;opacity:0;transform:translate3d(var(--reveal-x),var(--reveal-y),0) translateY(var(--hover-y));transition:opacity 760ms ease,transform 760ms cubic-bezier(.22,1,.36,1),border-color var(--t),box-shadow var(--t),background var(--t);will-change:opacity,transform;}.reveal.from-left{--reveal-x:-52px;}.reveal.from-right{--reveal-x:52px;}.reveal.from-below{--reveal-y:34px;}.reveal.visible{--reveal-x:0;--reveal-y:0;opacity:1;}.reveal-d1{transition-delay:100ms;}.reveal-d2{transition-delay:210ms;}.reveal-d3{transition-delay:320ms;}.format-card.reveal.visible:hover,.topic-card.reveal.visible:hover,.status-card.reveal.visible:hover{--hover-y:-5px;}
+@keyframes fade-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}.reveal{opacity:1!important;transform:none!important;transition:none!important}.format-card:hover,.topic-card:hover,.status-card:hover,.mobile-menu a:hover{transform:none!important;box-shadow:none!important;}}
+@media(max-width:1040px){.format-grid{grid-template-columns:repeat(2,1fr)}.topic-grid{grid-template-columns:1fr}.use-steps{grid-template-columns:1fr}.nav-links{display:none}}
+@media(max-width:700px){.footer-meta{text-align:left}.hero{min-height:72svh}.hero-kicker{font-size:.66rem}.nav{padding:0 16px}.nav-right{gap:9px}.mobile-menu{right:12px}.format-grid{grid-template-columns:1fr}.hero-actions{align-items:stretch}.btn-primary,.btn-secondary{width:100%;justify-content:center}}
+@media(max-width:540px){html{font-size:16px}.footer-inner{display:block}.footer-meta{margin-top:.8rem}.theme-btn{padding:5px 11px}.nav-brand{font-size:.9rem}.mobile-menu a{padding:.82rem .9rem}.use-head{padding:1.35rem 1.35rem}}
+</style>
 </head>
 <body>
-<div class="container">
-  <h1>Briefings</h1>
-  <div class="hero-strapline">Short, practical HeartFirst summaries for quick reference, sharing, and better health‑team conversations.</div>
-  
-  <p>HeartFirst Briefings are short, focused resources designed to make complex cardiovascular risk topics easier to understand, discuss, and act on.</p>
-  
-  <p>Briefings may include one‑page At a Glance cards, printable summaries, clinician‑facing briefs, policy notes, and practical explainers.</p>
-  
-  <h2>Topics being prepared</h2>
-  <ul class="feature-list">
-    <li>Cholesterol testing as a baseline, not always the full picture</li>
-    <li>Lipoprotein(a), or Lp(a), and inherited risk</li>
-    <li>ApoB, particle burden, and discordant lipid results</li>
-    <li>Heart‑risk clarity, family history, blood pressure, metabolic risk, and next actions</li>
-  </ul>
-  
-  <p>The first briefings will appear here soon.</p>
-  
-  <hr>
-  <a href="/" class="back-link">← Back to HeartFirst</a>
-</div>
+<a class="skip-link" href="#main">Skip to main content</a>
+<nav class="nav" aria-label="Site navigation">
+  <a class="nav-brand" href="/" aria-label="HeartFirst home">
+    <svg width="26" height="26" viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="M50 85 C50 85 8 55 8 33 C8 18 18 10 29 10 C38 10 45 16 50 22 C50 22 50 85 50 85Z" fill="#102A43"/><path d="M50 85 C50 85 92 55 92 33 C92 18 82 10 71 10 C62 10 55 16 50 22 C50 22 50 85 50 85Z" fill="#C0392B"/><polyline points="20,42 30,42 36,28 42,55 47,38 53,38 58,38 64,28 70,55 75,38 81,42" fill="none" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    HeartFirst
+  </a>
+  <div class="nav-links" aria-label="Primary navigation">
+    <a href="/" class="nav-link">Home</a>
+    <a href="/about/" class="nav-link">About</a>
+    <a href="/products/" class="nav-link">Products</a>
+    <a href="/briefings/" class="nav-link" aria-current="page">Briefings</a>
+  </div>
+  <div class="nav-right">
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch colour theme">Dark</button>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu-backdrop" id="mobileMenuBackdrop" aria-hidden="true"></div>
+<nav class="mobile-menu" id="mobileMenu" aria-label="Navigation menu" aria-hidden="true">
+  <a href="#briefings">Briefings <span>purpose</span></a>
+  <a href="#formats">Formats <span>what will live here</span></a>
+  <a href="#topics">Topics <span>being prepared</span></a>
+  <a href="#use">How to use briefings <span>read, print, share</span></a>
+  <a href="/products/">Products <span>Clarify → Navigate → Prevent</span></a>
+  <a href="/about/">About <span>mission and standards</span></a>
+  <a href="/lpa/">Lp(a) <span>stealth cholesterol</span></a>
+  <a href="https://legal.shyntesy.com">Legal and compliance <span>trust hub</span></a>
+  <a class="mobile-menu-cta" href="/products/">See product pathway</a>
+</nav>
+<main id="main">
+  <section class="hero" id="briefings" aria-labelledby="hero-h1">
+    <div class="hero-inner">
+      <div class="hero-kicker">HeartFirst Briefings</div>
+      <h1 id="hero-h1" class="hero-h1">Short summaries for<br><em>serious heart-risk conversations.</em></h1>
+      <p class="hero-sub">HeartFirst Briefings are designed for quick reference, careful sharing, and better health-team conversations. They turn complex cardiovascular prevention topics into focused, readable resources without pretending the science is simple.</p>
+      <div class="hero-actions">
+        <a href="#topics" class="btn-primary">See topics being prepared <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M7.5 3v9M3.5 9l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="/products/" class="btn-secondary">Explore products</a>
+      </div>
+    </div>
+  </section>
+  <div class="ecg-div ecg-div--dark" aria-hidden="true"></div>
 
-<!-- Simple dark/light mode persistence -->
+  <section class="section section--white" aria-labelledby="briefing-purpose-h">
+    <div class="container--narrow briefing-intro">
+      <div class="section-kicker" style="justify-content:center"><span style="width:22px;height:1px;background:var(--gold);display:block"></span>Why briefings</div>
+      <h2 id="briefing-purpose-h" class="section-h2">Not every resource needs to be a full guide.</h2>
+      <p>Sometimes people need one page they can read before an appointment, send to a family member, print for a folder, or revisit when a lab result suddenly makes an old question feel urgent.</p>
+      <p><strong>Briefings are the short-form layer of HeartFirst:</strong> practical enough to use quickly, serious enough to respect the subject, and structured enough to support better conversations rather than more confusion.</p>
+    </div>
+  </section>
+  <div class="ecg-div" aria-hidden="true"></div>
+
+  <section class="section section--cream" id="formats" aria-labelledby="formats-h">
+    <div class="container">
+      <div class="reveal from-below">
+        <div class="section-kicker">Formats</div>
+        <h2 id="formats-h" class="section-h2">What will live here.</h2>
+        <p class="section-lead">This section will collect polished, shareable HeartFirst resources as they are completed. We would rather publish fewer briefings well than fill a library with unfinished drafts.</p>
+      </div>
+      <div class="format-grid" role="list">
+        <article class="format-card reveal from-left" role="listitem">
+          <div class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 3h8l2 2v12H5V3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M13 3v3h3M7.5 9h5M7.5 12h5M7.5 15h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+          <h3 class="card-title">At a Glance cards</h3>
+          <p class="card-copy">One-page summaries for fast orientation, print/PDF export, and easier sharing with family or a health team.</p>
+        </article>
+        <article class="format-card reveal from-below reveal-d1" role="listitem">
+          <div class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 5h12v10H4V5z" stroke="currentColor" stroke-width="1.4"/><path d="M7 8h6M7 11h6M7 14h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+          <h3 class="card-title">Printable summaries</h3>
+          <p class="card-copy">Readable online, but built with print and browser-PDF use in mind where the format calls for it.</p>
+        </article>
+        <article class="format-card reveal from-below reveal-d2" role="listitem">
+          <div class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v14M4 7h12M4 13h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.2" opacity=".75"/></svg></div>
+          <h3 class="card-title">Health-team briefs</h3>
+          <p class="card-copy">More concise, appointment-ready context for discussions where a focused note is more useful than a long article.</p>
+        </article>
+        <article class="format-card reveal from-right reveal-d3" role="listitem">
+          <div class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 15V5l5 3 7-4v10l-7 4-5-3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M9 8v10" stroke="currentColor" stroke-width="1.2"/></svg></div>
+          <h3 class="card-title">Policy and access notes</h3>
+          <p class="card-copy">Short explainers on testing access, prevention gaps, and system-level issues when the topic needs a wider lens.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <div class="ecg-div ecg-div--dark" aria-hidden="true"></div>
+
+  <section class="section section--dark" id="topics" aria-labelledby="topics-h">
+    <div class="container--mid">
+      <div class="reveal from-below">
+        <div class="section-kicker">Topics being prepared</div>
+        <h2 id="topics-h" class="section-h2" style="color:#fff">Focused resources, released when they are ready.</h2>
+        <p class="section-lead">The first briefings will focus on the risk signals HeartFirst returns to most often: standard cholesterol testing, inherited risk, particle burden, family context, and practical next actions.</p>
+      </div>
+      <div class="topic-grid" role="list">
+        <article class="topic-card reveal from-left" role="listitem">
+          <h3 class="card-title">Cholesterol testing: foundational, not complete</h3>
+          <p class="card-copy">Why the standard lipid panel remains important, what it can show, and what it usually does not include unless separately ordered.</p>
+          <span class="topic-status">In preparation</span>
+        </article>
+        <article class="topic-card reveal from-right reveal-d1" role="listitem">
+          <h3 class="card-title">Lipoprotein(a), or Lp(a)</h3>
+          <p class="card-copy">A concise briefing on stealth cholesterol, inherited risk, family testing, and why a standard cholesterol panel can miss it.</p>
+          <span class="topic-status">In preparation</span>
+        </article>
+        <article class="topic-card reveal from-left reveal-d1" role="listitem">
+          <h3 class="card-title">ApoB and particle burden</h3>
+          <p class="card-copy">Why particle number can matter when LDL-C appears reassuring, and how ApoB helps make discordant lipid results easier to discuss.</p>
+          <span class="topic-status">Planned</span>
+        </article>
+        <article class="topic-card reveal from-right reveal-d2" role="listitem">
+          <h3 class="card-title">Heart-risk clarity and next actions</h3>
+          <p class="card-copy">How to turn results, family history, blood pressure, metabolic risk, and unanswered questions into a focused health-team conversation.</p>
+          <span class="topic-status">Planned</span>
+        </article>
+      </div>
+    </div>
+  </section>
+  <div class="ecg-div ecg-div--dark" aria-hidden="true"></div>
+
+  <section class="section section--white" id="use" aria-labelledby="use-h">
+    <div class="container--mid">
+      <div class="reveal from-below">
+        <div class="section-kicker">How to use them</div>
+        <h2 id="use-h" class="section-h2">Briefings are meant to move with you.</h2>
+        <p class="section-lead">A good briefing should not trap a reader on a website. It should help someone carry a clearer question into a real conversation.</p>
+      </div>
+      <div class="use-panel reveal from-below">
+        <div class="use-head">
+          <h3 class="use-title">Read, print, share, prepare.</h3>
+          <p class="use-copy">The goal is not to make every reader an expert. The goal is to make the next conversation better informed, better focused, and less dependent on memory under stress.</p>
+        </div>
+        <div class="use-steps">
+          <div class="use-step"><strong>Read before the appointment</strong>Use a briefing to orient quickly before a health-team visit, lab discussion, or family conversation.</div>
+          <div class="use-step"><strong>Print or save as PDF</strong>Where a briefing is designed for print/PDF, keep a copy with your records or appointment notes.</div>
+          <div class="use-step"><strong>Share carefully</strong>Send a briefing when someone needs context, not pressure. The aim is clarity, not alarm.</div>
+        </div>
+      </div>
+      <div class="status-card reveal from-below">
+        <h3 class="card-title">Publication note</h3>
+        <p class="card-copy">This page is live as the Briefings home, but the briefing library itself is being built. We will add finished resources here only when they meet the HeartFirst standard: accurate, useful, readable, and worth saving.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing-cta" aria-labelledby="closing-h">
+    <div class="closing-inner">
+      <div class="section-kicker" style="justify-content:center"><span style="width:22px;height:1px;background:var(--gold);display:block"></span>While this library grows</div>
+      <h2 id="closing-h" class="closing-h2">Need structure now?<br><em>Start with the product pathway.</em></h2>
+      <p class="closing-sub">Briefings are for quick orientation. The HeartFirst product pathway is for deeper preparation: Clarify what you know, navigate what comes next, and prevent risk from staying vague.</p>
+      <a href="/products/" class="btn-primary">See product pathway <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M3 7.5h9M8 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <div class="closing-links"><a href="/">Home</a><span>&middot;</span><a href="/about/">About HeartFirst</a><span>&middot;</span><a href="https://legal.shyntesy.com/disclaimer">Medical disclaimer</a><span>&middot;</span><a href="https://legal.shyntesy.com/contact">Contact</a></div>
+    </div>
+  </section>
+</main>
+<footer class="footer">
+  <div class="footer-inner">
+    <div style="display:flex;align-items:center;gap:9px"><svg width="22" height="22" viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="M50 85 C50 85 8 55 8 33 C8 18 18 10 29 10 C38 10 45 16 50 22 C50 22 50 85 50 85Z" fill="#102A43"/><path d="M50 85 C50 85 92 55 92 33 C92 18 82 10 71 10 C62 10 55 16 50 22 C50 22 50 85 50 85Z" fill="#C0392B"/><polyline points="20,42 30,42 36,28 42,55 47,38 53,38 58,38 64,28 70,55 75,38 81,42" fill="none" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="footer-brand">HeartFirst by Shyntesy</span></div>
+    <div class="footer-meta"><a href="https://legal.shyntesy.com/terms">Terms</a> &middot; <a href="https://legal.shyntesy.com/privacy">Privacy</a> &middot; <a href="https://legal.shyntesy.com/cookies">Cookies</a> &middot; <a href="https://legal.shyntesy.com/refunds">Refunds</a> &middot; <a href="https://legal.shyntesy.com/disclaimer">Disclaimer</a> &middot; <a href="https://legal.shyntesy.com/accessibility">Accessibility</a> &middot; <a href="https://legal.shyntesy.com/contact">Contact</a><br>&copy; 2026 HeartFirst by Shyntesy &middot; <a href="https://shyntesy.com" target="_blank" rel="noopener">shyntesy.com</a><br>Educational use only &mdash; not medical advice, diagnosis, or treatment.</div>
+  </div>
+</footer>
 <script>
-  (function() {
-    const stored = localStorage.getItem('heartfirst-theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDark = stored === 'dark' || (stored === null && prefersDark);
-    if (isDark) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'light');
-    }
-  })();
+(function(){'use strict';
+  var btn=document.getElementById('themeBtn');var root=document.documentElement;var KEY='hf-theme';
+  function setTheme(t){root.setAttribute('data-theme',t);try{localStorage.setItem(KEY,t);}catch(e){} if(btn){btn.textContent=t==='dark'?'Light':'Dark';btn.setAttribute('aria-label',t==='dark'?'Switch to light theme':'Switch to dark theme');btn.setAttribute('aria-pressed',t==='dark'?'true':'false');}}
+  var stored;try{stored=localStorage.getItem(KEY);}catch(e){} var dark=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;setTheme(stored||(dark?'dark':'light'));
+  if(btn){btn.addEventListener('click',function(){setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');});}
+  var menuBtn=document.getElementById('menuBtn');var mobileMenu=document.getElementById('mobileMenu');var mobileBackdrop=document.getElementById('mobileMenuBackdrop');
+  function setMenu(open){if(!menuBtn||!mobileMenu)return;document.body.classList.toggle('menu-open',open);menuBtn.setAttribute('aria-expanded',open?'true':'false');menuBtn.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');mobileMenu.setAttribute('aria-hidden',open?'false':'true');if(mobileBackdrop){mobileBackdrop.setAttribute('aria-hidden',open?'false':'true');}}
+  if(menuBtn&&mobileMenu){menuBtn.addEventListener('click',function(){setMenu(menuBtn.getAttribute('aria-expanded')!=='true');});if(mobileBackdrop){mobileBackdrop.addEventListener('click',function(){setMenu(false);});}mobileMenu.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){setMenu(false);});});document.addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false);});}
+  var nav=document.querySelector('.nav');if(nav){window.addEventListener('scroll',function(){nav.style.background=window.scrollY>60?'rgba(13,34,54,.99)':'rgba(13,34,54,.94)';},{passive:true});}
+  var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if('IntersectionObserver' in window&&!reduced){var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(!e.isIntersecting)return;requestAnimationFrame(function(){e.target.classList.add('visible');});obs.unobserve(e.target);});},{threshold:0.18,rootMargin:'0px 0px -54px 0px'});document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});}else{document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('visible');});}
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:reduced?'auto':'smooth',block:'start'});}});});
+})();
 </script>
 </body>
 </html>
