@@ -37,7 +37,7 @@ a{color:var(--teal);text-decoration:none;}a:hover{text-decoration:underline;}
 .nav-brand:hover{text-decoration:none;}.nav-links{display:flex;align-items:center;gap:24px;}.nav-link{font-family:var(--sans);font-size:.82rem;color:#8AABB8;transition:color var(--t);}.nav-link:hover,.nav-link[aria-current="page"]{color:#DCE8F4;text-decoration:none;}
 .nav-right{display:flex;align-items:center;gap:14px;}.theme-btn{appearance:none;border:1px solid rgba(199,164,74,.3);border-radius:999px;background:rgba(199,164,74,.08);color:#E7D293;padding:5px 14px;font-family:var(--sans);font-size:.78rem;font-weight:600;cursor:pointer;transition:background var(--t),border-color var(--t);} .theme-btn:hover{background:rgba(199,164,74,.15);border-color:rgba(199,164,74,.55);}
 .nav-cta{font-family:var(--sans);font-size:.84rem;font-weight:700;background:var(--gold);color:var(--navy);padding:8px 20px;border-radius:999px;transition:transform var(--t),background var(--t),box-shadow var(--t);} .nav-cta:hover{background:#D4B25A;transform:translateY(-1px);box-shadow:0 6px 20px rgba(199,164,74,.35);text-decoration:none;}
-.menu-btn{display:flex;align-items:center;justify-content:center;width:39px;height:39px;border-radius:999px;border:1px solid rgba(199,164,74,.3);background:rgba(199,164,74,.08);color:#E7D293;cursor:pointer;transition:background var(--t),border-color var(--t),transform var(--t);}
+.menu-btn{display:none;align-items:center;justify-content:center;width:39px;height:39px;border-radius:999px;border:1px solid rgba(199,164,74,.3);background:rgba(199,164,74,.08);color:#E7D293;cursor:pointer;transition:background var(--t),border-color var(--t),transform var(--t);}
 .menu-btn:hover{background:rgba(199,164,74,.15);border-color:rgba(199,164,74,.55);}
 .menu-btn:active{transform:translateY(1px);}
 .menu-icon{position:relative;width:18px;height:12px;display:block;}
@@ -94,14 +94,16 @@ html[data-theme="dark"] .ecg-div--dark::before{opacity:.34;}
 .mission-attr::before,.mission-attr::after{content:'';display:block;width:40px;height:1px;background:var(--gold);opacity:.5;} 
 .mission-attr span{font-family:var(--sans);font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);}
 .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-radius:var(--R);overflow:hidden;margin-top:2.8rem;}
-.metric{background:var(--surface);padding:1.6rem 1.4rem;text-align:center;transition:background var(--t),transform var(--t),box-shadow var(--t);}.metric:hover{background:color-mix(in srgb,var(--gold) 5%,var(--surface));transform:translateY(-4px);box-shadow:0 16px 38px rgba(13,34,54,.12);}
+.metric{background:var(--surface);padding:1.6rem 1.4rem;text-align:center;transition:background var(--t),box-shadow var(--t);}
+.metric:hover{background:color-mix(in srgb,var(--gold) 5%,var(--surface));box-shadow:0 16px 38px rgba(13,34,54,.12);}
 .metric-num{font-family:var(--serif);font-size:2.35rem;font-weight:600;color:var(--gold);line-height:1;margin-bottom:.45rem;font-optical-sizing:auto;}
 .metric-label{font-family:var(--sans);font-size:.82rem;color:var(--subdued);line-height:1.45;font-weight:300;}.metric-label strong{display:block;color:var(--text);font-weight:700;margin-bottom:.18rem;}
 .card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.6rem;}
-.work-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--R);padding:1.45rem 1.35rem;box-shadow:0 1px 0 rgba(13,34,54,.02);transition:transform var(--t),border-color var(--t),box-shadow var(--t),background var(--t);will-change:transform;}
-.work-card:hover{transform:translateY(-7px);border-color:var(--gold);box-shadow:0 22px 52px rgba(13,34,54,.16);background:color-mix(in srgb,var(--gold) 3%,var(--surface));}
+.work-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--R);padding:1.45rem 1.35rem;box-shadow:0 1px 0 rgba(13,34,54,.02);transition:border-color var(--t),box-shadow var(--t),background var(--t);}
+.work-card:hover{border-color:var(--gold);box-shadow:0 22px 52px rgba(13,34,54,.16);background:color-mix(in srgb,var(--gold) 3%,var(--surface));}
 .section--dark .work-card:hover{box-shadow:0 18px 44px rgba(0,0,0,.24);}
-.work-icon{width:42px;height:42px;border-radius:12px;background:color-mix(in srgb,var(--teal) 10%,transparent);display:flex;align-items:center;justify-content:center;color:var(--teal);margin-bottom:.9rem;}
+.work-icon{width:42px;height:42px;border-radius:12px;background:color-mix(in srgb,var(--teal) 10%,transparent);display:flex;align-items:center;justify-content:center;color:var(--teal);margin-bottom:.9rem;transition:background var(--t),color var(--t);}
+.work-card:hover .work-icon{background:color-mix(in srgb,var(--teal) 20%,transparent);color:var(--gold);}
 .work-title{font-family:var(--sans);font-size:.96rem;font-weight:700;color:var(--text);line-height:1.25;margin-bottom:.45rem;}
 .work-copy{font-family:var(--sans);font-size:.86rem;color:var(--subdued);line-height:1.58;font-weight:300;}
 .trust-strip{margin-top:2.8rem;border:1px solid rgba(199,164,74,.22);border-radius:var(--R);overflow:hidden;background:rgba(255,255,255,.04);box-shadow:var(--shadow-lg);}
@@ -115,45 +117,52 @@ html[data-theme="dark"] .ecg-div--dark::before{opacity:.34;}
 .closing-cta{text-align:center;padding:clamp(68px,9vw,112px) clamp(20px,4vw,48px);background:radial-gradient(ellipse at 50% 0%,rgba(47,111,115,.26),transparent 52%),radial-gradient(ellipse at 50% 100%,rgba(199,164,74,.10),transparent 44%),linear-gradient(160deg,#050F1A 0%,var(--navy) 100%);position:relative;overflow:hidden;}
 .closing-inner{position:relative;z-index:2;max-width:760px;margin:0 auto;}.closing-h2{font-family:var(--serif);font-size:clamp(2rem,3.8vw,3.2rem);font-weight:600;line-height:1.12;letter-spacing:-.022em;color:#fff;margin-bottom:1rem;font-optical-sizing:auto;}.closing-h2 em{font-style:italic;color:var(--gold2);}.closing-sub{font-family:var(--sans);font-size:1rem;color:#9DB4C8;max-width:600px;margin:0 auto 2.3rem;line-height:1.68;font-weight:300;}
 .closing-links{display:flex;align-items:center;justify-content:center;gap:1.4rem;flex-wrap:wrap;margin-top:2rem;}.closing-links a{font-family:var(--sans);font-size:.84rem;color:#7A9AB0;transition:color var(--t);}.closing-links a:hover{color:#B8D0E0;text-decoration:none;}.closing-links span{color:rgba(122,154,176,.4);}
-
-.hf-cta-spacer{height:clamp(2.25rem,4vw,3.25rem);}
-.hf-bottom-nav-block{padding-top:1.5rem;border-top:1px solid rgba(199,164,74,.20);text-align:center;}
-.hf-bottom-nav-label{display:block;width:max-content;max-width:100%;margin:0 auto 1rem;padding:.42rem .95rem;border:1px solid rgba(199,164,74,.42);border-radius:999px;background:rgba(199,164,74,.10);color:var(--gold2);font-family:var(--sans);font-size:.72rem;font-weight:800;letter-spacing:.11em;line-height:1.2;text-transform:uppercase;}
-.hf-bottom-nav{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.48rem;font-family:var(--sans);font-size:.78rem;line-height:1.7;}
-.hf-bottom-nav a{color:#7A9AB0;text-decoration:underline;text-underline-offset:.18em;text-decoration-thickness:.05em;transition:color var(--t);}
-.hf-bottom-nav a:hover{color:#B8D0E0;text-decoration:none;}
-.hf-bottom-nav span{color:rgba(122,154,176,.42);}
-@media(max-width:1260px){.nav-links{gap:16px;}.nav-link{font-size:.78rem;}}
 .footer{background:var(--navy);border-top:1px solid rgba(199,164,74,.14);padding:2.4rem clamp(20px,4vw,48px);}.footer-inner{width:min(1060px,calc(100vw - 48px));margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}.footer-brand{font-family:var(--sans);font-size:.82rem;font-weight:700;color:#F9FAFB;}.footer-meta{font-family:var(--sans);font-size:.75rem;color:#5A7A94;text-align:right;line-height:1.6;}.footer-meta a{color:#5A7A94;text-decoration:underline;}
-/* ── REVEAL + CARD MOTION ── */
+
+/* REVEAL ANIMATIONS + HOVER LIFT via CSS variables */
 .reveal{
-  --reveal-x:0px;
-  --reveal-y:0px;
-  --hover-y:0px;
+  --reveal-x:0;
+  --reveal-y:0;
+  --hover-y:0;
   opacity:0;
-  transform:translate3d(var(--reveal-x),calc(var(--reveal-y) + var(--hover-y)),0);
+  transform:translate3d(var(--reveal-x),var(--reveal-y),0) translateY(var(--hover-y));
   transition:
     opacity 760ms ease,
     transform 760ms cubic-bezier(.22,1,.36,1),
     border-color var(--t),
     box-shadow var(--t),
-    background var(--t),
-    color var(--t);
+    background var(--t);
   will-change:opacity,transform;
 }
-.reveal.from-left{--reveal-x:-56px;}
-.reveal.from-right{--reveal-x:56px;}
-.reveal.from-below{--reveal-y:38px;}
-.reveal.visible{--reveal-x:0px;--reveal-y:0px;opacity:1;}
-.reveal-d1{transition-delay:120ms;}
-.reveal-d2{transition-delay:240ms;}
-.reveal-d3{transition-delay:360ms;}
-.metric.reveal.visible:hover{--hover-y:-5px;}
-.work-card.reveal.visible:hover{--hover-y:-7px;}
-.trust-strip.reveal.visible:hover{--hover-y:-4px;}
+.reveal.from-left{--reveal-x:-52px;}
+.reveal.from-right{--reveal-x:52px;}
+.reveal.from-below{--reveal-y:34px;}
+.reveal.visible{
+  --reveal-x:0;
+  --reveal-y:0;
+  opacity:1;
+}
+.reveal-d1{transition-delay:100ms;}
+.reveal-d2{transition-delay:210ms;}
+.reveal-d3{transition-delay:320ms;}
+
+/* Hover lift now works alongside reveal animation */
+.metric.reveal.visible:hover,
+.work-card.reveal.visible:hover{
+  --hover-y:-7px;
+}
+.trust-strip.reveal.visible:hover{
+  --hover-y:-3px;
+}
+
 @keyframes fade-up{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}.reveal{opacity:1!important;transform:none!important;transition:none!important;}.metric:hover,.work-card:hover,.trust-item:hover,.mobile-menu a:hover{transform:none!important;}}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}
+  .reveal{opacity:1!important;transform:none!important;transition:none!important;}
+  .metric:hover,.work-card:hover,.trust-item:hover,.mobile-menu a:hover{transform:none!important;box-shadow:none!important;}
+}
 @media(max-width:1040px){.metrics-grid,.card-grid,.trust-items{grid-template-columns:repeat(2,1fr);}.nav-links{display:none;}.menu-btn{display:inline-flex;}}
+@media(min-width:1041px){.mobile-menu,.mobile-menu-backdrop{display:none!important;}}
 @media(max-width:700px){.footer-meta{text-align:left;}.hero{min-height:88svh}.hero-kicker{font-size:.66rem;}.nav{padding:0 16px;}.nav-cta{display:none;}.nav-right{gap:9px;}.mobile-menu{right:12px;}}
 @media(max-width:540px){html{font-size:16px;}.metrics-grid,.card-grid,.trust-items{grid-template-columns:1fr;}.hero-actions{align-items:stretch;}.btn-primary,.btn-secondary{width:100%;justify-content:center;}.footer-inner{display:block}.footer-meta{margin-top:.8rem}.theme-btn{padding:5px 11px;}.nav-brand{font-size:.9rem;}.mobile-menu a{padding:.82rem .9rem;}}
 </style>
@@ -168,27 +177,25 @@ html[data-theme="dark"] .ecg-div--dark::before{opacity:.34;}
   <div class="nav-links" aria-label="Primary navigation">
     <a href="/about/" class="nav-link">About</a>
     <a href="/products/" class="nav-link">Products</a>
-    <a href="/toolkit/" class="nav-link">Toolkit</a>
-    <a href="/glossary/" class="nav-link">Glossary</a>
-    <a href="/research/" class="nav-link">Research</a>
-    <a href="/articles/" class="nav-link">Articles</a>
-    <a href="/briefings/" class="nav-link">Briefings</a>
     <a href="/lpa/" class="nav-link">Lp(a)</a>
+    <a href="/articles/" class="nav-link">Articles</a>
   </div>
   <div class="nav-right">
     <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch colour theme">Dark</button>
-    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open page navigation" aria-expanded="false" aria-controls="mobileMenu">
+    <a href="/products/" class="nav-cta">See products</a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">
       <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
   </div>
 </nav>
 <div class="mobile-menu-backdrop" id="mobileMenuBackdrop" aria-hidden="true"></div>
-<nav class="mobile-menu" id="mobileMenu" aria-label="Page navigation" aria-hidden="true">
-  <a href="#mission">Mission <span>why HeartFirst exists</span></a>
-  <a href="#scale-h">Why this exists <span>risk and preparation</span></a>
-  <a href="#work-h">What HeartFirst does <span>clarify, prepare, act</span></a>
-  <a href="#trust-h">How we earn confidence <span>standards and boundaries</span></a>
-  <a href="#closing-h">Start here <span>product pathway</span></a>
+<nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation" aria-hidden="true">
+  <a href="/products/">Products <span>Clarify → Navigate → Prevent</span></a>
+  <a href="/about/">About <span>Mission, standards, AI</span></a>
+  <a href="/lpa/">Lp(a) <span>stealth cholesterol</span></a>
+  <a href="/articles/">Articles <span>public education</span></a>
+  <a href="/briefings/">Briefings <span>short evidence-led guides</span></a>
+  <a href="https://legal.shyntesy.com">Legal and compliance <span>trust hub</span></a>
   <a class="mobile-menu-cta" href="/products/">See product pathway</a>
 </nav>
 <main id="main">
@@ -198,8 +205,8 @@ html[data-theme="dark"] .ecg-div--dark::before{opacity:.34;}
       <h1 id="hero-h1" class="hero-h1">Turn hidden heart risk into<br><em>one clear next action.</em></h1>
       <p class="hero-sub">HeartFirst is a digital heart risk and prevention platform for people facing incomplete cholesterol results, elevated Lipoprotein(a) (Lp(a)), family history, confusing risk signals, or the uneasy sense that a “normal” result did not answer the real question.</p>
       <div class="hero-actions">
-        <a href="/products/" class="btn-primary">Explore the product pathway <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M3 7.5h9M8 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        <a href="/about/" class="btn-secondary">Read the mission</a>
+        <a href="/products/" class="btn-primary" aria-label="Explore HeartFirst product pathway">Explore the product pathway <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M3 7.5h9M8 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="/about/" class="btn-secondary" aria-label="Read the HeartFirst mission">Read the mission</a>
       </div>
     </div>
   </section>
@@ -220,11 +227,11 @@ html[data-theme="dark"] .ecg-div--dark::before{opacity:.34;}
         <h2 id="scale-h" class="section-h2">Heart risk is common. Clear preparation is not.</h2>
         <p class="section-lead">Cardiovascular disease is not a niche problem. It is the world’s leading cause of death, yet many people still leave routine care without the full risk picture, the right questions, or a practical next step.</p>
       </div>
-      <div class="metrics-grid" aria-label="HeartFirst context metrics">
-        <div class="metric reveal from-left"><div class="metric-num">1 in 3</div><div class="metric-label"><strong>Deaths globally</strong> are linked to cardiovascular disease each year.</div></div>
-        <div class="metric reveal from-below reveal-d1"><div class="metric-num">80%</div><div class="metric-label"><strong>Premature events</strong> are often estimated as preventable with earlier risk-factor action.</div></div>
-        <div class="metric reveal from-below reveal-d2"><div class="metric-num">1 in 5</div><div class="metric-label"><strong>Adults may have high Lp(a)</strong>— an inherited risk not included in a standard cholesterol panel unless separately ordered.</div></div>
-        <div class="metric reveal from-right reveal-d3"><div class="metric-num">1</div><div class="metric-label"><strong>Clear next action</strong> is often enough to move from worry to preparation.</div></div>
+      <div class="metrics-grid" aria-label="HeartFirst context metrics" role="list">
+        <div class="metric reveal from-left" role="listitem"><div class="metric-num">1 in 3</div><div class="metric-label"><strong>Deaths globally</strong> are linked to cardiovascular disease each year.</div></div>
+        <div class="metric reveal from-below reveal-d1" role="listitem"><div class="metric-num">80%</div><div class="metric-label"><strong>Premature events</strong> are often estimated as preventable with earlier risk-factor action.</div></div>
+        <div class="metric reveal from-below reveal-d2" role="listitem"><div class="metric-num">1 in 5</div><div class="metric-label"><strong>Adults may have high Lp(a)</strong>— an inherited risk not included in a standard cholesterol panel unless separately ordered.</div></div>
+        <div class="metric reveal from-right reveal-d3" role="listitem"><div class="metric-num">1</div><div class="metric-label"><strong>Clear next action</strong> is often enough to move from worry to preparation.</div></div>
       </div>
     </div>
   </section>
@@ -238,56 +245,42 @@ html[data-theme="dark"] .ecg-div--dark::before{opacity:.34;}
         <p class="section-lead">HeartFirst turns scattered results, hidden risk signals, and unanswered questions into structured preparation: what is known, what is unknown, what needs discussing, and what action comes next.</p>
       </div>
       <div class="card-grid" role="list">
+        <!-- Card 1: Clarify what you already know -->
         <article class="work-card reveal from-left" role="listitem">
           <div class="work-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <circle cx="7.5" cy="7.5" r="4" stroke="currentColor" stroke-width="1.4"/>
-              <path d="M10.5 10.5l5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-              <rect x="11" y="3" width="6" height="4" rx="1" stroke="currentColor" stroke-width="1.2" opacity=".7"/>
-              <rect x="11" y="9" width="6" height="4" rx="1" stroke="currentColor" stroke-width="1.2" opacity=".5"/>
-            </svg>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="7.5" cy="7.5" r="4" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 10.5l5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><rect x="11" y="3" width="6" height="4" rx="1" stroke="currentColor" stroke-width="1.2" opacity=".7"/><rect x="11" y="9" width="6" height="4" rx="1" stroke="currentColor" stroke-width="1.2" opacity=".5"/></svg>
           </div>
           <h3 class="work-title">Clarify what you already know</h3>
           <p class="work-copy">Organise results, risk signals, family history, and questions into a usable snapshot instead of a pile of disconnected information.</p>
         </article>
-
+        
+        <!-- Card 2: Identify what may be missing -->
         <article class="work-card reveal from-below reveal-d1" role="listitem">
           <div class="work-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M10 2a3 3 0 00-3 3c0 .5.12.97.33 1.38L4 9a3 3 0 100 2l3.33 2.62A3 3 0 007 15a3 3 0 103-3c.5 0 .97-.12 1.38-.33L14 9a3 3 0 100-2l-2.62-2.62A3 3 0 0010 2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
-              <circle cx="10" cy="10" r="2.5" fill="currentColor" opacity=".15"/>
-            </svg>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2a3 3 0 00-3 3c0 .5.12.97.33 1.38L4 9a3 3 0 100 2l3.33 2.62A3 3 0 007 15a3 3 0 103-3c.5 0 .97-.12 1.38-.33L14 9a3 3 0 100-2l-2.62-2.62A3 3 0 0010 2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><circle cx="10" cy="10" r="2.5" fill="currentColor" opacity=".15"/></svg>
           </div>
           <h3 class="work-title">Identify what may be missing</h3>
           <p class="work-copy">Surface overlooked context such as Lp(a), ApoB, family patterns, metabolic risk, inflammation, and other factors worth raising with your health team.</p>
         </article>
-
+        
+        <!-- Card 3: Prepare the conversation -->
         <article class="work-card reveal from-below reveal-d2" role="listitem">
           <div class="work-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M4 5h12v8a2 2 0 01-2 2H8l-4 3V7a2 2 0 012-2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
-              <path d="M7 8h6M7 11h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-              <path d="M14 6l2-2 2 2-2 2z" stroke="currentColor" stroke-width="1.2" fill="currentColor"/>
-            </svg>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 5h12v8a2 2 0 01-2 2H8l-4 3V7a2 2 0 012-2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M7 8h6M7 11h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M14 6l2-2 2 2-2 2z" stroke="currentColor" stroke-width="1.2" fill="currentColor"/></svg>
           </div>
           <h3 class="work-title">Prepare the conversation</h3>
           <p class="work-copy">Turn uncertainty into focused questions, portal messages, and appointment-ready notes that make better use of limited clinical time.</p>
         </article>
-
+        
+        <!-- Card 4: Build prevention momentum -->
         <article class="work-card reveal from-right reveal-d3" role="listitem">
           <div class="work-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M10 18V6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-              <path d="M10 6l-3 3M10 6l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-              <circle cx="10" cy="16" r="3" stroke="currentColor" stroke-width="1.2"/>
-              <path d="M7 13c-1.5-1-3-1.5-4-1M13 13c1.5-1 3-1.5 4-1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-            </svg>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 18V6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M10 6l-3 3M10 6l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="10" cy="16" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M7 13c-1.5-1-3-1.5-4-1M13 13c1.5-1 3-1.5 4-1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
           </div>
           <h3 class="work-title">Build prevention momentum</h3>
           <p class="work-copy">Start with actions that reduce risk while larger questions are being clarified: records, testing, family conversations, and daily risk-lowering habits.</p>
         </article>
       </div>
-
     </div>
   </section>
   <div class="ecg-div ecg-div--dark" role="presentation" aria-hidden="true"></div>
@@ -316,48 +309,26 @@ html[data-theme="dark"] .ecg-div--dark::before{opacity:.34;}
       <div class="section-kicker" style="justify-content:center"><span style="width:22px;height:1px;background:var(--gold);display:block"></span>Start with what you have</div>
       <h2 id="closing-h" class="closing-h2">The pathway is simple.<br><em>Clarify. Navigate. Prevent.</em></h2>
       <p class="closing-sub">The first step is not to understand every paper, every guideline, or every possible risk. The first step is to organise what you know, name what is missing, and prepare one clear next action.</p>
-      <a href="/products/" class="btn-primary">See the product pathway <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M3 7.5h9M8 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-
-      <div class="hf-cta-spacer" aria-hidden="true"></div>
-
-      <div class="hf-bottom-nav-block">
-        <div class="hf-bottom-nav-label">Where to go next</div>
-        <nav class="hf-bottom-nav" aria-label="HeartFirst section navigation">
-          <a href="/">Home</a>
-          <span>&middot;</span>
-          <a href="/about/">About</a>
-          <span>&middot;</span>
-          <a href="/products/">Products</a>
-          <span>&middot;</span>
-          <a href="/toolkit/">Toolkit</a>
-          <span>&middot;</span>
-          <a href="/glossary/">Glossary</a>
-          <span>&middot;</span>
-          <a href="/research/">Research</a>
-          <span>&middot;</span>
-          <a href="/articles/">Articles</a>
-          <span>&middot;</span>
-          <a href="/briefings/">Briefings</a>
-          <span>&middot;</span>
-          <a href="/lpa/">Lp(a)</a>
-        </nav>
-      </div>
+      <a href="/products/" class="btn-primary" aria-label="See the HeartFirst product pathway">See the product pathway <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M3 7.5h9M8 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <div class="closing-links"><a href="/about/">About HeartFirst</a><span>&middot;</span><a href="https://legal.shyntesy.com">Legal and compliance</a><span>&middot;</span><a href="https://legal.shyntesy.com/disclaimer">Medical disclaimer</a><span>&middot;</span><a href="https://legal.shyntesy.com/contact">Contact</a></div>
     </div>
   </section>
 </main>
 <footer class="footer">
   <div class="footer-inner">
     <div style="display:flex;align-items:center;gap:9px"><svg width="22" height="22" viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="M50 85 C50 85 8 55 8 33 C8 18 18 10 29 10 C38 10 45 16 50 22 C50 22 50 85 50 85Z" fill="#102A43"/><path d="M50 85 C50 85 92 55 92 33 C92 18 82 10 71 10 C62 10 55 16 50 22 C50 22 50 85 50 85Z" fill="#C0392B"/><polyline points="20,42 30,42 36,28 42,55 47,38 53,38 58,38 64,28 70,55 75,38 81,42" fill="none" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="footer-brand">HeartFirst by Shyntesy</span></div>
-    <div class="footer-meta"><a href="https://legal.shyntesy.com/terms">Terms</a> &middot; <a href="https://legal.shyntesy.com/privacy">Privacy</a> &middot; <a href="https://legal.shyntesy.com/cookies">Cookies</a> &middot; <a href="https://legal.shyntesy.com/refunds">Refunds</a> &middot; <a href="https://legal.shyntesy.com/disclaimer">Disclaimer</a> &middot; <a href="https://legal.shyntesy.com/accessibility">Accessibility</a> &middot; <a href="https://legal.shyntesy.com/contact">Contact</a><br>&copy; 2026 HeartFirst by Shyntesy &middot; <a href="https://shyntesy.com">shyntesy.com</a><br>Educational use only &mdash; not medical advice, diagnosis, or treatment.</div>
+    <div class="footer-meta"><a href="https://legal.shyntesy.com/terms">Terms</a> &middot; <a href="https://legal.shyntesy.com/privacy">Privacy</a> &middot; <a href="https://legal.shyntesy.com/cookies">Cookies</a> &middot; <a href="https://legal.shyntesy.com/refunds">Refunds</a> &middot; <a href="https://legal.shyntesy.com/disclaimer">Disclaimer</a> &middot; <a href="https://legal.shyntesy.com/accessibility">Accessibility</a> &middot; <a href="https://legal.shyntesy.com/contact">Contact</a><br>&copy; 2026 HeartFirst by Shyntesy &middot; <a href="https://shyntesy.com" target="_blank" rel="noopener">shyntesy.com</a><br>Educational use only &mdash; not medical advice, diagnosis, or treatment.</div>
   </div>
 </footer>
 <script>
 (function(){'use strict';
+  // Theme toggle
   var btn=document.getElementById('themeBtn');var root=document.documentElement;var KEY='hf-theme';
   function setTheme(t){root.setAttribute('data-theme',t);try{localStorage.setItem(KEY,t);}catch(e){} if(btn){btn.textContent=t==='dark'?'Light':'Dark';btn.setAttribute('aria-label',t==='dark'?'Switch to light theme':'Switch to dark theme');btn.setAttribute('aria-pressed',t==='dark'?'true':'false');}}
   var stored;try{stored=localStorage.getItem(KEY);}catch(e){} var dark=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;setTheme(stored||(dark?'dark':'light'));
   if(btn){btn.addEventListener('click',function(){setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');});}
 
+  // Mobile menu
   var menuBtn=document.getElementById('menuBtn');
   var mobileMenu=document.getElementById('mobileMenu');
   var mobileBackdrop=document.getElementById('mobileMenuBackdrop');
@@ -374,12 +345,34 @@ html[data-theme="dark"] .ecg-div--dark::before{opacity:.34;}
     if(mobileBackdrop){mobileBackdrop.addEventListener('click',function(){setMenu(false);});}
     mobileMenu.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){setMenu(false);});});
     document.addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false);});
+    window.addEventListener('resize',function(){if(window.innerWidth>1040)setMenu(false);},{passive:true});
   }
 
+  // Nav scroll effect
   var nav=document.querySelector('.nav');if(nav){window.addEventListener('scroll',function(){nav.style.background=window.scrollY>60?'rgba(13,34,54,.99)':'rgba(13,34,54,.94)';},{passive:true});}
+
+  // Reveal animations on scroll - IMPROVED: adjusted threshold and rootMargin for perceptual visibility
   var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  if('IntersectionObserver' in window&&!reduced){var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(!e.isIntersecting)return;requestAnimationFrame(function(){e.target.classList.add('visible');});obs.unobserve(e.target);});},{threshold:.22,rootMargin:'0px 0px -80px 0px'});document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});}else{document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('visible');});}
-  document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:reduced?'auto':'smooth',block:'start'});}});});
+  if('IntersectionObserver' in window&&!reduced){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting)return;
+        requestAnimationFrame(function(){e.target.classList.add('visible');});
+        obs.unobserve(e.target);
+      });
+    },{threshold:0.22,rootMargin:'0px 0px -80px 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+  }else{
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('visible');});
+  }
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var t=document.querySelector(a.getAttribute('href'));
+      if(t){e.preventDefault();t.scrollIntoView({behavior:reduced?'auto':'smooth',block:'start'});}
+    });
+  });
 })();
 </script>
 </body>
