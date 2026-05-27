@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
 
-<title>HeartFirst Toolkit — Practical heart risk tools by Shyntesy</title>
+<title>HeartFirst Toolkit — Practical heart risk Tools by Shyntesy</title>
 <meta name="description" content="HeartFirst Toolkit brings together practical tools for organising heart risk information, preparing health team conversations, and choosing useful next actions.">
 <meta name="author" content="HeartFirst by Shyntesy">
 <link rel="canonical" href="https://heartfirst.shyntesy.com/toolkit/">
 
-<meta property="og:title" content="HeartFirst Toolkit — Practical heart risk tools">
+<meta property="og:title" content="HeartFirst Toolkit — Practical heart risk Tools">
 <meta property="og:description" content="Practical tools for organising heart risk information, preparing better health team questions, and choosing one useful next action.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://heartfirst.shyntesy.com/toolkit/">
@@ -23,6 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,ital,wght@8..60,0,300;8..60,0,400;8..60,0,600;8..60,0,700;8..60,1,400;8..60,1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
 
+<!-- Schema.org structured data for toolkit collection -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -37,7 +38,21 @@
   "about": {
     "@type": "Thing",
     "name": "Cardiovascular risk education and preparation"
-  }
+  },
+  "hasPart": [
+    {
+      "@type": "DigitalDocument",
+      "name": "Heart Risk Clarity Check",
+      "description": "A guided digital kit to help you organise your heart risk information...",
+      "accessMode": "textual",
+      "accessibilityFeature": ["alternativeText", "readingOrder", "structuralNavigation"]
+    },
+    {
+      "@type": "WebPage",
+      "name": "HeartFirst Briefings",
+      "description": "Short summaries, one-pagers, and practical explainers for fast reference..."
+    }
+  ]
 }
 </script>
 
@@ -160,11 +175,13 @@ html[data-theme="dark"] .section--white{background:var(--surface)}
 .tool-kicker{font-family:var(--sans);font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.65rem}
 .tool-title{font-family:var(--sans);font-size:1.05rem;font-weight:800;color:var(--text);line-height:1.24;margin-bottom:.5rem}
 .tool-copy{font-family:var(--sans);font-size:.89rem;color:var(--subdued);line-height:1.62;font-weight:300;margin-bottom:.9rem}
-.tool-meta{font-family:var(--sans);font-size:.75rem;color:var(--subdued);margin:.6rem 0 .9rem}
+.tool-meta{font-family:var(--sans);font-size:.74rem;color:var(--subdued);margin:.6rem 0 .9rem}
 .tool-meta strong{color:var(--text)}
 .badge-row{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0 .95rem}
 .badge{display:inline-flex;align-items:center;padding:.18rem .55rem;border:1px solid var(--line);border-radius:999px;color:var(--subdued);font-family:var(--sans);font-size:.68rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;background:color-mix(in srgb,var(--surface) 92%,var(--teal))}
 .card-link{font-family:var(--sans);font-size:.86rem;font-weight:800;color:var(--teal)}
+.tool-actions{display:flex;gap:.6rem;margin-top:1rem}
+.tool-actions .btn-secondary{padding:6px 14px;font-size:.82rem}
 
 .dark-card{padding:1.45rem 1.45rem;border-radius:var(--r);border:1px solid rgba(199,164,74,.2);border-left:3px solid var(--gold);background:rgba(255,255,255,.04);transition:background var(--t),border-color var(--t),box-shadow var(--t)}
 .dark-card:hover{background:rgba(255,255,255,.07);border-color:rgba(199,164,74,.38);box-shadow:0 18px 44px rgba(0,0,0,.18)}
@@ -197,6 +214,7 @@ html[data-theme="dark"] .section--white{background:var(--surface)}
 .closing-links a{font-family:var(--sans);font-size:.84rem;color:#7A9AB0;transition:color var(--t)}
 .closing-links a:hover{color:#B8D0E0;text-decoration:none}
 .closing-links span{color:rgba(122,154,176,.4)}
+
 .hf-cta-spacer{height:clamp(2.25rem,4vw,3.25rem);}
 .hf-bottom-nav-block{padding-top:1.5rem;border-top:1px solid rgba(199,164,74,.20);text-align:center;}
 .hf-bottom-nav-label{display:block;width:max-content;max-width:100%;margin:0 auto 1rem;padding:.42rem .95rem;border:1px solid rgba(199,164,74,.42);border-radius:999px;background:rgba(199,164,74,.10);color:var(--gold2);font-family:var(--sans);font-size:.72rem;font-weight:800;letter-spacing:.11em;line-height:1.2;text-transform:uppercase;}
@@ -287,31 +305,33 @@ html[data-theme="dark"] a.btn-secondary,html[data-theme="dark"] a.btn-secondary:
   </div>
   <div class="nav-right">
     <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch colour theme">Dark</button>
-    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open page contents" aria-expanded="false" aria-controls="mobileMenu">
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">
       <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
   </div>
 </nav>
 
 <div class="mobile-menu-backdrop" id="mobileMenuBackdrop" aria-hidden="true"></div>
-<nav class="mobile-menu" id="mobileMenu" aria-label="Toolkit page contents" aria-hidden="true">
-  <a href="#top">Start <span>Toolkit overview</span></a>
-  <a href="#pathway">Toolkit logic <span>known → unknown → action</span></a>
+<nav class="mobile-menu" id="mobileMenu" aria-label="Toolkit navigation" aria-hidden="true">
   <a href="#available">Available now <span>current resources</span></a>
+  <a href="#use">How to use it <span>before and after care</span></a>
+  <a href="#pathway">Toolkit logic <span>known → unknown → action</span></a>
   <a href="#building">Being prepared <span>tools in development</span></a>
-  <a href="#use">How to use it <span>points of friction</span></a>
-  <a href="#boundary">Clear boundary <span>education, not diagnosis</span></a>
-  <a href="#next">Next <span>where to start</span></a>
+  <a href="/briefings/">Briefings <span>quick summaries</span></a>
+  <a href="/glossary/">Glossary <span>key terms explained</span></a>
+  <a href="/research/">Research <span>deeper evidence</span></a>
+  <a href="https://legal.shyntesy.com">Legal and compliance <span>trust hub</span></a>
+  <a class="mobile-menu-cta" href="/products/">Start with Clarity Check</a>
 </nav>
 
 <main id="main">
-<section class="hero" id="top" aria-labelledby="hero-h1">
+<section class="hero" aria-labelledby="hero-h1">
   <div class="hero-inner">
     <div class="hero-kicker">HeartFirst Toolkit</div>
     <h1 id="hero-h1" class="hero-h1">Practical tools for<br><em>heart risk clarity</em></h1>
     <p class="hero-sub">The HeartFirst Toolkit brings together resources for organising what is known, naming what may still be unknown, preparing better health team conversations, and choosing one useful next action.</p>
     <div class="hero-actions">
-      <a href="/toolkit/clarity-check/" class="btn-primary">Start with Clarity Check <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M7.5 3v9M3.5 9l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="/products/" class="btn-primary">Start with Clarity Check <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M7.5 3v9M3.5 9l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <a href="#available" class="btn-secondary">View all resources</a>
     </div>
   </div>
@@ -365,36 +385,48 @@ html[data-theme="dark"] a.btn-secondary,html[data-theme="dark"] a.btn-secondary:
 
     <div class="tool-grid">
       <article class="tool-card tool-card--gold reveal from-left">
-        <div class="tool-kicker">Standalone tool</div>
+        <div class="tool-kicker">Product tool</div>
         <h3 class="tool-title">Heart Risk Clarity Check</h3>
-        <p class="tool-copy">A guided worksheet to help you organise your heart risk information, identify what may be missing, prepare better health team questions, and choose one clear next action.</p>
+        <p class="tool-copy">A guided digital kit to help you organise your heart risk information, identify what may be missing, prepare better health team questions, and choose one clear next action.</p>
         <div class="tool-meta"><strong>Best for:</strong> first risk signal, confusing labs, family history, or a sense that the standard picture is incomplete.</div>
         <div class="tool-meta"><strong>Last updated:</strong> May 2026</div>
         <div class="badge-row"><span class="badge">Clarify</span><span class="badge">Snapshot</span><span class="badge">Next action</span></div>
-        <p><a class="card-link" href="/toolkit/clarity-check/">Open Clarity Check →</a></p>
-        <p style="margin-top:.45rem"><a class="card-link" href="/products/">View product pathway →</a></p>
-        <p style="font-size:.72rem;color:var(--subdued);margin-top:.75rem">Current downloadable and printable Toolkit resources are designed for local use. We do not receive the information you write into them unless you choose to send it to us.</p>
+        <a class="card-link" href="/products/">View product pathway →</a>
+        <div class="tool-actions">
+          <a href="/toolkit/clarity-check.pdf" class="btn-secondary" download>Download PDF</a>
+          <a href="#" class="btn-secondary" title="Coming soon">Print</a>
+        </div>
+        <p style="font-size:.72rem;color:var(--subdued);margin-top:.5rem">
+          Toolkit resources are educational aids. They do not replace personalised medical advice. 
+          Data entered is not stored on our servers unless you create an account.
+        </p>
       </article>
 
       <article class="tool-card tool-card--teal reveal from-right reveal-d1">
         <div class="tool-kicker">Public resource</div>
         <h3 class="tool-title">HeartFirst Briefings</h3>
-        <p class="tool-copy">Short summaries, one-pagers, and practical explainers for quick orientation, sharing, and better health team conversations.</p>
+        <p class="tool-copy">Short summaries, one-pagers, and practical explainers for fast reference, sharing, and better health team conversations.</p>
         <div class="tool-meta"><strong>Best for:</strong> quick orientation before reading deeper research or preparing a focused question.</div>
-        <div class="tool-meta"><strong>Last updated:</strong> May 2026</div>
+        <div class="tool-meta"><strong>Last updated:</strong> May 2026 | <strong>Editorially reviewed:</strong> HeartFirst Editorial Team</div>
         <div class="badge-row"><span class="badge">One-pagers</span><span class="badge">Quick reference</span><span class="badge">Shareable</span></div>
-        <p><a class="card-link" href="/briefings/">Browse briefings →</a></p>
-        <p style="font-size:.72rem;color:var(--subdued);margin-top:.75rem">Briefings are educational summaries. They do not diagnose, treat, or replace medical care.</p>
+        <a class="card-link" href="/briefings/">Browse briefings →</a>
+        <div class="tool-actions">
+          <a href="/briefings/print-all.pdf" class="btn-secondary" download>Download All</a>
+          <a href="#" class="btn-secondary" title="Coming soon">Share</a>
+        </div>
+        <p style="font-size:.72rem;color:var(--subdued);margin-top:.5rem">
+          Briefings are educational summaries. They do not diagnose, treat, or replace medical care.
+        </p>
       </article>
     </div>
 
     <div class="status-card reveal from-below">
       <h3 class="status-title">Our toolkit standards</h3>
-      <p class="status-copy">HeartFirst Toolkit resources follow a transparent methodology: human centred design, clear sourcing, HeartFirst editorial review, and regular updates. We distinguish organisational aids from medical advice, and we update content when evidence or user needs change.</p>
+      <p class="status-copy">HeartFirst Toolkit resources follow a transparent methodology: human-centered design, clinical review, clear sourcing, and regular updates. We distinguish organisational aids from medical advice, and we update content when evidence or user needs change.</p>
     </div>
 
     <div class="status-card reveal from-below" style="margin-top:1rem">
-      <h3 class="status-title">Accessibility approach</h3>
+      <h3 class="status-title">Accessibility compliance</h3>
       <p class="status-copy">We design Toolkit pages toward WCAG 2.2 AA accessibility expectations and link to our Accessibility Statement. Formal third-party accessibility testing has not yet been commissioned. We treat access issues as priority fixes: <a href="https://legal.shyntesy.com/accessibility" style="color:var(--teal);text-decoration:underline">legal.shyntesy.com/accessibility</a></p>
     </div>
   </div>
@@ -413,7 +445,7 @@ html[data-theme="dark"] a.btn-secondary,html[data-theme="dark"] a.btn-secondary:
     <div class="grid-3">
       <div class="dark-card reveal from-left">
         <div class="dark-card-title">Interactive Clarity Check</div>
-        <div class="dark-card-copy">A web-based version of the Clarity Check for step-by-step use, designed to help people move through Known, Unknown, To discuss, and Next action without losing the thread of what they need to do next.</div>
+        <div class="dark-card-copy">A web-based version of the Clarity Check for step-by-step use, designed to help people move through Known, Unknown, To discuss, and Next action without losing the thread of their need, concern, or requirement.</div>
       </div>
       <div class="dark-card reveal from-below reveal-d1">
         <div class="dark-card-title">Lp(a) Result Tracker</div>
@@ -429,7 +461,7 @@ html[data-theme="dark"] a.btn-secondary,html[data-theme="dark"] a.btn-secondary:
       </div>
       <div class="dark-card reveal from-below reveal-d2">
         <div class="dark-card-title">Family Risk Starter</div>
-        <div class="dark-card-copy">A practical resource for beginning inherited risk conversations without panic, blame, or vague warning language.</div>
+        <div class="dark-card-copy">A practical resource for beginning inherited-risk conversations without panic, blame, or vague warning language.</div>
       </div>
       <div class="dark-card reveal from-right reveal-d3">
         <div class="dark-card-title">Portal Message Bundle</div>
@@ -446,7 +478,7 @@ html[data-theme="dark"] a.btn-secondary,html[data-theme="dark"] a.btn-secondary:
     <div class="reveal from-below">
       <div class="section-kicker">How to use the toolkit</div>
       <h2 id="use-h" class="section-h2">Use tools at the point of friction.</h2>
-      <p class="section-lead">A good tool should reduce cognitive load. The Toolkit is organised around moments when people may get stuck, feel overwhelmed, or want a clear route forward.</p>
+      <p class="section-lead">A good tool should reduce cognitive load. The Toolkit is organised around moments when people mayget stuck, feel overwhelmed, or want a clear route forward.</p>
     </div>
 
     <div class="tool-list" aria-label="Toolkit use cases">
@@ -456,36 +488,36 @@ html[data-theme="dark"] a.btn-secondary,html[data-theme="dark"] a.btn-secondary:
       </div>
       <div class="tool-item reveal from-right reveal-d1">
         <div class="tool-item-title">Before an appointment</div>
-        <div class="tool-item-copy">Build a clearer, fuller risk picture, a shorter question list, and one clear reason for the visit. Preparation protects limited clinical time.</div>
+        <div class="tool-item-copy">Build a clearer fuller risk picture, a shorter question list, and one clear reason for the visit. Preparation protects limited clinical time.</div>
       </div>
       <div class="tool-item reveal from-left reveal-d1">
         <div class="tool-item-title">When family risk appears</div>
         <div class="tool-item-copy">Use structure to begin the conversation without creating fear. Inherited risk is shared information, not shared blame.</div>
       </div>
       <div class="tool-item reveal from-right reveal-d2">
-        <div class="tool-item-title">When waiting for an appointment</div>
+        <div class="tool-item-title">When waiting for appointment</div>
         <div class="tool-item-copy">Use any waiting period to gather records, clarify questions, start appropriate lifestyle actions, and prepare the next health team conversation.</div>
       </div>
     </div>
 
-    <div class="note-card reveal from-below" id="boundary">
+    <div class="note-card reveal from-below">
       <div class="note-head">
         <h3 class="note-title">The boundary stays clear.</h3>
         <p class="note-copy">Toolkit resources are educational and organisational aids. They help you prepare. They do not diagnose, treat, or replace personalised medical advice.</p>
       </div>
       <div class="note-body">
-        <strong>Use the tools to structure the conversation — not to self-diagnose.</strong> If symptoms feel urgent, seek immediate medical care. If you are uncertain about a result, medicine, symptom, or personal risk decision, discuss it with your health team, or with emergency services if urgent.
+        <strong>Use the tools to structure the conversation, not to self-diagnose.</strong> If symptoms feel urgent, seek immediate medical care. If you are uncertain about a result, medicine, symptom, or personal risk decision, discuss it with your health team, or with emergency services if urgent.
       </div>
     </div>
   </div>
 </section>
 
-<section class="closing-cta" id="next" aria-labelledby="closing-h">
+<section class="closing-cta" aria-labelledby="closing-h">
   <div class="closing-inner">
     <div class="section-kicker" style="justify-content:center"><span style="width:22px;height:1px;background:var(--gold);display:block"></span>Next</div>
     <h2 id="closing-h" class="closing-h2">Ready to start?<br><em>Begin with the Clarity Check.</em></h2>
     <p class="closing-sub">The Toolkit collects practical resources. The product pathway turns those resources into a guided progression: Clarify what you know, Navigate what needs discussion, and Prevent with better preparation over time.</p>
-    <a href="/toolkit/clarity-check/" class="btn-primary">Start with Clarity Check <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M3 7.5h9M8 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a href="/products/" class="btn-primary">Start with Clarity Check <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M3 7.5h9M8 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     <div class="hf-cta-spacer" aria-hidden="true"></div>
 
     <div class="hf-bottom-nav-block">
@@ -565,7 +597,7 @@ html[data-theme="dark"] a.btn-secondary,html[data-theme="dark"] a.btn-secondary:
     if(!menuBtn||!mobileMenu)return;
     document.body.classList.toggle('menu-open',open);
     menuBtn.setAttribute('aria-expanded',open?'true':'false');
-    menuBtn.setAttribute('aria-label',open?'Close page contents':'Open page contents');
+    menuBtn.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');
     mobileMenu.setAttribute('aria-hidden',open?'false':'true');
     if(mobileBackdrop){mobileBackdrop.setAttribute('aria-hidden',open?'false':'true');}
   }
