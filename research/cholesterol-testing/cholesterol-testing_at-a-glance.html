@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+
+  <!-- ══════════════════════════════════════════════════════════════
+       TEMPLATE ZONE A — Page identity
+       Change these for each briefing card.
+  ══════════════════════════════════════════════════════════════ -->
+  <title>At a Glance: Cholesterol Testing Is Foundational, Not Complete — HeartFirst by Shyntesy</title>
+  <meta name="description" content="A one-page briefing card: why the standard lipid panel is the essential first layer of cardiovascular risk assessment.">
+
+  <!-- Fonts — only external dependency permitted -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+
+  <style>
+
+    /* ══════════════════════════════════════════════════════════════
+       TEMPLATE ZONE B — Brand & colour tokens
+       Change --brand-* values to adapt to a different briefing card
+       colour theme. All downstream colours reference these tokens.
+    ══════════════════════════════════════════════════════════════ */
+    :root {
+      /* — Brand palette — */
+      --brand-primary:   #102A43;   /* deep navy          */
+      --brand-secondary: #C7A44A;   /* restrained gold    */
+      --brand-tertiary:  #2F6F73;   /* muted medical teal */
+
+      /* — Card accent colours — */
+      --accent-a: var(--brand-tertiary);   /* first grid  */
+      --accent-b: var(--brand-secondary);  /* second grid */
+
+      /* ── Light-mode surfaces ── */
+      --bg:      #FAFAF7;
+      --surface: #FFFFFF;
+      --text:    #111827;
+      --muted:   #4B5563;
+      --border:  #D7DCE2;
+
+      /* ── Dark-mode surfaces ── */
+      --bg-dark:      #0B1220;
+      --surface-dark: #111827;
+      --text-dark:    #F9FAFB;
+      --muted-dark:   #CBD5E1;
+      --border-dark:  #334155;
+
+      /* ── Layout ── */
+      --page-width:     1120px;
+      --mobile-pad:     20px;
+      --card-radius:    10px;
+      --sheet-radius:   18px;
+
+      /* ── Motion ── */
+      --t: 180ms ease;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       DARK MODE
+    ══════════════════════════════════════════════════════════════ */
+    html[data-theme="dark"] {
+      --bg:      var(--bg-dark);
+      --surface: var(--surface-dark);
+      --text:    var(--text-dark);
+      --muted:   var(--muted-dark);
+      --border:  var(--border-dark);
+      color-scheme: dark;
+    }
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme]) {
+        --bg:      var(--bg-dark);
+        --surface: var(--surface-dark);
+        --text:    var(--text-dark);
+        --muted:   var(--muted-dark);
+        --border:  var(--border-dark);
+        color-scheme: dark;
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       RESET
+    ══════════════════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scrollbar-gutter: stable; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at 82% 0%, rgba(199,164,74,.11), transparent 32%), var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, Cambria, "Times New Roman", serif;
+      font-optical-sizing: auto;
+      font-size: 17px;
+      line-height: 1.65;
+      letter-spacing: 0;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color var(--t), color var(--t);
+    }
+    p, li { letter-spacing: 0; }
+    p { margin: 0; }
+    strong { font-weight: 700; }
+
+    /* ══════════════════════════════════════════════════════════════
+       ACCESSIBILITY
+    ══════════════════════════════════════════════════════════════ */
+    :focus-visible {
+      outline: 3px solid rgba(199,164,74,.65);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    .skip-link {
+      position: fixed;
+      top: 12px; left: 12px;
+      z-index: 3000;
+      padding: 10px 14px;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transform: translateY(-140%);
+      transition: transform var(--t);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: .85rem;
+      text-decoration: none;
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    /* ══════════════════════════════════════════════════════════════
+       SCREEN CONTROLS
+    ══════════════════════════════════════════════════════════════ */
+    .control-row {
+      position: fixed;
+      top: max(14px, env(safe-area-inset-top));
+      right: max(14px, env(safe-area-inset-right));
+      z-index: 1020;
+      display: flex;
+      gap: 10px;
+    }
+    .control-button {
+      appearance: none;
+      border: 1px solid color-mix(in srgb, var(--border) 78%, transparent);
+      background: color-mix(in srgb, var(--surface) 94%, transparent);
+      color: var(--text);
+      border-radius: 999px;
+      min-height: 42px;
+      padding: 0 16px;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: .84rem;
+      font-weight: 600;
+      letter-spacing: .01em;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(15,23,42,.18);
+      cursor: pointer;
+      transition: border-color var(--t);
+    }
+    .control-button:hover { border-color: var(--brand-secondary); }
+
+    /* ══════════════════════════════════════════════════════════════
+       PAGE WRAPPER
+    ══════════════════════════════════════════════════════════════ */
+    .brief-page {
+      width: min(var(--page-width), calc(100vw - (var(--mobile-pad) * 2)));
+      margin: 0 auto;
+      padding: clamp(28px, 4.8vw, 60px) 0;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       SHEET (the white card that contains everything)
+    ══════════════════════════════════════════════════════════════ */
+    .brief-sheet {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--sheet-radius);
+      background: var(--surface);
+      box-shadow: 0 18px 50px rgba(15,23,42,.12);
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       HEADER
+    ══════════════════════════════════════════════════════════════ */
+    .brief-header {
+      padding: clamp(28px, 4vw, 52px);
+      background:
+        radial-gradient(circle at 88% 14%, rgba(199,164,74,.18), transparent 28%),
+        linear-gradient(145deg, #071522 0%, var(--brand-primary) 58%, #071522 100%);
+      color: #F9FAFB;
+    }
+
+    /* ── TEMPLATE ZONE C — Kicker text (series label) ── */
+    .brief-kicker {
+      margin-bottom: 2.4rem;
+      color: #E7D293;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: .74rem;
+      font-weight: 800;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    /* ── TEMPLATE ZONE D — Main title ── */
+    .brief-title {
+      max-width: 860px;
+      margin: 0;
+      color: #fff;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: clamp(2.05rem, 5vw, 4.2rem);
+      font-weight: 800;
+      line-height: .98;
+      letter-spacing: -.055em;
+    }
+
+    /* ── TEMPLATE ZONE E — Subtitle / strapline ── */
+    .brief-subtitle {
+      max-width: 820px;
+      margin-top: 1.7rem;
+      color: #DCE7F3;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: clamp(.97rem, 2vw, 1.17rem);
+      line-height: 1.52;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       BODY
+    ══════════════════════════════════════════════════════════════ */
+    .brief-body {
+      padding: clamp(28px, 4vw, 52px);
+    }
+
+    .section-label {
+      display: inline-block;
+      margin-bottom: 1.15rem;
+      color: var(--brand-secondary);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: .74rem;
+      font-weight: 800;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       CARD GRIDS
+    ══════════════════════════════════════════════════════════════ */
+    .glance-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.4rem;
+      margin: 0 0 2.4rem;
+    }
+
+    /* ── TEMPLATE ZONE F — Cards ──
+       Each card is a self-contained unit. Copy/paste to add or remove.
+       Use .glance-card for primary grid (teal accent).
+       Use .glance-card.card-b for secondary grid (gold accent).
+    ── */
+    .glance-card {
+      padding: 1.15rem 1.1rem 1.25rem;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent-a);
+      border-radius: var(--card-radius);
+      background: var(--surface);
+      box-shadow: 0 10px 24px rgba(15,23,42,.06);
+      /* preserve accent border colours in print */
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+    .glance-card.card-b {
+      border-left-color: var(--accent-b);
+    }
+
+    .glance-card-label {
+      display: block;
+      margin-bottom: .65rem;
+      color: var(--brand-primary);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: .82rem;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    html[data-theme="dark"] .glance-card-label { color: #E7D293; }
+
+    .glance-card p {
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.55;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       BOTTOM-LINE STATEMENTS
+       These span the full grid width — no artificial max-width on
+       screen so they align cleanly with the card edges.
+    ══════════════════════════════════════════════════════════════ */
+    .glance-bottom-line {
+      margin: 2.5rem 0 0;
+      padding-top: 1.6rem;
+      border-top: 1px solid var(--border);
+      color: var(--brand-tertiary);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.55;
+      text-align: center;
+    }
+    html[data-theme="dark"] .glance-bottom-line { color: #8BD2D6; }
+    .glance-bottom-line span { display: block; }
+
+    /* ══════════════════════════════════════════════════════════════
+       SUBSECTION ("What This Means in Practice")
+    ══════════════════════════════════════════════════════════════ */
+    .glance-subsection { margin-top: 3.4rem; }
+
+    .glance-subsection-rule {
+      margin: 0 auto 1.4rem;
+      border: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .glance-subheading {
+      margin: 0 0 .65rem;
+      color: var(--text);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 1.12rem;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -.01em;
+    }
+
+    .glance-subcopy {
+      margin: 0 0 1.2rem;
+      color: var(--muted);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: .92rem;
+      line-height: 1.55;
+    }
+
+    .glance-grid-secondary { margin-top: .95rem; margin-bottom: 1.5rem; }
+
+    .glance-bottom-line-secondary {
+      margin-top: 2rem;
+      color: var(--brand-secondary);
+    }
+    html[data-theme="dark"] .glance-bottom-line-secondary { color: #E7D293; }
+
+    /* ══════════════════════════════════════════════════════════════
+       META FOOTER
+    ══════════════════════════════════════════════════════════════ */
+    .brief-meta-block {
+      padding: clamp(22px, 3.2vw, 38px) clamp(28px, 4vw, 52px);
+      border-top: 1px solid var(--border);
+      /* very subtle teal wash — intentional brand touch */
+      background: color-mix(in srgb, var(--surface) 91%, var(--brand-tertiary));
+    }
+
+    /* Decorative ECG rule — inline SVG data URI, no external dep */
+    .brief-meta-rule {
+      margin: 0 auto 1.6rem;
+      width: 100%;
+      max-width: 760px;
+      height: 18px;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='760' height='18' viewBox='0 0 760 18'%3E%3Cpath d='M0 9 H312 L320 4 L328 14 L337 9 H760' fill='none' stroke='%23C7A44A' stroke-width='1'/%3E%3C/svg%3E")
+        no-repeat center;
+      background-size: contain;
+      opacity: .75;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+
+    /* ── TEMPLATE ZONE G — Meta fields ── */
+    .brief-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: .9rem 1.3rem;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: .86rem;
+      line-height: 1.38;
+      color: var(--text);
+    }
+    .brief-meta-grid span {
+      display: block;
+      margin-bottom: .2rem;
+      color: var(--brand-secondary);
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .brief-footer-note {
+      margin-top: 1.25rem;
+      color: var(--muted);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: .82rem;
+      line-height: 1.5;
+    }
+    .brief-footer-note strong { color: var(--text); font-weight: 600; }
+
+    /* ══════════════════════════════════════════════════════════════
+       RESPONSIVE — TABLET
+    ══════════════════════════════════════════════════════════════ */
+    @media (max-width: 980px) {
+      .glance-grid       { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .brief-meta-grid   { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       RESPONSIVE — MOBILE
+    ══════════════════════════════════════════════════════════════ */
+    @media (max-width: 560px) {
+      body { font-size: 16.5px; }
+      .control-row { top: 10px; right: 10px; }
+      .print-button { display: none; }
+      .brief-page { width: min(100%, calc(100vw - 20px)); padding: 10px 0; }
+      .brief-sheet { border-radius: 14px; }
+      .brief-header, .brief-body, .brief-meta-block { padding: 22px 18px; }
+      .glance-grid, .brief-meta-grid { grid-template-columns: 1fr; }
+      .glance-card { min-height: auto; }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       REDUCED MOTION
+    ══════════════════════════════════════════════════════════════ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       PRINT — single consolidated block, no !important wars
+       Architecture: screen-only values are overridden cleanly here.
+       Accent border colours preserved via print-color-adjust on cards.
+    ══════════════════════════════════════════════════════════════ */
+    @media print {
+
+      /* — Page geometry — */
+      @page          { size: A4; margin: 12mm 11mm 13mm 11mm; }
+
+      /* — Reset surfaces to white / black — */
+      :root {
+        --bg:           #fff;
+        --surface:      #fff;
+        --text:         #111;
+        --muted:        #2A2A2A;
+        --border:       #B8B8B8;
+        --brand-secondary: #A8862E; /* slightly deeper gold — more legible on white */
+      }
+
+      html, body {
+        background: #fff !important;
+        color: #111 !important;
+        font-size: 10pt;
+        line-height: 1.35;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      /* — Hide controls — */
+      .control-row, .skip-link { display: none !important; }
+
+      /* — Sheet — */
+      .brief-page  { width: auto; margin: 0; padding: 0; }
+      .brief-sheet { border: 0; border-radius: 0; box-shadow: none; background: #fff !important; overflow: visible; }
+
+      /* — Header: white background, navy text — preserves premium feel in B&W — */
+      .brief-header {
+        padding: 0 0 11pt;
+        background: #fff !important;
+        color: #111 !important;
+        border-bottom: 1pt solid #B8B8B8;
+      }
+      .brief-kicker {
+        margin-bottom: 14pt;
+        color: var(--brand-primary) !important;
+        font-size: 7pt;
+        letter-spacing: .08em;
+      }
+      .brief-title {
+        max-width: none;
+        color: var(--brand-primary) !important;
+        font-size: 21pt;
+        line-height: 1.06;
+        letter-spacing: -.015em;
+        word-spacing: .02em;
+      }
+      .brief-subtitle {
+        max-width: none;
+        margin-top: 10pt;
+        color: #111 !important;
+        font-size: 8.5pt;
+        line-height: 1.35;
+      }
+
+      /* — Body — */
+      .brief-body { padding: 11pt 0 0; }
+
+      .section-label {
+        color: var(--brand-primary) !important;
+        font-size: 7.3pt;
+        letter-spacing: .08em;
+        margin-bottom: 5pt;
+      }
+
+      /* — Grids — */
+      .glance-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 8pt !important;
+        margin: 0 0 8pt !important;
+      }
+
+      /* — Cards —
+         print-color-adjust: exact is already set on .glance-card above,
+         so the coloured left border will be preserved in most browsers. — */
+      .glance-card {
+        padding: 6.5pt 7pt 7pt !important;
+        border: .55pt solid #B8B8B8 !important;
+        border-left: 2.5pt solid var(--accent-a) !important;
+        border-radius: 3pt !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      .glance-card.card-b {
+        border-left-color: var(--accent-b) !important;
+      }
+
+      .glance-card-label {
+        color: var(--brand-primary) !important;
+        font-size: 7.65pt;
+        line-height: 1.2;
+        margin-bottom: 2.5pt;
+        letter-spacing: .01em;
+        word-spacing: .02em;
+      }
+      .glance-card p {
+        color: #111 !important;
+        font-size: 7.4pt;
+        line-height: 1.3;
+        letter-spacing: .01em;
+        word-spacing: .03em;
+      }
+
+      /* — Bottom-line statements — */
+      .glance-bottom-line {
+        margin: 8pt 0 0 !important;
+        padding-top: 6pt !important;
+        border-top: .7pt solid #B8B8B8 !important;
+        color: #111 !important;
+        font-size: 8.3pt !important;
+        line-height: 1.35 !important;
+        letter-spacing: .01em !important;
+        word-spacing: .02em !important;
+      }
+      .glance-bottom-line span { display: block; margin-bottom: 1.5pt; }
+
+      /* — Subsection — */
+      .glance-subsection { margin-top: 10pt; }
+      .glance-subsection-rule { margin: 9pt auto 7pt; border-top: .7pt solid #B8B8B8; }
+
+      .glance-subheading {
+        margin: 0 0 3pt;
+        color: #111 !important;
+        font-size: 9pt;
+        line-height: 1.2;
+        letter-spacing: -.005em;
+      }
+      .glance-subcopy {
+        margin: 0 0 7pt;
+        color: #111 !important;
+        font-size: 7.65pt;
+        line-height: 1.3;
+        letter-spacing: .01em;
+        word-spacing: .03em;
+      }
+
+      .glance-grid-secondary { margin: 0 0 8pt !important; }
+
+      .glance-bottom-line-secondary {
+        margin-top: 10pt !important;
+        color: #111 !important;
+        font-size: 8.1pt !important;
+        line-height: 1.32 !important;
+      }
+
+      /* — Meta footer — */
+      .brief-meta-block {
+        margin-top: 9pt;
+        padding: 7pt 0 0;
+        border-top: 0;
+        background: #fff !important;
+      }
+      .brief-meta-rule {
+        width: 100%;
+        height: 12pt;
+        margin: 0 auto 6pt;
+        opacity: .7;
+      }
+      .brief-meta-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 5pt 9pt;
+        font-size: 6.9pt;
+        line-height: 1.25;
+        color: #111 !important;
+      }
+      .brief-meta-grid span {
+        color: var(--brand-primary) !important;
+        font-size: 5.9pt;
+        letter-spacing: 0 !important;
+        word-spacing: 0.03em !important;
+        margin-bottom: 1pt;
+      }
+      .brief-footer-note {
+        margin-top: 12pt;
+        color: #333 !important;
+        font-size: 6.9pt;
+        line-height: 1.3;
+        letter-spacing: 0.005em;
+        word-spacing: 0.04em;
+      }
+      .brief-footer-note strong { color: #111 !important; }
+
+    } /* end @media print */
+
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="control-row" aria-label="Document controls">
+    <button class="control-button print-button" id="printButton" type="button" aria-label="Print or save as PDF">Print / PDF</button>
+    <button class="control-button" id="themeToggle" type="button" aria-label="Switch colour theme">Theme</button>
+  </div>
+
+  <main id="main-content" class="brief-page" tabindex="-1">
+    <article class="brief-sheet" aria-labelledby="brief-title">
+
+      <!-- ══════════════════════════════════════════════════════════
+           TEMPLATE ZONE C+D+E — Header
+           Swap kicker, title, and subtitle for each briefing card.
+      ══════════════════════════════════════════════════════════════ -->
+      <header class="brief-header">
+        <div class="brief-kicker" aria-label="Series and document type">
+          HeartFirst Briefing Card · From Routine to Baseline
+        </div>
+        <h1 id="brief-title" class="brief-title">
+          Cholesterol Testing Is Foundational, Not Complete
+        </h1>
+        <p class="brief-subtitle">
+          A one-page summary of why the standard lipid panel remains essential,
+          but is best understood as the first layer of cardiovascular risk assessment.
+        </p>
+      </header>
+
+      <!-- ══════════════════════════════════════════════════════════
+           TEMPLATE ZONE F — Card grids
+           Each <div class="glance-card"> is one card.
+           Primary grid uses teal (--accent-a) left border.
+           Secondary grid: add class="card-b" for gold (--accent-b).
+           Add / remove cards freely — grid auto-fills 4 columns
+           on wide, 2 on tablet, 1 on mobile.
+      ══════════════════════════════════════════════════════════════ -->
+      <section class="brief-body" aria-label="At a Glance key findings">
+        <div class="section-label" aria-hidden="true">At a Glance</div>
+
+        <!-- PRIMARY GRID — 8 cards, 2 rows of 4 -->
+        <div class="glance-grid" aria-label="Key findings">
+
+          <div class="glance-card">
+            <span class="glance-card-label">One of prevention's major successes</span>
+            <p>Routine cholesterol testing enabled the statin era and remains central to cardiovascular prevention worldwide.</p>
+          </div>
+
+          <div class="glance-card">
+            <span class="glance-card-label">LDL-C lowering is outcome-proven</span>
+            <p>Randomised trials show that each 1&nbsp;mmol/L LDL-C reduction lowers major vascular events by approximately 22%.</p>
+          </div>
+
+          <div class="glance-card">
+            <span class="glance-card-label">"Routine" is not globally routine</span>
+            <p>In low- and middle-income countries, only about 40% of adults meeting WHO testing criteria have ever had cholesterol measured.</p>
+          </div>
+
+          <div class="glance-card">
+            <span class="glance-card-label">A "normal" LDL-C may not be the full picture</span>
+            <p>ApoB discordance, elevated Lipoprotein(a)&nbsp;(Lp(a)), metabolic risk, inflammatory risk, family history, or subclinical plaque may change interpretation.</p>
+          </div>
+
+          <div class="glance-card">
+            <span class="glance-card-label">"Baseline" is more accurate</span>
+            <p>The standard lipid panel is best understood as a foundational baseline assessment, not a complete cardiovascular risk evaluation.</p>
+          </div>
+
+          <div class="glance-card">
+            <span class="glance-card-label">Layered assessment is part of the future</span>
+            <p>Modern prevention should combine baseline lipids with risk context and selective escalation when evidence, risk, and resources justify it.</p>
+          </div>
+
+          <div class="glance-card">
+            <span class="glance-card-label">Lp(a) once, ApoB selectively</span>
+            <p>Guidelines increasingly support once-in-adulthood Lp(a) measurement, while ApoB can add precision in high-risk or discordant profiles.</p>
+          </div>
+
+          <div class="glance-card">
+            <span class="glance-card-label">Different settings need different priorities</span>
+            <p>Expand basic access where testing is absent; improve interpretation and layered assessment where baseline testing is already available.</p>
+          </div>
+
+        </div><!-- /primary grid -->
+
+        <!-- BOTTOM-LINE STATEMENT — primary section -->
+        <p class="glance-bottom-line">
+          <span>The standard lipid panel should not be discarded.</span>
+          <span>It should be understood as the first layer of cardiovascular risk assessment.</span>
+          <span>Essential, proven, and actionable, but not always sufficient on its own.</span>
+        </p>
+
+        <!-- SUBSECTION -->
+        <div class="glance-subsection">
+          <hr class="glance-subsection-rule">
+          <h2 class="glance-subheading">What This Means in Practice</h2>
+          <p class="glance-subcopy">
+            The standard panel still matters. The key is to use it well: as a baseline, in context,
+            and with selective escalation when the story does not fit the panel alone.
+          </p>
+
+          <!-- SECONDARY GRID — 4 cards, 1 row of 4. Note class="card-b" for gold border -->
+          <div class="glance-grid glance-grid-secondary" aria-label="Practical implications">
+
+            <div class="glance-card card-b">
+              <span class="glance-card-label">Do not discard the standard panel</span>
+              <p>It remains scalable, familiar, inexpensive, and directly connected to proven treatment decisions.</p>
+            </div>
+
+            <div class="glance-card card-b">
+              <span class="glance-card-label">Do not stop when risk seems discordant</span>
+              <p>If family history, metabolic risk, or clinical context do not match the panel, further assessment may be justified.</p>
+            </div>
+
+            <div class="glance-card card-b">
+              <span class="glance-card-label">Repeat testing should have a purpose</span>
+              <p>Retesting is most useful when it informs treatment response, adherence, changing risk, or a specific decision.</p>
+            </div>
+
+            <div class="glance-card card-b">
+              <span class="glance-card-label">Results should lead to action</span>
+              <p>Testing improves prevention only when results are interpreted, explained, and linked to clear next actions.</p>
+            </div>
+
+          </div><!-- /secondary grid -->
+
+          <!-- BOTTOM-LINE STATEMENT — secondary section -->
+          <p class="glance-bottom-line glance-bottom-line-secondary">
+            <span>Use the standard lipid panel as a starting point, not a stopping point.</span>
+            <span>Context matters. Follow-through matters.</span>
+            <span>And in selected cases, a fuller risk picture matters too.</span>
+          </p>
+
+        </div><!-- /subsection -->
+      </section><!-- /brief-body -->
+
+      <!-- ══════════════════════════════════════════════════════════
+           TEMPLATE ZONE G — Meta footer
+           Update the six metadata fields for each briefing card.
+      ══════════════════════════════════════════════════════════════ -->
+      <footer class="brief-meta-block" aria-label="Publication metadata">
+        <div class="brief-meta-rule" role="presentation" aria-hidden="true"></div>
+        <div class="brief-meta-grid">
+          <div><span>Development Period</span>2025–2026</div>
+          <div><span>Publication Date</span>2026</div>
+          <div><span>Version</span>1.0 · May 2026</div>
+          <div><span>Organisation</span>HeartFirst by Shyntesy</div>
+          <div><span>Contact</span>heartfirst@shyntesy.com</div>
+          <div><span>URL</span>https://heartfirst.shyntesy.com</div>
+        </div>
+        <p class="brief-footer-note">
+          <span>Based on the full evidence review</span><br>
+          <strong><em>From Routine to Baseline: Cholesterol Testing: The History, Global Reality, Value, Limits, and Future of Standard Cholesterol Testing</em></strong>
+        </p>
+        <div><span>Research Page</span>heartfirst.shyntesy.com/research/cholesterol-testing/</div>
+        <div><span>DOI</span>10.5281/zenodo.20413030</div>
+      </footer>
+
+    </article>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var root        = document.documentElement;
+      var themeToggle = document.getElementById('themeToggle');
+      var printButton = document.getElementById('printButton');
+      var STORE_KEY   = 'heartfirst-brief-theme';
+
+      function prefersDark() {
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      }
+
+      function applyTheme(theme, shouldStore) {
+        root.setAttribute('data-theme', theme);
+
+        if (shouldStore) {
+          try { localStorage.setItem(STORE_KEY, theme); } catch (e) {}
+        }
+
+        if (themeToggle) {
+          themeToggle.textContent = theme === 'dark' ? 'Light' : 'Dark';
+          themeToggle.setAttribute(
+            'aria-label',
+            theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
+          );
+          themeToggle.setAttribute(
+            'aria-pressed',
+            theme === 'dark' ? 'true' : 'false'
+          );
+        }
+      }
+
+      var saved;
+      try { saved = localStorage.getItem(STORE_KEY); } catch (e) {}
+
+      applyTheme(saved || (prefersDark() ? 'dark' : 'light'), false);
+
+      if (themeToggle) {
+        themeToggle.addEventListener('click', function () {
+          var current = root.getAttribute('data-theme') || 'light';
+          applyTheme(current === 'dark' ? 'light' : 'dark', true);
+        });
+      }
+
+      if (printButton) {
+        printButton.addEventListener('click', function () {
+          window.print();
+        });
+      }
+
+      if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+          var stored;
+          try { stored = localStorage.getItem(STORE_KEY); } catch (ex) {}
+
+          if (!stored) {
+            applyTheme(e.matches ? 'dark' : 'light', false);
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
