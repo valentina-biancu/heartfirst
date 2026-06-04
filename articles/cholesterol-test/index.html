@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en-GB" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Your Cholesterol Test Is Useful. But It Is Not the Whole Heart Risk Story. | HeartFirst</title>
+  <meta name="description" content="A HeartFirst LinkedIn article explaining why the standard cholesterol test remains essential, but is best understood as a baseline, not the whole heart risk story.">
+  <meta name="author" content="HeartFirst by Shyntesy">
+  <style>
+    :root{
+      --navy:#102A43;
+      --navy-2:#071522;
+      --ink:#152033;
+      --muted:#5B6678;
+      --soft:#F7F5EF;
+      --paper:#FFFFFF;
+      --line:#D9D4C8;
+      --gold:#C7A44A;
+      --teal:#2F6F73;
+      --teal-soft:#E7F1F1;
+      --crimson:#B4474B;
+      --shadow:0 22px 70px rgba(15,23,42,.13);
+      --shadow-soft:0 10px 28px rgba(15,23,42,.08);
+      --radius:24px;
+      --radius-sm:14px;
+      --max:1040px;
+      --read:740px;
+      --sans:Montserrat, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      --serif:Georgia, "Times New Roman", serif;
+      --bg:var(--soft);
+      --surface:var(--paper);
+      --text:var(--ink);
+      --subtle:var(--muted);
+      --border:var(--line);
+      --link:#174E55;
+    }
+    html[data-theme="dark"]{
+      --bg:#07111E;
+      --surface:#0E1B2A;
+      --text:#F8FAFC;
+      --subtle:#C4CEDB;
+      --border:#29384A;
+      --link:#8BD2D6;
+      --shadow:0 22px 70px rgba(0,0,0,.35);
+      --shadow-soft:0 10px 28px rgba(0,0,0,.28);
+      color-scheme:dark;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:
+        radial-gradient(circle at 8% 3%, rgba(199,164,74,.18), transparent 30%),
+        radial-gradient(circle at 92% 12%, rgba(47,111,115,.16), transparent 34%),
+        var(--bg);
+      color:var(--text);
+      font-family:var(--serif);
+      font-size:18px;
+      line-height:1.72;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+    a{color:var(--link);text-underline-offset:.18em;text-decoration-thickness:.07em}
+    p{margin:0 0 1.12rem}
+    strong{font-weight:800}
+    ul,ol{margin:0 0 1.2rem 1.35rem;padding:0}
+    li{margin:.35rem 0}
+    h1,h2,h3{font-family:var(--sans);line-height:1.08;letter-spacing:-.035em;margin:0;color:var(--text)}
+    h2{font-size:clamp(1.7rem,3vw,2.35rem);margin-top:3rem;margin-bottom:.9rem}
+    h3{font-size:clamp(1.18rem,2vw,1.45rem);margin-top:1.8rem;margin-bottom:.55rem;letter-spacing:-.02em}
+    .skip-link{position:fixed;left:12px;top:12px;z-index:99;transform:translateY(-150%);background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.65rem .85rem;font-family:var(--sans)}
+    .skip-link:focus{transform:translateY(0)}
+    .control-row{position:fixed;right:18px;top:18px;z-index:80;display:flex;gap:.6rem}
+    .mini-btn{border:1px solid color-mix(in srgb,var(--border) 82%,transparent);background:color-mix(in srgb,var(--surface) 92%,transparent);color:var(--text);border-radius:999px;padding:.55rem .85rem;font:800 .78rem/1 var(--sans);box-shadow:0 12px 32px rgba(15,23,42,.18);backdrop-filter:blur(16px);cursor:pointer}
+    .mini-btn:hover{border-color:var(--gold)}
+    .page{width:min(var(--max),calc(100vw - 32px));margin:0 auto;padding:34px 0 64px}
+    .shell{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero{position:relative;overflow:hidden;color:#fff;background:linear-gradient(135deg,rgba(7,21,34,.99),rgba(16,42,67,.98) 58%,rgba(7,21,34,.99));padding:clamp(28px,5vw,58px)}
+    .hero:before{content:"";position:absolute;inset:auto -18% -36% -18%;height:58%;background:radial-gradient(ellipse at center,rgba(199,164,74,.20),transparent 62%);pointer-events:none}
+    .brand-row{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:clamp(32px,6vw,72px)}
+    .brand-lockup{display:flex;align-items:center;gap:.72rem;font-family:var(--sans);font-weight:900;letter-spacing:-.025em;color:#fff;text-decoration:none}
+    .brand-mark{width:44px;height:44px;display:inline-block;filter:drop-shadow(0 6px 18px rgba(0,0,0,.22))}
+    .brand-text{font-size:1.1rem}
+    .brand-tag{font-family:var(--sans);font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:#E7D293;text-align:right}
+    .kicker{font-family:var(--sans);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;font-weight:900;color:#E7D293;margin-bottom:1rem}
+    .hero h1{font-size:clamp(2.3rem,6.2vw,5.45rem);max-width:900px;line-height:.96;color:#fff;letter-spacing:-.07em;margin-bottom:1.15rem}
+    .deck{max-width:790px;font:500 clamp(1.02rem,2vw,1.24rem)/1.55 var(--sans);color:#DBE7F4;margin-bottom:1.8rem}
+    .meta-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.85rem;margin-top:2rem;max-width:900px}
+    .meta-card{border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:.82rem;background:rgba(255,255,255,.06)}
+    .meta-card span{display:block;font:800 .66rem/1.2 var(--sans);text-transform:uppercase;letter-spacing:.12em;color:#E7D293;margin-bottom:.32rem}
+    .meta-card strong{display:block;font:700 .86rem/1.35 var(--sans);color:#fff}
+    .article{padding:clamp(26px,5vw,56px)}
+    .content{max-width:var(--read);margin:0 auto}
+    .lead{font-size:1.13rem;color:var(--text);line-height:1.72}
+    .pull{margin:2rem 0;padding:1.25rem 1.35rem;border-left:5px solid var(--gold);background:color-mix(in srgb,var(--gold) 10%,var(--surface));border-radius:0 16px 16px 0;font:700 1.08rem/1.55 var(--sans);letter-spacing:-.01em;color:var(--text)}
+    .journey{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.55rem;margin:2rem 0}
+    .journey div{border:1px solid var(--border);border-radius:16px;padding:.78rem .62rem;background:color-mix(in srgb,var(--surface) 90%,var(--teal));box-shadow:var(--shadow-soft);text-align:center}
+    .journey b{display:block;font:900 .78rem/1.2 var(--sans);color:var(--teal);letter-spacing:.01em}
+    html[data-theme="dark"] .journey b{color:#8BD2D6}
+    .journey small{display:block;margin-top:.32rem;font:600 .68rem/1.34 var(--sans);color:var(--subtle)}
+    .callout{margin:2rem 0;border:1px solid var(--border);border-radius:var(--radius-sm);background:color-mix(in srgb,var(--surface) 94%,var(--teal));box-shadow:var(--shadow-soft);overflow:hidden}
+    .callout .callout-head{padding:.88rem 1.1rem;background:color-mix(in srgb,var(--teal) 16%,var(--surface));font:900 .74rem/1 var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--teal)}
+    html[data-theme="dark"] .callout .callout-head{color:#8BD2D6}
+    .callout .callout-body{padding:1.1rem}
+    .myth-grid{display:grid;grid-template-columns:1fr;gap:.85rem;margin:1.4rem 0}
+    .myth{border:1px solid var(--border);border-radius:16px;padding:1rem 1.1rem;background:var(--surface)}
+    .myth b{display:block;font:900 .86rem/1.25 var(--sans);color:var(--crimson);margin-bottom:.35rem}
+    .myth p{font-size:.95rem;margin:0;color:var(--subtle)}
+    .table-wrap{overflow:auto;margin:1.6rem 0;border:1px solid var(--border);border-radius:16px}
+    table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:.86rem;line-height:1.45;background:var(--surface)}
+    th{background:var(--navy);color:#fff;text-align:left;padding:.8rem;white-space:nowrap}
+    td{padding:.8rem;border-top:1px solid var(--border);vertical-align:top;color:var(--text)}
+    tr:nth-child(even) td{background:color-mix(in srgb,var(--surface) 92%,var(--soft))}
+    .question-list{counter-reset:q;margin:1.5rem 0;display:grid;gap:.85rem}
+    .question{counter-increment:q;border:1px solid var(--border);border-radius:16px;padding:1rem 1.1rem;background:var(--surface);box-shadow:var(--shadow-soft)}
+    .question:before{content:counter(q);display:inline-grid;place-items:center;width:1.75rem;height:1.75rem;margin-right:.55rem;border-radius:50%;background:var(--gold);color:#111;font:900 .82rem/1 var(--sans)}
+    .question b{font-family:var(--sans);letter-spacing:-.01em}
+    .cta-panel{margin:3rem auto 2rem;max-width:840px;border-radius:24px;padding:clamp(22px,4vw,34px);background:linear-gradient(135deg,var(--navy-2),var(--navy));color:#fff;box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .cta-panel:after{content:"";position:absolute;right:-100px;top:-100px;width:260px;height:260px;border-radius:50%;background:rgba(199,164,74,.2)}
+    .cta-panel h2{color:#fff;margin:0 0 .8rem;font-size:clamp(1.65rem,3vw,2.25rem)}
+    .cta-panel p{color:#DBE7F4;max-width:700px}
+    .cta-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.2rem}
+    .btn{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:.78rem 1rem;font:900 .82rem/1 var(--sans);text-decoration:none;border:1px solid rgba(255,255,255,.24)}
+    .btn-gold{background:var(--gold);color:#111;border-color:var(--gold)}
+    .btn-ghost{color:#fff;background:rgba(255,255,255,.07)}
+    .refs{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--border);font-size:.86rem;color:var(--subtle)}
+    .refs h2{font-size:1.2rem;margin:0 0 .8rem;color:var(--text)}
+    .reuse{margin-top:2.5rem;padding-top:1.8rem;border-top:1px solid var(--border)}
+    .reuse-box{border:1px solid var(--border);border-radius:16px;padding:1rem 1.1rem;background:color-mix(in srgb,var(--surface) 94%,var(--gold));font-size:.95rem;margin:1rem 0;white-space:pre-wrap}
+    .footer{padding:1rem clamp(26px,5vw,56px);border-top:1px solid var(--border);background:color-mix(in srgb,var(--surface) 88%,var(--teal));font:600 .82rem/1.45 var(--sans);color:var(--subtle);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    .footer strong{color:var(--text)}
+    /* =========================
+      Key takeaway box
+      ========================= */
+    .key-takeaway-box {
+      margin: clamp(1.8rem, 4vw, 2.8rem) 0;
+      padding: clamp(1.25rem, 3vw, 1.75rem);
+      border: 1px solid color-mix(in srgb, var(--gold) 42%, var(--border));
+      border-left: 4px solid var(--gold);
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg,
+          color-mix(in srgb, var(--gold) 10%, var(--surface)) 0%,
+          var(--surface) 72%);
+      box-shadow: 0 16px 42px rgba(13, 34, 54, 0.08);
+    }
+    .key-takeaway-box h3 {
+      margin: 0 0 0.85rem;
+      color: var(--navy);
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+    .key-takeaway-lead {
+      margin: 0 0 1rem;
+      color: var(--text);
+      font-size: 1.04rem;
+      line-height: 1.5;
+    }
+    .key-takeaway-box ul {
+      margin: 1rem 0 0;
+      padding-left: 1.25rem;
+    }
+    .key-takeaway-box li {
+      margin-bottom: 0.72rem;
+      color: var(--text);
+      font-size: 0.96rem;
+      line-height: 1.58;
+    }
+    .key-takeaway-box li:last-child {
+      margin-bottom: 0;
+    }
+    .key-takeaway-box strong {
+      color: var(--navy);
+      font-weight: 800;
+    }
+    .key-takeaway-note {
+      margin: 1.15rem 0 0;
+      padding-top: 1rem;
+      border-top: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+    .action-label {
+      color: var(--text);
+      font-weight: 700;
+    }
+    html[data-theme="dark"] .key-takeaway-box {
+      background:
+        linear-gradient(135deg,
+          color-mix(in srgb, var(--gold) 14%, var(--surface)) 0%,
+          var(--surface) 74%);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+    }
+    html[data-theme="dark"] .key-takeaway-box h3,
+    html[data-theme="dark"] .key-takeaway-box strong {
+      color: var(--gold);
+    }
+    @media(max-width:850px){.meta-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.journey{grid-template-columns:1fr 1fr}.brand-row{align-items:flex-start}.brand-tag{text-align:left}}
+    @media(max-width:560px){body{font-size:16.7px}.control-row{right:10px;top:10px}.print-btn{display:none}.page{width:min(100%,calc(100vw - 18px));padding:10px 0}.shell{border-radius:18px}.hero,.article{padding:24px 18px}.meta-grid{grid-template-columns:1fr}.journey{grid-template-columns:1fr}.brand-tag{display:none}.hero h1{letter-spacing:-.055em}.footer{display:block;padding:1rem 18px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}}
+    @page{size:A4;margin:14mm 14mm 15mm}
+    @media print{
+      :root,html[data-theme="dark"]{--bg:#fff;--surface:#fff;--text:#000;--subtle:#333;--border:#999;--link:#000;--shadow:none;--shadow-soft:none;color-scheme:light}
+      html,body{background:#fff!important;color:#000!important;font-size:10.5pt;line-height:1.42}
+      .control-row,.skip-link{display:none!important}.page{width:auto;margin:0;padding:0}.shell{border:0;border-radius:0;box-shadow:none}.hero{padding:0 0 11pt;background:#fff!important;color:#000!important;border-bottom:1pt solid #999}.hero:before{display:none}.brand-row{margin-bottom:18pt}.brand-lockup,.brand-text{color:#102A43!important}.brand-tag,.kicker{color:#2F6F73!important}.brand-mark{filter:none}.hero h1{font-size:28pt;color:#102A43!important;line-height:1.02;letter-spacing:-.025em}.deck{font-size:10pt;color:#000!important;max-width:none}.meta-grid{display:none}.article{padding:12pt 0 0}.content{max-width:none}.lead{font-size:10.8pt}.pull{break-inside:avoid;border-left:3pt solid #C7A44A;background:#fff!important;padding:8pt 10pt;font-size:10pt}.journey{grid-template-columns:repeat(5,1fr);gap:4pt;break-inside:avoid}.journey div{box-shadow:none;border:.7pt solid #999;padding:5pt}.journey b{font-size:7.6pt;color:#102A43!important}.journey small{font-size:6.8pt;color:#000!important}.callout,.myth,.question,.cta-panel{break-inside:avoid;box-shadow:none}.callout{background:#fff!important}.callout .callout-head{background:#fff!important;color:#102A43!important;border-bottom:.7pt solid #999}.myth{background:#fff!important}.table-wrap{break-inside:avoid}th{background:#102A43!important;color:#fff!important}td,th{padding:5pt;font-size:7.8pt}.cta-panel{background:#fff!important;color:#000!important;border:1pt solid #999;padding:10pt}.cta-panel:after{display:none}.cta-panel h2{color:#102A43!important}.cta-panel p{color:#000!important}.cta-actions{display:none}.reuse{display:none}.footer{padding:8pt 0 0;background:#fff!important;border-top:1pt solid #999;color:#000!important}.refs{font-size:7.7pt;color:#000!important}a{color:#000!important;text-decoration:none}h2{font-size:17pt;margin-top:18pt;break-after:avoid}h3{font-size:12pt;margin-top:11pt;break-after:avoid}p,li{orphans:3;widows:3}
+      .key-takeaway-box {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin: 1rem 0 1.3rem;
+        padding: 0.95rem 1rem;
+        border: 1px solid #d7dce2;
+        border-left: 4px solid #c7a44a;
+        border-radius: 10px;
+        background: #ffffff;
+        box-shadow: none;
+      }
+      .key-takeaway-box h3,
+      .key-takeaway-box strong {
+        color: #102a43;
+      }
+      .key-takeaway-box li,
+      .key-takeaway-note {
+        font-size: 9.5pt;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="control-row" aria-label="Page controls">
+    <button class="mini-btn print-btn" type="button" id="printButton">Print</button>
+    <button class="mini-btn" type="button" id="themeToggle">Dark</button>
+  </div>
+
+  <main class="page" id="main-content" tabindex="-1">
+    <article class="shell" aria-labelledby="article-title">
+      <header class="hero">
+        <div class="brand-row">
+          <a class="brand-lockup" href="https://heartfirst.shyntesy.com" aria-label="HeartFirst by Shyntesy">
+            <svg class="brand-mark" viewBox="0 0 64 64" role="img" aria-label="HeartFirst heart and ECG mark" xmlns="http://www.w3.org/2000/svg">
+              <path d="M32 55S9 41 9 22.8C9 13.8 15.8 8 23.4 8c4.2 0 7.4 1.9 8.6 4.3C33.2 9.9 36.4 8 40.6 8 48.2 8 55 13.8 55 22.8 55 41 32 55 32 55Z" fill="#C7A44A"/>
+              <path d="M10 33h12l5-11 8 22 5-15h14" fill="none" stroke="#102A43" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="brand-text">HeartFirst</span>
+          </a>
+          <div class="brand-tag">Cholesterol Testing</div>
+        </div>
+        <div class="kicker">Baseline test · Hidden risk · Next action</div>
+        <h1 id="article-title">Your Cholesterol Test Is Useful. But It Is Not Your Complete Heart Risk Picture</h1>
+        <p class="deck">The standard lipid panel remains one of cardiovascular prevention’s major successes. The problem is not that we test cholesterol. The problem is when we treat this one useful baseline as if it is a complete heart risk picture.</p>
+        <div class="meta-grid" aria-label="Article metadata">
+          <div class="meta-card"><span>Focus</span><strong>Standard cholesterol testing as baseline, not the complete picture</strong></div>
+          <div class="meta-card"><span>For</span><strong>People preparing better heart risk conversations</strong></div>
+          <div class="meta-card"><span>Core idea</span><strong>Baseline lipids matter, and context matters too</strong></div>
+          <div class="meta-card"><span>Journey</span><strong>Recognise → Clarify → Navigate → Prevent → Protect</strong></div>
+        </div>
+      </header>
+
+      <section class="article">
+        <div class="content">
+          <p class="lead">A &quot;normal&quot; cholesterol result can be reassuring. It can also be incomplete.</p>
+          <p>This distinction matters because many people leave their health team appointment reassured by a standard cholesterol panel, without realising it may have answered only part of the bigger question: am I at risk of having a heart attack or stroke, or is everything okay?</p>
+          <p>They were tested for total cholesterol, LDL-C, HDL-C, and triglycerides. These markers are useful. They are familiar. They support proven prevention decisions. They helped make cardiovascular risk measurable at population scale.</p>
+          <p><strong>But they do not show every important heart risk factor.</strong></p>
+
+          <div class="pull">The standard lipid panel should not be discarded. It should be understood as a baseline: essential, proven, and actionable, but not always complete on its own.</div>
+
+          <div class="key-takeaway-box" aria-labelledby="key-takeaway-title">
+            <h3 id="key-takeaway-title">Key takeaway</h3>
+
+            <p class="key-takeaway-lead">
+              <strong>Your cholesterol test is useful. But it is not your complete heart risk picture.</strong>
+            </p>
+
+            <ul>
+              <li><strong>About 1 in 5 people</strong> have elevated Lp(a), an inherited heart risk that is not included in a standard lipid panel unless separately ordered.</li>
+              <li>A &quot;normal&quot; result can be <strong>reassuring but incomplete</strong> when family history, metabolic patterns, ApoB particle context, or plaque risk point in another direction.</li>
+              <li>The solution is not to discard the standard panel. It is to treat it as a <strong>baseline</strong>, then interpret risk in context.</li>
+              <li><span class="action-label">What to do:</span> <strong>record your results</strong>, <strong>map your family history</strong>, <strong>prepare focused questions for your health team</strong>, and <strong>choose one clear next action</strong>.</li>
+            </ul>
+
+            <p class="key-takeaway-note">
+              <em>HeartFirst helps you clarify hidden and incomplete heart risk. We do not diagnose or treat. We help you prepare for better conversations with your health team.</em>
+            </p>
+          </div>
+
+          <h2>What the standard cholesterol test does well</h2>
+          <p>Let’s start with respect for what works.</p>
+          <p>The standard lipid panel has helped transform cardiovascular prevention. LDL-C lowering is one of the most strongly validated strategies in medicine. HDL-C and triglycerides add useful context. Non-HDL-C can provide a broader estimate of cholesterol carried by atherogenic particles when calculated from the same panel.</p>
+          <p>For many people, these results are enough to guide the next sensible conversation: lifestyle, blood pressure, smoking exposure, diabetes risk, medication, follow-up, or repeat testing when clinically useful.</p>
+          <p><strong>The mistake is not in using the standard panel.</strong><br>The mistake is allowing it to become a false finish line.</p>
+
+          <h2>The common misunderstanding</h2>
+          <p>Laboratory reports are often designed around reference ranges. A value appears &quot;normal&quot;, &quot;borderline&quot;, or &quot;high&quot;. That structure is convenient, but it can create a dangerous misunderstanding:</p>
+          <p><em>within range</em> can be mistaken for <em>low risk</em>.</p>
+          <p>These are not the same thing.</p>
+          <p>A lipid result is a data point. Cardiovascular risk is a layered pattern. It may include age, blood pressure, smoking or nicotine exposure, insulin resistance, kidney function, inflammatory context, family history, inherited risk, plaque burden, previous events, and the full pattern of lipid particles.</p>
+          <p>This is why a person can have a standard result that looks acceptable yet still deserve a fuller conversation.</p>
+
+          <h2>Five important risk factors a standard lipid does not reveal</h2>
+          <div class="layer-list" aria-label="Five things a standard lipid panel does not reveal">
+            <div class="layer-card">
+              <b>Lipoprotein(a) (Lp(a))</b>
+              <p>An inherited risk factor affecting about one in five people. It is not included in a standard cholesterol panel so must be separately requested. Major guidelines now recommend Lp(a) be measured at least once in adulthood.</p>
+            </div>
+            <div class="layer-card">
+              <b>ApoB particle context</b>
+              <p>LDL-C measures how much cholesterol is carried inside LDL particles. ApoB measures how many atherogenic particles are actually present. When triglycerides are high or metabolic risk is present, these two numbers can tell different stories, and ApoB often gives the clearer picture.</p>
+            </div>
+            <div class="layer-card">
+              <b>Metabolic risk patterns</b>
+              <p>Insulin resistance, high triglycerides, central adiposity, and glycaemic markers can change how lipid results are interpreted.</p>
+            </div>
+            <div class="layer-card">
+              <b>Family history context</b>
+              <p>Early heart attack, stroke, valve disease, very high cholesterol, or sudden cardiac death in close relatives can raise concern even when test result numbers look acceptable.</p>
+            </div>
+            <div class="layer-card">
+              <b>Plaque build-up and instability</b>
+              <p>Plaque can build up inside the arteries, become inflamed or unstable, or rupture, triggering clot formation that blocks blood flow. Different imaging tests are used to answer different plaque questions.</p>
+            </div>
+          </div>
+
+          <h2>What is often misunderstood</h2>
+          <div class="myth-grid">
+            <div class="myth"><b>Myth: “My cholesterol is normal, so my heart risk is low.”</b><p>A normal or acceptable panel may be reassuring, but it is not a complete cardiovascular risk assessment. Test results need context.</p></div>
+            <div class="myth"><b>Myth: “If Lp(a) mattered, it would be on the standard panel.”</b><p>Lp(a) matters greatly. Around one in five people have elevated levels that can raise cardiovascular risk and amplify other risks, but most people do not have elevated Lp(a). Standard lipid panels are designed to provide a scalable baseline, not to include every test that may matter to every person.</p></div>
+            <div class="myth"><b>Myth: “LDL-C tells me particle number.”</b><p>LDL-C tells you how much cholesterol is carried inside LDL particles. ApoB gives a closer view of how many atherogenic particles are present.</p></div>
+            <div class="myth"><b>Myth: “More testing is always better.”</b><p>The better principle is selective escalation. Additional tests are most useful when they can change interpretation, follow-up, or the next action.</p></div>
+            <div class="myth"><b>Myth: “Lifestyle changes can fix any cholesterol risk.”</b><p>Improving diet, movement, sleep, smoking exposure, blood pressure, and metabolic health can substantially reduce overall cardiovascular risk. But some risks, such as Lp(a), are inherited and are not directly affected by diet, exercise, or lifestyle changes. This is one reason why testing matters: you cannot manage a hidden inherited risk you do not even know you have.</p></div>
+            <div class="myth"><b>Myth: “If I change my diet to be healthier, I can get my Lp(a) to go down.”</b><p>Lp(a) is inherited and usually remains stable over your lifetime. Improving your diet can improve cardiovascular health, but it will not lower your Lp(a).</p></div>
+          </div>
+          <h2>Risk in context</h2>
+          <p>Effective prevention does not come from focusing exclusively on cholesterol, metabolism, inflammation, imaging, or inherited risk.</p>
+          <p>It comes from understanding your cholesterol results and other risks in context.</p>
+
+          <div class="callout">
+            <div class="callout-head">Context map</div>
+            <div class="callout-body">
+              <p><strong>Start with baseline lipids.</strong></p>
+              <p><strong>Then build context systematically.</strong></p>
+              <p><strong>Record what you know.</strong></p>
+              <p><strong>Name what you do not know.</strong></p>
+              <p><strong>Have informed conversations with family and your health team.</strong></p>
+              <p><strong>Agree the most useful next action, then do it.</strong></p>
+            </div>
+          </div>
+          <h2>What this means for patients and families</h2>
+          <p>You do not need to become a lipidologist. You do not need to order every test. You do not need to panic because one article or post tells you a standard panel is incomplete.</p>
+          <p><strong>You need a clear, useful system.</strong></p>
+          <div class="journey" aria-label="HeartFirst journey">
+            <div><b>Recognise</b><small>cardiovascular disease is the world’s #1 killer, and hidden risks matter</small></div>
+            <div><b>Clarify</b><small>organise what you know and what is missing</small></div>
+            <div><b>Navigate</b><small>determine what to discuss with your family and health team</small></div>
+            <div><b>Prevent</b><small>take early decisive action</small></div>
+            <div><b>Protect</b><small>build and maintain layers of defence</small></div>
+          </div>
+          <p>The goal is not to turn a cholesterol test into anxiety. The goal is to move from partial information to clear prevention action.</p>
+
+          <h2>Five questions worth preparing</h2>
+          <p>These are not demands. They are focused conversation starters for your health team.</p>
+          <div class="question-list">
+            <div class="question"><b>Given that major guidelines now recommend every adult be tested for Lp(a) at least once, is now the right time for me to take an Lp(a) test?</b></div>
+            <div class="question"><b>Do my standard cholesterol results align with my overall health picture, or would checking ApoB give us a clearer view of my actual particle burden?</b></div>
+            <div class="question"><b>How do my blood pressure, blood sugar, and family history change how we should interpret these lipid numbers?</b></div>
+            <div class="question"><b>If my results are stable, how often should we recheck them, and what would prompt a deeper look?</b></div>
+            <div class="question"><b>What is the single most useful next step I can take now to reduce my overall cardiovascular risk?</b></div>
+          </div>
+
+          <h2>The practical HeartFirst method</h2>
+          <p>When risk feels scattered, start with four boxes:</p>
+          <ul>
+            <li><strong>Known:</strong> verified results, dates, units, diagnoses, family events, medications, and previous tests.</li>
+            <li><strong>Unknown:</strong> missing results, untested markers, unclear family history, or uncertainty about what was included in previous tests.</li>
+            <li><strong>To discuss:</strong> two or three focused questions for your health team.</li>
+            <li><strong>Next action:</strong> one practical action: gather records, ask about a test, book follow-up, start a prevention habit, or clarify family risk.</li>
+          </ul>
+          <p>This is how a test result becomes useful. Not by pretending it says everything, and not by dismissing it because it tells only part of your story.</p>
+
+          <h2>The bottom line</h2>
+          <p>Your cholesterol test is useful.<br>It may be one of the most useful prevention tools you have today.<br>But it does not always reveal enough of your heart risk picture to reduce your overall risk.</p>
+          <p>The better question is not whether the standard lipid panel matters. It does.</p>
+          <p>The better question is whether it has been interpreted in context, with enough attention to hidden and incomplete risk.</p>
+          <p>That is where better prevention begins: not with more noise, but with clearer risk, better questions, and early action.</p>
+
+          <section class="cta-panel" aria-label="HeartFirst next step">
+            <h2>Start with one clear next step.</h2>
+            <p><strong>Start with what you know. Name what may be missing. Prepare better conversations. Choose one useful next action.</strong></p>
+            <div class="cta-actions">
+              <a class="btn btn-gold" href="https://heartfirst.shyntesy.com/toolkit/">Explore the Toolkit</a>
+              <a class="btn btn-ghost" href="https://heartfirst.shyntesy.com/research/cholesterol-testing/">Read the evidence review</a>
+            </div>
+          </section>
+
+          <section class="refs" aria-label="References and notes">
+            <h2>Selected source notes</h2>
+            <ol>
+              <li>World Heart Federation. Prevention. https://world-heart-federation.org/what-we-do/prevention/</li>
+              <li>ACC/AHA. Updated guideline for managing lipids/cholesterol, 2026. https://www.acc.org/about-acc/press-releases/2026/03/13/18/01/accaha-issue-updated-guideline-for-managing-lipids-cholesterol</li>
+              <li>ESC/EAS. 2025 focused update of the 2019 ESC/EAS dyslipidaemia guidelines. https://www.atherosclerosis-journal.com/article/S0021-9150(25)01377-2/fulltext</li>
+              <li>CDC. About Lipoprotein(a). https://www.cdc.gov/heart-disease-family-history/about/about-lipoprotein-a.html</li>
+            </ol>
+            <p><strong>Medical note:</strong> This article is for education and preparation only. It does not provide medical advice, diagnosis, treatment, or urgent support. Discuss testing, interpretation, and prevention decisions with qualified health professionals who can consider your personal situation.</p>
+          </section>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div><strong>HeartFirst by Shyntesy</strong> · heartfirst@shyntesy.com</div>
+        <div>Recognise → Clarify → Navigate → Prevent → Protect</div>
+      </footer>
+    </article>
+  </main>
+
+  <script>
+    (function(){
+      var root=document.documentElement;
+      var btn=document.getElementById('themeToggle');
+      var printBtn=document.getElementById('printButton');
+      var saved=localStorage.getItem('heartfirst-theme-linkedin');
+      if(saved==='dark'||saved==='light'){root.setAttribute('data-theme',saved);}
+      function label(){btn.textContent=root.getAttribute('data-theme')==='dark'?'Light':'Dark';}
+      if(btn){label();btn.addEventListener('click',function(){var next=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',next);localStorage.setItem('heartfirst-theme-linkedin',next);label();});}
+      if(printBtn){printBtn.addEventListener('click',function(){window.print();});}
+    })();
+  </script>
+</body>
+</html>
