@@ -1,0 +1,15 @@
+# THE PRECISION CARDIOVASCULAR OPTIMISATION WORKBOOK & DOCTOR SCRIPT
+> Master Repository: Full-text protocols, lipid metrics tracking, and physician scripts.
+
+## PART 1: THE PRECISION CARDIOVASCULAR OPTIMISATION WORKBOOK
+> Subtitle: Cardio Workbook & Operational Playbook
+
+... (Your full workbook content goes here) ...
+... (Your internal bottom borders like --- are perfectly fine here) ...
+
+---
+
+## PART 2: THE HEARTFIRST DOCTOR SCRIPT
+> Subtitle: Clinical Consultation Script & Physician Brief
+
+... (Your full doctor script content goes here) ...
