@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <title>HeartFirst Risk Atlas — Clot</title>
+  <meta name="description" content="HeartFirst Risk Atlas: an interactive educational clot explorer showing how a clot can form at a rupture site and reduce blood flow." />
+  <script src="../atlas.js"></script>
+  <link rel="stylesheet" href="../atlas.css" />
+  <style>
+    /* Clot-module specific visual polish only. Shared shell lives in atlas.css. */
+    .clot-label text{paint-order:stroke;stroke:rgba(7,17,28,.64);stroke-width:4px;stroke-linejoin:round}
+    html[data-theme="light"] .clot-label text{stroke:rgba(255,255,255,.72)}
+  </style>
+</head>
+<body data-atlas-topic="Clot explorer">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header id="topbarRoot" class="topbar" aria-label="Site header"></header>
+
+  <main id="main" class="page">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="https://heartfirst.shyntesy.com/">HeartFirst</a>
+      <span class="sep">›</span>
+      <a href="https://heartfirst.shyntesy.com/risks/">Risks</a>
+      <span class="sep">›</span>
+      <span aria-current="page">Clot</span>
+    </nav>
+
+    <section class="hero" aria-labelledby="hero-h">
+      <div class="hero-card">
+        <div class="kicker">Risk Atlas · clot</div>
+        <h1 id="hero-h">How a clot can form at a rupture site and reduce blood flow.</h1>
+        <p class="hero-sub">
+          This risk atlas picks up where the Rupture atlas stops: exposed plaque contents are already in contact with flowing blood. It shows how <strong>platelets, clotting proteins, and a growing thrombus</strong> can turn a surface injury into a blood-flow problem. Use the slider to move from exposure to platelet attachment, fibrin mesh formation, clot growth, and severe flow reduction.
+        </p>
+      </div>
+      <aside class="scope-card" aria-labelledby="scope-h">
+        <h2 id="scope-h" class="scope-title">What this atlas does</h2>
+        <ul class="scope-list">
+          <li>Shows clot formation as a local process at a rupture site.</li>
+          <li>Separates platelet attachment, fibrin mesh formation, clot growth, and flow reduction.</li>
+          <li>Stops at reduced or blocked blood flow without turning this page into heart attack or stroke.</li>
+          <li>Supports better questions and discussions with your health team.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="app-grid" aria-label="Interactive clot explorer">
+      <aside id="riskSidebar" class="nav-card" aria-labelledby="nav-h"></aside>
+
+      <section class="visual-card" aria-labelledby="visual-h">
+        <h2 id="visual-h" class="sr-only">Clot visualisation</h2>
+        <div class="control-row">
+          <div class="stage-wrap">
+            <label for="progressSlider">Progression slider</label>
+            <input id="progressSlider" type="range" min="0" max="100" step="1" value="0" aria-describedby="stageText" />
+          </div>
+          <button id="playBtn" class="btn secondary" aria-pressed="false">Play</button>
+          <button id="labelsBtn" class="btn secondary" aria-pressed="true">Labels on</button>
+          <button id="detailBtn" class="btn secondary" aria-pressed="false" aria-describedby="detailHelp">Coagulation view</button>
+          <button id="resetBtn" class="btn ghost">Reset</button>
+        </div>
+        <p class="control-help" id="detailHelp">Coagulation view reveals platelet activation cues, fibrin strands, and trapped blood elements without changing the stage.</p>
+
+        <div class="visual-wrap">
+          <div class="canvas-shell" aria-live="polite">
+            <div id="stageText" class="stage-pill">Exposed plaque surface</div>
+            <svg id="clotSvg" viewBox="0 0 940 620" role="img" aria-labelledby="svgTitle svgDesc">
+              <title id="svgTitle">Interactive clot formation visualisation</title>
+              <desc id="svgDesc">A 3D-style artery segment and cross-section showing platelets and fibrin forming a clot at a plaque rupture site, progressively reducing blood flow.</desc>
+              <defs>
+                <linearGradient id="bgGlow" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#12314b" />
+                  <stop offset="100%" stop-color="#08111c" />
+                </linearGradient>
+                <linearGradient id="outerWallGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#9b6d6d" />
+                  <stop offset="100%" stop-color="#603636" />
+                </linearGradient>
+                <linearGradient id="innerWallGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#e88a8a" />
+                  <stop offset="100%" stop-color="#a84545" />
+                </linearGradient>
+                <linearGradient id="bloodGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#ff8585" />
+                  <stop offset="50%" stop-color="#d13c4e" />
+                  <stop offset="100%" stop-color="#ff8585" />
+                </linearGradient>
+                <linearGradient id="plaqueGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#f7d587" />
+                  <stop offset="100%" stop-color="#ba8a2e" />
+                </linearGradient>
+                <linearGradient id="coreGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#8e4a22" />
+                  <stop offset="100%" stop-color="#4a231a" />
+                </linearGradient>
+                <linearGradient id="capGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#fdeab7" />
+                  <stop offset="100%" stop-color="#dfc184" />
+                </linearGradient>
+                <linearGradient id="clotGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#ffcf91" />
+                  <stop offset="38%" stop-color="#c74343" />
+                  <stop offset="100%" stop-color="#671f2b" />
+                </linearGradient>
+                <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feDropShadow dx="0" dy="8" stdDeviation="12" flood-opacity="0.28" />
+                </filter>
+                <marker id="arrowGold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#f0d48a"></path>
+                </marker>
+              </defs>
+
+              <rect x="0" y="0" width="940" height="620" fill="url(#bgGlow)" opacity=".45"></rect>
+
+              <g id="tube" filter="url(#softShadow)">
+                <path d="M165,220 C245,192 640,192 725,220 L725,400 C645,430 245,430 165,400 Z" fill="url(#outerWallGrad)" opacity=".96"></path>
+                <path d="M182,245 C252,220 628,220 708,245 L708,376 C632,400 252,400 182,376 Z" fill="url(#innerWallGrad)" opacity=".98"></path>
+                <path id="lumenBody" d="M205,270 C270,247 610,247 685,270 L685,351 C615,372 270,372 205,351 Z" fill="url(#bloodGrad)"></path>
+
+                <ellipse cx="165" cy="310" rx="44" ry="92" fill="url(#outerWallGrad)"></ellipse>
+                <ellipse cx="165" cy="310" rx="28" ry="72" fill="url(#innerWallGrad)"></ellipse>
+                <ellipse id="frontLumen" cx="165" cy="310" rx="16" ry="50" fill="url(#bloodGrad)"></ellipse>
+
+                <ellipse cx="725" cy="310" rx="44" ry="92" fill="#5b3333" opacity=".85"></ellipse>
+                <ellipse cx="725" cy="310" rx="28" ry="72" fill="#923d46" opacity=".9"></ellipse>
+                <ellipse id="backLumen" cx="725" cy="310" rx="16" ry="50" fill="#c63d4b"></ellipse>
+
+                <g id="plaqueBase" opacity="1">
+                  <path id="plaqueShape" d="M250,332 C310,350 465,356 545,347 C603,341 638,323 667,300 C647,312 623,314 600,311 C520,299 424,292 310,302 C284,304 263,313 250,332 Z" fill="url(#plaqueGrad)"></path>
+                  <path id="coreShape" d="M330,319 C390,334 515,336 592,316 C558,347 427,359 323,337 C309,333 310,323 330,319 Z" fill="url(#coreGrad)" opacity=".78"></path>
+                  <path id="capLeft" d="M252,328 C315,338 435,342 506,337" fill="none" stroke="url(#capGrad)" stroke-width="16" stroke-linecap="round" opacity=".9"></path>
+                  <path id="capRight" d="M606,318 C631,313 651,307 665,300" fill="none" stroke="url(#capGrad)" stroke-width="16" stroke-linecap="round" opacity=".9"></path>
+                  <path id="exposedSurface" d="M516,321 C542,315 575,315 603,319" fill="none" stroke="#ffded8" stroke-width="8" stroke-linecap="round" opacity=".82"></path>
+                </g>
+
+                <g id="clotSite">
+                  <path id="clotMass" d="M510,316 C536,294 594,294 626,318 C615,356 542,363 505,334 C496,326 499,320 510,316 Z" fill="url(#clotGrad)" opacity="0" transform="translate(565 325) scale(.18 .12) translate(-565 -325)"></path>
+                  <g id="platelets"></g>
+                  <g id="fibrinMesh" stroke="#f7e0ac" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0"></g>
+                  <g id="trappedCells"></g>
+                  <g id="activationArrows" opacity="0" stroke="#f0d48a" stroke-width="2.4" fill="none" marker-end="url(#arrowGold)">
+                    <path d="M504,260 C520,278 535,292 548,305"></path>
+                    <path d="M620,254 C605,276 591,292 577,307"></path>
+                    <path d="M665,312 C637,313 614,316 594,322"></path>
+                  </g>
+                </g>
+
+                <g id="flowParticles"></g>
+              </g>
+
+              <text x="615" y="350" font-family="Montserrat, Roboto, sans-serif" font-size="18" fill="#aac0d3">Cross-section view</text>
+              <g id="crossSection" transform="translate(650,430)" filter="url(#softShadow)">
+                <ellipse cx="0" cy="0" rx="150" ry="110" fill="#693737"></ellipse>
+                <ellipse cx="0" cy="0" rx="120" ry="88" fill="#a24447"></ellipse>
+                <ellipse id="crossLumen" cx="0" cy="0" rx="72" ry="52" fill="url(#bloodGrad)"></ellipse>
+                <path id="crossPlaque" d="M-92,15 C-100,-35 -55,-85 0,-84 C34,-84 58,-69 75,-48 C48,-44 27,-33 7,-10 C-9,8 -13,31 -10,58 C-42,62 -83,51 -92,15 Z" fill="url(#plaqueGrad)" opacity=".95"></path>
+                <path id="crossCore" d="M-72,16 C-74,-22 -42,-58 4,-57 C28,-56 47,-46 59,-33 C35,-27 16,-16 1,2 C-10,18 -13,36 -10,52 C-38,52 -66,41 -72,16 Z" fill="url(#coreGrad)" opacity=".78"></path>
+                <path id="crossCapGap" d="M-72,-8 C-61,-51 -13,-68 35,-51" fill="none" stroke="url(#capGrad)" stroke-width="14" stroke-linecap="round" opacity=".86"></path>
+                <path id="crossClot" d="M-32,-43 C7,-67 56,-52 72,-9 C62,28 19,45 -25,31 C-49,18 -52,-23 -32,-43 Z" fill="url(#clotGrad)" opacity="0" transform="scale(.16 .12)"></path>
+                <g id="crossFibrin" stroke="#f7e0ac" stroke-width="2" stroke-linecap="round" fill="none" opacity="0">
+                  <path d="M-24,-37 C0,-15 28,-12 60,-22"></path>
+                  <path d="M-18,-2 C12,-22 37,6 66,-4"></path>
+                  <path d="M-34,18 C-2,3 30,29 58,17"></path>
+                </g>
+                <g id="crossPlatelets"></g>
+              </g>
+
+              <g id="labelsGroup" class="clot-label" font-family="Montserrat, Roboto, system-ui, sans-serif" font-size="18" fill="#eef5fb" stroke="none">
+                <g id="lblRupture"><line x1="475" y1="200" x2="535" y2="305" stroke="#ffded8" stroke-width="2"></line><circle cx="535" cy="305" r="3" fill="#ffded8"></circle><text x="388" y="190">Rupture site</text></g>
+                <g id="lblPlatelets" opacity="0"><line x1="710" y1="220" x2="613" y2="314" stroke="#f0d48a" stroke-width="2"></line><circle cx="613" cy="314" r="3" fill="#f0d48a"></circle><text x="665" y="210">Platelets attach</text></g>
+                <g id="lblFibrin" opacity="0"><line x1="735" y1="285" x2="592" y2="328" stroke="#f7e0ac" stroke-width="2"></line><circle cx="592" cy="328" r="3" fill="#f7e0ac"></circle><text x="742" y="290">Fibrin mesh</text></g>
+                <g id="lblClot" opacity="0"><line x1="505" y1="430" x2="550" y2="345" stroke="#ff8d7f" stroke-width="2"></line><circle cx="550" cy="345" r="3" fill="#ff8d7f"></circle><text x="420" y="452">Growing clot</text></g>
+                <g id="lblFlow" opacity="0"><line x1="125" y1="455" x2="190" y2="342" stroke="#7fd5ff" stroke-width="2"></line><circle cx="190" cy="342" r="3" fill="#7fd5ff"></circle><text x="46" y="475">Reduced flow</text></g>
+              </g>
+            </svg>
+          </div>
+
+          <aside class="legend" aria-labelledby="legend-h">
+            <h3 id="legend-h">Visual guide</h3>
+            <p style="margin:0 0 8px;color:var(--muted);font-size:.92rem;line-height:1.5">This module starts after rupture. It focuses on how blood can react at the exposed surface and how a clot can reduce flow.</p>
+            <div class="legend-row"><div class="swatch" style="background:#d13c4e"></div><div><strong>Blood flow</strong><br>Shown in red within the artery lumen.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#f0d48a"></div><div><strong>Platelets</strong><br>Small blood elements that can attach at a damaged surface.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#f7e0ac"></div><div><strong>Fibrin mesh</strong><br>Protein strands that help stabilise a clot.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#8e4a22"></div><div><strong>Exposed plaque contents</strong><br>The surface where blood can react after rupture.</div></div>
+            <div class="info-block">
+              <div class="metric"><div class="label">Current stage</div><div id="clotMetricStage" class="value">Exposure</div></div>
+              <div class="metric"><div class="label">Flow impact</div><div id="clotMetricFlow" class="value">Low</div></div>
+              <div class="metric"><div class="label">Coagulation view</div><div id="clotMetricDetail" class="value">Off</div></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <aside class="panel-card" aria-labelledby="panel-h">
+        <h2 id="panel-h" class="panel-title">Stage explanation</h2>
+        <div id="stageHeadline" class="subhead" style="margin-top:0">Exposed plaque surface</div>
+        <p id="stageExplain" class="panel-copy">The plaque surface has already ruptured. Exposed plaque contents sit close to flowing blood.</p>
+
+        <h3 class="subhead">What this means</h3>
+        <p id="stageMeaning" class="panel-copy">This page begins after the rupture step. The question here is how blood reacts at the exposed surface.</p>
+
+        <h3 class="subhead">What this does not show</h3>
+        <p id="stageLimits" class="panel-copy">This module does not show your personal clotting risk, diagnose a clot, or predict an event. It explains a simplified local process.</p>
+
+        <div id="compositionBlock">
+          <h3 class="subhead">What clot formation can involve</h3>
+          <ul id="compositionList" class="panel-list">
+            <li>Exposed plaque contents after a surface break</li>
+            <li>Platelet attachment and activation</li>
+            <li>A fibrin mesh that helps stabilise the clot</li>
+            <li>Trapped blood elements and progressive flow reduction</li>
+          </ul>
+        </div>
+
+        <h3 class="subhead">Discuss with your health team</h3>
+        <p id="stageDiscuss" class="panel-copy">Ask how your wider risk context is being considered, especially plaque burden, Lp(a), ApoB, inflammation markers, blood pressure, metabolic risk, medicines, symptoms, and family history.</p>
+
+        <div class="callout">
+          This visualisation is educational. It does not diagnose, predict, or treat any condition. It is not a substitute for advice from your health team. If symptoms suggest an emergency, seek urgent medical help.
+        </div>
+      </aside>
+    </section>
+
+    <section class="cta-card" aria-labelledby="cta-h">
+      <div>
+        <div class="kicker">Heart risk products</div>
+        <h2 id="cta-h">Clarify risk. Navigate danger. Prevent events.</h2>
+        <p>Clot is where a local plaque problem can become a blood-flow problem. If you want help understanding what your current heart risk checks do and do not show, start with Clarify. If you already have signals such as Lp(a), ApoB, inflammatory markers, blood pressure concerns, calcium-score findings, metabolic risk, or family history and want to understand how they may interact, Navigate may be right for you. If you want to reduce your — or a loved one’s — risk of heart attack, stroke, or avoidable cardiovascular damage, Prevent may be right for you.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn primary" href="https://shyntesy.com/clarify">Clarify risk</a>
+        <a class="btn secondary" href="https://shyntesy.com/navigate">Navigate danger</a>
+        <a class="btn secondary" href="https://shyntesy.com/prevent">Prevent events</a>
+      </div>
+    </section>
+  </main>
+
+  <footer id="atlasFooter" class="footer"></footer>
+
+  <script>
+    window.HFAtlas && HFAtlas.renderTopbar('topbarRoot');
+    window.HFAtlas && HFAtlas.buildSidebar('riskSidebar', window.location.pathname, { active:'clot', baseHref:'../' });
+    window.HFAtlas && HFAtlas.renderFooter('atlasFooter');
+    window.HFAtlas && HFAtlas.initShellControls();
+
+    (function(){
+      const slider = document.getElementById('progressSlider');
+      const playBtn = document.getElementById('playBtn');
+      const labelsBtn = document.getElementById('labelsBtn');
+      const detailBtn = document.getElementById('detailBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const stageText = document.getElementById('stageText');
+      const metricStage = document.getElementById('clotMetricStage');
+      const metricFlow = document.getElementById('clotMetricFlow');
+      const metricDetail = document.getElementById('clotMetricDetail');
+      const stageHeadline = document.getElementById('stageHeadline');
+      const stageExplain = document.getElementById('stageExplain');
+      const stageMeaning = document.getElementById('stageMeaning');
+      const stageDiscuss = document.getElementById('stageDiscuss');
+      const stageLimits = document.getElementById('stageLimits');
+      const compositionBlock = document.getElementById('compositionBlock');
+
+      const frontLumen = document.getElementById('frontLumen');
+      const backLumen = document.getElementById('backLumen');
+      const lumenBody = document.getElementById('lumenBody');
+      const clotMass = document.getElementById('clotMass');
+      const platelets = document.getElementById('platelets');
+      const fibrinMesh = document.getElementById('fibrinMesh');
+      const trappedCells = document.getElementById('trappedCells');
+      const activationArrows = document.getElementById('activationArrows');
+      const flowParticles = document.getElementById('flowParticles');
+      const crossLumen = document.getElementById('crossLumen');
+      const crossClot = document.getElementById('crossClot');
+      const crossFibrin = document.getElementById('crossFibrin');
+      const crossPlatelets = document.getElementById('crossPlatelets');
+      const labelsGroup = document.getElementById('labelsGroup');
+      const lblPlatelets = document.getElementById('lblPlatelets');
+      const lblFibrin = document.getElementById('lblFibrin');
+      const lblClot = document.getElementById('lblClot');
+      const lblFlow = document.getElementById('lblFlow');
+
+      const stages = [
+        { max: 12, title: 'Exposed plaque surface', short: 'Exposure', flow: 'Low',
+          explain: 'This page picks up after plaque rupture. Exposed plaque contents are shown close to flowing blood, before a visible clot has formed.',
+          meaning: 'The key idea is contact. Blood can react to exposed plaque contents, which is why rupture and clot are connected but separate atlas topics.',
+          discuss: 'Ask what your current checks show, what they do not show, and whether your wider risk context has been organised clearly.',
+          limits: 'This educational view does not diagnose a clot, show your clotting tendency, or predict whether an event will occur.' },
+        { max: 35, title: 'Platelets attach', short: 'Platelets', flow: 'Rising',
+          explain: 'Platelets are shown attaching to the exposed surface and beginning to cluster at the rupture site.',
+          meaning: 'Platelets are part of normal repair. The problem is location and scale: a helpful repair response can become dangerous if it grows inside an artery lumen.',
+          discuss: 'Ask how medicines, symptoms, blood pressure, metabolic risk, smoking exposure, Lp(a), ApoB, and family history fit into your prevention plan.',
+          limits: 'This does not show whether antiplatelet treatment is needed for you. Medicine decisions belong with your health team.' },
+        { max: 60, title: 'Fibrin mesh forms', short: 'Fibrin', flow: 'Moderate',
+          explain: 'Clotting proteins are shown forming a fibrin mesh that stabilises the platelet cluster.',
+          meaning: 'A clot is not just a blob. It can include platelets, fibrin strands, trapped blood elements, and signals from the injured surface.',
+          discuss: 'Ask whether your risk assessment considers both plaque burden and clot-related context, while keeping clot and inflammation as distinct risk domains.',
+          limits: 'This simplified mesh does not represent all clotting pathways or inherited clotting conditions.' },
+        { max: 84, title: 'Thrombus grows into the lumen', short: 'Growing clot', flow: 'High',
+          explain: 'The clot grows into the blood-flow channel. The open space for blood becomes smaller.',
+          meaning: 'This is the shift from a surface reaction to a flow problem. Reduced flow is the bridge toward event pathways such as heart attack or stroke.',
+          discuss: 'Ask what is being done to reduce the risks that can feed plaque, rupture, and clot pathways over time.',
+          limits: 'This module does not show a complete event. Reduced flow does not automatically mean heart attack or stroke in this educational sequence.' },
+        { max: 100, title: 'Flow-limiting clot', short: 'Flow-limiting', flow: 'Severe',
+          explain: 'The clot is shown severely reducing or blocking the flow channel in this simplified artery segment.',
+          meaning: 'This final stage prepares the next Risk Atlas topics: cascade, heart attack, and stroke. The question becomes what tissue is downstream and how long flow is reduced.',
+          discuss: 'If symptoms suggest a heart attack or stroke, seek urgent medical help. For prevention planning, ask how to clarify and reduce your wider risk system.',
+          limits: 'This is not a prediction and not a diagnostic image. It does not show what is happening in your body.' }
+      ];
+
+      const state = { value:0, showLabels:true, detail:false, playing:false, playTimer:null, particles:[] };
+      const allowMotion = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
+      function lerp(a,b,t){ return a + (b-a) * t; }
+      function ease(t){ return t<.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2; }
+      function pct(v){ return clamp(v,0,100)/100; }
+      function stageFor(v){ return stages.find(s => v <= s.max) || stages[stages.length-1]; }
+
+      function buildCues(){
+        const plateletData = [
+          [528,314,7],[548,305,6.5],[566,310,6],[584,316,7],[602,323,6.5],[537,331,6],[558,335,6.5],[579,339,6],[615,333,6.5],[520,327,5.5],[596,300,5.5],[622,314,5]
+        ];
+        platelets.innerHTML = plateletData.map(([cx,cy,r], i) => `<g class="platelet" data-i="${i}" opacity="0"><ellipse cx="${cx}" cy="${cy}" rx="${r+2}" ry="${Math.max(3,r-1)}" fill="#f0d48a" opacity=".95" transform="rotate(${(i%2?16:-12)} ${cx} ${cy})"></ellipse><circle cx="${cx-2}" cy="${cy-1}" r="${Math.max(2.5,r/2.6)}" fill="#ffe8a8" opacity=".82"></circle></g>`).join('');
+        const crossPlateletData = [[-18,-26,5],[2,-34,4.5],[21,-26,5.5],[37,-12,4.5],[-6,-4,5],[18,7,4.5],[43,13,4.2]];
+        crossPlatelets.innerHTML = crossPlateletData.map(([cx,cy,r], i) => `<ellipse class="cross-platelet" data-i="${i}" cx="${cx}" cy="${cy}" rx="${r+2}" ry="${Math.max(3,r-1)}" fill="#f0d48a" opacity="0"></ellipse>`).join('');
+        const fibrin = [
+          'M516,315 C548,292 586,300 620,320',
+          'M506,330 C540,315 575,344 627,334',
+          'M526,300 C548,333 592,286 615,326',
+          'M540,347 C556,318 598,316 630,304',
+          'M512,323 C548,350 580,324 618,354',
+          'M548,300 C565,318 582,338 607,344'
+        ];
+        fibrinMesh.innerHTML = fibrin.map((d,i) => `<path class="fibrin-strand" data-i="${i}" d="${d}" opacity="0"></path>`).join('');
+        const trapped = [[555,322,4],[586,326,4.5],[606,337,3.8],[532,337,3.5],[575,346,4.2],[623,322,3.4]];
+        trappedCells.innerHTML = trapped.map(([cx,cy,r], i) => `<circle class="trapped-cell" data-i="${i}" cx="${cx}" cy="${cy}" r="${r}" fill="#8b1e2f" opacity="0"></circle>`).join('');
+      }
+
+      function initParticles(){
+        state.particles = Array.from({length: 16}, (_,i) => ({
+          offset: i / 16,
+          yJitter: (Math.random()*2-1) * 14,
+          radius: 5 + Math.random()*1.4
+        }));
+      }
+
+      function renderParticles(){
+        const p = pct(state.value);
+        const growth = clamp((state.value - 60) / 24, 0, 1);
+        const obstruction = clamp((state.value - 84) / 16, 0, 1);
+        const top = 278 + p*26;
+        const bottom = 350 - p*19;
+        const middleY = (top + bottom) / 2;
+        const flowFade = Math.max(.08, .58 - growth*.28 - obstruction*.34);
+        flowParticles.innerHTML = state.particles.map((particle) => {
+          const x = 225 + ((particle.offset + performance.now()/9500) % 1) * 430;
+          const clotZone = clamp(1 - Math.abs(x - 570) / 130, 0, 1);
+          const deflect = clotZone * (growth*18 + obstruction*24) * (x < 570 ? -1 : 1);
+          const constrict = 1 - clotZone * (growth*.45 + obstruction*.5);
+          const y = middleY + particle.yJitter * Math.max(.25, constrict) + deflect*.18;
+          const rx = Math.max(1.6, particle.radius * (1 - clotZone*(growth*.48 + obstruction*.45)));
+          const ry = Math.max(1.8, particle.radius * .58 * Math.max(.28, constrict));
+          return `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="${rx.toFixed(1)}" ry="${ry.toFixed(1)}" fill="#ffd3d3" opacity="${flowFade.toFixed(2)}"></ellipse>`;
+        }).join('');
+      }
+
+      function updateShape(v){
+        state.value = +v;
+        const p = pct(v);
+        const e = ease(p);
+        const platelet = clamp((v - 12) / 23, 0, 1);
+        const fibrin = clamp((v - 35) / 25, 0, 1);
+        const growth = clamp((v - 60) / 24, 0, 1);
+        const obstruction = clamp((v - 84) / 16, 0, 1);
+        const detailReveal = state.detail ? 1 : 0;
+
+        const frontRx = lerp(16, 7.8, e);
+        const frontRy = lerp(50, 23, e);
+        const backRx = lerp(16, 7.8, e);
+        const backRy = lerp(50, 23, e);
+        frontLumen.setAttribute('rx', frontRx.toFixed(1));
+        frontLumen.setAttribute('ry', frontRy.toFixed(1));
+        backLumen.setAttribute('rx', backRx.toFixed(1));
+        backLumen.setAttribute('ry', backRy.toFixed(1));
+
+        const top = lerp(270, 300, e);
+        const bottom = lerp(351, 333, e);
+        lumenBody.setAttribute('d', `M205,${top.toFixed(1)} C270,${(247+e*26).toFixed(1)} 610,${(247+e*28).toFixed(1)} 685,${top.toFixed(1)} L685,${bottom.toFixed(1)} C615,${(372-e*31).toFixed(1)} 270,${(372-e*24).toFixed(1)} 205,${bottom.toFixed(1)} Z`);
+
+        const clotScaleX = lerp(.18, 1.25, Math.max(platelet*.18, growth*.75 + obstruction*.25));
+        const clotScaleY = lerp(.12, 1.05, Math.max(platelet*.14, growth*.72 + obstruction*.35));
+        const clotOpacity = clamp(platelet*.45 + fibrin*.2 + growth*.55 + obstruction*.22, 0, .96);
+        clotMass.setAttribute('opacity', clotOpacity.toFixed(2));
+        clotMass.setAttribute('transform', `translate(565 325) scale(${clotScaleX.toFixed(3)} ${clotScaleY.toFixed(3)}) translate(-565 -325)`);
+
+        platelets.querySelectorAll('.platelet').forEach((node, i) => {
+          const local = clamp((platelet * 12) - i, 0, 1);
+          const pulse = allowMotion ? .92 + Math.sin(performance.now()/600 + i)*.05 : .95;
+          node.setAttribute('opacity', (local * pulse).toFixed(2));
+        });
+        fibrinMesh.setAttribute('opacity', (fibrin * (state.detail ? 1 : .55)).toFixed(2));
+        fibrinMesh.querySelectorAll('.fibrin-strand').forEach((node, i) => {
+          const local = clamp((fibrin * 6) - i, 0, 1);
+          node.setAttribute('opacity', (local * (state.detail ? 1 : .58)).toFixed(2));
+        });
+        trappedCells.querySelectorAll('.trapped-cell').forEach((node, i) => {
+          const local = clamp((growth * 6) - i, 0, 1);
+          node.setAttribute('opacity', (local * (state.detail ? .88 : .48)).toFixed(2));
+        });
+        activationArrows.setAttribute('opacity', (platelet * detailReveal).toFixed(2));
+
+        const crossScaleX = lerp(.16, 1.04, Math.max(platelet*.2, growth*.72 + obstruction*.28));
+        const crossScaleY = lerp(.12, .92, Math.max(platelet*.18, growth*.7 + obstruction*.32));
+        crossClot.setAttribute('opacity', clotOpacity.toFixed(2));
+        crossClot.setAttribute('transform', `scale(${crossScaleX.toFixed(3)} ${crossScaleY.toFixed(3)})`);
+        crossFibrin.setAttribute('opacity', (fibrin * (state.detail ? 1 : .45)).toFixed(2));
+        crossPlatelets.querySelectorAll('.cross-platelet').forEach((node, i) => {
+          const local = clamp((platelet * 7) - i, 0, 1);
+          node.setAttribute('opacity', (local * .9).toFixed(2));
+        });
+        const crossRx = lerp(72, 28, e);
+        const crossRy = lerp(52, 23, e);
+        crossLumen.setAttribute('rx', crossRx.toFixed(1));
+        crossLumen.setAttribute('ry', crossRy.toFixed(1));
+
+        labelsGroup.setAttribute('opacity', state.showLabels ? '1' : '0');
+        lblPlatelets.setAttribute('opacity', (v > 18 && state.showLabels ? 1 : 0).toFixed(2));
+        lblFibrin.setAttribute('opacity', (v > 42 && state.showLabels ? 1 : 0).toFixed(2));
+        lblClot.setAttribute('opacity', (v > 62 && state.showLabels ? 1 : 0).toFixed(2));
+        lblFlow.setAttribute('opacity', (v > 82 && state.showLabels ? 1 : 0).toFixed(2));
+
+        const stage = stageFor(v);
+        stageText.textContent = stage.title;
+        window.HFAtlas && HFAtlas.setSliderValueText(slider, slider.value, stage.title);
+        metricStage.textContent = stage.short;
+        metricFlow.textContent = stage.flow;
+        metricDetail.textContent = state.detail ? 'On' : 'Off';
+        stageHeadline.textContent = stage.title;
+        stageExplain.textContent = stage.explain;
+        stageMeaning.textContent = stage.meaning;
+        stageDiscuss.textContent = stage.discuss;
+        stageLimits.textContent = stage.limits;
+        if(compositionBlock){ compositionBlock.hidden = state.value < 5; }
+        renderParticles();
+      }
+
+      function stopPlayback(){
+        state.playing = false;
+        playBtn.textContent = 'Play';
+        playBtn.setAttribute('aria-pressed','false');
+        if(state.playTimer){ window.clearInterval(state.playTimer); state.playTimer = null; }
+      }
+
+      function startPlayback(){
+        if(Number(slider.value) >= 100){ slider.value = '0'; updateShape(0); }
+        state.playing = true;
+        playBtn.textContent = 'Pause';
+        playBtn.setAttribute('aria-pressed','true');
+        if(state.playTimer){ window.clearInterval(state.playTimer); }
+        state.playTimer = window.setInterval(() => {
+          const next = Math.min(100, Number(slider.value) + 1);
+          slider.value = String(next);
+          updateShape(next);
+          if(next >= 100){ stopPlayback(); }
+        }, 80);
+      }
+
+      slider.addEventListener('input', e => { stopPlayback(); updateShape(e.target.value); });
+      playBtn.addEventListener('click', () => { state.playing ? stopPlayback() : startPlayback(); });
+      labelsBtn.addEventListener('click', () => {
+        state.showLabels = !state.showLabels;
+        labelsBtn.textContent = state.showLabels ? 'Labels on' : 'Labels off';
+        labelsBtn.setAttribute('aria-pressed', state.showLabels ? 'true' : 'false');
+        updateShape(slider.value);
+      });
+      detailBtn.addEventListener('click', () => {
+        state.detail = !state.detail;
+        detailBtn.setAttribute('aria-pressed', state.detail ? 'true' : 'false');
+        detailBtn.textContent = state.detail ? 'Coagulation view on' : 'Coagulation view';
+        updateShape(slider.value);
+      });
+      resetBtn.addEventListener('click', () => {
+        stopPlayback();
+        slider.value = '0';
+        state.showLabels = true;
+        state.detail = false;
+        labelsBtn.textContent = 'Labels on';
+        labelsBtn.setAttribute('aria-pressed','true');
+        detailBtn.textContent = 'Coagulation view';
+        detailBtn.setAttribute('aria-pressed','false');
+        updateShape(0);
+      });
+
+      buildCues();
+      initParticles();
+      updateShape(0);
+      window.setInterval(function(){ if(!state.playing){ renderParticles(); if(state.value > 12) updateShape(state.value); } }, 190);
+    })();
+  </script>
+</body>
+</html>
