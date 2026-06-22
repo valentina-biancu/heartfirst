@@ -169,7 +169,7 @@
     { slug:'plaque', label:'Plaque', desc:'What plaque is, what it contains, and how it narrows an artery.' },
     { slug:'inflammation', label:'Inflammation', desc:'How inflammation can affect cardiovascular risk and plaque behaviour.' },
     { slug:'rupture', label:'Rupture', desc:'How the fibrous cap over a plaque can break and expose plaque contents.' },
-    { slug:'clot', label:'Clot', desc:'How a clot can form at a rupture site and reduce blood flow.', soon:true },
+    { slug:'clot', label:'Clot', desc:'How a clot can form at a rupture site and reduce blood flow.' },
     { slug:'cascade', label:'Cascade', desc:'How plaque, inflammation, rupture, and clot can connect in an event pathway.', soon:true },
     { slug:'heart-attack', label:'Heart attack', desc:'How a clot or blockage can cut blood flow to heart muscle.', soon:true },
     { slug:'stroke', label:'Stroke', desc:'How a clot or blockage can cut blood flow to the brain.', soon:true },

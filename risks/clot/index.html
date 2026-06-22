@@ -304,7 +304,7 @@
           limits: 'This module does not show a complete event. Reduced flow does not automatically mean heart attack or stroke in this educational sequence.' },
         { max: 100, title: 'Flow-limiting clot', short: 'Flow-limiting', flow: 'Severe',
           explain: 'The clot is shown severely reducing or blocking the flow channel in this simplified artery segment.',
-          meaning: 'This final stage prepares the next Risk Atlas topics: cascade, heart attack, and stroke. The question becomes what tissue is downstream and how long flow is reduced.',
+          meaning: 'This stage leads first into the Cascade atlas. Later modules show how blocked or travelling clots can affect heart or brain tissue.',
           discuss: 'If symptoms suggest a heart attack or stroke, seek urgent medical help. For prevention planning, ask how to clarify and reduce your wider risk system.',
           limits: 'This is not a prediction and not a diagnostic image. It does not show what is happening in your body.' }
       ];
@@ -366,6 +366,15 @@
         }).join('');
       }
 
+      function updatePlateletPulse(plateletProgress){
+        const platelet = typeof plateletProgress === 'number' ? plateletProgress : clamp((state.value - 12) / 23, 0, 1);
+        platelets.querySelectorAll('.platelet').forEach((node, i) => {
+          const local = clamp((platelet * 12) - i, 0, 1);
+          const pulse = allowMotion ? .92 + Math.sin(performance.now()/600 + i)*.05 : 1;
+          node.setAttribute('opacity', (local * pulse).toFixed(2));
+        });
+      }
+
       function updateShape(v){
         state.value = +v;
         const p = pct(v);
@@ -395,11 +404,7 @@
         clotMass.setAttribute('opacity', clotOpacity.toFixed(2));
         clotMass.setAttribute('transform', `translate(565 325) scale(${clotScaleX.toFixed(3)} ${clotScaleY.toFixed(3)}) translate(-565 -325)`);
 
-        platelets.querySelectorAll('.platelet').forEach((node, i) => {
-          const local = clamp((platelet * 12) - i, 0, 1);
-          const pulse = allowMotion ? .92 + Math.sin(performance.now()/600 + i)*.05 : .95;
-          node.setAttribute('opacity', (local * pulse).toFixed(2));
-        });
+        updatePlateletPulse(platelet);
         fibrinMesh.setAttribute('opacity', (fibrin * (state.detail ? 1 : .55)).toFixed(2));
         fibrinMesh.querySelectorAll('.fibrin-strand').forEach((node, i) => {
           const local = clamp((fibrin * 6) - i, 0, 1);
@@ -496,7 +501,14 @@
       buildCues();
       initParticles();
       updateShape(0);
-      window.setInterval(function(){ if(!state.playing){ renderParticles(); if(state.value > 12) updateShape(state.value); } }, 190);
+      if(allowMotion){
+        window.setInterval(function(){
+          if(!state.playing){
+            renderParticles();
+            if(state.value > 12) updatePlateletPulse();
+          }
+        }, 190);
+      }
     })();
   </script>
 </body>
