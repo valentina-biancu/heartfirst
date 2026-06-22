@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <title>HeartFirst Risk Atlas — Risks</title>
+  <meta name="description" content="HeartFirst Risk Atlas: visual explainers for cardiovascular risk processes including plaque, inflammation, rupture, clot, cascade, heart attack, stroke, valve calcification, and aortic stenosis." />
+  <script src="./atlas.js"></script>
+  <link rel="stylesheet" href="./atlas.css" />
+</head>
+<body data-atlas-topic="Risks explorer">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header id="topbarRoot" class="topbar" aria-label="Site header"></header>
+  <main id="main" class="page">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="https://heartfirst.shyntesy.com/">HeartFirst</a><span class="sep">›</span><span>Risks</span></nav>
+    <section class="hero atlas-index-hero" aria-labelledby="hero-h">
+      <div class="hero-card">
+        <div class="kicker">Risk Atlas</div>
+        <h1 id="hero-h">Visual explainers for hidden and incomplete heart risk</h1>
+        <p class="hero-sub">The Risk Atlas shows one cardiovascular risk process at a time, then links processes through risk pathways to help you understand how these risks interact, and to enable informed conversations with your health team and family.</p>
+      </div>
+    </section>
+    <section class="atlas-index-grid" aria-label="Risk Atlas index">
+      <aside id="riskSidebar" class="nav-card" aria-labelledby="nav-h"></aside>
+      <aside class="scope-card atlas-index-aside" aria-labelledby="index-start-h">
+        <h2 id="index-start-h" class="scope-title">Suggested path</h2>
+        <ul class="scope-list">
+          <li>Start with Plaque to understand this foundational risk.</li>
+          <li>Continue to Inflammation for biological risk activity around the artery wall.</li>
+          <li>Continue to Rupture to see how a plaque cap can fail.</li>
+          <li>As they are added, continue to connected modules covering clot, cascade, heart attack, stroke, and valve disease.</li>
+        </ul>
+      </aside>
+    </section>
+  </main>
+  <footer id="atlasFooter" class="footer atlas-index-footer"></footer>
+  <script>window.HFAtlas && HFAtlas.renderTopbar("topbarRoot"); window.HFAtlas && HFAtlas.buildSidebar("riskSidebar", window.location.pathname, { baseHref:"./" }); window.HFAtlas && HFAtlas.renderFooter("atlasFooter"); window.HFAtlas && HFAtlas.initShellControls();</script>
+</body>
+</html>
