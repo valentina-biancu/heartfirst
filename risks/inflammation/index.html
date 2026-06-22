@@ -35,7 +35,7 @@
         <div class="kicker">Risk Atlas · inflammation</div>
         <h1 id="hero-h">How inflammation can affect artery walls, plaque behaviour, and cardiovascular risk.</h1>
         <p class="hero-sub">
-          This risk atlas shows how <strong>inflammation can affect artery walls and plaque behaviour over time</strong>. It helps make clear one process rather than trying to explain every cardiovascular pathway at once. Use the slider to move from a quieter artery environment to more active inflammatory signalling, immune-cell involvement, and a more concerning plaque context.
+          This risk atlas shows how <strong>inflammation can affect artery walls and plaque behaviour over time</strong>. It helps make clear one process rather than trying to explain every cardiovascular pathway at once. Use the slider to move from a quieter artery environment to more active inflammatory signalling, immune cell involvement, and a more concerning plaque context.
         </p>
       </div>
       <aside class="scope-card" aria-labelledby="scope-h">
@@ -184,7 +184,7 @@
             <div class="legend-row"><div class="swatch" style="background:#ba8a2e"></div><div><strong>Plaque environment</strong><br>A plaque with a lipid core and cap can become more biologically active.</div></div>
             <div class="legend-row"><div class="swatch" style="background:#9be4ff"></div><div><strong>Endothelium</strong><br>The inner artery lining is shown as a key activity zone.</div></div>
             <div class="legend-row"><div class="swatch" style="background:#ff8b48"></div><div><strong>Inflammatory signals</strong><br>Orange glow and dots show increasing inflammatory activity.</div></div>
-            <div class="legend-row"><div class="swatch" style="background:#f3dba4"></div><div><strong>Immune cells</strong><br>Small pale cells represent immune-cell involvement within the plaque environment.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#f3dba4"></div><div><strong>Immune cells</strong><br>Small pale cells represent immune cell involvement within the plaque environment.</div></div>
             <div class="info-block">
               <div class="metric"><div class="label">Current stage</div><div id="metricStage" class="value">Healthy</div></div>
               <div class="metric"><div class="label">Inflammatory activity</div><div id="metricActivity" class="value">Low</div></div>
@@ -200,7 +200,7 @@
         <p id="stageExplain" class="panel-copy">The artery wall and plaque environment are shown with low inflammatory signal.</p>
 
         <h3 class="subhead">What this means</h3>
-        <p id="stageMeaning" class="panel-copy">This baseline view helps separate inflammation from vague alarm language. Inflammation here means immune-cell involvement, chemical signalling, and vessel-wall irritation in and around the plaque environment.</p>
+        <p id="stageMeaning" class="panel-copy">This baseline view helps separate inflammation from vague alarm language. Inflammation here means immune cell involvement, chemical signalling, and vessel-wall irritation in and around the plaque environment.</p>
 
         <h3 class="subhead">What this does not show</h3>
         <p id="stageLimits" class="panel-copy">This atlas does not tell you whether inflammation is present in your arteries, how active it is, or whether a plaque is unstable. It shows one educational process in isolation so the underlying structure is easier to understand.</p>
@@ -208,7 +208,7 @@
         <div id="compositionBlock">
         <h3 class="subhead">What inflammation can involve</h3>
         <ul id="compositionList" class="panel-list">
-          <li>Immune-cell movement into the artery wall</li>
+          <li>Immune cell movement into the artery wall</li>
           <li>Inflammatory chemical signals</li>
           <li>Endothelial irritation or dysfunction</li>
           <li>More active plaque behaviour</li>
@@ -289,7 +289,7 @@
       const stages = [
         { max: 12, title: 'Quieter artery environment', short: 'Low activity', activity: 'Low',
           explain: 'The artery wall and plaque environment are shown with low inflammatory signal.',
-          meaning: 'This baseline view helps separate inflammation from vague alarm language. Inflammation here means immune-cell involvement, chemical signalling, and vessel-wall irritation in and around the plaque environment.',
+          meaning: 'This baseline view helps separate inflammation from vague alarm language. Inflammation here means immune cell involvement, chemical signalling, and vessel-wall irritation in and around the plaque environment.',
           discuss: 'If your risk picture feels incomplete, ask what current checks do and do not show, and whether inflammatory context is relevant to discuss.',
           limits: 'A quieter visual state does not prove that inflammation is absent in a real artery. This is an educational starting point, not a personal assessment.'
         },
@@ -299,14 +299,14 @@
           discuss: 'Ask whether your wider risk context includes factors that can irritate the artery wall, such as blood pressure, metabolic risk, smoking exposure, or inherited lipid risk.',
           limits: 'This stage does not identify a cause. Many factors can influence endothelial function, and this visual deliberately avoids reducing the process to one trigger.'
         },
-        { max: 60, title: 'Immune-cell involvement', short: 'Active involvement', activity: 'Moderate',
+        { max: 60, title: 'Immune cell involvement', short: 'Active involvement', activity: 'Moderate',
           explain: 'Immune cells are shown moving into the plaque environment, where inflammatory signalling becomes more active.',
           meaning: 'Inflammation can turn plaque from a passive buildup into a more biologically active environment.',
           discuss: 'Ask how markers such as hs-CRP, metabolic health, ApoB, Lp(a), blood pressure, and family history fit into your overall risk discussion.',
           limits: 'This module does not say that an inflammatory blood marker proves plaque inflammation. Blood markers and artery-wall processes are related but not identical.'
         },
         { max: 84, title: 'Plaque activation', short: 'Higher activity', activity: 'High',
-          explain: 'The plaque environment is shown as more active, with stronger inflammatory glow, immune-cell clustering, and a more stressed cap region.',
+          explain: 'The plaque environment is shown as more active, with stronger inflammatory glow, immune cell clustering, and a more stressed cap region.',
           meaning: 'An inflamed plaque environment can matter because inflammation may influence plaque growth, cap integrity, and clot-related risk context.',
           discuss: 'Ask your health team how risk layers are being considered together rather than one result at a time.',
           limits: 'This visual does not show plaque rupture or clot formation. Those are separate Risk Atlas topics that come later in the sequence.'
