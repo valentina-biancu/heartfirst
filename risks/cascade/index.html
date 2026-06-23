@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="canonical" href="https://heartfirst.shyntesy.com/risks/cascade/" />
+  <title>HeartFirst Risk Atlas — Cascade</title>
+  <meta name="description" content="HeartFirst Risk Atlas: an interactive cardiovascular cascade explorer showing how plaque, inflammation, rupture, clot, and flow restriction can connect in an event pathway." />
+  <script src="../atlas.js"></script>
+  <link rel="stylesheet" href="../atlas.css" />
+  <style>
+    /* Cascade-module specific visual polish only. Shared shell lives in atlas.css. */
+    .cascade-label text{paint-order:stroke;stroke:rgba(7,17,28,.66);stroke-width:4px;stroke-linejoin:round}
+    html[data-theme="light"] .cascade-label text{stroke:rgba(255,255,255,.78)}
+    .cascade-node text{font-weight:800;letter-spacing:.01em}
+  </style>
+</head>
+<body data-atlas-topic="Cascade explorer">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header id="topbarRoot" class="topbar" aria-label="Site header"></header>
+
+  <main id="main" class="page">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="https://heartfirst.shyntesy.com/">HeartFirst</a>
+      <span class="sep">›</span>
+      <a href="https://heartfirst.shyntesy.com/risks/">Risks</a>
+      <span class="sep">›</span>
+      <span aria-current="page">Cascade</span>
+    </nav>
+
+    <section class="hero" aria-labelledby="hero-h">
+      <div class="hero-card">
+        <div class="kicker">Risk Atlas · cascade</div>
+        <h1 id="hero-h">How separate risk processes can connect into an event pathway.</h1>
+        <p class="hero-sub">
+          This risk atlas links the previous modules into one simplified sequence: <strong>plaque context, inflammatory activity, rupture, clot formation, and flow restriction</strong>. Use the slider to see how a local artery problem can connect into a pathway that can lead toward downstream event modules without claiming that one step automatically causes the next.
+        </p>
+      </div>
+      <aside class="scope-card" aria-labelledby="scope-h">
+        <h2 id="scope-h" class="scope-title">What this atlas does</h2>
+        <ul class="scope-list">
+          <li>Connects Plaque, Inflammation, Rupture, and Clot into one pathway view.</li>
+          <li>Shows how risk layers can interact without treating the sequence as guaranteed.</li>
+          <li>Stops at threatened flow and points forward to Heart Attack and Stroke.</li>
+          <li>Supports clearer questions and discussions with your health team.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="app-grid" aria-label="Interactive cardiovascular cascade explorer">
+      <aside id="riskSidebar" class="nav-card" aria-labelledby="nav-h"></aside>
+
+      <section class="visual-card" aria-labelledby="visual-h">
+        <h2 id="visual-h" class="sr-only">Cascade visualisation</h2>
+        <div class="control-row">
+          <div class="stage-wrap">
+            <label for="progressSlider">Progression slider</label>
+            <input id="progressSlider" type="range" min="0" max="100" step="1" value="0" aria-describedby="stageText" />
+          </div>
+          <button id="playBtn" class="btn secondary" aria-pressed="false">Play</button>
+          <button id="labelsBtn" class="btn secondary" aria-pressed="true">Labels on</button>
+          <button id="detailBtn" class="btn secondary" aria-pressed="false" aria-describedby="detailHelp">Pathway view</button>
+          <button id="resetBtn" class="btn ghost">Reset</button>
+        </div>
+        <p class="control-help" id="detailHelp">Pathway view reveals risk layers, amplifier arrows, and hand-off cues without changing the stage.</p>
+
+        <div class="visual-wrap">
+          <div class="canvas-shell" aria-live="polite">
+            <div id="stageText" class="stage-pill">Connected risk layers</div>
+            <svg id="cascadeSvg" viewBox="0 0 940 620" role="img" aria-labelledby="svgTitle svgDesc">
+              <title id="svgTitle">Interactive cardiovascular cascade visualisation</title>
+              <desc id="svgDesc">A pathway map and artery segment showing plaque context, inflammatory activity, rupture, clot formation, and flow restriction as connected but not inevitable steps.</desc>
+              <defs>
+                <linearGradient id="bgGlow" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#12314b" />
+                  <stop offset="100%" stop-color="#08111c" />
+                </linearGradient>
+                <linearGradient id="outerWallGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#9b6d6d" />
+                  <stop offset="100%" stop-color="#603636" />
+                </linearGradient>
+                <linearGradient id="innerWallGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#e88a8a" />
+                  <stop offset="100%" stop-color="#a84545" />
+                </linearGradient>
+                <linearGradient id="bloodGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#ff8585" />
+                  <stop offset="50%" stop-color="#d13c4e" />
+                  <stop offset="100%" stop-color="#ff8585" />
+                </linearGradient>
+                <linearGradient id="plaqueGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#f7d587" />
+                  <stop offset="100%" stop-color="#ba8a2e" />
+                </linearGradient>
+                <linearGradient id="coreGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#8e4a22" />
+                  <stop offset="100%" stop-color="#4a231a" />
+                </linearGradient>
+                <linearGradient id="capGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#fdeab7" />
+                  <stop offset="100%" stop-color="#dfc184" />
+                </linearGradient>
+                <linearGradient id="clotGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#ffcf91" />
+                  <stop offset="38%" stop-color="#c74343" />
+                  <stop offset="100%" stop-color="#671f2b" />
+                </linearGradient>
+                <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feDropShadow dx="0" dy="8" stdDeviation="12" flood-opacity="0.28" />
+                </filter>
+                <marker id="arrowGold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#f0d48a"></path>
+                </marker>
+                <marker id="arrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#7fd5ff"></path>
+                </marker>
+              </defs>
+
+              <rect x="0" y="0" width="940" height="620" fill="url(#bgGlow)" opacity=".45"></rect>
+
+              <g id="pathwayRail" class="cascade-node" font-family="Montserrat, Roboto, system-ui, sans-serif">
+                <path id="railBase" d="M250,104 C302,80 358,76 410,84 C472,94 508,132 560,124 C602,118 636,108 680,112 C738,118 770,106 790,96" fill="none" stroke="rgba(170,192,211,.34)" stroke-width="7" stroke-linecap="round"></path>
+                <path id="railProgress" d="M250,104 C302,80 358,76 410,84 C472,94 508,132 560,124 C602,118 636,108 680,112 C738,118 770,106 790,96" fill="none" stroke="#f0d48a" stroke-width="7" stroke-linecap="round" opacity="0"></path>
+                <g id="nodePlaque" transform="translate(250,104)">
+                  <circle r="34" fill="rgba(212,177,90,.14)" stroke="#d4b15a" stroke-width="2"></circle>
+                  <text y="6" text-anchor="middle" font-size="12" fill="#eef5fb">Plaque</text>
+                </g>
+                <g id="nodeActivity" transform="translate(410,84)" opacity=".45">
+                  <circle r="34" fill="rgba(111,208,255,.12)" stroke="#7fd5ff" stroke-width="2"></circle>
+                  <text y="-2" text-anchor="middle" font-size="11" fill="#eef5fb">Activity</text>
+                  <text y="13" text-anchor="middle" font-size="10" fill="#aac0d3">and stress</text>
+                </g>
+                <g id="nodeRupture" transform="translate(560,124)" opacity=".35">
+                  <circle r="34" fill="rgba(239,124,99,.12)" stroke="#ef7c63" stroke-width="2"></circle>
+                  <text y="6" text-anchor="middle" font-size="12" fill="#eef5fb">Rupture</text>
+                </g>
+                <g id="nodeClot" transform="translate(680,112)" opacity=".3">
+                  <circle r="34" fill="rgba(199,67,67,.14)" stroke="#ff8d7f" stroke-width="2"></circle>
+                  <text y="6" text-anchor="middle" font-size="12" fill="#eef5fb">Clot</text>
+                </g>
+                <g id="nodeFlow" transform="translate(790,96)" opacity=".25">
+                  <circle r="34" fill="rgba(127,213,255,.10)" stroke="#7fd5ff" stroke-width="2"></circle>
+                  <text y="-2" text-anchor="middle" font-size="11" fill="#eef5fb">Flow</text>
+                  <text y="13" text-anchor="middle" font-size="10" fill="#aac0d3">threat</text>
+                </g>
+                <g id="pathwayArrows" opacity=".18" stroke="#f0d48a" stroke-width="2.4" fill="none" marker-end="url(#arrowGold)">
+                  <path d="M294,104 C334,86 364,82 396,84"></path>
+                  <path d="M452,92 C492,102 520,126 546,124"></path>
+                  <path d="M596,122 C626,116 646,110 666,111"></path>
+                  <path d="M724,114 C748,114 772,104 780,98"></path>
+                </g>
+                <g id="eventGuides" stroke="#aac0d3" stroke-width="1.4" stroke-dasharray="5 8" fill="none" opacity="1">
+                  <path id="guidePlaque" d="M250,140 L250,382" opacity=".16"></path>
+                  <path id="guideActivity" d="M410,118 L410,336" opacity="0"></path>
+                  <path id="guideRupture" d="M560,158 L560,386" opacity="0"></path>
+                  <path id="guideClot" d="M680,146 L680,400" opacity="0"></path>
+                  <path id="guideFlow" d="M790,130 L790,366" opacity="0"></path>
+                </g>
+              </g>
+
+              <g id="riskLayerChips" font-family="Montserrat, Roboto, system-ui, sans-serif" font-size="12" font-weight="800" opacity="0">
+                <g class="chip" transform="translate(105,174)"><rect x="0" y="0" width="92" height="30" rx="15" fill="rgba(212,177,90,.14)" stroke="rgba(212,177,90,.45)"></rect><text x="46" y="20" text-anchor="middle" fill="#f0d48a">Lp(a)</text></g>
+                <g class="chip" transform="translate(214,184)"><rect x="0" y="0" width="92" height="30" rx="15" fill="rgba(212,177,90,.14)" stroke="rgba(212,177,90,.45)"></rect><text x="46" y="20" text-anchor="middle" fill="#f0d48a">ApoB</text></g>
+                <g class="chip" transform="translate(323,174)"><rect x="0" y="0" width="122" height="30" rx="15" fill="rgba(111,208,255,.12)" stroke="rgba(111,208,255,.42)"></rect><text x="61" y="20" text-anchor="middle" fill="#9be4ff">blood pressure</text></g>
+                <g class="chip" transform="translate(462,184)"><rect x="0" y="0" width="118" height="30" rx="15" fill="rgba(111,208,255,.12)" stroke="rgba(111,208,255,.42)"></rect><text x="59" y="20" text-anchor="middle" fill="#9be4ff">metabolic risk</text></g>
+                <g class="chip" transform="translate(598,174)"><rect x="0" y="0" width="126" height="30" rx="15" fill="rgba(239,124,99,.12)" stroke="rgba(239,124,99,.42)"></rect><text x="63" y="20" text-anchor="middle" fill="#ffb6a9">family history</text></g>
+              </g>
+
+              <g id="tube" filter="url(#softShadow)">
+                <path d="M120,286 C205,252 672,252 762,286 L762,446 C675,480 205,480 120,446 Z" fill="url(#outerWallGrad)" opacity=".96"></path>
+                <path d="M140,312 C218,283 656,283 742,312 L742,420 C660,448 218,448 140,420 Z" fill="url(#innerWallGrad)" opacity=".98"></path>
+                <path id="lumenBody" d="M168,336 C238,312 632,312 712,336 L712,396 C637,418 238,418 168,396 Z" fill="url(#bloodGrad)"></path>
+
+                <ellipse cx="120" cy="366" rx="42" ry="88" fill="url(#outerWallGrad)"></ellipse>
+                <ellipse cx="120" cy="366" rx="26" ry="68" fill="url(#innerWallGrad)"></ellipse>
+                <ellipse id="frontLumen" cx="120" cy="366" rx="15" ry="46" fill="url(#bloodGrad)"></ellipse>
+
+                <ellipse cx="762" cy="366" rx="42" ry="88" fill="#5b3333" opacity=".85"></ellipse>
+                <ellipse cx="762" cy="366" rx="26" ry="68" fill="#923d46" opacity=".9"></ellipse>
+                <ellipse id="backLumen" cx="762" cy="366" rx="15" ry="46" fill="#c63d4b"></ellipse>
+
+                <g id="plaqueBase">
+                  <path id="plaqueShape" d="M250,398 C310,418 472,423 560,412 C630,403 675,378 710,344 C686,360 650,365 620,361 C536,350 430,342 308,354 C278,357 254,371 250,398 Z" fill="url(#plaqueGrad)" opacity=".98"></path>
+                  <path id="coreShape" d="M335,376 C402,396 535,397 622,370 C590,410 435,426 326,397 C310,393 312,381 335,376 Z" fill="url(#coreGrad)" opacity=".78"></path>
+                  <path id="capLeft" d="M255,394 C328,405 448,410 536,402" fill="none" stroke="url(#capGrad)" stroke-width="16" stroke-linecap="round" opacity=".9"></path>
+                  <path id="capRight" d="M630,372 C662,366 690,356 710,344" fill="none" stroke="url(#capGrad)" stroke-width="16" stroke-linecap="round" opacity=".9"></path>
+                  <path id="exposedSurface" d="M546,384 C574,376 609,376 633,382" fill="none" stroke="#ffded8" stroke-width="8" stroke-linecap="round" opacity="0"></path>
+                  <path id="ruptureCrack" d="M535,398 L548,382 L560,399 L576,377 L590,396 L606,381 L622,391" fill="none" stroke="#ff604d" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" opacity="0"></path>
+                </g>
+
+                <g id="activitySignals"></g>
+                <g id="stressArrows" opacity="0" stroke="#f0d48a" stroke-width="2.4" fill="none" marker-end="url(#arrowGold)">
+                  <path d="M482,280 C502,306 522,328 545,350"></path>
+                  <path d="M642,276 C626,308 609,334 590,360"></path>
+                  <path d="M715,332 C682,342 654,353 627,369"></path>
+                </g>
+                <g id="clotLayer">
+                  <path id="clotMass" d="M546,380 C574,352 636,354 670,383 C656,426 578,435 540,401 C531,393 535,386 546,380 Z" fill="url(#clotGrad)" opacity="0" transform="translate(606 392) scale(.16 .12) translate(-606 -392)"></path>
+                  <g id="plateletLayer"></g>
+                  <g id="fibrinLayer" stroke="#f7e0ac" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0"></g>
+                </g>
+                <g id="flowParticles"></g>
+              </g>
+
+              <g id="branchPanel" transform="translate(650,462)" font-family="Montserrat, Roboto, system-ui, sans-serif" opacity="0" role="img" aria-label="Next modules: Heart attack and Stroke are available">
+                <rect x="0" y="0" width="220" height="104" rx="18" fill="rgba(255,255,255,.045)" stroke="rgba(255,255,255,.10)"></rect>
+                <text x="18" y="27" font-size="14" font-weight="800" fill="#eef5fb">Next modules</text>
+                <a href="../heart-attack/" aria-label="Open Heart attack module">
+                  <g transform="translate(18,40)">
+                    <rect x="0" y="0" width="94" height="30" rx="15" fill="rgba(127,213,255,.16)" stroke="rgba(127,213,255,.48)"></rect>
+                    <text x="47" y="19" font-size="11" font-weight="800" text-anchor="middle" fill="#9be4ff">Heart attack</text>
+                  </g>
+                </a>
+                <a href="../stroke/" aria-label="Open Stroke module">
+                  <g transform="translate(124,40)">
+                    <rect x="0" y="0" width="72" height="30" rx="15" fill="rgba(127,213,255,.16)" stroke="rgba(127,213,255,.48)"></rect>
+                    <text x="36" y="19" font-size="11" font-weight="800" text-anchor="middle" fill="#9be4ff">Stroke</text>
+                  </g>
+                </a>
+                <text x="18" y="86" font-size="11" fill="#aac0d3">Downstream modules open each emergency pathway.</text>
+              </g>
+
+              <g id="labelsGroup" class="cascade-label" font-family="Montserrat, Roboto, system-ui, sans-serif" font-size="18" fill="#eef5fb" stroke="none">
+                <g id="lblPlaque" opacity="1"><line x1="316" y1="266" x2="362" y2="371" stroke="#f0d48a" stroke-width="2"></line><circle cx="362" cy="371" r="3" fill="#f0d48a"></circle><text x="238" y="256">Plaque context</text></g>
+                <g id="lblActivity" opacity="0"><line x1="424" y1="238" x2="484" y2="328" stroke="#7fd5ff" stroke-width="2"></line><circle cx="484" cy="328" r="3" fill="#7fd5ff"></circle><text x="342" y="228">Activity and stress</text></g>
+                <g id="lblRupture" opacity="0"><line x1="566" y1="252" x2="586" y2="382" stroke="#ff604d" stroke-width="2"></line><circle cx="586" cy="382" r="3" fill="#ff604d"></circle><text x="526" y="242">Rupture</text></g>
+                <g id="lblClot" opacity="0"><line x1="748" y1="286" x2="628" y2="396" stroke="#ff8d7f" stroke-width="2"></line><circle cx="628" cy="396" r="3" fill="#ff8d7f"></circle><text x="724" y="276">Clot growth</text></g>
+                <g id="lblFlow" opacity="0"><line x1="164" y1="522" x2="188" y2="388" stroke="#7fd5ff" stroke-width="2"></line><circle cx="188" cy="388" r="3" fill="#7fd5ff"></circle><text x="50" y="542">Flow threatened</text></g>
+              </g>
+            </svg>
+          </div>
+
+          <aside class="legend" aria-labelledby="legend-h">
+            <h3 id="legend-h">Visual guide</h3>
+            <p style="margin:0 0 8px;color:var(--muted);font-size:.92rem;line-height:1.5">This module is a pathway map. It shows how earlier Risk Atlas topics can connect, while keeping each step distinct.</p>
+            <div class="legend-row"><div class="swatch" style="background:#d4b15a"></div><div><strong>Plaque context</strong><br>A developed plaque creates the setting for later steps.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#7fd5ff"></div><div><strong>Activity and stress</strong><br>Signals and stress cues show biological activity around the plaque.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#ff604d"></div><div><strong>Rupture</strong><br>A cap break exposes plaque contents to blood.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#c74343"></div><div><strong>Clot and flow threat</strong><br>A clot can grow into the lumen and restrict blood flow.</div></div>
+            <div class="info-block">
+              <div class="metric"><div class="label">Current stage</div><div id="cascadeMetricStage" class="value">Layers</div></div>
+              <div class="metric"><div class="label">Cascade status</div><div id="cascadeMetricPressure" class="value">Low</div></div>
+              <div class="metric"><div class="label">Pathway view</div><div id="cascadeMetricDetail" class="value">Off</div></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <aside class="panel-card" aria-labelledby="panel-h">
+        <h2 id="panel-h" class="panel-title">Stage explanation</h2>
+        <div id="stageHeadline" class="subhead" style="margin-top:0">Connected risk layers</div>
+        <p id="stageExplain" class="panel-copy">The cascade starts with context: plaque, risk layers, and an artery environment where later steps can become possible.</p>
+
+        <h3 class="subhead">What this means</h3>
+        <p id="stageMeaning" class="panel-copy">Cascade means connection, not certainty. The purpose is to show how separate processes can line up into a pathway.</p>
+
+        <h3 class="subhead">What this does not show</h3>
+        <p id="stageLimits" class="panel-copy">This module does not predict an event, diagnose artery disease, or show what is happening in your body.</p>
+
+        <div id="compositionBlock">
+          <h3 class="subhead">What can feed a cascade</h3>
+          <ul id="compositionList" class="panel-list">
+            <li>Lp(a), ApoB, plaque burden, and plaque structure</li>
+            <li>Inflammatory markers, blood pressure, metabolic risk, and smoking exposure</li>
+            <li>Calcium-score findings, symptoms, medicines, and family history</li>
+            <li>Rupture and clot formation as downstream pathway steps, not guaranteed outcomes</li>
+          </ul>
+        </div>
+
+        <h3 class="subhead">Discuss with your health team</h3>
+        <p id="stageDiscuss" class="panel-copy">Ask how your main risk signals are being organised together, including Lp(a), ApoB, blood pressure, metabolic risk, inflammatory markers, calcium-score findings, symptoms, medicines, and family history.</p>
+
+        <div class="callout">
+          This visualisation is educational. It does not diagnose, predict, or treat any condition. It is not a substitute for advice from your health team. If symptoms suggest an emergency, seek urgent medical help.
+        </div>
+      </aside>
+    </section>
+
+    <section class="cta-card" aria-labelledby="cta-h">
+      <div>
+        <div class="kicker">Heart risk products</div>
+        <h2 id="cta-h">Clarify risk. Navigate danger. Prevent events.</h2>
+        <p>Cascade is where separate risk signals start to matter together. If you want help understanding what your current heart risk checks do and do not show, start with Clarify. If you already have several signals and want to understand how they may interact in a pathway, Navigate may be right for you. If you want to reduce your — or a loved one’s — risk of heart attack, stroke, or avoidable cardiovascular damage, Prevent may be right for you.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn primary" href="https://shyntesy.com/clarify">Clarify risk</a>
+        <a class="btn secondary" href="https://shyntesy.com/navigate">Navigate danger</a>
+        <a class="btn secondary" href="https://shyntesy.com/prevent">Prevent events</a>
+      </div>
+    </section>
+  </main>
+
+  <footer id="atlasFooter" class="footer"></footer>
+
+  <script>
+    window.HFAtlas && HFAtlas.renderTopbar('topbarRoot');
+    window.HFAtlas && HFAtlas.buildSidebar('riskSidebar', window.location.pathname, { active:'cascade', baseHref:'../' });
+    window.HFAtlas && HFAtlas.renderFooter('atlasFooter');
+    window.HFAtlas && HFAtlas.initShellControls();
+
+    (function(){
+      const slider = document.getElementById('progressSlider');
+      const playBtn = document.getElementById('playBtn');
+      const labelsBtn = document.getElementById('labelsBtn');
+      const detailBtn = document.getElementById('detailBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const stageText = document.getElementById('stageText');
+      const metricStage = document.getElementById('cascadeMetricStage');
+      const metricPressure = document.getElementById('cascadeMetricPressure');
+      const metricDetail = document.getElementById('cascadeMetricDetail');
+      const stageHeadline = document.getElementById('stageHeadline');
+      const stageExplain = document.getElementById('stageExplain');
+      const stageMeaning = document.getElementById('stageMeaning');
+      const stageDiscuss = document.getElementById('stageDiscuss');
+      const stageLimits = document.getElementById('stageLimits');
+      const compositionBlock = document.getElementById('compositionBlock');
+
+      const railBase = document.getElementById('railBase');
+      const railProgress = document.getElementById('railProgress');
+      const nodeActivity = document.getElementById('nodeActivity');
+      const nodeRupture = document.getElementById('nodeRupture');
+      const nodeClot = document.getElementById('nodeClot');
+      const nodeFlow = document.getElementById('nodeFlow');
+      const pathwayArrows = document.getElementById('pathwayArrows');
+      const guidePlaque = document.getElementById('guidePlaque');
+      const guideActivity = document.getElementById('guideActivity');
+      const guideRupture = document.getElementById('guideRupture');
+      const guideClot = document.getElementById('guideClot');
+      const guideFlow = document.getElementById('guideFlow');
+      const riskLayerChips = document.getElementById('riskLayerChips');
+      const frontLumen = document.getElementById('frontLumen');
+      const backLumen = document.getElementById('backLumen');
+      const lumenBody = document.getElementById('lumenBody');
+      const plaqueShape = document.getElementById('plaqueShape');
+      const coreShape = document.getElementById('coreShape');
+      const capLeft = document.getElementById('capLeft');
+      const capRight = document.getElementById('capRight');
+      const exposedSurface = document.getElementById('exposedSurface');
+      const ruptureCrack = document.getElementById('ruptureCrack');
+      const activitySignals = document.getElementById('activitySignals');
+      const stressArrows = document.getElementById('stressArrows');
+      const clotMass = document.getElementById('clotMass');
+      const plateletLayer = document.getElementById('plateletLayer');
+      const fibrinLayer = document.getElementById('fibrinLayer');
+      const flowParticles = document.getElementById('flowParticles');
+      const branchPanel = document.getElementById('branchPanel');
+      const labelsGroup = document.getElementById('labelsGroup');
+      const lblActivity = document.getElementById('lblActivity');
+      const lblRupture = document.getElementById('lblRupture');
+      const lblClot = document.getElementById('lblClot');
+      const lblFlow = document.getElementById('lblFlow');
+
+      const stages = [
+        { max: 12, title: 'Connected risk layers', short: 'Layers', pressure: 'Low',
+          explain: 'This cascade starts with context: plaque, risk layers, and an artery environment where later steps can become possible.',
+          meaning: 'Cascade means connection, not certainty. The purpose is to show how separate processes can line up into a pathway.',
+          discuss: 'Ask which risk signals are already known, which are missing, and how your health team is organising them together.',
+          limits: 'This module does not predict an event, diagnose artery disease, or show what is happening in your body.' },
+        { max: 35, title: 'Activity and stress increase', short: 'Activity', pressure: 'Rising',
+          explain: 'Inflammatory activity, pressure-related stress, metabolic context, and other signals can increase biological activity around plaque.',
+          meaning: 'This stage links plaque context to a more active environment. It does not mean inflammation and clot are the same thing; they remain distinct processes.',
+          discuss: 'Ask whether your plan considers blood pressure, metabolic risk, inflammatory markers, smoking exposure, Lp(a), ApoB, and family history as separate but interacting domains.',
+          limits: 'This simplified view does not measure inflammation or show personal plaque stability.' },
+        { max: 60, title: 'Rupture exposes plaque contents', short: 'Rupture', pressure: 'High',
+          explain: 'A fibrous cap is shown breaking. Exposed plaque contents now sit close to flowing blood.',
+          meaning: 'This is the hand-off from a plaque problem to a blood-contact problem. It prepares the clot step without claiming a clot must form.',
+          discuss: 'Ask how plaque burden, Lp(a), ApoB, blood pressure, and symptoms are being evaluated together rather than in isolation.',
+          limits: 'This is not an image of your artery and does not show whether a rupture has occurred.' },
+        { max: 84, title: 'Clot forms and narrows flow', short: 'Clot', pressure: 'Very high',
+          explain: 'Blood reacts at the exposed surface. Platelets and fibrin are shown building a clot that narrows the blood-flow channel.',
+          meaning: 'This is where local injury can become a flow problem. It connects to the Clot atlas and prepares the event-pathway modules.',
+          discuss: 'Ask what actions are aimed at reducing the upstream risks that can feed plaque, rupture, and clot pathways over time.',
+          limits: 'This does not show whether you need a specific medicine. Treatment decisions belong with your health team.' },
+        { max: 100, title: 'Flow is threatened', short: 'Flow threat', pressure: 'Severe',
+          explain: 'The simplified artery now shows severe flow restriction. The cascade has reached the point where downstream tissue may be at risk.',
+          meaning: 'This stage points next to Heart Attack and Stroke, while keeping the pathway conditional rather than claiming that an event has occurred.',
+          discuss: 'If symptoms suggest heart attack or stroke, seek urgent medical help. For prevention, ask how to reduce the whole risk pathway, not just one isolated number.',
+          limits: 'This is a teaching sequence, not a diagnosis or prediction.' }
+      ];
+
+      const state = { value:0, showLabels:true, detail:false, playing:false, playTimer:null, particles:[] };
+      const allowMotion = HFAtlas.allowMotion();
+      let railLength = 0;
+      let crackLength = 0;
+
+      const clamp = HFAtlas.clamp;
+      const lerp = HFAtlas.lerp;
+      const ease = HFAtlas.ease;
+      const pct = HFAtlas.pct;
+      function stageFor(v){ return stages.find(s => v <= s.max) || stages[stages.length-1]; }
+
+      function buildCues(){
+        const signalData = [[350,336,4],[378,320,3.6],[405,340,3.8],[442,326,4.2],[470,348,3.6],[506,330,4],[528,356,3.4],[392,364,3.4],[455,368,3.9],[500,374,3.5]];
+        activitySignals.innerHTML = signalData.map(([cx,cy,r], i) => `<circle class="activity-signal" data-i="${i}" data-base-r="${r}" cx="${cx}" cy="${cy}" r="${r}" fill="#7fd5ff" opacity="0"></circle>`).join('');
+        const plateletData = [[560,386,5.8],[581,376,5.5],[602,382,6],[624,392,5.8],[646,405,5.2],[571,405,5.4],[598,413,5.7],[630,419,5.2]];
+        plateletLayer.innerHTML = plateletData.map(([cx,cy,r], i) => `<ellipse class="platelet" data-i="${i}" cx="${cx}" cy="${cy}" rx="${r+2}" ry="${Math.max(3,r-1)}" fill="#f0d48a" opacity="0" transform="rotate(${(i%2?16:-12)} ${cx} ${cy})"></ellipse>`).join('');
+        const fibrin = [
+          'M548,385 C576,360 615,365 652,392',
+          'M542,400 C575,384 606,418 660,408',
+          'M568,366 C585,398 624,370 650,407',
+          'M576,426 C596,392 632,394 665,378'
+        ];
+        fibrinLayer.innerHTML = fibrin.map((d,i) => `<path class="fibrin-strand" data-i="${i}" d="${d}" opacity="0"></path>`).join('');
+      }
+
+      function initParticles(){
+        state.particles = Array.from({length: 18}, (_,i) => ({
+          offset: i / 18,
+          yJitter: (Math.random()*2-1) * 13,
+          radius: 4.8 + Math.random()*1.4
+        }));
+      }
+
+      function drawRail(progress){
+        if(!railLength){ railLength = railBase.getTotalLength(); }
+        railProgress.setAttribute('stroke-dasharray', railLength.toFixed(1));
+        railProgress.setAttribute('stroke-dashoffset', (railLength * (1 - progress)).toFixed(1));
+        railProgress.setAttribute('opacity', progress > .02 ? '.94' : '0');
+      }
+
+      function drawCrack(progress){
+        if(!crackLength){ crackLength = ruptureCrack.getTotalLength(); }
+        ruptureCrack.setAttribute('stroke-dasharray', crackLength.toFixed(1));
+        ruptureCrack.setAttribute('stroke-dashoffset', (crackLength * (1 - progress)).toFixed(1));
+        ruptureCrack.setAttribute('opacity', progress > .02 ? '1' : '0');
+      }
+
+      function renderParticles(){
+        const p = pct(state.value);
+        const clot = clamp((state.value - 60) / 24, 0, 1);
+        const flowThreat = clamp((state.value - 84) / 16, 0, 1);
+        const top = 336 + p*20;
+        const bottom = 396 - p*18;
+        const middleY = (top + bottom) / 2;
+        const flowFade = Math.max(.08, .62 - clot*.28 - flowThreat*.36);
+        flowParticles.innerHTML = state.particles.map((particle) => {
+          const x = 180 + ((particle.offset + performance.now()/9800) % 1) * 512;
+          const clotZone = clamp(1 - Math.abs(x - 610) / 142, 0, 1);
+          const deflect = clotZone * (clot*18 + flowThreat*27) * (x < 610 ? -1 : 1);
+          const constrict = 1 - clotZone * (clot*.43 + flowThreat*.55);
+          const y = middleY + particle.yJitter * Math.max(.25, constrict) + deflect*.16;
+          const rx = Math.max(1.6, particle.radius * (1 - clotZone*(clot*.42 + flowThreat*.48)));
+          const ry = Math.max(1.7, particle.radius * .58 * Math.max(.30, constrict));
+          return `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="${rx.toFixed(1)}" ry="${ry.toFixed(1)}" fill="#ffd3d3" opacity="${flowFade.toFixed(2)}"></ellipse>`;
+        }).join('');
+      }
+
+      function updatePlateletPulse(clotProgress){
+        const clot = typeof clotProgress === 'number' ? clotProgress : clamp((state.value - 60) / 24, 0, 1);
+        plateletLayer.querySelectorAll('.platelet').forEach((node, i) => {
+          const local = clamp((clot * 8) - i, 0, 1);
+          const pulse = allowMotion ? .94 + Math.sin(performance.now()/640 + i)*.04 : 1;
+          node.setAttribute('opacity', (local * pulse).toFixed(2));
+        });
+      }
+
+      function updateShape(v){
+        state.value = +v;
+        const p = pct(v);
+        const e = ease(p);
+        const activity = clamp((v - 12) / 23, 0, 1);
+        const rupture = clamp((v - 35) / 25, 0, 1);
+        const clot = clamp((v - 60) / 24, 0, 1);
+        const flowThreat = clamp((v - 84) / 16, 0, 1);
+        const detailReveal = state.detail ? 1 : 0;
+
+        drawRail(p);
+        nodeActivity.setAttribute('opacity', (.45 + activity*.55).toFixed(2));
+        nodeRupture.setAttribute('opacity', (.35 + rupture*.65).toFixed(2));
+        nodeClot.setAttribute('opacity', (.30 + clot*.70).toFixed(2));
+        nodeFlow.setAttribute('opacity', (.25 + flowThreat*.75).toFixed(2));
+        pathwayArrows.setAttribute('opacity', clamp(.18 + p*.18 + detailReveal*.44, .18, .88).toFixed(2));
+        guidePlaque.setAttribute('opacity', (.16 + detailReveal*.18).toFixed(2));
+        guideActivity.setAttribute('opacity', (activity * (.18 + detailReveal*.20)).toFixed(2));
+        guideRupture.setAttribute('opacity', (rupture * (.22 + detailReveal*.24)).toFixed(2));
+        guideClot.setAttribute('opacity', (clot * (.22 + detailReveal*.24)).toFixed(2));
+        guideFlow.setAttribute('opacity', (flowThreat * (.22 + detailReveal*.24)).toFixed(2));
+        riskLayerChips.setAttribute('opacity', (detailReveal * clamp(.25 + activity*.75, 0, 1)).toFixed(2));
+        branchPanel.setAttribute('opacity', flowThreat.toFixed(2));
+
+        const plaqueLift = lerp(0, -8, activity*.4 + clot*.25 + flowThreat*.25);
+        plaqueShape.setAttribute('transform', `translate(0 ${plaqueLift.toFixed(1)})`);
+        coreShape.setAttribute('transform', `translate(0 ${plaqueLift.toFixed(1)})`);
+        capLeft.setAttribute('opacity', (.9 - rupture*.10).toFixed(2));
+        capRight.setAttribute('opacity', (.9 - rupture*.35).toFixed(2));
+        capLeft.setAttribute('transform', `translate(0 ${plaqueLift.toFixed(1)})`);
+        capRight.setAttribute('transform', `translate(0 ${plaqueLift.toFixed(1)})`);
+        exposedSurface.setAttribute('opacity', (rupture * (.64 + detailReveal*.26)).toFixed(2));
+        drawCrack(rupture);
+        stressArrows.setAttribute('opacity', (detailReveal * activity).toFixed(2));
+
+        activitySignals.querySelectorAll('.activity-signal').forEach((node, i) => {
+          const local = clamp((activity * 10) - i, 0, 1);
+          node.setAttribute('opacity', (local * (state.detail ? .9 : .48)).toFixed(2));
+          const baseRadius = Number(node.getAttribute('data-base-r') || 3.6);
+          node.setAttribute('r', (baseRadius + local*.8).toFixed(1));
+        });
+
+        const clotScaleX = lerp(.16, 1.18, clot*.78 + flowThreat*.32);
+        const clotScaleY = lerp(.12, 1.03, clot*.74 + flowThreat*.38);
+        const clotOpacity = clamp(clot*.82 + flowThreat*.24, 0, .97);
+        clotMass.setAttribute('opacity', clotOpacity.toFixed(2));
+        clotMass.setAttribute('transform', `translate(606 392) scale(${clotScaleX.toFixed(3)} ${clotScaleY.toFixed(3)}) translate(-606 -392)`);
+        updatePlateletPulse(clot);
+        fibrinLayer.setAttribute('opacity', (clot * (state.detail ? 1 : .55)).toFixed(2));
+        fibrinLayer.querySelectorAll('.fibrin-strand').forEach((node, i) => {
+          const local = clamp((clot * 4) - i, 0, 1);
+          node.setAttribute('opacity', (local * (state.detail ? 1 : .55)).toFixed(2));
+        });
+
+        const top = lerp(336, 360, e);
+        const bottom = lerp(396, 374, e);
+        lumenBody.setAttribute('d', `M168,${top.toFixed(1)} C238,${(312+e*28).toFixed(1)} 632,${(312+e*28).toFixed(1)} 712,${top.toFixed(1)} L712,${bottom.toFixed(1)} C637,${(418-e*30).toFixed(1)} 238,${(418-e*24).toFixed(1)} 168,${bottom.toFixed(1)} Z`);
+        frontLumen.setAttribute('rx', lerp(15, 7.2, e).toFixed(1));
+        frontLumen.setAttribute('ry', lerp(46, 22, e).toFixed(1));
+        backLumen.setAttribute('rx', lerp(15, 7.2, e).toFixed(1));
+        backLumen.setAttribute('ry', lerp(46, 22, e).toFixed(1));
+
+        labelsGroup.setAttribute('opacity', state.showLabels ? '1' : '0');
+        lblPlaque.setAttribute('opacity', state.showLabels ? '1' : '0');
+        lblActivity.setAttribute('opacity', (activity > .08 && state.showLabels ? 1 : 0).toFixed(2));
+        lblRupture.setAttribute('opacity', (rupture > .08 && state.showLabels ? 1 : 0).toFixed(2));
+        lblClot.setAttribute('opacity', (clot > .08 && state.showLabels ? 1 : 0).toFixed(2));
+        lblFlow.setAttribute('opacity', (flowThreat > .08 && state.showLabels ? 1 : 0).toFixed(2));
+
+        const stage = stageFor(v);
+        stageText.textContent = stage.title;
+        window.HFAtlas && HFAtlas.setSliderValueText(slider, slider.value, stage.title);
+        metricStage.textContent = stage.short;
+        metricPressure.textContent = stage.pressure;
+        metricDetail.textContent = state.detail ? 'On' : 'Off';
+        stageHeadline.textContent = stage.title;
+        stageExplain.textContent = stage.explain;
+        stageMeaning.textContent = stage.meaning;
+        stageDiscuss.textContent = stage.discuss;
+        stageLimits.textContent = stage.limits;
+        if(compositionBlock){ compositionBlock.hidden = state.value < 5; }
+        renderParticles();
+      }
+
+      function stopPlayback(){
+        state.playing = false;
+        playBtn.textContent = 'Play';
+        playBtn.setAttribute('aria-pressed','false');
+        if(state.playTimer){ window.clearInterval(state.playTimer); state.playTimer = null; }
+      }
+
+      function startPlayback(){
+        if(Number(slider.value) >= 100){ slider.value = '0'; updateShape(0); }
+        state.playing = true;
+        playBtn.textContent = 'Pause';
+        playBtn.setAttribute('aria-pressed','true');
+        if(state.playTimer){ window.clearInterval(state.playTimer); }
+        state.playTimer = window.setInterval(() => {
+          const next = Math.min(100, Number(slider.value) + 1);
+          slider.value = String(next);
+          updateShape(next);
+          if(next >= 100){ stopPlayback(); }
+        }, 80);
+      }
+
+      slider.addEventListener('input', e => { stopPlayback(); updateShape(e.target.value); });
+      playBtn.addEventListener('click', () => { state.playing ? stopPlayback() : startPlayback(); });
+      labelsBtn.addEventListener('click', () => {
+        state.showLabels = !state.showLabels;
+        labelsBtn.textContent = state.showLabels ? 'Labels on' : 'Labels off';
+        labelsBtn.setAttribute('aria-pressed', state.showLabels ? 'true' : 'false');
+        updateShape(slider.value);
+      });
+      detailBtn.addEventListener('click', () => {
+        state.detail = !state.detail;
+        detailBtn.setAttribute('aria-pressed', state.detail ? 'true' : 'false');
+        detailBtn.textContent = state.detail ? 'Pathway view on' : 'Pathway view';
+        updateShape(slider.value);
+      });
+      resetBtn.addEventListener('click', () => {
+        stopPlayback();
+        slider.value = '0';
+        state.showLabels = true;
+        state.detail = false;
+        labelsBtn.textContent = 'Labels on';
+        labelsBtn.setAttribute('aria-pressed','true');
+        detailBtn.textContent = 'Pathway view';
+        detailBtn.setAttribute('aria-pressed','false');
+        updateShape(0);
+      });
+
+      buildCues();
+      initParticles();
+      updateShape(0);
+      if(allowMotion){
+        window.setInterval(function(){
+          if(!state.playing){
+            renderParticles();
+            if(state.value > 60) updatePlateletPulse();
+          }
+        }, 190);
+      }
+    })();
+  </script>
+</body>
+</html>

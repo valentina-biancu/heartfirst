@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="canonical" href="https://heartfirst.shyntesy.com/risks/stroke/" />
+  <title>Stroke Risk Atlas — HeartFirst</title>
+  <meta name="description" content="A HeartFirst Risk Atlas visual explainer showing how a clot or blockage can reduce blood flow to part of the brain and why sudden stroke symptoms require emergency action." />
+  <script src="../atlas.js"></script>
+  <link rel="stylesheet" href="../atlas.css" />
+  <style>
+    .stroke-node text{font-family:Montserrat,Roboto,system-ui,sans-serif;font-size:13px;font-weight:800;text-anchor:middle;paint-order:stroke;stroke:rgba(7,17,28,.68);stroke-width:4px;stroke-linejoin:round}
+    html[data-theme="light"] .stroke-node text{stroke:rgba(255,255,255,.78)}
+    .stroke-label text{paint-order:stroke;stroke:rgba(7,17,28,.68);stroke-width:4px;stroke-linejoin:round}
+    html[data-theme="light"] .stroke-label text{stroke:rgba(255,255,255,.78)}
+    .stroke-chip text{font-family:Montserrat,Roboto,system-ui,sans-serif;font-size:12px;font-weight:800}
+  </style>
+</head>
+<body data-atlas-topic="Stroke explorer">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header id="topbarRoot" class="topbar" aria-label="Site header"></header>
+  <main id="main" class="page">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="https://heartfirst.shyntesy.com/">HeartFirst</a><span class="sep">›</span><a href="../">Risks</a><span class="sep">›</span><span>Stroke</span></nav>
+
+    <section class="hero" aria-labelledby="hero-h">
+      <div class="hero-card">
+        <div class="kicker">Risk Atlas · Stroke</div>
+        <h1 id="hero-h">When brain blood flow is threatened</h1>
+        <p class="hero-sub">This risk atlas picks up where Clot and Cascade leave off. It shows one possible stroke pathway: a clot or blockage reducing blood flow to part of the brain. Use the slider to move from brain-supply context to flow interruption, oxygen shortfall, warning signs, and emergency evaluation.</p>
+      </div>
+      <aside class="scope-card" aria-labelledby="scope-h">
+        <h2 id="scope-h" class="scope-title">Scope of this atlas</h2>
+        <ul class="scope-list">
+          <li>Focuses on a blockage-type stroke pathway, often called ischaemic stroke.</li>
+          <li>Shows blood-flow interruption and downstream brain-territory stress.</li>
+          <li>Connects sudden warning signs to urgent emergency evaluation.</li>
+          <li>Does not cover bleeding stroke in detail; that is a different emergency pathway.</li>
+          <li>Does not tell you whether symptoms are safe, temporary, or harmless.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <aside id="riskSidebar" class="nav-card" aria-labelledby="nav-h"></aside>
+
+    <section class="content-grid">
+      <section class="visual-card" aria-labelledby="visual-h">
+        <div class="section-heading">
+          <div class="kicker">Interactive explainer</div>
+          <h2 id="visual-h">Slide from blocked flow to emergency action</h2>
+          <p class="lead">Stroke is a medical emergency. This visual explains the pathway without asking you to self-diagnose symptoms.</p>
+        </div>
+
+        <div class="control-row" aria-label="Stroke atlas controls">
+          <button id="playBtn" class="btn primary" type="button">Play</button>
+          <button id="resetBtn" class="btn secondary" type="button">Reset</button>
+          <button id="labelsBtn" class="btn secondary" type="button" aria-pressed="true">Labels on</button>
+          <button id="detailBtn" class="btn secondary" type="button" aria-pressed="false" aria-describedby="detailHelp">Stroke pathway view</button>
+          <div class="stage-wrap">
+            <label for="progressSlider">Progression</label>
+            <input id="progressSlider" type="range" min="0" max="100" value="0" />
+          </div>
+        </div>
+        <p id="detailHelp" class="sr-only">Stroke pathway view reveals embolus path cues, brain-territory connections, and warning-sign context.</p>
+
+        <div class="visual-wrap">
+          <div class="canvas-shell" aria-live="polite">
+            <div id="stageText" class="stage-pill">Brain supply context</div>
+            <svg id="strokeSvg" viewBox="0 0 940 620" role="img" aria-labelledby="svgTitle svgDesc">
+              <title id="svgTitle">Stroke pathway visualisation</title>
+              <desc id="svgDesc">A stylised pathway showing how a clot or blockage can reduce blood flow to a brain territory, why warning signs can appear, and why emergency evaluation is needed.</desc>
+              <defs>
+                <linearGradient id="brainGrad" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#1c3f60"/>
+                  <stop offset="100%" stop-color="#10263c"/>
+                </linearGradient>
+                <linearGradient id="arteryGrad" x1="0" x2="1" y1="0" y2="0">
+                  <stop offset="0%" stop-color="#7fd5ff"/>
+                  <stop offset="50%" stop-color="#f0d48a"/>
+                  <stop offset="100%" stop-color="#ef7c63"/>
+                </linearGradient>
+                <radialGradient id="territoryGrad" cx="50%" cy="50%" r="70%">
+                  <stop offset="0%" stop-color="#ffb45f" stop-opacity=".70"/>
+                  <stop offset="100%" stop-color="#ef7c63" stop-opacity="0"/>
+                </radialGradient>
+                <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity=".22"/></filter>
+                <filter id="glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="7" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                <marker id="arrowGold" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L0,8 L8,4 Z" fill="#f0d48a"/></marker>
+                <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L0,8 L8,4 Z" fill="#7fd5ff"/></marker>
+              </defs>
+
+              <rect x="0" y="0" width="940" height="620" rx="24" fill="rgba(255,255,255,.015)"></rect>
+
+              <g id="railLayer" class="stroke-node" transform="translate(0,0)">
+                <path id="railBase" d="M128,96 C224,66 310,70 392,96 C486,126 578,126 664,96 C748,68 812,76 858,104" fill="none" stroke="rgba(170,192,211,.34)" stroke-width="6" stroke-linecap="round"></path>
+                <path id="railProgress" d="M128,96 C224,66 310,70 392,96 C486,126 578,126 664,96 C748,68 812,76 858,104" fill="none" stroke="#f0d48a" stroke-width="6" stroke-linecap="round" opacity=".95" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1"></path>
+                <g id="railArrows" opacity=".18" stroke="#f0d48a" stroke-width="2.2" fill="none" marker-end="url(#arrowGold)">
+                  <path d="M208,82 C246,74 282,76 318,84"></path>
+                  <path d="M444,112 C484,122 522,124 558,118"></path>
+                  <path d="M708,82 C744,74 778,78 806,88"></path>
+                </g>
+                <g id="nodeClot" transform="translate(128,96)"><circle r="20" fill="rgba(212,177,90,.18)" stroke="#d4b15a" stroke-width="2"></circle><text y="43" fill="#f0d48a">Clot</text></g>
+                <g id="nodeFlow" transform="translate(306,78)" opacity=".45"><circle r="18" fill="rgba(127,213,255,.12)" stroke="#7fd5ff" stroke-width="2"></circle><text y="43" fill="#aac0d3">Brain artery</text></g>
+                <g id="nodeOxygen" transform="translate(488,122)" opacity=".35"><circle r="18" fill="rgba(127,213,255,.12)" stroke="#7fd5ff" stroke-width="2"></circle><text y="43" fill="#aac0d3">Oxygen</text></g>
+                <g id="nodeSigns" transform="translate(664,96)" opacity=".30"><circle r="18" fill="rgba(239,124,99,.12)" stroke="#ef7c63" stroke-width="2"></circle><text y="43" fill="#aac0d3">Signs</text></g>
+                <g id="nodeEmergency" transform="translate(858,104)" opacity=".25"><circle r="18" fill="rgba(239,124,99,.12)" stroke="#ef7c63" stroke-width="2"></circle><text y="43" fill="#aac0d3">Emergency</text></g>
+              </g>
+
+              <g id="eventGuides" stroke="rgba(255,255,255,.22)" stroke-width="1.4" stroke-dasharray="5 7" fill="none" opacity="0">
+                <path id="guideFlow" d="M306,104 L392,272" opacity="0"></path>
+                <path id="guideOxygen" d="M488,150 L530,386" opacity="0"></path>
+                <path id="guideSigns" d="M664,124 L710,252" opacity="0"></path>
+                <path id="guideEmergency" d="M858,132 L788,430" opacity="0"></path>
+              </g>
+
+              <g id="brainScene" filter="url(#softShadow)">
+                <path id="brainOutline" d="M213,396 C190,336 214,275 270,252 C287,206 335,192 373,215 C403,178 462,178 495,214 C543,190 604,213 617,263 C671,282 703,333 689,390 C728,435 693,499 634,506 C607,551 538,555 503,520 C459,552 394,542 371,500 C323,520 260,493 257,442 C236,434 220,418 213,396 Z" fill="url(#brainGrad)" stroke="rgba(255,255,255,.12)" stroke-width="2"></path>
+                <path d="M292,304 C334,288 383,302 404,338 C443,310 496,313 528,352 C574,350 620,378 636,420" fill="none" stroke="rgba(255,255,255,.11)" stroke-width="3" stroke-linecap="round"></path>
+                <path d="M282,415 C342,395 391,413 421,453 C462,428 525,430 565,469" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="3" stroke-linecap="round"></path>
+                <path d="M442,230 C412,284 413,340 452,386 C491,432 484,477 450,520" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="3" stroke-linecap="round"></path>
+
+                <path id="supplyTerritory" d="M452,346 C506,314 584,330 625,392 C646,425 638,469 604,492 C552,525 468,500 444,440 C430,403 427,371 452,346 Z" fill="rgba(127,213,255,.13)" stroke="rgba(127,213,255,.22)" stroke-width="1.6" opacity="0"></path>
+                <ellipse id="injuryGlow" cx="542" cy="424" rx="118" ry="96" fill="url(#territoryGrad)" opacity="0" filter="url(#glow)"></ellipse>
+                <path id="injuryTerritory" d="M470,360 C521,338 588,352 619,406 C636,440 620,482 585,498 C538,519 475,498 456,442 C445,409 444,377 470,360 Z" fill="#ef7c63" opacity="0"></path>
+              </g>
+
+              <g id="arteryLayer" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path id="arteryTrack" d="M170,346 C260,304 342,298 416,324 C478,347 524,378 595,404 C644,422 682,430 724,426" stroke="url(#arteryGrad)" stroke-width="17" opacity=".88"></path>
+                <path id="arteryInner" d="M170,346 C260,304 342,298 416,324 C478,347 524,378 595,404 C644,422 682,430 724,426" stroke="rgba(255,255,255,.20)" stroke-width="5" opacity=".9"></path>
+                <path id="arteryFlow" d="M170,346 C260,304 342,298 416,324 C478,347 524,378 595,404 C644,422 682,430 724,426" stroke="#7fd5ff" stroke-width="4.6" opacity=".76" stroke-dasharray="1" stroke-dashoffset="0" pathLength="1"></path>
+                <path id="brainPathGuide" d="M170,346 C260,304 342,298 416,324 C478,347 524,378 595,404 C644,422 682,430 724,426" stroke="transparent" stroke-width="1"></path>
+                <path id="blockedSegment" d="M435,333 C480,354 510,374 548,390" stroke="#ffb45f" stroke-width="10" opacity="0"></path>
+              </g>
+
+              <g id="blockageGroup" transform="translate(485,362) scale(.12)" opacity="0">
+                <path d="M-44,-18 C-20,-45 28,-42 54,-12 C42,26 -24,44 -58,12 C-67,2 -60,-10 -44,-18 Z" fill="#9d2b35" stroke="#ffb6a9" stroke-width="3"></path>
+                <circle cx="-18" cy="-2" r="8" fill="#f0d48a" opacity=".70"></circle>
+                <circle cx="12" cy="-12" r="7" fill="#f4cf7f" opacity=".62"></circle>
+                <circle cx="28" cy="7" r="7" fill="#ff8d7f" opacity=".72"></circle>
+              </g>
+
+              <g id="embolusTrail" stroke="#ffb6a9" stroke-width="2.4" stroke-linecap="round" fill="none" marker-end="url(#arrowGold)" opacity="0">
+                <path d="M86,332 C138,320 180,315 224,308"></path>
+                <path d="M240,302 C300,288 358,296 405,318"></path>
+              </g>
+
+              <g id="flowParticles"></g>
+              <g id="oxygenDots"></g>
+              <g id="deficitDots"></g>
+
+              <g id="territoryArrows" stroke="#7fd5ff" stroke-width="2.2" stroke-linecap="round" fill="none" marker-end="url(#arrowBlue)" opacity="0">
+                <path d="M512,386 C522,398 532,408 542,422"></path>
+                <path d="M584,398 C570,416 556,434 544,452"></path>
+                <path d="M612,434 C584,448 558,456 530,462"></path>
+              </g>
+
+              <g id="signsPanel" transform="translate(668,228)" opacity="0" font-family="Montserrat, Roboto, system-ui, sans-serif">
+                <rect x="0" y="0" width="226" height="148" rx="18" fill="rgba(255,255,255,.052)" stroke="rgba(255,255,255,.13)"></rect>
+                <text x="18" y="28" font-size="14" font-weight="800" fill="#eef5fb">Sudden warning signs</text>
+                <g class="stroke-chip">
+                  <rect x="18" y="44" width="82" height="26" rx="13" fill="rgba(127,213,255,.13)" stroke="rgba(127,213,255,.34)"></rect><text x="59" y="62" text-anchor="middle" fill="#9be4ff">Balance</text>
+                  <rect x="112" y="44" width="72" height="26" rx="13" fill="rgba(127,213,255,.13)" stroke="rgba(127,213,255,.34)"></rect><text x="148" y="62" text-anchor="middle" fill="#9be4ff">Eyes</text>
+                  <rect x="18" y="80" width="62" height="26" rx="13" fill="rgba(239,124,99,.13)" stroke="rgba(239,124,99,.38)"></rect><text x="49" y="98" text-anchor="middle" fill="#ffb6a9">Face</text>
+                  <rect x="90" y="80" width="58" height="26" rx="13" fill="rgba(239,124,99,.13)" stroke="rgba(239,124,99,.38)"></rect><text x="119" y="98" text-anchor="middle" fill="#ffb6a9">Arm</text>
+                  <rect x="158" y="80" width="50" height="26" rx="13" fill="rgba(239,124,99,.13)" stroke="rgba(239,124,99,.38)"></rect><text x="183" y="98" text-anchor="middle" fill="#ffb6a9">Speech</text>
+                  <rect x="18" y="116" width="190" height="22" rx="11" fill="rgba(240,212,138,.12)" stroke="rgba(240,212,138,.34)"></rect><text x="113" y="132" text-anchor="middle" fill="#f0d48a">Time: emergency action</text>
+                </g>
+              </g>
+
+              <g id="emergencyPanel" transform="translate(670,414)" opacity="0" font-family="Montserrat, Roboto, system-ui, sans-serif">
+                <rect x="0" y="0" width="220" height="104" rx="18" fill="rgba(255,255,255,.045)" stroke="rgba(255,255,255,.12)"></rect>
+                <text x="18" y="28" font-size="14" font-weight="800" fill="#eef5fb">Emergency stroke pathway</text>
+                <path d="M22,58 L58,58 L66,42 L75,74 L87,54 L118,54 L128,44 L140,70 L152,56 L178,56" fill="none" stroke="#f0d48a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity=".9"></path>
+                <text x="18" y="88" font-size="11" fill="#aac0d3">Symptoms, timing, imaging, urgent treatment decisions.</text>
+              </g>
+
+              <g id="labelsGroup" class="stroke-label" font-family="Montserrat, Roboto, system-ui, sans-serif" font-size="17" fill="#eef5fb" stroke="none">
+                <g id="lblBrain" opacity="1"><line x1="242" y1="254" x2="332" y2="284" stroke="#7fd5ff" stroke-width="2"></line><circle cx="332" cy="284" r="3" fill="#7fd5ff"></circle><text x="120" y="248">Brain blood supply</text></g>
+                <g id="lblBlockage" opacity="0"><line x1="548" y1="302" x2="492" y2="362" stroke="#ffb45f" stroke-width="2"></line><circle cx="492" cy="362" r="3" fill="#ffb45f"></circle><text x="554" y="298">Flow-limiting blockage</text></g>
+                <g id="lblOxygen" opacity="0"><line x1="396" y1="526" x2="530" y2="424" stroke="#7fd5ff" stroke-width="2"></line><circle cx="530" cy="424" r="3" fill="#7fd5ff"></circle><text x="184" y="544">Oxygen shortfall</text></g>
+                <g id="lblSigns" opacity="0"><line x1="714" y1="386" x2="616" y2="428" stroke="#ef7c63" stroke-width="2"></line><circle cx="616" cy="428" r="3" fill="#ef7c63"></circle><text x="716" y="400">Warning signs</text></g>
+                <g id="lblEmergency" opacity="0"><line x1="838" y1="408" x2="780" y2="414" stroke="#f0d48a" stroke-width="2"></line><circle cx="780" cy="414" r="3" fill="#f0d48a"></circle><text x="754" y="392">Emergency action</text></g>
+              </g>
+            </svg>
+          </div>
+
+          <aside class="legend" aria-labelledby="legend-h">
+            <h3 id="legend-h">Visual guide</h3>
+            <p style="margin:0 0 8px;color:var(--muted);font-size:.92rem;line-height:1.5">This module focuses on one blockage-type stroke pathway. It is a visual model, not a symptom checker.</p>
+            <div class="legend-row"><div class="swatch" style="background:#7fd5ff"></div><div><strong>Brain blood flow</strong><br>Blood moving through an artery that supplies part of the brain.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#9d2b35"></div><div><strong>Clot or blockage</strong><br>A local clot or travelling clot can reduce flow to brain tissue.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#ef7c63"></div><div><strong>Brain territory</strong><br>The downstream brain area can become stressed if oxygen supply falls.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#f0d48a"></div><div><strong>Emergency action</strong><br>Sudden symptoms belong with emergency services and urgent stroke evaluation.</div></div>
+            <div class="info-block">
+              <div class="metric"><div class="label">Current stage</div><div id="strokeMetricStage" class="value">Supply</div></div>
+              <div class="metric"><div class="label">Brain blood flow</div><div id="strokeMetricFlow" class="value">Open</div></div>
+              <div class="metric"><div class="label">Brain territory</div><div id="strokeMetricBrain" class="value">Supplied</div></div>
+              <div class="metric"><div class="label">Stroke pathway view</div><div id="strokeMetricDetail" class="value">Off</div></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <aside class="panel-card" aria-labelledby="panel-h">
+        <h2 id="panel-h" class="panel-title">Stage explanation</h2>
+        <div id="stageHeadline" class="subhead" style="margin-top:0">Brain supply context</div>
+        <p id="stageExplain" class="panel-copy">The page begins with a brain artery supplying a downstream brain territory.</p>
+
+        <h3 class="subhead">What this means</h3>
+        <p id="stageMeaning" class="panel-copy">A blockage-type stroke pathway matters because brain tissue depends on continuous blood flow and oxygen supply.</p>
+
+        <h3 class="subhead">What this does not show</h3>
+        <p id="stageLimits" class="panel-copy">This is not your anatomy, not a symptom checker, and not a diagnosis. It does not show whether you are having a stroke.</p>
+
+        <div id="compositionBlock">
+          <h3 class="subhead">What stroke can involve</h3>
+          <ul id="compositionList" class="panel-list">
+            <li>A brain-supplying artery and the territory it supports</li>
+            <li>A clot, embolus, or blockage that reduces blood flow</li>
+            <li>Oxygen shortfall in downstream brain tissue</li>
+            <li>Sudden warning signs that require emergency evaluation</li>
+            <li>A different pathway for bleeding stroke, which this page does not model in detail</li>
+          </ul>
+        </div>
+
+        <h3 class="subhead">Discuss with your health team</h3>
+        <p id="stageDiscuss" class="panel-copy">Ask how your stroke risk is being interpreted in the context of blood pressure, rhythm concerns such as atrial fibrillation, Lp(a), ApoB, diabetes or insulin resistance, smoking exposure, medicines, symptoms, previous TIA or stroke, and family history.</p>
+
+        <div class="callout">
+          This visualisation is educational. If symptoms suggest stroke or another emergency, seek urgent medical help immediately. Do not use this page to decide whether symptoms are safe.
+        </div>
+      </aside>
+    </section>
+
+    <section class="cta-card" aria-labelledby="cta-h">
+      <div>
+        <div class="kicker">Heart risk products</div>
+        <h2 id="cta-h">Clarify risk. Navigate danger. Prevent events.</h2>
+        <p>Stroke is where hidden and incomplete risk can become brain injury, disability, or sudden emergency. If you want help understanding what your current checks do and do not show, start with Clarify. If you already have signals such as Lp(a), ApoB, blood pressure concerns, rhythm concerns, metabolic risk, smoking exposure, inflammatory markers, calcium-score findings, symptoms, medicines, previous TIA or stroke, or family history and want to understand how they may interact, Navigate may be right for you. If you want to reduce your — or a loved one’s — risk of heart attack, stroke, or avoidable cardiovascular damage, Prevent may be right for you.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn primary" href="https://shyntesy.com/clarify">Clarify risk</a>
+        <a class="btn secondary" href="https://shyntesy.com/navigate">Navigate danger</a>
+        <a class="btn secondary" href="https://shyntesy.com/prevent">Prevent events</a>
+      </div>
+    </section>
+  </main>
+
+  <footer id="atlasFooter" class="footer"></footer>
+
+  <script>
+    window.HFAtlas && HFAtlas.renderTopbar('topbarRoot');
+    window.HFAtlas && HFAtlas.buildSidebar('riskSidebar', window.location.pathname, { active:'stroke', baseHref:'../' });
+    window.HFAtlas && HFAtlas.renderFooter('atlasFooter');
+    window.HFAtlas && HFAtlas.initShellControls();
+
+    (function(){
+      const slider = document.getElementById('progressSlider');
+      const playBtn = document.getElementById('playBtn');
+      const labelsBtn = document.getElementById('labelsBtn');
+      const detailBtn = document.getElementById('detailBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const stageText = document.getElementById('stageText');
+      const metricStage = document.getElementById('strokeMetricStage');
+      const metricFlow = document.getElementById('strokeMetricFlow');
+      const metricBrain = document.getElementById('strokeMetricBrain');
+      const metricDetail = document.getElementById('strokeMetricDetail');
+      const stageHeadline = document.getElementById('stageHeadline');
+      const stageExplain = document.getElementById('stageExplain');
+      const stageMeaning = document.getElementById('stageMeaning');
+      const stageLimits = document.getElementById('stageLimits');
+      const stageDiscuss = document.getElementById('stageDiscuss');
+      const compositionBlock = document.getElementById('compositionBlock');
+
+      const railProgress = document.getElementById('railProgress');
+      const railArrows = document.getElementById('railArrows');
+      const nodeFlow = document.getElementById('nodeFlow');
+      const nodeOxygen = document.getElementById('nodeOxygen');
+      const nodeSigns = document.getElementById('nodeSigns');
+      const nodeEmergency = document.getElementById('nodeEmergency');
+      const eventGuides = document.getElementById('eventGuides');
+      const guideFlow = document.getElementById('guideFlow');
+      const guideOxygen = document.getElementById('guideOxygen');
+      const guideSigns = document.getElementById('guideSigns');
+      const guideEmergency = document.getElementById('guideEmergency');
+
+      const arteryFlow = document.getElementById('arteryFlow');
+      const brainPathGuide = document.getElementById('brainPathGuide');
+      const blockedSegment = document.getElementById('blockedSegment');
+      const blockageGroup = document.getElementById('blockageGroup');
+      const embolusTrail = document.getElementById('embolusTrail');
+      const supplyTerritory = document.getElementById('supplyTerritory');
+      const injuryTerritory = document.getElementById('injuryTerritory');
+      const injuryGlow = document.getElementById('injuryGlow');
+      const territoryArrows = document.getElementById('territoryArrows');
+      const flowParticles = document.getElementById('flowParticles');
+      const oxygenDots = document.getElementById('oxygenDots');
+      const deficitDots = document.getElementById('deficitDots');
+      const signsPanel = document.getElementById('signsPanel');
+      const emergencyPanel = document.getElementById('emergencyPanel');
+      const labels = {
+        brain: document.getElementById('lblBrain'),
+        blockage: document.getElementById('lblBlockage'),
+        oxygen: document.getElementById('lblOxygen'),
+        signs: document.getElementById('lblSigns'),
+        emergency: document.getElementById('lblEmergency')
+      };
+
+      const { clamp, lerp, ease, pct } = HFAtlas;
+      const allowMotion = HFAtlas.allowMotion();
+      const state = { value:0, playing:false, showLabels:true, detail:false, raf:null, idle:null, particleTick:0 };
+
+      const stages = [
+        {
+          max:12,
+          title:'Brain supply context', short:'Supply', flow:'Open', brain:'Supplied',
+          explain:'The page begins with a brain artery supplying a downstream brain territory.',
+          meaning:'A blockage-type stroke pathway matters because brain tissue depends on continuous blood flow and oxygen supply.',
+          limits:'This is not your anatomy, not a symptom checker, and not a diagnosis. It does not show whether you are having a stroke.',
+          discuss:'Ask how your prevention plan considers stroke risk before an emergency ever happens, including blood pressure, rhythm, cholesterol, Lp(a), ApoB, metabolic risk, medicines, and family history.'
+        },
+        {
+          max:35,
+          title:'Brain artery flow falls', short:'Flow', flow:'Reduced', brain:'Watching',
+          explain:'A clot or blockage can reduce blood flow through an artery that supplies part of the brain.',
+          meaning:'This is the hand-off from a clot or blockage problem to a brain-supply problem. It does not mean stroke symptoms must occur, but it shows why flow matters.',
+          limits:'This visual cannot tell whether a blockage is present, what type of stroke is happening, or whether treatment is needed. Sudden symptoms require emergency assessment.',
+          discuss:'Ask whether your risk plan accounts for clot-related risks, blood pressure, atrial fibrillation or rhythm concerns, Lp(a), ApoB, smoking exposure, and previous TIA or stroke.'
+        },
+        {
+          max:60,
+          title:'Oxygen shortfall develops', short:'Oxygen', flow:'Limited', brain:'Stressed',
+          explain:'When brain blood flow is limited, the tissue supplied by that artery may receive less oxygen than it needs.',
+          meaning:'This stage connects the artery problem to the brain territory. The concern is not only the blockage; it is the downstream tissue that depends on blood flow.',
+          limits:'This page cannot measure oxygen shortfall, brain injury, imaging findings, or recovery. Those belong with urgent medical evaluation and your health team.',
+          discuss:'Ask what warning signs should trigger emergency action, especially if you have known risk signals, previous symptoms, or confusing test results.'
+        },
+        {
+          max:84,
+          title:'Warning signs can appear', short:'Signs', flow:'Severely limited', brain:'At risk',
+          explain:'A threatened brain territory can cause sudden neurological warning signs, such as balance, vision, face, arm, speech, or other changes.',
+          meaning:'This is where a blood-flow problem can become a function problem. Stroke warning signs are a reason to act, not to wait and interpret.',
+          limits:'Symptoms can vary and may improve temporarily. This visual does not prove whether symptoms are a TIA, stroke, migraine, seizure, or another condition.',
+          discuss:'Ask your health team what your emergency plan should be if symptoms appear or briefly resolve, and how to document timing clearly.'
+        },
+        {
+          max:100,
+          title:'Emergency stroke pathway', short:'Emergency', flow:'Threatened', brain:'Emergency',
+          explain:'At this point, emergency teams assess symptoms, timing, imaging, and treatment options. The atlas stops at urgent evaluation.',
+          meaning:'The educational message is simple: possible stroke symptoms are time-sensitive. Do not use this page to decide whether to wait.',
+          limits:'This stage is not a prediction and not a diagnostic image. It does not show what is happening in your body or what treatment you need.',
+          discuss:'Create a clear emergency plan with your health team if you have known risk, prior TIA or stroke, symptoms, rhythm concerns, or multiple risk signals.'
+        }
+      ];
+
+      function stageFor(v){
+        for(let i=0;i<stages.length;i++){ if(v <= stages[i].max) return stages[i]; }
+        return stages[stages.length - 1];
+      }
+
+      function pointOnPath(path, t){
+        const len = path.getTotalLength ? path.getTotalLength() : 0;
+        if(!len) return { x:0, y:0 };
+        return path.getPointAtLength(clamp(t,0,1) * len);
+      }
+
+      function buildCues(){
+        const oxygenData = [
+          [502,366,3.4],[530,374,3.1],[560,394,3.4],[532,420,3.2],[492,432,3.1],[575,444,3.0],[468,398,2.8],[606,420,2.9]
+        ];
+        oxygenDots.innerHTML = oxygenData.map(([cx,cy,r], i) =>
+          `<circle class="oxygen-dot" data-i="${i}" data-base-r="${r}" cx="${cx}" cy="${cy}" r="${r}" fill="#9be4ff" opacity="0"></circle>`
+        ).join('');
+
+        const deficitData = [
+          [510,370,4.1],[548,394,4.4],[574,426,4.2],[510,450,4.0],[598,442,3.8],[472,418,3.7]
+        ];
+        deficitDots.innerHTML = deficitData.map(([cx,cy,r], i) =>
+          `<circle class="deficit-dot" data-i="${i}" data-base-r="${r}" cx="${cx}" cy="${cy}" r="${r}" fill="#ffb45f" opacity="0"></circle>`
+        ).join('');
+
+        const particleCount = 20;
+        flowParticles.innerHTML = Array.from({length:particleCount}).map((_, i) =>
+          `<circle class="flow-particle" data-i="${i}" r="3" fill="#d7f8ff" opacity="0"></circle>`
+        ).join('');
+      }
+
+      function drawRail(progress){
+        railProgress.setAttribute('stroke-dashoffset', (1 - clamp(progress,0,1)).toFixed(3));
+      }
+
+      function renderParticles(){
+        const v = state.value;
+        const flowLoss = clamp((v - 12) / 23, 0, 1);
+        const obstruction = clamp((v - 35) / 65, 0, 1);
+        const nodes = flowParticles.querySelectorAll('.flow-particle');
+        state.particleTick += allowMotion ? .017 : 0;
+        nodes.forEach((node, i) => {
+          const raw = ((i / nodes.length) + state.particleTick) % 1;
+          const gate = raw > (.43 - obstruction*.08) && raw < (.58 + obstruction*.10);
+          const t = gate ? lerp(raw, .43, obstruction*.56) : raw;
+          const pt = pointOnPath(brainPathGuide, t);
+          const fade = clamp(1 - flowLoss*.50 - obstruction*.40, .10, .92);
+          const wobble = allowMotion ? Math.sin((raw*12+i)*1.25)*2.0 : 0;
+          node.setAttribute('cx', pt.x.toFixed(1));
+          node.setAttribute('cy', (pt.y + wobble).toFixed(1));
+          node.setAttribute('opacity', (fade * (gate ? .42 : .9)).toFixed(2));
+          node.setAttribute('r', (3.0 - obstruction*1.1).toFixed(1));
+        });
+      }
+
+      function updateShape(v){
+        state.value = Number(v);
+        const progress = pct(v);
+        const stage = stageFor(v);
+        const flowLoss = clamp((v - 12) / 23, 0, 1);
+        const oxygenShortfall = clamp((v - 35) / 25, 0, 1);
+        const warning = clamp((v - 60) / 24, 0, 1);
+        const emergency = clamp((v - 84) / 16, 0, 1);
+        const detailReveal = state.detail ? 1 : 0;
+
+        drawRail(progress);
+        railArrows.setAttribute('opacity', (0.18 + progress*.24 + detailReveal*.34).toFixed(2));
+        nodeFlow.setAttribute('opacity', (0.45 + flowLoss*.55).toFixed(2));
+        nodeOxygen.setAttribute('opacity', (0.35 + oxygenShortfall*.65).toFixed(2));
+        nodeSigns.setAttribute('opacity', (0.30 + warning*.70).toFixed(2));
+        nodeEmergency.setAttribute('opacity', (0.25 + emergency*.75).toFixed(2));
+
+        eventGuides.setAttribute('opacity', (detailReveal*.42 + progress*.10).toFixed(2));
+        guideFlow.setAttribute('opacity', (flowLoss*.85).toFixed(2));
+        guideOxygen.setAttribute('opacity', (oxygenShortfall*.85).toFixed(2));
+        guideSigns.setAttribute('opacity', (warning*.85).toFixed(2));
+        guideEmergency.setAttribute('opacity', (emergency*.85).toFixed(2));
+
+        arteryFlow.setAttribute('opacity', (0.78 - flowLoss*.42 - emergency*.18).toFixed(2));
+        arteryFlow.setAttribute('stroke-width', (4.6 - flowLoss*1.7).toFixed(2));
+        arteryFlow.setAttribute('stroke-dashoffset', (flowLoss*.42).toFixed(3));
+        blockedSegment.setAttribute('opacity', (flowLoss*.86).toFixed(2));
+        blockageGroup.setAttribute('opacity', flowLoss.toFixed(2));
+        const clotScale = 0.12 + flowLoss*.88;
+        blockageGroup.setAttribute('transform', `translate(485,362) scale(${clotScale.toFixed(3)})`);
+        embolusTrail.setAttribute('opacity', (detailReveal * clamp(.20 + flowLoss*.80, 0, 1)).toFixed(2));
+
+        supplyTerritory.setAttribute('opacity', (detailReveal*.22 + oxygenShortfall*.10).toFixed(2));
+        injuryTerritory.setAttribute('opacity', (warning*.28 + emergency*.30).toFixed(2));
+        injuryGlow.setAttribute('opacity', (oxygenShortfall*.14 + warning*.22 + emergency*.38).toFixed(2));
+        territoryArrows.setAttribute('opacity', (detailReveal * clamp(.15 + oxygenShortfall*.85, 0, 1)).toFixed(2));
+        signsPanel.setAttribute('opacity', (detailReveal * clamp(.20 + warning*.80, 0, 1)).toFixed(2));
+        emergencyPanel.setAttribute('opacity', (detailReveal * clamp(.20 + emergency*.80, 0, 1)).toFixed(2));
+
+        oxygenDots.querySelectorAll('.oxygen-dot').forEach((node, i) => {
+          const local = clamp((detailReveal * (1 - oxygenShortfall*.70)) * 10 - i, 0, 1);
+          const base = Number(node.getAttribute('data-base-r') || 3.2);
+          node.setAttribute('opacity', local.toFixed(2));
+          node.setAttribute('r', (base + local*.6).toFixed(1));
+        });
+        deficitDots.querySelectorAll('.deficit-dot').forEach((node, i) => {
+          const local = clamp((oxygenShortfall + warning*.70 + emergency*.45) * 8 - i, 0, 1);
+          const base = Number(node.getAttribute('data-base-r') || 4);
+          node.setAttribute('opacity', (local*.72).toFixed(2));
+          node.setAttribute('r', (base + local*.9).toFixed(1));
+        });
+
+        labels.brain.setAttribute('opacity', state.showLabels ? '1' : '0');
+        labels.blockage.setAttribute('opacity', state.showLabels ? flowLoss.toFixed(2) : '0');
+        labels.oxygen.setAttribute('opacity', state.showLabels ? oxygenShortfall.toFixed(2) : '0');
+        labels.signs.setAttribute('opacity', state.showLabels ? warning.toFixed(2) : '0');
+        labels.emergency.setAttribute('opacity', state.showLabels ? emergency.toFixed(2) : '0');
+
+        stageText.textContent = stage.title;
+        stageHeadline.textContent = stage.title;
+        stageExplain.textContent = stage.explain;
+        stageMeaning.textContent = stage.meaning;
+        stageLimits.textContent = stage.limits;
+        stageDiscuss.textContent = stage.discuss;
+        metricStage.textContent = stage.short;
+        metricFlow.textContent = stage.flow;
+        metricBrain.textContent = stage.brain;
+        metricDetail.textContent = state.detail ? 'On' : 'Off';
+        if(compositionBlock){ compositionBlock.hidden = state.value < 5; }
+        HFAtlas.setSliderValueText(slider, Math.round(state.value), stage.title);
+        renderParticles();
+      }
+
+      function setValue(v){
+        const next = clamp(Number(v),0,100);
+        slider.value = Math.round(next);
+        updateShape(next);
+      }
+
+      function play(){
+        if(state.playing){ stop(); return; }
+        state.playing = true;
+        playBtn.textContent = 'Pause';
+        const start = performance.now();
+        const from = Number(slider.value);
+        const duration = 9000 * (1 - from/100) + 800;
+        function tick(now){
+          if(!state.playing) return;
+          const t = clamp((now - start) / duration, 0, 1);
+          setValue(lerp(from,100,ease(t)));
+          if(t < 1){ state.raf = requestAnimationFrame(tick); }
+          else{ stop(); }
+        }
+        state.raf = requestAnimationFrame(tick);
+      }
+
+      function stop(){
+        state.playing = false;
+        playBtn.textContent = 'Play';
+        if(state.raf) cancelAnimationFrame(state.raf);
+        state.raf = null;
+      }
+
+      slider.addEventListener('input', function(){ stop(); setValue(slider.value); });
+      playBtn.addEventListener('click', play);
+      resetBtn.addEventListener('click', function(){ stop(); setValue(0); });
+      labelsBtn.addEventListener('click', function(){
+        state.showLabels = !state.showLabels;
+        labelsBtn.textContent = state.showLabels ? 'Labels on' : 'Labels off';
+        labelsBtn.setAttribute('aria-pressed', state.showLabels ? 'true' : 'false');
+        updateShape(state.value);
+      });
+      detailBtn.addEventListener('click', function(){
+        state.detail = !state.detail;
+        detailBtn.setAttribute('aria-pressed', state.detail ? 'true' : 'false');
+        updateShape(state.value);
+      });
+
+      buildCues();
+      setValue(0);
+      if(allowMotion){
+        state.idle = window.setInterval(function(){
+          if(!state.playing){ renderParticles(); }
+        }, 180);
+      }
+    })();
+  </script>
+</body>
+</html>

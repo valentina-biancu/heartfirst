@@ -170,11 +170,11 @@
     { slug:'inflammation', label:'Inflammation', desc:'How inflammation can affect cardiovascular risk and plaque behaviour.' },
     { slug:'rupture', label:'Rupture', desc:'How the fibrous cap over a plaque can break and expose plaque contents.' },
     { slug:'clot', label:'Clot', desc:'How a clot can form at a rupture site and reduce blood flow.' },
-    { slug:'cascade', label:'Cascade', desc:'How plaque, inflammation, rupture, and clot can connect in an event pathway.', soon:true },
-    { slug:'heart-attack', label:'Heart attack', desc:'How a clot or blockage can cut blood flow to heart muscle.', soon:true },
-    { slug:'stroke', label:'Stroke', desc:'How a clot or blockage can cut blood flow to the brain.', soon:true },
-    { slug:'valve-calcification', label:'Valve calcification', desc:'How calcium can build up on the aortic valve.', soon:true },
-    { slug:'aortic-stenosis', label:'Aortic stenosis', desc:'How a stiff, narrowed aortic valve can strain the heart.', soon:true }
+    { slug:'cascade', label:'Cascade', desc:'How plaque, inflammation, rupture, and clot can connect in an event pathway.' },
+    { slug:'heart-attack', label:'Heart attack', desc:'How a clot or blockage can cut blood flow to heart muscle.' },
+    { slug:'stroke', label:'Stroke', desc:'How a clot or blockage can cut blood flow to the brain.' },
+    { slug:'valve-calcification', label:'Valve calcification', desc:'How calcium can build up on the aortic valve.' },
+    { slug:'aortic-stenosis', label:'Aortic stenosis', desc:'How a stiff, narrowed aortic valve can strain the heart.' }
   ];
 
   function escapeHtml(value){
@@ -269,9 +269,14 @@
     slider.setAttribute('aria-valuetext', String(value) + ', ' + String(stageTitle || 'Current stage'));
   }
 
+  function allowMotion(){
+    return !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
+
   function clamp(n,min,max){ return Math.max(min,Math.min(max,n)); }
   function lerp(a,b,t){ return a+(b-a)*t; }
-  function ease(t){ return t*t*(3-2*t); }
+  function ease(t){ return t<.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2; }
+  function pct(v){ return clamp(v,0,100)/100; }
 
   setInitialTheme();
   window.HFAtlas = Object.assign(window.HFAtlas || {}, {
@@ -289,8 +294,10 @@
     setTopicLabel: setTopicLabel,
     renderFooter: renderFooter,
     setSliderValueText: setSliderValueText,
+    allowMotion: allowMotion,
     clamp: clamp,
     lerp: lerp,
-    ease: ease
+    ease: ease,
+    pct: pct
   });
 })();

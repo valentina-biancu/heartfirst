@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="canonical" href="https://heartfirst.shyntesy.com/risks/heart-attack/" />
+  <title>Heart Attack — HeartFirst Risk Atlas</title>
+  <meta name="description" content="A HeartFirst Risk Atlas visual explainer showing how reduced or blocked coronary blood flow can threaten heart muscle, without diagnosing symptoms or predicting an event." />
+  <script src="../atlas.js"></script>
+  <link rel="stylesheet" href="../atlas.css" />
+</head>
+<body data-atlas-topic="Heart attack explorer">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header id="topbarRoot" class="topbar" aria-label="Site header"></header>
+
+  <main id="main" class="page">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="https://heartfirst.shyntesy.com/">HeartFirst</a><span class="sep">›</span><a href="https://heartfirst.shyntesy.com/risks/">Risks</a><span class="sep">›</span><span>Heart attack</span></nav>
+
+    <section class="hero" aria-labelledby="hero-h">
+      <div class="hero-card">
+        <div class="kicker">Risk Atlas · heart attack</div>
+        <h1 id="hero-h">When blood flow to heart muscle is threatened</h1>
+        <p class="hero-sub"><strong>This Risk Atlas picks up where Cascade and Clot leave off.</strong> Use the slider to move from coronary blood-supply context to flow interruption, oxygen shortfall, heart-muscle stress, and the emergency pathway where symptoms and testing belong with urgent medical care.</p>
+      </div>
+      <aside class="scope-card" aria-labelledby="scope-h">
+        <h2 id="scope-h" class="scope-title">What this module shows</h2>
+        <ul class="scope-list">
+          <li>Shows how a coronary artery problem can threaten a heart-muscle territory.</li>
+          <li>Connects blocked flow, oxygen shortfall, and possible muscle injury without claiming inevitability.</li>
+          <li>Stops at emergency recognition and evaluation, without becoming a treatment, recovery, or rehabilitation guide.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="app-grid" aria-label="Heart attack visual explorer">
+      <aside id="riskSidebar" class="nav-card" aria-labelledby="nav-h"></aside>
+
+      <section class="visual-card" aria-labelledby="visual-h">
+        <h2 id="visual-h" class="sr-only">Interactive heart attack visualisation</h2>
+        <div class="control-row">
+          <div class="stage-wrap">
+            <label for="progressSlider">Progress through the simplified pathway</label>
+            <input id="progressSlider" type="range" min="0" max="100" value="0" step="1" aria-describedby="detailHelp" />
+          </div>
+          <button id="playBtn" class="btn primary" type="button">Play</button>
+          <button id="resetBtn" class="btn secondary" type="button">Reset</button>
+          <button id="detailBtn" class="btn ghost" type="button" aria-pressed="false" aria-describedby="detailHelp">Supply view</button>
+          <button id="labelsBtn" class="btn ghost" type="button" aria-pressed="true">Labels on</button>
+        </div>
+        <p id="detailHelp" class="control-help">Supply view reveals the heart-muscle territory, oxygen-transfer cues, and emergency-evaluation cues that are otherwise kept quiet.</p>
+
+        <div class="visual-wrap">
+          <div class="canvas-shell" aria-live="polite">
+            <div id="stageText" class="stage-pill">Coronary supply context</div>
+            <svg id="heartAttackSvg" viewBox="0 0 940 620" role="img" aria-labelledby="svgTitle svgDesc">
+              <title id="svgTitle">Simplified heart attack pathway visualisation</title>
+              <desc id="svgDesc">A stylised coronary artery supplies a heart-muscle territory. As the slider advances, flow reduces, oxygen delivery falls, heart muscle stress appears, and an emergency evaluation cue is shown.</desc>
+              <defs>
+                <linearGradient id="haBloodGrad" x1="0" x2="1" y1="0" y2="0">
+                  <stop offset="0" stop-color="#e76b72" />
+                  <stop offset="1" stop-color="#9c2634" />
+                </linearGradient>
+                <linearGradient id="haArteryGrad" x1="0" x2="1" y1="0" y2="0">
+                  <stop offset="0" stop-color="#f39aa2" />
+                  <stop offset=".55" stop-color="#d75561" />
+                  <stop offset="1" stop-color="#8f2230" />
+                </linearGradient>
+                <linearGradient id="haMuscleGrad" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#bd3f48" />
+                  <stop offset="1" stop-color="#6e1f30" />
+                </linearGradient>
+                <linearGradient id="haInjuryGrad" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0" stop-color="#ffb45f" />
+                  <stop offset=".55" stop-color="#ef7c63" />
+                  <stop offset="1" stop-color="#b93137" />
+                </linearGradient>
+                <radialGradient id="haGlowGrad" cx="50%" cy="50%" r="60%">
+                  <stop offset="0" stop-color="#ffefb0" stop-opacity=".78" />
+                  <stop offset=".55" stop-color="#ef7c63" stop-opacity=".38" />
+                  <stop offset="1" stop-color="#ef7c63" stop-opacity="0" />
+                </radialGradient>
+                <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#000" flood-opacity=".28" />
+                </filter>
+                <marker id="arrowBlue" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+                  <path d="M0,0 L9,4.5 L0,9 Z" fill="#7fd5ff"></path>
+                </marker>
+                <marker id="arrowGold" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+                  <path d="M0,0 L9,4.5 L0,9 Z" fill="#f0d48a"></path>
+                </marker>
+                <marker id="arrowDanger" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+                  <path d="M0,0 L9,4.5 L0,9 Z" fill="#ef7c63"></path>
+                </marker>
+              </defs>
+
+              <g id="pathwayRail" font-family="Montserrat, Roboto, system-ui, sans-serif">
+                <path id="railBase" d="M132,96 C235,68 322,70 410,96 C506,124 610,124 704,96 C762,80 816,82 858,100" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="5" stroke-linecap="round"></path>
+                <path id="railProgress" d="M132,96 C235,68 322,70 410,96 C506,124 610,124 704,96 C762,80 816,82 858,100" fill="none" stroke="#d4b15a" stroke-width="5" stroke-linecap="round" stroke-dasharray="1" stroke-dashoffset="1" pathLength="1"></path>
+                <g id="railArrows" fill="none" stroke="#d4b15a" stroke-width="2.2" marker-end="url(#arrowGold)" opacity=".18">
+                  <path d="M232,82 L276,82"></path>
+                  <path d="M382,91 L426,105"></path>
+                  <path d="M548,118 L592,118"></path>
+                  <path d="M710,96 L754,94"></path>
+                </g>
+                <g id="railNodes" font-size="12" font-weight="800" text-anchor="middle">
+                  <g id="nodeClot" transform="translate(132,96)"><circle r="19" fill="rgba(212,177,90,.18)" stroke="#d4b15a" stroke-width="2"></circle><text y="42" fill="#f0d48a">Clot</text></g>
+                  <g id="nodeFlow" transform="translate(300,78)" opacity=".45"><circle r="17" fill="rgba(127,213,255,.12)" stroke="#7fd5ff" stroke-width="2"></circle><text y="42" fill="#aac0d3">Flow</text></g>
+                  <g id="nodeOxygen" transform="translate(492,118)" opacity=".35"><circle r="17" fill="rgba(127,213,255,.12)" stroke="#7fd5ff" stroke-width="2"></circle><text y="42" fill="#aac0d3">Oxygen</text></g>
+                  <g id="nodeMuscle" transform="translate(668,108)" opacity=".30"><circle r="17" fill="rgba(239,124,99,.12)" stroke="#ef7c63" stroke-width="2"></circle><text y="42" fill="#aac0d3">Muscle</text></g>
+                  <g id="nodeEmergency" transform="translate(858,100)" opacity=".25"><circle r="17" fill="rgba(239,124,99,.12)" stroke="#ef7c63" stroke-width="2"></circle><text y="42" fill="#aac0d3">Emergency</text></g>
+                </g>
+              </g>
+
+              <g id="eventGuides" stroke="rgba(255,255,255,.20)" stroke-width="1.4" stroke-dasharray="5 7" opacity="0">
+                <path id="guideFlow" d="M300,118 L436,268"></path>
+                <path id="guideOxygen" d="M492,142 L538,390"></path>
+                <path id="guideMuscle" d="M668,132 L598,424"></path>
+                <path id="guideEmergency" d="M858,124 L774,438"></path>
+              </g>
+
+              <g id="heartScene" filter="url(#softShadow)">
+                <path id="heartShape" d="M458,532 C421,501 356,453 316,399 C275,344 270,282 300,234 C330,185 395,179 456,242 C519,178 586,185 616,235 C645,283 638,346 596,401 C556,454 495,502 458,532 Z" fill="url(#haMuscleGrad)" opacity=".95"></path>
+                <path id="heartInnerShade" d="M456,248 C510,206 570,222 590,268 C612,319 580,394 520,455 C496,480 475,500 458,516 C454,432 455,338 456,248 Z" fill="rgba(255,255,255,.045)"></path>
+                <path id="supplyTerritory" d="M505,284 C565,302 610,352 604,421 C565,467 502,474 448,435 C470,395 496,342 505,284 Z" fill="#7fd5ff" opacity="0"></path>
+                <path id="injuryTerritory" d="M512,318 C558,333 585,370 580,418 C548,448 499,452 462,428 C482,394 502,356 512,318 Z" fill="url(#haInjuryGrad)" opacity="0"></path>
+                <ellipse id="injuryGlow" cx="522" cy="394" rx="92" ry="78" fill="url(#haGlowGrad)" opacity="0"></ellipse>
+              </g>
+
+              <g id="coronaryLayer" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path id="coronaryTrack" d="M322,248 C396,214 478,232 544,286 C596,328 642,374 692,424" stroke="url(#haArteryGrad)" stroke-width="15" opacity=".86"></path>
+                <path id="coronaryInner" d="M322,248 C396,214 478,232 544,286 C596,328 642,374 692,424" stroke="rgba(255,255,255,.18)" stroke-width="5" opacity=".9"></path>
+                <path id="coronaryFlow" d="M322,248 C396,214 478,232 544,286 C596,328 642,374 692,424" stroke="#7fd5ff" stroke-width="4.5" opacity=".75" stroke-dasharray="1" stroke-dashoffset="0" pathLength="1"></path>
+                <path id="coronaryPathGuide" d="M322,248 C396,214 478,232 544,286 C596,328 642,374 692,424" stroke="transparent" stroke-width="1"></path>
+                <path id="blockedSegment" d="M528,274 C552,289 574,309 594,330" stroke="#ffb45f" stroke-width="9" opacity="0"></path>
+              </g>
+
+              <g id="blockageGroup" transform="translate(552,294) scale(.12)" opacity="0">
+                <path d="M-48,-15 C-22,-44 30,-42 56,-12 C42,28 -28,44 -60,12 C-68,4 -62,-8 -48,-15 Z" fill="#9d2b35" stroke="#ffb6a9" stroke-width="3"></path>
+                <circle cx="-22" cy="0" r="9" fill="#f0d48a" opacity=".72"></circle>
+                <circle cx="10" cy="-12" r="8" fill="#f4cf7f" opacity=".62"></circle>
+                <circle cx="30" cy="8" r="7" fill="#ff8d7f" opacity=".72"></circle>
+              </g>
+
+              <g id="flowParticles"></g>
+              <g id="oxygenDots"></g>
+              <g id="deficitDots"></g>
+
+              <g id="supplyArrows" stroke="#7fd5ff" stroke-width="2.2" stroke-linecap="round" fill="none" marker-end="url(#arrowBlue)" opacity="0">
+                <path d="M502,312 C530,334 542,358 545,382"></path>
+                <path d="M565,342 C552,372 538,398 520,424"></path>
+                <path d="M608,390 C580,410 554,424 522,438"></path>
+              </g>
+
+              <g id="evaluationPanel" transform="translate(665,430)" opacity="0" font-family="Montserrat, Roboto, system-ui, sans-serif">
+                <rect x="0" y="0" width="218" height="104" rx="18" fill="rgba(255,255,255,.045)" stroke="rgba(255,255,255,.12)"></rect>
+                <text x="18" y="28" font-size="14" font-weight="800" fill="#eef5fb">Emergency evaluation</text>
+                <path id="ecgTrace" d="M18,58 L46,58 L53,45 L62,74 L73,54 L94,54 L101,43 L113,69 L126,56 L166,56" fill="none" stroke="#f0d48a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity=".9"></path>
+                <text x="18" y="88" font-size="11" fill="#aac0d3">Symptoms, ECG, blood tests, imaging.</text>
+              </g>
+
+              <g id="labelsGroup" font-family="Montserrat, Roboto, system-ui, sans-serif" font-size="17" fill="#eef5fb" stroke="none">
+                <g id="lblCoronary" opacity="1"><line x1="278" y1="212" x2="354" y2="244" stroke="#7fd5ff" stroke-width="2"></line><circle cx="354" cy="244" r="3" fill="#7fd5ff"></circle><text x="128" y="206">Coronary supply</text></g>
+                <g id="lblBlockage" opacity="0"><line x1="610" y1="256" x2="562" y2="294" stroke="#ffb45f" stroke-width="2"></line><circle cx="562" cy="294" r="3" fill="#ffb45f"></circle><text x="616" y="252">Flow-limiting blockage</text></g>
+                <g id="lblOxygen" opacity="0"><line x1="365" y1="512" x2="508" y2="410" stroke="#7fd5ff" stroke-width="2"></line><circle cx="508" cy="410" r="3" fill="#7fd5ff"></circle><text x="166" y="532">Oxygen supply falls</text></g>
+                <g id="lblMuscle" opacity="0"><line x1="704" y1="356" x2="548" y2="402" stroke="#ef7c63" stroke-width="2"></line><circle cx="548" cy="402" r="3" fill="#ef7c63"></circle><text x="712" y="352">Heart muscle at risk</text></g>
+                <g id="lblEmergency" opacity="0"><line x1="820" y1="418" x2="776" y2="430" stroke="#f0d48a" stroke-width="2"></line><circle cx="776" cy="430" r="3" fill="#f0d48a"></circle><text x="730" y="396">Emergency pathway</text></g>
+              </g>
+            </svg>
+          </div>
+
+          <aside class="legend" aria-labelledby="legend-h">
+            <h3 id="legend-h">Visual guide</h3>
+            <p style="margin:0 0 8px;color:var(--muted);font-size:.92rem;line-height:1.5">This module connects coronary blood flow to heart-muscle supply. It is a visual model, not an emergency triage tool.</p>
+            <div class="legend-row"><div class="swatch" style="background:#7fd5ff"></div><div><strong>Coronary flow</strong><br>Blood moving through an artery that supplies heart muscle.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#9d2b35"></div><div><strong>Flow-limiting blockage</strong><br>A clot or blockage can reduce the supply path.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#ef7c63"></div><div><strong>Muscle territory</strong><br>The downstream heart muscle can become stressed or injured if supply is not restored.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#f0d48a"></div><div><strong>Emergency evaluation</strong><br>Symptoms, ECG, blood tests, and imaging belong with urgent medical care.</div></div>
+            <div class="info-block">
+              <div class="metric"><div class="label">Current stage</div><div id="haMetricStage" class="value">Supply</div></div>
+              <div class="metric"><div class="label">Blood flow</div><div id="haMetricFlow" class="value">Open</div></div>
+              <div class="metric"><div class="label">Muscle status</div><div id="haMetricMuscle" class="value">Supplied</div></div>
+              <div class="metric"><div class="label">Supply view</div><div id="haMetricDetail" class="value">Off</div></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <aside class="panel-card" aria-labelledby="panel-h">
+        <h2 id="panel-h" class="panel-title">Stage explanation</h2>
+        <div id="stageHeadline" class="subhead" style="margin-top:0">Coronary supply context</div>
+        <p id="stageExplain" class="panel-copy">The page begins with a coronary artery supplying a territory of working heart muscle.</p>
+
+        <h3 class="subhead">What this means</h3>
+        <p id="stageMeaning" class="panel-copy">A heart attack pathway matters because heart muscle needs continuous oxygen-rich blood. The visual starts with supply before showing what happens when that supply is threatened.</p>
+
+        <h3 class="subhead">What this does not show</h3>
+        <p id="stageLimits" class="panel-copy">This is not your anatomy, not a symptom checker, and not a diagnosis. It does not show whether you are having a heart attack.</p>
+
+        <div id="compositionBlock">
+          <h3 class="subhead">What heart attack risk can involve</h3>
+          <ul id="compositionList" class="panel-list">
+            <li>A coronary artery supplying a heart-muscle territory</li>
+            <li>A blockage or severe flow reduction in that artery</li>
+            <li>Oxygen shortfall in downstream heart muscle</li>
+            <li>Emergency evaluation with symptoms, ECG, blood tests, and imaging</li>
+          </ul>
+        </div>
+
+        <h3 class="subhead">Discuss with your health team</h3>
+        <p id="stageDiscuss" class="panel-copy">Ask how your risk context is being interpreted before an emergency ever happens, including Lp(a), ApoB, blood pressure, metabolic risk, smoking exposure, inflammatory markers, calcium-score findings, symptoms, medicines, and family history.</p>
+
+        <div class="callout">
+          This visualisation is educational. If symptoms suggest a heart attack or another emergency, seek urgent medical help immediately. Do not use this page to decide whether symptoms are safe.
+        </div>
+      </aside>
+    </section>
+
+    <section class="cta-card" aria-labelledby="cta-h">
+      <div>
+        <div class="kicker">Heart risk products</div>
+        <h2 id="cta-h">Clarify risk. Navigate danger. Prevent events.</h2>
+        <p>Heart attack is where hidden and incomplete risk can become immediate harm. If you want help understanding what your current checks do and do not show, start with Clarify. If you already have signals such as Lp(a), ApoB, blood pressure concerns, inflammatory markers, metabolic risk, calcium-score findings, symptoms, medicines, or family history and want to understand how they may interact, Navigate may be right for you. If you want to reduce your — or a loved one’s — risk of heart attack, stroke, or avoidable cardiovascular damage, Prevent may be right for you.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn primary" href="https://shyntesy.com/clarify">Clarify risk</a>
+        <a class="btn secondary" href="https://shyntesy.com/navigate">Navigate danger</a>
+        <a class="btn secondary" href="https://shyntesy.com/prevent">Prevent events</a>
+      </div>
+    </section>
+  </main>
+
+  <footer id="atlasFooter" class="footer"></footer>
+
+  <script>
+    window.HFAtlas && HFAtlas.renderTopbar('topbarRoot');
+    window.HFAtlas && HFAtlas.buildSidebar('riskSidebar', window.location.pathname, { active:'heart-attack', baseHref:'../' });
+    window.HFAtlas && HFAtlas.renderFooter('atlasFooter');
+    window.HFAtlas && HFAtlas.initShellControls();
+
+    (function(){
+      const slider = document.getElementById('progressSlider');
+      const playBtn = document.getElementById('playBtn');
+      const labelsBtn = document.getElementById('labelsBtn');
+      const detailBtn = document.getElementById('detailBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const stageText = document.getElementById('stageText');
+      const metricStage = document.getElementById('haMetricStage');
+      const metricFlow = document.getElementById('haMetricFlow');
+      const metricMuscle = document.getElementById('haMetricMuscle');
+      const metricDetail = document.getElementById('haMetricDetail');
+      const stageHeadline = document.getElementById('stageHeadline');
+      const stageExplain = document.getElementById('stageExplain');
+      const stageMeaning = document.getElementById('stageMeaning');
+      const stageLimits = document.getElementById('stageLimits');
+      const stageDiscuss = document.getElementById('stageDiscuss');
+      const compositionBlock = document.getElementById('compositionBlock');
+
+      const railProgress = document.getElementById('railProgress');
+      const railArrows = document.getElementById('railArrows');
+      const nodeFlow = document.getElementById('nodeFlow');
+      const nodeOxygen = document.getElementById('nodeOxygen');
+      const nodeMuscle = document.getElementById('nodeMuscle');
+      const nodeEmergency = document.getElementById('nodeEmergency');
+      const eventGuides = document.getElementById('eventGuides');
+      const guideFlow = document.getElementById('guideFlow');
+      const guideOxygen = document.getElementById('guideOxygen');
+      const guideMuscle = document.getElementById('guideMuscle');
+      const guideEmergency = document.getElementById('guideEmergency');
+
+      const coronaryFlow = document.getElementById('coronaryFlow');
+      const coronaryPathGuide = document.getElementById('coronaryPathGuide');
+      const blockedSegment = document.getElementById('blockedSegment');
+      const blockageGroup = document.getElementById('blockageGroup');
+      const supplyTerritory = document.getElementById('supplyTerritory');
+      const injuryTerritory = document.getElementById('injuryTerritory');
+      const injuryGlow = document.getElementById('injuryGlow');
+      const flowParticles = document.getElementById('flowParticles');
+      const oxygenDots = document.getElementById('oxygenDots');
+      const deficitDots = document.getElementById('deficitDots');
+      const supplyArrows = document.getElementById('supplyArrows');
+      const evaluationPanel = document.getElementById('evaluationPanel');
+
+      const labels = {
+        coronary: document.getElementById('lblCoronary'),
+        blockage: document.getElementById('lblBlockage'),
+        oxygen: document.getElementById('lblOxygen'),
+        muscle: document.getElementById('lblMuscle'),
+        emergency: document.getElementById('lblEmergency')
+      };
+
+      const { clamp, lerp, ease, pct } = HFAtlas;
+      const allowMotion = HFAtlas.allowMotion();
+
+      const state = { value:0, playing:false, showLabels:true, detail:false, raf:null, idle:null, particleTick:0 };
+
+      const stages = [
+        {
+          max:12,
+          title:'Coronary supply context', short:'Supply', flow:'Open', muscle:'Supplied',
+          explain:'The page begins with a coronary artery supplying a territory of working heart muscle.',
+          meaning:'A heart attack pathway matters because heart muscle needs continuous oxygen-rich blood. The visual starts with supply before showing what happens when that supply is threatened.',
+          limits:'This is not your anatomy, not a symptom checker, and not a diagnosis. It does not show whether you are having a heart attack.',
+          discuss:'Ask what your current heart risk checks do and do not show, including family history, symptoms, blood pressure, cholesterol measures, Lp(a), ApoB, diabetes or insulin resistance, and calcium-score context.'
+        },
+        {
+          max:35,
+          title:'Coronary flow falls', short:'Flow', flow:'Reduced', muscle:'Watching',
+          explain:'A clot or blockage can reduce blood flow through a coronary artery. Less blood can reach the downstream muscle territory.',
+          meaning:'This is the hand-off from a blood-flow problem to a heart-muscle supply problem. It does not mean a heart attack is certain.',
+          limits:'This visual does not show whether a blockage is present in your body. Coronary symptoms and suspected heart attack require urgent medical assessment.',
+          discuss:'Ask how blocked-flow risk is being considered alongside plaque burden, Lp(a), ApoB, blood pressure, smoking exposure, metabolic risk, and symptoms.'
+        },
+        {
+          max:60,
+          title:'Oxygen shortfall develops', short:'Oxygen', flow:'Limited', muscle:'Stressed',
+          explain:'When coronary flow is limited, the heart muscle supplied by that artery may receive less oxygen than it needs.',
+          meaning:'This stage connects the artery problem to the muscle territory. The issue is not just the clot; it is the downstream tissue that depends on flow.',
+          limits:'Oxygen shortfall is not something this page can measure for you. Symptoms, ECG findings, blood tests, and imaging belong with urgent care and your health team.',
+          discuss:'Ask what symptoms should trigger emergency action for you, especially if you have known risk signals or previous abnormal tests.'
+        },
+        {
+          max:84,
+          title:'Heart muscle injury can begin', short:'Injury risk', flow:'Severely limited', muscle:'At risk',
+          explain:'If blood flow remains severely reduced or blocked, downstream heart muscle can become injured.',
+          meaning:'This is the point where a flow problem can become muscle damage. It is the reason time and emergency evaluation matter.',
+          limits:'The visual does not show infarct size, ECG type, troponin level, artery location, treatment need, or outcome. It is not a triage tool.',
+          discuss:'Ask your health team how emergency warning signs, medication plans, and prevention goals should be handled in the context of your personal risk profile.'
+        },
+        {
+          max:100,
+          title:'Emergency pathway', short:'Emergency', flow:'Threatened', muscle:'Injury possible',
+          explain:'At this point, symptoms and tests decide what is happening. Emergency teams may use ECG, blood tests, imaging, and treatment pathways.',
+          meaning:'The atlas stops here because heart attack care is urgent, personal, and time-sensitive. The educational message is: do not wait to self-interpret possible emergency symptoms.',
+          limits:'This stage is not a prediction and not a diagnostic image. It does not show what is happening in your body or what treatment you need.',
+          discuss:'Create a clear emergency plan with your health team if you have known risk, symptoms, prior events, or confusing test results.'
+        }
+      ];
+
+      function stageFor(v){
+        for(let i=0;i<stages.length;i++){ if(v <= stages[i].max) return stages[i]; }
+        return stages[stages.length - 1];
+      }
+
+      function pointOnPath(path, t){
+        const len = path.getTotalLength ? path.getTotalLength() : 0;
+        if(!len) return { x:0, y:0 };
+        return path.getPointAtLength(clamp(t,0,1) * len);
+      }
+
+      function buildCues(){
+        const oxygenData = [
+          [510,350,3.4],[535,360,3.1],[558,382,3.4],[528,402,3.2],[494,414,3.1],[566,426,3.0],[481,376,2.8],[590,400,2.9]
+        ];
+        oxygenDots.innerHTML = oxygenData.map(([cx,cy,r], i) =>
+          `<circle class="oxygen-dot" data-i="${i}" data-base-r="${r}" cx="${cx}" cy="${cy}" r="${r}" fill="#9be4ff" opacity="0"></circle>`
+        ).join('');
+
+        const deficitData = [
+          [520,348,4.2],[548,376,4.5],[566,406,4.2],[509,426,4.0],[592,418,3.8],[486,394,3.7]
+        ];
+        deficitDots.innerHTML = deficitData.map(([cx,cy,r], i) =>
+          `<circle class="deficit-dot" data-i="${i}" data-base-r="${r}" cx="${cx}" cy="${cy}" r="${r}" fill="#ffb45f" opacity="0"></circle>`
+        ).join('');
+
+        const particleCount = 18;
+        flowParticles.innerHTML = Array.from({length:particleCount}).map((_, i) =>
+          `<circle class="flow-particle" data-i="${i}" r="3.1" fill="#d7f8ff" opacity="0"></circle>`
+        ).join('');
+      }
+
+      function drawRail(progress){
+        railProgress.setAttribute('stroke-dashoffset', (1 - clamp(progress,0,1)).toFixed(3));
+      }
+
+      function renderParticles(){
+        const v = state.value;
+        const flowLoss = clamp((v - 12) / 23, 0, 1);
+        const obstruction = clamp((v - 35) / 65, 0, 1);
+        const nodes = flowParticles.querySelectorAll('.flow-particle');
+        state.particleTick += allowMotion ? .018 : 0;
+        nodes.forEach((node, i) => {
+          const raw = ((i / nodes.length) + state.particleTick) % 1;
+          const gate = raw > (.63 - obstruction*.20) && raw < (.76 + obstruction*.08);
+          const t = gate ? lerp(raw, .60, obstruction*.55) : raw;
+          const pt = pointOnPath(coronaryPathGuide, t);
+          const fade = clamp(1 - flowLoss*.55 - obstruction*.35, .12, .9);
+          node.setAttribute('cx', pt.x.toFixed(1));
+          node.setAttribute('cy', (pt.y + Math.sin((raw*10+i)*1.3)*2.2).toFixed(1));
+          node.setAttribute('opacity', (fade * (gate ? .45 : .9)).toFixed(2));
+          node.setAttribute('r', (3.1 - obstruction*1.2).toFixed(1));
+        });
+      }
+
+      function updateShape(v){
+        state.value = Number(v);
+        const progress = pct(v);
+        const stage = stageFor(v);
+        const flowLoss = clamp((v - 12) / 23, 0, 1);
+        const oxygenShortfall = clamp((v - 35) / 25, 0, 1);
+        const muscleStress = clamp((v - 60) / 24, 0, 1);
+        const emergency = clamp((v - 84) / 16, 0, 1);
+        const detailReveal = state.detail ? 1 : 0;
+
+        drawRail(progress);
+        railArrows.setAttribute('opacity', (0.18 + progress*.24 + detailReveal*.36).toFixed(2));
+        nodeFlow.setAttribute('opacity', (0.45 + flowLoss*.55).toFixed(2));
+        nodeOxygen.setAttribute('opacity', (0.35 + oxygenShortfall*.65).toFixed(2));
+        nodeMuscle.setAttribute('opacity', (0.30 + muscleStress*.70).toFixed(2));
+        nodeEmergency.setAttribute('opacity', (0.25 + emergency*.75).toFixed(2));
+
+        eventGuides.setAttribute('opacity', (detailReveal*.45 + progress*.10).toFixed(2));
+        guideFlow.setAttribute('opacity', (flowLoss*.85).toFixed(2));
+        guideOxygen.setAttribute('opacity', (oxygenShortfall*.85).toFixed(2));
+        guideMuscle.setAttribute('opacity', (muscleStress*.85).toFixed(2));
+        guideEmergency.setAttribute('opacity', (emergency*.85).toFixed(2));
+
+        coronaryFlow.setAttribute('opacity', (0.78 - flowLoss*.45 - emergency*.18).toFixed(2));
+        coronaryFlow.setAttribute('stroke-width', (4.5 - flowLoss*1.8).toFixed(2));
+        coronaryFlow.setAttribute('stroke-dashoffset', (flowLoss*.38).toFixed(3));
+        blockedSegment.setAttribute('opacity', (flowLoss*.85).toFixed(2));
+        blockageGroup.setAttribute('opacity', flowLoss.toFixed(2));
+        const clotScale = 0.12 + flowLoss*.88;
+        blockageGroup.setAttribute('transform', `translate(552,294) scale(${clotScale.toFixed(3)})`);
+
+        supplyTerritory.setAttribute('opacity', (detailReveal*.22 + oxygenShortfall*.08).toFixed(2));
+        injuryTerritory.setAttribute('opacity', (muscleStress*.30 + emergency*.38).toFixed(2));
+        injuryGlow.setAttribute('opacity', (muscleStress*.22 + emergency*.40).toFixed(2));
+        supplyArrows.setAttribute('opacity', (detailReveal * clamp(.15 + oxygenShortfall*.85, 0, 1)).toFixed(2));
+        evaluationPanel.setAttribute('opacity', (detailReveal * clamp(.20 + emergency*.80, 0, 1)).toFixed(2));
+
+        oxygenDots.querySelectorAll('.oxygen-dot').forEach((node, i) => {
+          const local = clamp((detailReveal * (1 - oxygenShortfall*.68)) * 10 - i, 0, 1);
+          const base = Number(node.getAttribute('data-base-r') || 3.2);
+          node.setAttribute('opacity', local.toFixed(2));
+          node.setAttribute('r', (base + local*.6).toFixed(1));
+        });
+        deficitDots.querySelectorAll('.deficit-dot').forEach((node, i) => {
+          const local = clamp((oxygenShortfall + muscleStress*.65 + emergency*.45) * 8 - i, 0, 1);
+          const base = Number(node.getAttribute('data-base-r') || 4);
+          node.setAttribute('opacity', (local*.72).toFixed(2));
+          node.setAttribute('r', (base + local*.9).toFixed(1));
+        });
+
+        labels.coronary.setAttribute('opacity', state.showLabels ? '1' : '0');
+        labels.blockage.setAttribute('opacity', state.showLabels ? flowLoss.toFixed(2) : '0');
+        labels.oxygen.setAttribute('opacity', state.showLabels ? oxygenShortfall.toFixed(2) : '0');
+        labels.muscle.setAttribute('opacity', state.showLabels ? muscleStress.toFixed(2) : '0');
+        labels.emergency.setAttribute('opacity', state.showLabels ? emergency.toFixed(2) : '0');
+
+        stageText.textContent = stage.title;
+        stageHeadline.textContent = stage.title;
+        stageExplain.textContent = stage.explain;
+        stageMeaning.textContent = stage.meaning;
+        stageLimits.textContent = stage.limits;
+        stageDiscuss.textContent = stage.discuss;
+        metricStage.textContent = stage.short;
+        metricFlow.textContent = stage.flow;
+        metricMuscle.textContent = stage.muscle;
+        metricDetail.textContent = state.detail ? 'On' : 'Off';
+        if(compositionBlock){ compositionBlock.hidden = state.value < 5; }
+        HFAtlas.setSliderValueText(slider, Math.round(state.value), stage.title);
+        renderParticles();
+      }
+
+      function setValue(v){
+        const next = clamp(Number(v),0,100);
+        slider.value = Math.round(next);
+        updateShape(next);
+      }
+
+      function play(){
+        if(state.playing){ stop(); return; }
+        state.playing = true;
+        playBtn.textContent = 'Pause';
+        const start = performance.now();
+        const from = Number(slider.value);
+        const duration = 9000 * (1 - from/100) + 800;
+        function tick(now){
+          if(!state.playing) return;
+          const t = clamp((now - start) / duration, 0, 1);
+          setValue(lerp(from,100,ease(t)));
+          if(t < 1){ state.raf = requestAnimationFrame(tick); }
+          else{ stop(); }
+        }
+        state.raf = requestAnimationFrame(tick);
+      }
+
+      function stop(){
+        state.playing = false;
+        playBtn.textContent = 'Play';
+        if(state.raf) cancelAnimationFrame(state.raf);
+        state.raf = null;
+      }
+
+      slider.addEventListener('input', function(){ stop(); setValue(slider.value); });
+      playBtn.addEventListener('click', play);
+      resetBtn.addEventListener('click', function(){ stop(); setValue(0); });
+      labelsBtn.addEventListener('click', function(){
+        state.showLabels = !state.showLabels;
+        labelsBtn.textContent = state.showLabels ? 'Labels on' : 'Labels off';
+        labelsBtn.setAttribute('aria-pressed', state.showLabels ? 'true' : 'false');
+        updateShape(state.value);
+      });
+      detailBtn.addEventListener('click', function(){
+        state.detail = !state.detail;
+        detailBtn.setAttribute('aria-pressed', state.detail ? 'true' : 'false');
+        updateShape(state.value);
+      });
+
+      buildCues();
+      setValue(0);
+      if(allowMotion){
+        state.idle = window.setInterval(function(){
+          if(!state.playing){ renderParticles(); }
+        }, 180);
+      }
+    })();
+  </script>
+</body>
+</html>

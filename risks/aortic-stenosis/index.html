@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="canonical" href="https://heartfirst.shyntesy.com/risks/aortic-stenosis/" />
+  <title>Aortic Stenosis Risk Atlas — HeartFirst</title>
+  <meta name="description" content="A HeartFirst Risk Atlas visual explainer showing how a narrowed aortic valve can restrict blood flow, increase pressure load, strain the heart, and prompt monitoring or urgent evaluation." />
+  <script src="../atlas.js"></script>
+  <link rel="stylesheet" href="../atlas.css" />
+  <style>
+    .as-label text{paint-order:stroke;stroke:rgba(7,17,28,.72);stroke-width:4px;stroke-linejoin:round}
+    html[data-theme="light"] .as-label text{stroke:rgba(255,255,255,.78)}
+    .as-node text{font-family:Montserrat,Roboto,system-ui,sans-serif;font-size:12px;font-weight:800;text-anchor:middle;paint-order:stroke;stroke:rgba(7,17,28,.70);stroke-width:4px;stroke-linejoin:round}
+    html[data-theme="light"] .as-node text{stroke:rgba(255,255,255,.78)}
+    .as-chip text{font-family:Montserrat,Roboto,system-ui,sans-serif;font-size:11px;font-weight:800}
+  </style>
+</head>
+<body data-atlas-topic="Aortic stenosis explorer">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header id="topbarRoot" class="topbar" aria-label="Site header"></header>
+  <main id="main" class="page">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="https://heartfirst.shyntesy.com/">HeartFirst</a><span class="sep">›</span><a href="../">Risks</a><span class="sep">›</span><span>Aortic stenosis</span></nav>
+
+    <section class="hero" aria-labelledby="hero-h">
+      <div class="hero-card">
+        <div class="kicker">Risk Atlas · Aortic stenosis</div>
+        <h1 id="hero-h">When a narrowed valve makes the heart work harder</h1>
+        <p class="hero-sub">This risk atlas picks up where the Valve Calcification atlas stops. It shows how a narrowed aortic valve can restrict blood flow out of the heart, increase pressure load on the left ventricle, and create a pathway toward monitoring, symptom review, and specialist valve decisions.</p>
+      </div>
+      <aside class="scope-card" aria-labelledby="scope-h">
+        <h2 id="scope-h" class="scope-title">Scope of this atlas</h2>
+        <ul class="scope-list">
+          <li>Focuses on narrowing of the aortic valve opening and the pressure load this can create.</li>
+          <li>Shows simplified valve, flow, and heart-strain cues, not an echocardiogram or CT scan.</li>
+          <li>Separates aortic stenosis from coronary artery blockage, heart attack, and stroke.</li>
+          <li>Stops at health team evaluation and valve-decision context, not personal diagnosis or treatment advice.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <aside id="riskSidebar" class="nav-card" aria-labelledby="nav-h"></aside>
+
+    <section class="content-grid">
+      <section class="visual-card" aria-labelledby="visual-h">
+        <div class="section-heading">
+          <div class="kicker">Interactive explainer</div>
+          <h2 id="visual-h">Slide from narrowed valve to pressure load and evaluation</h2>
+          <p class="lead">Aortic stenosis is a valve-flow problem. This visual explains the pathway without grading your valve, predicting symptoms, or replacing imaging and health team judgement.</p>
+        </div>
+
+        <div class="control-row" aria-label="Aortic stenosis atlas controls">
+          <button id="playBtn" class="btn primary" type="button">Play</button>
+          <button id="resetBtn" class="btn secondary" type="button">Reset</button>
+          <button id="labelsBtn" class="btn secondary" type="button" aria-pressed="true">Labels on</button>
+          <button id="detailBtn" class="btn secondary" type="button" aria-pressed="false" aria-describedby="detailHelp">Pressure-load view</button>
+          <div class="stage-wrap">
+            <label for="progressSlider">Progression</label>
+            <input id="progressSlider" type="range" min="0" max="100" value="0" />
+          </div>
+        </div>
+        <p id="detailHelp" class="control-help">Pressure-load view reveals gradient cues, heart-wall strain cues, symptom context, and evaluation pathways that are otherwise kept quiet.</p>
+
+        <div class="visual-wrap">
+          <div class="canvas-shell" aria-live="polite">
+            <div id="stageText" class="stage-pill">Valve narrowing context</div>
+            <svg id="aorticStenosisSvg" viewBox="0 0 940 620" role="img" aria-labelledby="svgTitle svgDesc">
+              <title id="svgTitle">Aortic stenosis pathway visualisation</title>
+              <desc id="svgDesc">A stylised heart and aortic valve show a narrowed valve opening, constrained blood flow, pressure load on the left ventricle, possible symptom context, and the hand-off to valve evaluation.</desc>
+              <defs>
+                <linearGradient id="asBloodGrad" x1="0" x2="1" y1="0" y2="0">
+                  <stop offset="0%" stop-color="#e76b72"/>
+                  <stop offset="55%" stop-color="#d75561"/>
+                  <stop offset="100%" stop-color="#8f2230"/>
+                </linearGradient>
+                <linearGradient id="asJetGrad" x1="0" x2="1" y1="0" y2="0">
+                  <stop offset="0%" stop-color="#fff3c2" stop-opacity=".92"/>
+                  <stop offset="55%" stop-color="#f0d48a" stop-opacity=".76"/>
+                  <stop offset="100%" stop-color="#7fd5ff" stop-opacity=".34"/>
+                </linearGradient>
+                <linearGradient id="asLeafletGrad" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#eef5fb" stop-opacity=".92"/>
+                  <stop offset="100%" stop-color="#9fb7ca" stop-opacity=".78"/>
+                </linearGradient>
+                <radialGradient id="asPressureGrad" cx="50%" cy="50%" r="55%">
+                  <stop offset="0" stop-color="#ef7c63" stop-opacity=".56"/>
+                  <stop offset=".70" stop-color="#c0392b" stop-opacity=".18"/>
+                  <stop offset="1" stop-color="#c0392b" stop-opacity="0"/>
+                </radialGradient>
+                <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#000" flood-opacity=".28" />
+                </filter>
+                <marker id="arrowGold" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#d4b15a"></path></marker>
+                <marker id="arrowBlue" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#7fd5ff"></path></marker>
+                <marker id="arrowDanger" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#ef7c63"></path></marker>
+              </defs>
+
+              <g id="pathwayRail" font-family="Montserrat,Roboto,system-ui,sans-serif">
+                <path id="railBase" d="M122,98 C218,78 306,80 392,96 C486,114 570,118 650,98 C720,80 792,84 858,104" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="5" stroke-linecap="round"></path>
+                <path id="railProgress" d="M122,98 C218,78 306,80 392,96 C486,114 570,118 650,98 C720,80 792,84 858,104" fill="none" stroke="#d4b15a" stroke-width="5" stroke-linecap="round"></path>
+                <g id="railArrows" fill="none" stroke="#d4b15a" stroke-width="2.2" marker-end="url(#arrowGold)" opacity=".18">
+                  <path d="M210,86 L250,84"></path><path d="M360,94 L402,102"></path><path d="M520,110 L562,108"></path><path d="M684,92 L726,92"></path>
+                </g>
+                <g id="railNodes" class="as-node">
+                  <g id="nodeValve" transform="translate(122,98)"><circle r="19" fill="rgba(212,177,90,.18)" stroke="#d4b15a" stroke-width="2"></circle><text y="42" fill="#f0d48a">Valve</text></g>
+                  <g id="nodeFlow" transform="translate(304,86)" opacity=".45"><circle r="17" fill="rgba(127,213,255,.12)" stroke="#7fd5ff" stroke-width="2"></circle><text y="42" fill="#aac0d3">Flow</text></g>
+                  <g id="nodePressure" transform="translate(474,112)" opacity=".35"><circle r="17" fill="rgba(239,124,99,.12)" stroke="#ef7c63" stroke-width="2"></circle><text y="42" fill="#aac0d3">Pressure</text></g>
+                  <g id="nodeStrain" transform="translate(650,98)" opacity=".30"><circle r="17" fill="rgba(239,124,99,.12)" stroke="#ef7c63" stroke-width="2"></circle><text y="42" fill="#aac0d3">Strain</text></g>
+                  <g id="nodeEval" transform="translate(858,104)" opacity=".25"><circle r="17" fill="rgba(212,177,90,.12)" stroke="#d4b15a" stroke-width="2"></circle><text y="42" fill="#aac0d3">Evaluate</text></g>
+                </g>
+              </g>
+
+              <g id="eventGuides" stroke="rgba(255,255,255,.20)" stroke-width="1.4" stroke-dasharray="5 7" opacity="0">
+                <path id="guideValve" d="M122,124 L370,278"></path>
+                <path id="guideFlow" d="M304,112 L496,304"></path>
+                <path id="guidePressure" d="M474,138 L244,382"></path>
+                <path id="guideStrain" d="M650,124 L286,434"></path>
+                <path id="guideEval" d="M858,130 L744,456"></path>
+              </g>
+
+              <g id="heartView" filter="url(#softShadow)">
+                <path id="leftVentricle" d="M136,310 C126,226 207,188 292,218 C366,245 390,322 340,416 C300,492 199,496 158,426 C142,398 136,356 136,310Z" fill="rgba(231,107,114,.20)" stroke="rgba(231,107,114,.52)" stroke-width="2.5"></path>
+                <path id="lvWall" d="M156,314 C148,244 214,214 284,239 C340,260 360,322 318,400 C284,462 210,464 180,410 C164,382 156,350 156,314Z" fill="none" stroke="#ef7c63" stroke-width="8" opacity=".18"></path>
+                <ellipse id="pressureGlow" cx="246" cy="350" rx="104" ry="132" fill="url(#asPressureGrad)" opacity="0"></ellipse>
+                <text x="165" y="504" fill="#aac0d3" font-size="13" font-weight="800">Left ventricle</text>
+                <path d="M312,252 C398,214 512,216 640,254 L640,362 C512,390 400,390 312,356 Z" fill="rgba(127,213,255,.08)" stroke="rgba(127,213,255,.28)" stroke-width="2"></path>
+                <text x="548" y="222" fill="#aac0d3" font-size="13" font-weight="800">Aorta</text>
+                <g id="valveLeaflets" stroke-linecap="round" stroke-linejoin="round">
+                  <path id="leafletUpper" d="M386,258 C414,276 432,292 448,304" fill="none" stroke="url(#asLeafletGrad)" stroke-width="17"></path>
+                  <path id="leafletLower" d="M386,354 C414,336 432,320 448,306" fill="none" stroke="url(#asLeafletGrad)" stroke-width="17"></path>
+                  <path id="valveRing" d="M376,250 C402,276 403,336 376,364" fill="none" stroke="#d4b15a" stroke-width="4" opacity=".72"></path>
+                </g>
+                <path id="flowJet" d="M446,306 C494,300 548,306 612,306" fill="none" stroke="url(#asJetGrad)" stroke-width="24" stroke-linecap="round" opacity=".36"></path>
+                <g id="flowParticles"></g>
+                <g id="pressureArrows" fill="none" stroke="#ef7c63" stroke-width="2.5" marker-end="url(#arrowDanger)" opacity="0">
+                  <path d="M254,270 C292,258 328,266 360,294"></path>
+                  <path d="M238,432 C286,420 328,388 358,344"></path>
+                  <path d="M176,324 C206,294 244,278 286,278"></path>
+                </g>
+              </g>
+
+              <g id="valveTop" transform="translate(700,392)" filter="url(#softShadow)">
+                <text x="-102" y="-126" fill="#aac0d3" font-size="18" font-weight="800">Valve view</text>
+                <circle r="118" fill="rgba(127,213,255,.07)" stroke="rgba(127,213,255,.24)" stroke-width="2"></circle>
+                <circle id="valveOpening" r="64" fill="rgba(12,27,41,.72)" stroke="#7fd5ff" stroke-width="3" opacity=".92"></circle>
+                <path id="cuspA" d="M0,-96 C42,-78 58,-44 50,-6 C29,-20 12,-28 0,-28 C-12,-28 -29,-20 -50,-6 C-58,-44 -42,-78 0,-96Z" fill="url(#asLeafletGrad)" opacity=".84" stroke="rgba(238,245,251,.45)" stroke-width="1.5"></path>
+                <path id="cuspB" d="M83,48 C42,56 8,42 -18,12 C9,7 24,-2 30,-12 C36,-22 35,-39 26,-66 C65,-54 91,-24 83,48Z" fill="url(#asLeafletGrad)" opacity=".78" stroke="rgba(238,245,251,.45)" stroke-width="1.5"></path>
+                <path id="cuspC" d="M-83,48 C-42,56 -8,42 18,12 C-9,7 -24,-2 -30,-12 C-36,-22 -35,-39 -26,-66 C-65,-54 -91,-24 -83,48Z" fill="url(#asLeafletGrad)" opacity=".78" stroke="rgba(238,245,251,.45)" stroke-width="1.5"></path>
+                <g id="openingRing" fill="none" stroke="#f0d48a" stroke-width="3" stroke-dasharray="6 8" opacity="0"><circle r="44"></circle></g>
+                <g id="gradientCues" fill="none" stroke="#ef7c63" stroke-width="2.2" marker-end="url(#arrowDanger)" opacity="0">
+                  <path d="M-96,0 C-70,-18 -48,-16 -28,-4"></path>
+                  <path d="M-92,36 C-64,18 -42,14 -20,10"></path>
+                </g>
+              </g>
+
+              <g id="evaluationPanel" opacity="0" aria-label="Valve evaluation context">
+                <rect x="566" y="512" width="308" height="70" rx="18" fill="rgba(12,27,41,.78)" stroke="rgba(212,177,90,.34)"></rect>
+                <text x="590" y="536" fill="#f0d48a" font-size="13" font-weight="900">Evaluation pathway</text>
+                <text x="590" y="557" fill="#aac0d3" font-size="13">Symptoms, echo results, gradients, and valve area</text>
+                <text x="590" y="575" fill="#aac0d3" font-size="13">belong with your health team.</text>
+              </g>
+
+              <g id="symptomChips" class="as-chip" opacity="0">
+                <g transform="translate(112,444)"><rect width="104" height="32" rx="16" fill="rgba(239,124,99,.10)" stroke="rgba(239,124,99,.28)"></rect><text x="52" y="21" text-anchor="middle" fill="#efc4b9">Breathless</text></g>
+                <g transform="translate(224,444)"><rect width="96" height="32" rx="16" fill="rgba(239,124,99,.10)" stroke="rgba(239,124,99,.28)"></rect><text x="48" y="21" text-anchor="middle" fill="#efc4b9">Chest pain</text></g>
+                <g transform="translate(328,444)"><rect width="92" height="32" rx="16" fill="rgba(239,124,99,.10)" stroke="rgba(239,124,99,.28)"></rect><text x="46" y="21" text-anchor="middle" fill="#efc4b9">Fainting</text></g>
+                <g transform="translate(112,486)"><rect width="118" height="32" rx="16" fill="rgba(127,213,255,.10)" stroke="rgba(127,213,255,.28)"></rect><text x="59" y="21" text-anchor="middle" fill="#aac0d3">Echo follow-up</text></g>
+                <g transform="translate(240,486)"><rect width="126" height="32" rx="16" fill="rgba(212,177,90,.12)" stroke="rgba(212,177,90,.35)"></rect><text x="63" y="21" text-anchor="middle" fill="#f0d48a">Valve decision</text></g>
+              </g>
+
+              <g id="labelsGroup" class="as-label" font-family="Montserrat,Roboto,system-ui,sans-serif" font-size="13" font-weight="800">
+                <text id="lblValve" x="318" y="226" fill="#aac0d3">Aortic valve</text>
+                <text id="lblFlow" x="512" y="282" fill="#7fd5ff" opacity="0">Constrained outflow</text>
+                <text id="lblPressure" x="190" y="260" fill="#efc4b9" opacity="0">Pressure load</text>
+                <text id="lblStrain" x="180" y="456" fill="#efc4b9" opacity="0">Heart strain cue</text>
+                <text id="lblEval" x="664" y="600" fill="#f0d48a" opacity="0">Health team evaluation</text>
+              </g>
+            </svg>
+          </div>
+
+          <aside class="legend" aria-label="Aortic stenosis stage details">
+            <h3>Current stage</h3>
+            <div class="metric"><div class="label">Valve opening</div><div id="metricOpening" class="value">Open</div></div>
+            <div class="metric"><div class="label">Blood flow</div><div id="metricFlow" class="value">Unrestricted</div></div>
+            <div class="metric"><div class="label">Heart load</div><div id="metricLoad" class="value">Usual</div></div>
+            <div class="info-block"><h3>What this means</h3><p id="meaningText" class="panel-copy">The aortic valve opens to let blood leave the left ventricle and move into the aorta.</p></div>
+            <div class="info-block"><h3>Discuss with your health team</h3><p id="discussText" class="panel-copy">Ask what your valve imaging shows, whether any murmur has been heard, and whether repeat monitoring is needed.</p></div>
+            <div class="info-block"><h3>What this does not show</h3><p id="limitsText" class="panel-copy">This visual is not an echocardiogram, CT scan, diagnosis, or severity grading tool.</p></div>
+          </aside>
+        </div>
+      </section>
+
+      <aside class="panel-card" id="compositionBlock" aria-labelledby="composition-h" hidden>
+        <div class="kicker">Valve pathway</div>
+        <h2 id="composition-h" class="panel-title">What aortic stenosis can involve</h2>
+        <ul class="panel-list">
+          <li>A narrowed aortic valve opening.</li>
+          <li>Reduced or blocked blood flow from the heart to the aorta.</li>
+          <li>Higher pressure load on the left ventricle.</li>
+          <li>Symptoms or reduced capacity that need health team review.</li>
+          <li>Monitoring and valve-treatment decisions based on severity, symptoms, and imaging.</li>
+        </ul>
+        <div class="callout"><strong>Key point:</strong> aortic stenosis is not the same as heart attack. One is a valve outflow problem; the other is usually a coronary blood-flow emergency.</div>
+      </aside>
+    </section>
+
+    <section class="cta-card" aria-labelledby="cta-h">
+      <div>
+        <div class="kicker">Heart risk products</div>
+        <h2 id="cta-h">Clarify risk. Navigate danger. Prevent events.</h2>
+        <p>Aortic stenosis can sit at the intersection of valve anatomy, age, Lp(a), kidney health, blood pressure, symptoms, and imaging results. If you have valve findings, a murmur, a bicuspid-valve history, echo measurements, or family questions, the task is not to interpret one number alone. It is to organise the full context and prepare the right questions for your health team.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn primary" href="https://shyntesy.com/clarify">Clarify risk</a>
+        <a class="btn secondary" href="https://shyntesy.com/navigate">Navigate danger</a>
+        <a class="btn secondary" href="https://shyntesy.com/prevent">Prevent events</a>
+      </div>
+    </section>
+  </main>
+  <footer id="atlasFooter" class="footer"></footer>
+
+  <script>
+    window.HFAtlas && HFAtlas.renderTopbar('topbarRoot');
+    window.HFAtlas && HFAtlas.buildSidebar('riskSidebar', window.location.pathname, { active:'aortic-stenosis', baseHref:'../' });
+    window.HFAtlas && HFAtlas.renderFooter('atlasFooter');
+    window.HFAtlas && HFAtlas.initShellControls();
+
+    (function(){
+      const { clamp, lerp, ease, pct } = HFAtlas;
+      const allowMotion = HFAtlas.allowMotion();
+      const slider = document.getElementById('progressSlider');
+      const playBtn = document.getElementById('playBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const labelsBtn = document.getElementById('labelsBtn');
+      const detailBtn = document.getElementById('detailBtn');
+      const stageText = document.getElementById('stageText');
+      const compositionBlock = document.getElementById('compositionBlock');
+      const railProgress = document.getElementById('railProgress');
+      const railArrows = document.getElementById('railArrows');
+      const eventGuides = document.getElementById('eventGuides');
+      const guideValve = document.getElementById('guideValve');
+      const guideFlow = document.getElementById('guideFlow');
+      const guidePressure = document.getElementById('guidePressure');
+      const guideStrain = document.getElementById('guideStrain');
+      const guideEval = document.getElementById('guideEval');
+      const nodeFlow = document.getElementById('nodeFlow');
+      const nodePressure = document.getElementById('nodePressure');
+      const nodeStrain = document.getElementById('nodeStrain');
+      const nodeEval = document.getElementById('nodeEval');
+      const leafletUpper = document.getElementById('leafletUpper');
+      const leafletLower = document.getElementById('leafletLower');
+      const lvWall = document.getElementById('lvWall');
+      const pressureGlow = document.getElementById('pressureGlow');
+      const flowJet = document.getElementById('flowJet');
+      const valveOpening = document.getElementById('valveOpening');
+      const openingRing = document.getElementById('openingRing');
+      const gradientCues = document.getElementById('gradientCues');
+      const pressureArrows = document.getElementById('pressureArrows');
+      const symptomChips = document.getElementById('symptomChips');
+      const evaluationPanel = document.getElementById('evaluationPanel');
+      const flowParticles = document.getElementById('flowParticles');
+      const metricOpening = document.getElementById('metricOpening');
+      const metricFlow = document.getElementById('metricFlow');
+      const metricLoad = document.getElementById('metricLoad');
+      const meaningText = document.getElementById('meaningText');
+      const discussText = document.getElementById('discussText');
+      const limitsText = document.getElementById('limitsText');
+      const labels = ['lblValve','lblFlow','lblPressure','lblStrain','lblEval'].map(id => document.getElementById(id));
+
+      const stages = [
+        { max:12, title:'Valve narrowing context', short:'Valve', opening:'Open', flow:'Unrestricted', load:'Usual', explain:'The aortic valve sits between the left ventricle and the aorta. It opens so blood can leave the heart and move to the body.', meaning:'This stage is the hand-off from valve calcification into a narrowing-focused module.', discuss:'Ask what your valve imaging shows and whether your health team has described sclerosis, calcification, stenosis, or another valve term.', limits:'This visual is not an echocardiogram or CT scan. It cannot show your valve area, gradient, or severity.' },
+        { max:35, title:'Valve opening narrows', short:'Narrowing', opening:'Narrowing', flow:'Constrained', load:'Rising', explain:'When the valve opening becomes smaller, blood must pass through a narrower space to leave the heart.', meaning:'A narrower opening can change flow, but the drawing does not grade mild, moderate, or severe stenosis.', discuss:'Ask which measurements matter in your case, such as valve area, blood-flow speed, mean gradient, and heart function.', limits:'A narrowed drawing does not mean your own valve is narrowed. Only appropriate testing can assess this.' },
+        { max:60, title:'Pressure load increases', short:'Pressure', opening:'Narrowed', flow:'Restricted', load:'Increased', explain:'The heart may need to generate more pressure to move blood through a tight valve opening.', meaning:'This is pressure-load context, not a symptom diagnosis. Some people have important narrowing before symptoms are obvious.', discuss:'Ask whether the left ventricle is adapting, whether the valve is being monitored over time, and what changes would alter the plan.', limits:'This does not show your blood pressure, valve gradient, heart-wall thickness, or personal risk.' },
+        { max:84, title:'Heart strain and symptoms can emerge', short:'Strain', opening:'Tight', flow:'Limited', load:'High', explain:'If narrowing becomes important, the left ventricle can work harder and symptoms such as breathlessness, chest discomfort, fatigue, dizziness, or fainting may need urgent review.', meaning:'Symptoms matter because they can change how valve disease is managed. New, severe, or concerning symptoms should not be self-interpreted.', discuss:'Ask which symptoms should trigger urgent advice and what to do if symptoms appear during activity or at rest.', limits:'This is not a self-triage tool. Severe chest pain, fainting, severe breathlessness, or stroke-like symptoms require emergency care.' },
+        { max:100, title:'Valve evaluation and treatment pathway', short:'Evaluate', opening:'Very tight', flow:'Severely limited', load:'Severe', explain:'The final stage points to health team evaluation. Severe or symptomatic aortic stenosis may require valve specialist decisions, including whether valve replacement is appropriate.', meaning:'The pathway ends with structured evaluation, not a prediction. The right next step depends on symptoms, imaging, severity, overall health, and patient preferences.', discuss:'Ask what follow-up interval, symptom plan, imaging schedule, and valve-treatment options apply to you.', limits:'This does not recommend surgery, TAVR, medication, or monitoring for you. Those decisions belong with your health team.' }
+      ];
+
+      const state = { value:0, detail:false, showLabels:true, playing:false, raf:null, idle:null, railLength:0 };
+      function stageFor(v){ for(let i=0;i<stages.length;i++){ if(v <= stages[i].max) return stages[i]; } return stages[stages.length-1]; }
+
+      function buildCues(){
+        const particles = Array.from({length:20}, (_,i) => ({ x:176 + i*23, y:306 + ((i%5)-2)*6, r:2.8 + (i%3)*.5, speed:.22 + (i%4)*.04 }));
+        flowParticles.innerHTML = particles.map((p,i) => `<circle class="flow-particle" data-i="${i}" data-x="${p.x}" data-y="${p.y}" data-r="${p.r}" data-speed="${p.speed}" cx="${p.x}" cy="${p.y}" r="${p.r}" fill="#fff3c2" opacity=".42"></circle>`).join('');
+      }
+
+      function drawRail(progress){
+        if(!state.railLength){
+          try{ state.railLength = railProgress.getTotalLength(); }catch(e){ state.railLength = 0; }
+          if(state.railLength){ railProgress.setAttribute('stroke-dasharray', state.railLength.toFixed(2)); }
+        }
+        if(!state.railLength) return;
+        railProgress.setAttribute('stroke-dashoffset', (state.railLength * (1 - progress)).toFixed(2));
+      }
+
+      function renderParticles(){
+        const v = state.value;
+        const narrowing = clamp((v-12)/23,0,1);
+        const pressure = clamp((v-35)/25,0,1);
+        const strain = clamp((v-60)/24,0,1);
+        const evalStage = clamp((v-84)/16,0,1);
+        const now = Date.now()/1000;
+        document.querySelectorAll('.flow-particle').forEach((node,i) => {
+          const baseY = Number(node.getAttribute('data-y'));
+          const r = Number(node.getAttribute('data-r'));
+          const speed = Number(node.getAttribute('data-speed'));
+          const motion = allowMotion ? ((now*52*speed + i*29) % 430) : (i*24);
+          const x = 160 + motion;
+          const squeeze = clamp((x-360)/110,0,1) * clamp((530-x)/110,0,1) * narrowing;
+          const y = lerp(baseY, 306 + ((i%2) ? -3 : 3), squeeze);
+          const fade = 1 - pressure*.18 - strain*.24 - evalStage*.16;
+          node.setAttribute('cx', x.toFixed(1));
+          node.setAttribute('cy', y.toFixed(1));
+          node.setAttribute('r', (r * (1 - narrowing*.22)).toFixed(2));
+          node.setAttribute('opacity', clamp(.18 + fade*.42, .10, .62).toFixed(2));
+        });
+      }
+
+      function updateShape(v){
+        v = clamp(Number(v)||0,0,100);
+        state.value = v;
+        const stage = stageFor(v);
+        const p = pct(v);
+        const narrowing = clamp((v-12)/23,0,1);
+        const pressure = clamp((v-35)/25,0,1);
+        const strain = clamp((v-60)/24,0,1);
+        const evalStage = clamp((v-84)/16,0,1);
+        const detail = state.detail ? 1 : 0;
+
+        stageText.textContent = stage.title;
+        metricOpening.textContent = stage.opening;
+        metricFlow.textContent = stage.flow;
+        metricLoad.textContent = stage.load;
+        meaningText.textContent = stage.meaning;
+        discussText.textContent = stage.discuss;
+        limitsText.textContent = stage.limits;
+        HFAtlas.setSliderValueText(slider, Math.round(v), stage.title);
+
+        drawRail(p);
+        railArrows.setAttribute('opacity', clamp(.18 + p*.18 + detail*.42,.18,.78).toFixed(2));
+        eventGuides.setAttribute('opacity', clamp(detail*.20 + p*.16,0,.36).toFixed(2));
+        guideValve.setAttribute('opacity', detail ? .75 : .38);
+        guideFlow.setAttribute('opacity', clamp(narrowing*1.2,0,.82));
+        guidePressure.setAttribute('opacity', clamp(pressure*1.2,0,.82));
+        guideStrain.setAttribute('opacity', clamp(strain*1.2,0,.82));
+        guideEval.setAttribute('opacity', clamp(evalStage*1.2,0,.82));
+
+        nodeFlow.setAttribute('opacity', clamp(.45 + narrowing*.55, .45, 1).toFixed(2));
+        nodePressure.setAttribute('opacity', clamp(.35 + pressure*.65, .35, 1).toFixed(2));
+        nodeStrain.setAttribute('opacity', clamp(.30 + strain*.70, .30, 1).toFixed(2));
+        nodeEval.setAttribute('opacity', clamp(.25 + evalStage*.75, .25, 1).toFixed(2));
+
+        const gap = lerp(44, 10, narrowing);
+        leafletUpper.setAttribute('d', `M386,258 C${lerp(414,430,narrowing).toFixed(1)},${lerp(276,290,narrowing).toFixed(1)} ${lerp(432,448,narrowing).toFixed(1)},${lerp(292,300,narrowing).toFixed(1)} 448,${(306-gap/2).toFixed(1)}`);
+        leafletLower.setAttribute('d', `M386,354 C${lerp(414,430,narrowing).toFixed(1)},${lerp(336,322,narrowing).toFixed(1)} ${lerp(432,448,narrowing).toFixed(1)},${lerp(320,312,narrowing).toFixed(1)} 448,${(306+gap/2).toFixed(1)}`);
+        flowJet.setAttribute('stroke-width', lerp(24,8,narrowing).toFixed(1));
+        flowJet.setAttribute('opacity', clamp(.32 + narrowing*.34, .24, .72).toFixed(2));
+        valveOpening.setAttribute('r', lerp(64,24,narrowing).toFixed(1));
+        openingRing.setAttribute('opacity', clamp(narrowing*.55 + detail*.35,0,.82).toFixed(2));
+        openingRing.querySelector('circle').setAttribute('r', lerp(60,25,narrowing).toFixed(1));
+        pressureGlow.setAttribute('opacity', clamp(pressure*.40 + strain*.20,0,.58).toFixed(2));
+        pressureGlow.setAttribute('rx', lerp(92,122,pressure).toFixed(1));
+        pressureGlow.setAttribute('ry', lerp(112,150,pressure).toFixed(1));
+        lvWall.setAttribute('stroke-width', lerp(8,17,strain).toFixed(1));
+        lvWall.setAttribute('opacity', clamp(.18 + pressure*.18 + strain*.42, .18, .76).toFixed(2));
+        pressureArrows.setAttribute('opacity', clamp(detail*(.20 + pressure*.62),0,.82).toFixed(2));
+        gradientCues.setAttribute('opacity', clamp(detail*(.25 + narrowing*.55),0,.82).toFixed(2));
+        symptomChips.setAttribute('opacity', clamp(detail*(.12 + strain*.88),0,.94).toFixed(2));
+        evaluationPanel.setAttribute('opacity', clamp(evalStage,0,1).toFixed(2));
+
+        labels.forEach(node => { if(node) node.setAttribute('opacity', state.showLabels ? '1' : '0'); });
+        if(state.showLabels){
+          document.getElementById('lblFlow').setAttribute('opacity', clamp(narrowing*1.15,0,1).toFixed(2));
+          document.getElementById('lblPressure').setAttribute('opacity', clamp(pressure*1.15,0,1).toFixed(2));
+          document.getElementById('lblStrain').setAttribute('opacity', clamp(strain*1.15,0,1).toFixed(2));
+          document.getElementById('lblEval').setAttribute('opacity', clamp(evalStage*1.15,0,1).toFixed(2));
+        }
+
+        if(compositionBlock){ compositionBlock.hidden = v < 5; }
+        renderParticles();
+      }
+
+      function setValue(v){ state.value = clamp(Number(v)||0,0,100); slider.value = Math.round(state.value); updateShape(state.value); }
+      function play(){
+        if(state.playing){ stop(); return; }
+        state.playing = true; playBtn.textContent = 'Pause';
+        const start = performance.now(); const from = state.value; const duration = Math.max(2500, (100-from)*72);
+        function tick(now){
+          if(!state.playing) return;
+          const t = clamp((now-start)/duration,0,1);
+          setValue(lerp(from,100,ease(t)));
+          if(t<1){ state.raf = requestAnimationFrame(tick); } else { stop(); }
+        }
+        state.raf = requestAnimationFrame(tick);
+      }
+      function stop(){ state.playing=false; playBtn.textContent='Play'; if(state.raf) cancelAnimationFrame(state.raf); state.raf=null; }
+
+      slider.addEventListener('input', function(){ stop(); setValue(slider.value); });
+      playBtn.addEventListener('click', play);
+      resetBtn.addEventListener('click', function(){ stop(); setValue(0); });
+      labelsBtn.addEventListener('click', function(){ state.showLabels=!state.showLabels; labelsBtn.textContent=state.showLabels?'Labels on':'Labels off'; labelsBtn.setAttribute('aria-pressed', state.showLabels?'true':'false'); updateShape(state.value); });
+      detailBtn.addEventListener('click', function(){ state.detail=!state.detail; detailBtn.setAttribute('aria-pressed', state.detail?'true':'false'); updateShape(state.value); });
+      buildCues(); setValue(0);
+      if(allowMotion){ state.idle = window.setInterval(function(){ if(!state.playing){ renderParticles(); } }, 190); }
+    })();
+  </script>
+</body>
+</html>

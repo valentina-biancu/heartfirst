@@ -204,3 +204,143 @@ or something like this
 text in the footer can be left aligned but in a central block (aligned with the newly centralised header)
 text does not take up the full width of the page so there is no reason to force people to have to read from the extreme left or right -- everything on this page fits in a centred area and does not need to follow the layout of the atlas page
 
+---
+
+===
+
+---
+
+## Verdict: Cascade is the most ambitious page, and it mostly lands — but it has one real bug, one dead-end, and a few places where its ambition outruns its clarity
+
+This page tries to do something the others didn't: be a **synthesis view** that connects four prior modules plus a forward-pointing branch. That's the right instinct for a cascade page. The dual layout (rail map on top, artery below) is genuinely useful — abstract pathway + concrete anatomy in one frame. And it's inherited every discipline Clot established: aligned thresholds (12/35/60/84/100 ↔ 12/35/60/84), progressive per-element reveals, the propagating crack via `drawCrack` (you backported my R2 fix from Rupture!), the cheap idle loop (`updatePlateletPulse` only, no full `updateShape` — Clot's C1 perf bug fixed), and reduced-motion gating on the loop.
+
+So the foundations are strong. But it's not yet "as good as it can be." Here's what's holding it back.
+
+## Bugs / correctness
+
+### B1 — The pathway rail's `S` commands don't connect; it's actually three disconnected arcs
+Line 122–123:
+```
+d="M122,104 C220,70 316,70 414,104 S608,138 706,104 S812,70 858,96"
+```
+The first segment is a cubic `C` ending at **(414,104)**. The next `S` smooth-continues from there — but `S` reflects the *previous control point*, so the join is mathematically continuous but the reflected control lands at (414 + (414−316), 104 + (104−70)) = (512, 138), which then curves to (706,104). The third `S` reflects again from (706,104)'s incoming control (608,138) → reflected to (804,70) → curves to (858,96).
+
+The result is a **rail that dips down, back up, down again** — a W shape — not the gentle single wave I suspect you wanted. Worse, your **node circles sit at y=104, 84, 124, 112, 96** — none of them actually on the rail path except the first and last. Activity node (304,84) floats above a rail that at x=304 is around y=70; Rupture node (486,124) sits below a rail that at x=486 is around y=138. The rail and the nodes are visually disconnected.
+
+This is the kind of thing that's invisible when you're building it and glaring to a first-time viewer. Fix: either lay nodes on the rail mathematically (sample `railBase.getPointAtLength()` and position nodes from it), or replace the multi-curve with one smooth cubic whose peaks/valleys hit your node coordinates. The first option is more robust and ~10 lines.
+
+### B2 — Idle loop reads `state.value > 60` but platelets don't exist until the same threshold, so the pulse never animates until you're already past stage 3
+Line 569: `if(state.value > 60) updatePlateletPulse();`
+Platelets first appear at `clot = (v-60)/24`, i.e. at v=60 they're at opacity 0. So the pulse only kicks in once you're already into the clot stage. That's... actually fine, since pulsing invisible platelets would be wasted work. But it means the **signal pulse on activity nodes** (which you presumably want animating in earlier stages) isn't happening — `updatePlateletPulse` only touches platelets. If you wanted the activity signals or rail progress to gently pulse, that's missing. If you didn't, ignore.
+
+### B3 — `branchPanel` is a dead-end
+Lines 198–206: the "Next modules" panel appears at flow-threat (good timing), shows "heart pathway" and "brain pathway" arrows — but they're **purely decorative `<path>` elements with arrowheads**, not links. The page whose entire purpose is to hand off to Heart Attack and Stroke doesn't actually link to them. And right now those destination pages don't exist (verified: `heart-attack/` and `stroke/` are missing), so even if you wired them they'd 404.
+
+When those pages exist, `branchPanel` should contain two real `<a>` elements to `../heart-attack/` and `../stroke/`. Until then, at minimum add `aria-disabled` or a "coming soon" cue so users aren't expecting clickable arrows. Right now it's a tease.
+
+## Clarity problems (the page's job is to *connect* — make sure it does)
+
+### C1 — The rail map and the artery below don't visually correspond
+This is the big one. The page's whole promise is "show how the steps connect." But the rail (top) and the artery (bottom) use **different anchor points** for the same concepts:
+- Rail "Activity" node is at x≈304; the artery's `activitySignals` cluster is at x≈350–530
+- Rail "Rupture" node is at x=486; the artery's `ruptureCrack` is at x≈535–622
+- Rail "Clot" node is at x=668; the artery's `clotMass` is at x≈546–670
+
+A user watching the rail fill in has no spatial cue connecting "Rupture lit up" to "the crack appeared in the artery." **Vertical alignment between rail nodes and artery events would make the synthesis click.** Either:
+- Move the rail nodes to the x-coordinates of their artery counterparts (then bend the rail to visit them), or
+- Draw faint vertical guide lines from each active node down to its artery event when it lights up.
+
+The second is cheaper and reads beautifully — a dashed vertical drop from "Rupture" to the crack the moment it appears.
+
+### C2 — The hand-off sentence overpromises one direction
+Stage 3 meaning (line 346): *"This is the hand-off from a plaque problem to a blood-contact problem. It prepares the clot step **without claiming a clot must form**."* — good, this is the careful framing.
+But Stage 2 meaning (line 341): *"This stage links plaque context to a more active environment. It does not mean inflammation and clot are the same thing; they remain distinct processes."* — also good.
+
+Where it slips is the hero sub (line 36): *"how a local artery problem can become a pathway that leads toward downstream event modules."* That's accurate but the verb "leads toward" is slightly stronger than the careful stage copy. Consider "can lead toward" to match the conditional framing everywhere else.
+
+### C3 — `pathwayArrows` only render in Pathway view, but they're the *connective tissue* — they should be on by default
+Lines 146, 452: the arrows between rail nodes have `opacity="0"` and only appear when `detailReveal * max(...)`. So in the default view, a user sees five disconnected circles light up one by one with **no visible connection between them**. That defeats the entire purpose of a cascade diagram. The rail's `railProgress` line does fill in, which helps — but the directional arrows (which communicate "this leads to that") are hidden behind the toggle.
+
+For a cascade page, the connecting arrows should be **on by default at low opacity**, brightening in Pathway view. Right now the default view says "here are some nodes" rather than "here is a pathway."
+
+### C4 — Stage 0 node opacities are inconsistent and look broken
+Lines 128, 133, 137, 141: nodeActivity starts at `.45`, nodeRupture at `.35`, nodeClot at `.30`, nodeFlow at `.25`. Presumably this is a "future steps are dimmer" cue. But nodePlaque (line 124) has no opacity attribute, so it's `1` by default. The result at stage 0: Plaque is fully bright, the next four step down in opacity — which reads as "Plaque is active, the others are disabled/future." That's actually a reasonable cue *if intentional*. But combined with `railProgress` opacity 0 at start, the page opens looking like "one bright node, four ghost nodes, no rail" — which feels broken rather than intentional.
+
+Fix the first impression: either show the full rail at low opacity from stage 0 (so the pathway is visible as a pathway even before progression), or label the dimming explicitly ("steps ahead" caption near nodeFlow).
+
+## Polish
+
+### P1 — `drawCrack` is great; backport confirmed and improved
+You've taken my Rupture R2 suggestion (propagating crack via dasharray) and made it a reusable `drawCrack(progress)` function with cached `crackLength`. This is the right abstraction. **Now do the same for `ruptureCrack` on the Rupture page itself** — it still uses the old opacity+stroke-width fade. The pattern is right here in Cascade lines 401–406; copy it over.
+
+### P2 — Backport `updatePlateletPulse` (separate from full updateShape) to Clot
+Cascade lines 428–435 split the pulse into its own function so the idle loop is cheap. **Clot still runs full `updateShape` every 190ms** (Clot C1 from last review). You've solved it here — port the fix back.
+
+### P3 — `compositionBlock.hidden = state.value < 5` is consistent (good), but the composition heading "What a cascade can connect" is the weakest of the four lists
+Plaque: "What plaque is made of" (components). Inflammation: "What inflammation can involve" (mechanisms). Rupture: "What rupture can involve" (mechanisms). Clot: "What clot formation can involve" (mechanisms). Cascade: "What a cascade can connect" — this is the odd one out because the answer is just "the previous four pages," which the list then restates. It's fine, but consider making it additive: *"What can feed a cascade"* and include the risk-layer chips (Lp(a), ApoB, BP, metabolic, family history) that Pathway view reveals — those are the actual *inputs* to a cascade and they're under-taught right now.
+
+### P4 — `metricPressure` (Low/Rising/High/Very high/Severe) is a new vocabulary word
+Every other page's metric column uses domain-specific terms (narrowing %, cap status, flow impact). Cascade introduces "Pathway pressure" — an invented concept that doesn't map to anything clinical. It's a useful UI shorthand but it's the only made-up term in the atlas. Either keep it (it's intuitive) or relabel to something defensible like "Pathway stage" or just drop that metric row.
+
+## What's genuinely excellent
+
+- **The dual-map concept** (rail + artery) is the right idea for a synthesis page — it just needs the spatial correspondence fixed (C1).
+- **Honest hand-offs everywhere**: stage copy repeatedly says "can," "prepares," "without claiming," and the final stage points forward rather than declaring an event. This restraint is consistent with the rest of the atlas and it's working.
+- **`drawCrack` as a reusable utility** — you've started abstracting the patterns. That's the right direction as you hit pages 6–9.
+- **Reduced-motion gating on the idle loop** (line 565) — better than Clot, which ran the loop unconditionally.
+- **Threshold alignment is perfect.** Five pages in, the discipline is locked in.
+
+## To answer your question directly: is it as good as it must and can be?
+
+**Not yet — but the gap is small and specific.** "Must" (correctness): fix **B1** (rail geometry/nodes disconnected — it's the kind of thing that looks like a bug to viewers) and decide what to do about **B3** (dead-end branch panel pointing at pages that don't exist). "Can be" (clarity): fix **C1** (rail-to-artery spatial correspondence — this is the page's reason to exist) and **C3** (connecting arrows on by default). Those four changes turn this from "ambitious draft with rough edges" into "the page that makes the whole series click."
+
+## Suggested priority fixes
+
+1. **B1 + C1 together** — re-lay the rail so nodes sit on it AND align with artery events. One geometric pass fixes both.
+2. **C3** — default the pathway arrows to low opacity so the page opens as a pathway.
+3. **B3** — make `branchPanel` either link to real pages (when they exist) or honestly signal "coming next."
+4. Backport `drawCrack` to Rupture and `updatePlateletPulse` to Clot while it's fresh.
+
+
+---
+
+===
+
+---
+
+
+## Ship it.
+
+I verified everything on disk rather than taking the changelog at face value, and every claim holds up.
+
+### Verified backports (genuine credit to you)
+
+**Rupture — propagating crack: confirmed, and implemented better than I asked for.** You used `pathLength="1"` (line 135) so the dasharray math is normalized to `1 - crack` instead of requiring a `getTotalLength()` call. That's cleaner than my suggestion — no cached length, no first-frame hiccup. I missed in my original Rupture review that you'd already moved to this; my apologies. Thresholds also now align (12/35/60/84/100 ↔ 12/35/60/84). Rupture's two long-standing issues are genuinely closed.
+
+**Clot — separate `updatePlateletPulse` + lightweight idle loop: confirmed.** Function exists at line 369, idle loop at 505–508 only calls `updatePlateletPulse()` (no full `updateShape` re-run). C1 perf bug fixed. The `state.value > 12` guard is also better than Cascade's `> 60` — platelets become relevant earlier in Clot than in Cascade, and you've matched the guard to each page's actual threshold.
+
+### Cascade fixes — all in, all verified
+
+| Fix | Status |
+|---|---|
+| **B1** Rail geometry/nodes disconnected | ✅ Nodes now sit on the rail curve at (250,104)→(410,84)→(560,124)→(680,112)→(790,96), matching the path's `C…C…C…C…C` waypoints. Reads as one connected pathway now. |
+| **C1** Rail-to-artery spatial correspondence | ✅ `eventGuides` adds dashed vertical drops from each node toward the artery. The rail and artery are now visually linked, which is the page's whole point. |
+| **C3** Pathway arrows on by default | ✅ `pathwayArrows` now starts at `.18` opacity (was `0`) and the formula `clamp(.18 + p*.18 + detail*.44, .18, .88)` lifts on Pathway view. Page opens as a pathway, not as five loose circles. |
+| **B3** Branch panel honest about "coming next" | ✅ `branchPanel` carries `role="img"`, `aria-label`, `aria-disabled="true"`, and reads "Coming next / Shown later, not linked yet." No fake links. |
+| **C2** Hero "leads toward" → conditional | ✅ Now "can connect into a pathway that can lead toward" — doubled conditional, matches stage copy. |
+| **P3** "What a cascade can connect" → "What can feed a cascade" | ✅ List now names the actual upstream inputs (Lp(a), ApoB, BP, metabolic, inflammatory, calcium-score, smoking, medicines, symptoms, family history). The composition block finally teaches the inputs. |
+| **P4** "Pathway pressure" → "Visual intensity" | ✅ No more invented clinical term. |
+
+### Two small things I'll mention so they're on your radar — not blockers
+
+1. **C4 (stage-0 node dimming) wasn't explicitly addressed, but it no longer matters.** The nodes still step down `.45 / .35 / .30 / .25` at stage 0, which was originally a concern because the page opened looking like "one bright node + four ghosts." But with the pathway arrows now visible at `.18` from the start and the rail fully drawn, the dimming reads correctly as "future steps, faded until reached" rather than "broken." So C4 is resolved *de facto* by C3 + the rail. No action needed.
+
+2. **`guidePlaque` is on from stage 0** (line 469: `.16 + detail*.18`). The other four guides only appear as their stage activates. That's a deliberate choice (Plaque context is always present) and it reads fine — just flagging that it's the one guide that doesn't fade in with progression, in case it was unintentional.
+
+### Where the series stands
+
+Five pages in, the discipline is locked: aligned thresholds, progressive per-element reveals, separate cheap idle loops, reduced-motion gating, honest cascade framing, topic-specific CTAs on the later pages. The shell extraction is paying off — pages 4 and 5 were materially cheaper to build well than pages 1–3, which is exactly the payoff you wanted from the refactor.
+
+Cascade is now doing its job: it's the page a user reaches after Plaque → Inflammation → Rupture → Clot and finally sees how those four connect, with an honest hand-off toward Heart Attack and Stroke. That's a complete educational arc for the arterial cascade. The remaining four pages (heart-attack, stroke, valve-calcification, aortic-stenosis) are net-new ground rather than synthesis, so they'll have different design challenges — but the patterns are now there to inherit.
+
+Ship it.

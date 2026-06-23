@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light dark" />
+  <link rel="canonical" href="https://heartfirst.shyntesy.com/risks/plaque/" />
   <title>HeartFirst Risk Atlas — Plaque</title>
   <meta name="description" content="HeartFirst Risk Atlas: an interactive educational plaque explorer showing how plaque can develop within an artery over time." />
   <script src="../atlas.js"></script>
@@ -150,8 +151,8 @@
                 <g id="flowParticles"></g>
               </g>
 
-              <text x="615" y="350" font-family="Montserrat, Roboto, sans-serif" font-size="18" fill="#aac0d3">Cross-section view</text>
               <g id="crossSection" transform="translate(650,430)" filter="url(#softShadow)">
+                <text x="-90" y="-120" font-family="Montserrat, Roboto, sans-serif" font-size="18" fill="#aac0d3">Cross-section view</text>
                 <ellipse cx="0" cy="0" rx="150" ry="110" fill="#693737"></ellipse>
                 <ellipse cx="0" cy="0" rx="120" ry="88" fill="#a24447"></ellipse>
                 <ellipse id="crossLumen" cx="0" cy="0" rx="86" ry="62" fill="url(#bloodGrad)"></ellipse>
@@ -234,7 +235,7 @@
       <div>
         <div class="kicker">Heart risk products</div>
         <h2 id="cta-h">Clarify risk. Navigate danger. Prevent events.</h2>
-        <p>Plaque is the structure that many later risk pathways build on. If you have high Lp(a), ApoB, LDL-C, blood pressure concerns, metabolic risk, calcium-score findings, or family history, the question is not simply whether plaque exists, but how the wider risk context may feed it. Clarify helps organise what your checks show and miss. Navigate helps connect existing signals and next steps. Prevent helps reduce the risk of heart attack, stroke, and avoidable cardiovascular damage for you or someone you love.</p>
+        <p>Plaque is only one piece of the wider heart risk picture. If you want help organising what your current heart risk checks do and do not show, Clarify can help. If you already have signals and want to understand how they may interact and what you can do next, Navigate may be the right fit. If you want to reduce your — or a loved one’s — risk of heart attack, stroke, or avoidable cardiovascular damage, Prevent may be right for you.</p>
       </div>
       <div class="cta-actions">
         <a class="btn primary" href="https://shyntesy.com/clarify">Clarify risk</a>
@@ -332,10 +333,10 @@
         particles: []
       };
 
-      function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
-      function lerp(a,b,t){ return a + (b-a) * t; }
-      function ease(t){ return t<.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2; }
-      function pct(v){ return clamp(v,0,100)/100; }
+      const clamp = HFAtlas.clamp;
+      const lerp = HFAtlas.lerp;
+      const ease = HFAtlas.ease;
+      const pct = HFAtlas.pct;
       function stageFor(v){ return stages.find(s => v <= s.max) || stages[stages.length-1]; }
       function narrowingFor(v){
         const p = pct(v);

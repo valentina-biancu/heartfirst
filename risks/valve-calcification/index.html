@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="canonical" href="https://heartfirst.shyntesy.com/risks/valve-calcification/" />
+  <title>Valve Calcification Risk Atlas — HeartFirst</title>
+  <meta name="description" content="A HeartFirst Risk Atlas visual explainer showing how calcium can build up on aortic valve leaflets, reduce leaflet motion, and prepare the hand-off to aortic stenosis." />
+  <script src="../atlas.js"></script>
+  <link rel="stylesheet" href="../atlas.css" />
+  <style>
+    .valve-label text{paint-order:stroke;stroke:rgba(7,17,28,.72);stroke-width:4px;stroke-linejoin:round}
+    html[data-theme="light"] .valve-label text{stroke:rgba(255,255,255,.78)}
+    .valve-node text{font-family:Montserrat,Roboto,system-ui,sans-serif;font-size:12px;font-weight:800;text-anchor:middle;paint-order:stroke;stroke:rgba(7,17,28,.70);stroke-width:4px;stroke-linejoin:round}
+    html[data-theme="light"] .valve-node text{stroke:rgba(255,255,255,.78)}
+    .valve-chip text{font-family:Montserrat,Roboto,system-ui,sans-serif;font-size:11px;font-weight:800}
+  </style>
+</head>
+<body data-atlas-topic="Valve calcification explorer">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header id="topbarRoot" class="topbar" aria-label="Site header"></header>
+  <main id="main" class="page">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="https://heartfirst.shyntesy.com/">HeartFirst</a><span class="sep">›</span><a href="../">Risks</a><span class="sep">›</span><span>Valve calcification</span></nav>
+
+    <section class="hero" aria-labelledby="hero-h">
+      <div class="hero-card">
+        <div class="kicker">Risk Atlas · Valve calcification</div>
+        <h1 id="hero-h">When calcium builds on a heart valve</h1>
+        <p class="hero-sub">This risk atlas moves from the arterial event pathway into the valve pathway. It shows how calcium can collect on aortic valve leaflets, how leaflet motion can become more restricted, and how this can prepare the hand-off to aortic stenosis without claiming that every valve deposit becomes severe disease.</p>
+      </div>
+      <aside class="scope-card" aria-labelledby="scope-h">
+        <h2 id="scope-h" class="scope-title">Scope of this atlas</h2>
+        <ul class="scope-list">
+          <li>Focuses on calcium building up on the aortic valve leaflets.</li>
+          <li>Shows stiffness and narrowing as a simplified visual pathway, not as a scan or echocardiogram.</li>
+          <li>Separates valve calcification from coronary artery calcium and artery plaque.</li>
+          <li>Stops before the full aortic-stenosis module, where pressure load and symptoms belong.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <aside id="riskSidebar" class="nav-card" aria-labelledby="nav-h"></aside>
+
+    <section class="content-grid">
+      <section class="visual-card" aria-labelledby="visual-h">
+        <div class="section-heading">
+          <div class="kicker">Interactive explainer</div>
+          <h2 id="visual-h">Slide from flexible leaflets to a narrowed valve opening</h2>
+          <p class="lead">Valve calcification is a valve-leaflet process. This visual explains the pathway without diagnosing your valve, symptoms, or scan findings.</p>
+        </div>
+
+        <div class="control-row" aria-label="Valve calcification atlas controls">
+          <button id="playBtn" class="btn primary" type="button">Play</button>
+          <button id="resetBtn" class="btn secondary" type="button">Reset</button>
+          <button id="labelsBtn" class="btn secondary" type="button" aria-pressed="true">Labels on</button>
+          <button id="detailBtn" class="btn secondary" type="button" aria-pressed="false" aria-describedby="detailHelp">Valve structure view</button>
+          <div class="stage-wrap">
+            <label for="progressSlider">Progression</label>
+            <input id="progressSlider" type="range" min="0" max="100" value="0" />
+          </div>
+        </div>
+        <p id="detailHelp" class="control-help">Valve structure view reveals leaflet-stiffness cues, risk-layer context, and monitoring cues that are otherwise kept quiet.</p>
+
+        <div class="visual-wrap">
+          <div class="canvas-shell" aria-live="polite">
+            <div id="stageText" class="stage-pill">Valve motion context</div>
+            <svg id="valveCalcificationSvg" viewBox="0 0 940 620" role="img" aria-labelledby="svgTitle svgDesc">
+              <title id="svgTitle">Valve calcification pathway visualisation</title>
+              <desc id="svgDesc">A stylised aortic valve opens and closes. As the slider advances, calcium deposits build on the valve leaflets, the opening narrows, flow becomes more constrained, and the page points forward to aortic stenosis.</desc>
+              <defs>
+                <linearGradient id="vcBloodGrad" x1="0" x2="1" y1="0" y2="0">
+                  <stop offset="0%" stop-color="#e76b72"/>
+                  <stop offset="55%" stop-color="#d75561"/>
+                  <stop offset="100%" stop-color="#8f2230"/>
+                </linearGradient>
+                <linearGradient id="vcAortaGrad" x1="0" x2="1" y1="0" y2="0">
+                  <stop offset="0%" stop-color="#7fd5ff" stop-opacity=".35"/>
+                  <stop offset="55%" stop-color="#7fd5ff" stop-opacity=".18"/>
+                  <stop offset="100%" stop-color="#7fd5ff" stop-opacity=".08"/>
+                </linearGradient>
+                <linearGradient id="vcLeafletGrad" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#eef5fb" stop-opacity=".92"/>
+                  <stop offset="100%" stop-color="#9fb7ca" stop-opacity=".78"/>
+                </linearGradient>
+                <radialGradient id="vcCalciumGrad" cx="50%" cy="50%" r="55%">
+                  <stop offset="0" stop-color="#fff6c8"/>
+                  <stop offset=".65" stop-color="#f0d48a"/>
+                  <stop offset="1" stop-color="#b58d2b"/>
+                </radialGradient>
+                <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#000" flood-opacity=".28" />
+                </filter>
+                <marker id="arrowGold" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+                  <path d="M0,0 L9,4.5 L0,9 Z" fill="#d4b15a"></path>
+                </marker>
+                <marker id="arrowBlue" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+                  <path d="M0,0 L9,4.5 L0,9 Z" fill="#7fd5ff"></path>
+                </marker>
+                <marker id="arrowDanger" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+                  <path d="M0,0 L9,4.5 L0,9 Z" fill="#ef7c63"></path>
+                </marker>
+              </defs>
+
+              <g id="pathwayRail" font-family="Montserrat,Roboto,system-ui,sans-serif">
+                <path id="railBase" d="M126,98 C226,70 320,72 410,96 C506,122 606,122 700,96 C760,80 815,82 858,100" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="5" stroke-linecap="round"></path>
+                <path id="railProgress" d="M126,98 C226,70 320,72 410,96 C506,122 606,122 700,96 C760,80 815,82 858,100" fill="none" stroke="#d4b15a" stroke-width="5" stroke-linecap="round"></path>
+                <g id="railArrows" fill="none" stroke="#d4b15a" stroke-width="2.2" marker-end="url(#arrowGold)" opacity=".18">
+                  <path d="M224,84 L268,84"></path>
+                  <path d="M384,92 L428,104"></path>
+                  <path d="M548,116 L592,116"></path>
+                  <path d="M708,96 L752,96"></path>
+                </g>
+                <g id="railNodes" class="valve-node">
+                  <g id="nodeValve" transform="translate(126,98)"><circle r="19" fill="rgba(212,177,90,.18)" stroke="#d4b15a" stroke-width="2"></circle><text y="42" fill="#f0d48a">Valve</text></g>
+                  <g id="nodeCalcium" transform="translate(300,78)" opacity=".45"><circle r="17" fill="rgba(212,177,90,.12)" stroke="#d4b15a" stroke-width="2"></circle><text y="42" fill="#aac0d3">Calcium</text></g>
+                  <g id="nodeStiffness" transform="translate(492,118)" opacity=".35"><circle r="17" fill="rgba(127,213,255,.12)" stroke="#7fd5ff" stroke-width="2"></circle><text y="42" fill="#aac0d3">Stiffness</text></g>
+                  <g id="nodeOpening" transform="translate(668,108)" opacity=".30"><circle r="17" fill="rgba(239,124,99,.12)" stroke="#ef7c63" stroke-width="2"></circle><text y="42" fill="#aac0d3">Opening</text></g>
+                  <g id="nodeNext" transform="translate(858,100)" opacity=".25"><circle r="17" fill="rgba(239,124,99,.12)" stroke="#ef7c63" stroke-width="2"></circle><text y="42" fill="#aac0d3">Next</text></g>
+                </g>
+              </g>
+
+              <g id="eventGuides" stroke="rgba(255,255,255,.20)" stroke-width="1.4" stroke-dasharray="5 7" opacity="0">
+                <path id="guideValve" d="M126,124 L258,274"></path>
+                <path id="guideCalcium" d="M300,106 L662,370"></path>
+                <path id="guideStiffness" d="M492,142 L704,432"></path>
+                <path id="guideOpening" d="M668,132 L506,320"></path>
+                <path id="guideNext" d="M858,124 L764,452"></path>
+              </g>
+
+              <g id="sideView" filter="url(#softShadow)">
+                <path d="M112,284 C176,234 236,235 295,284 C254,335 185,345 112,326 Z" fill="rgba(231,107,114,.22)" stroke="rgba(231,107,114,.50)" stroke-width="2"></path>
+                <text x="170" y="360" fill="#aac0d3" font-size="13" font-weight="800">Left ventricle</text>
+                <path d="M286,250 C394,224 492,226 610,254 L610,360 C492,386 394,386 286,358 Z" fill="url(#vcAortaGrad)" stroke="rgba(127,213,255,.30)" stroke-width="2"></path>
+                <path id="flowChannel" d="M142,306 C238,304 330,304 414,304 C480,304 546,304 618,304" fill="none" stroke="url(#vcBloodGrad)" stroke-width="54" stroke-linecap="round" opacity=".62"></path>
+                <path id="jetStream" d="M434,304 C496,292 548,292 614,304" fill="none" stroke="#f0d48a" stroke-width="0" stroke-linecap="round" opacity="0"></path>
+                <g id="sideValve" stroke-linecap="round" stroke-linejoin="round">
+                  <path id="leafletUpper" d="M392,252 C420,268 438,286 454,302" fill="none" stroke="url(#vcLeafletGrad)" stroke-width="16"></path>
+                  <path id="leafletLower" d="M392,356 C420,340 438,322 454,306" fill="none" stroke="url(#vcLeafletGrad)" stroke-width="16"></path>
+                  <path id="leafletBack" d="M390,304 C420,300 442,302 464,304" fill="none" stroke="rgba(238,245,251,.55)" stroke-width="8"></path>
+                  <path id="valveRing" d="M382,246 C406,274 407,334 382,362" fill="none" stroke="#d4b15a" stroke-width="4" opacity=".72"></path>
+                </g>
+                <g id="sideCalcDots"></g>
+                <g id="stiffnessArrows" fill="none" stroke="#ef7c63" stroke-width="2.5" marker-end="url(#arrowDanger)" opacity="0">
+                  <path d="M354,248 C372,258 382,270 390,286"></path>
+                  <path d="M354,360 C372,350 382,338 390,322"></path>
+                </g>
+                <g id="flowParticles"></g>
+              </g>
+
+              <g id="topValve" transform="translate(690,395)" filter="url(#softShadow)">
+                <text x="-96" y="-126" fill="#aac0d3" font-size="18" font-weight="800">Valve view</text>
+                <circle r="118" fill="rgba(127,213,255,.07)" stroke="rgba(127,213,255,.24)" stroke-width="2"></circle>
+                <circle id="valveOpening" r="66" fill="rgba(12,27,41,.72)" stroke="#7fd5ff" stroke-width="3" opacity=".92"></circle>
+                <path id="cuspA" d="M0,-96 C42,-78 58,-44 50,-6 C29,-20 12,-28 0,-28 C-12,-28 -29,-20 -50,-6 C-58,-44 -42,-78 0,-96Z" fill="url(#vcLeafletGrad)" opacity=".84" stroke="rgba(238,245,251,.45)" stroke-width="1.5"></path>
+                <path id="cuspB" d="M83,48 C42,56 8,42 -18,12 C9,7 24,-2 30,-12 C36,-22 35,-39 26,-66 C65,-54 91,-24 83,48Z" fill="url(#vcLeafletGrad)" opacity=".78" stroke="rgba(238,245,251,.45)" stroke-width="1.5"></path>
+                <path id="cuspC" d="M-83,48 C-42,56 -8,42 18,12 C-9,7 -24,-2 -30,-12 C-36,-22 -35,-39 -26,-66 C-65,-54 -91,-24 -83,48Z" fill="url(#vcLeafletGrad)" opacity=".78" stroke="rgba(238,245,251,.45)" stroke-width="1.5"></path>
+                <g id="topCalcDots"></g>
+                <g id="openingRing" fill="none" stroke="#f0d48a" stroke-width="3" stroke-dasharray="6 8" opacity="0">
+                  <circle r="46"></circle>
+                </g>
+                <g id="leafletMotionCues" fill="none" stroke="#7fd5ff" stroke-width="2.2" marker-end="url(#arrowBlue)" opacity="0">
+                  <path d="M-66,-76 C-92,-38 -94,8 -72,44"></path>
+                  <path d="M66,-76 C92,-38 94,8 72,44"></path>
+                  <path d="M-42,78 C0,102 42,78 58,42"></path>
+                </g>
+              </g>
+
+              <g id="riskLayerChips" class="valve-chip" opacity="0">
+                <g transform="translate(112,442)"><rect width="105" height="32" rx="16" fill="rgba(212,177,90,.12)" stroke="rgba(212,177,90,.35)"></rect><text x="52" y="21" text-anchor="middle" fill="#f0d48a">Lp(a)</text></g>
+                <g transform="translate(225,442)"><rect width="106" height="32" rx="16" fill="rgba(127,213,255,.10)" stroke="rgba(127,213,255,.28)"></rect><text x="53" y="21" text-anchor="middle" fill="#aac0d3">ApoB context</text></g>
+                <g transform="translate(339,442)"><rect width="118" height="32" rx="16" fill="rgba(127,213,255,.10)" stroke="rgba(127,213,255,.28)"></rect><text x="59" y="21" text-anchor="middle" fill="#aac0d3">Valve anatomy</text></g>
+                <g transform="translate(465,442)"><rect width="122" height="32" rx="16" fill="rgba(239,124,99,.10)" stroke="rgba(239,124,99,.28)"></rect><text x="61" y="21" text-anchor="middle" fill="#efc4b9">Kidney disease</text></g>
+                <g transform="translate(112,484)"><rect width="130" height="32" rx="16" fill="rgba(239,124,99,.10)" stroke="rgba(239,124,99,.28)"></rect><text x="65" y="21" text-anchor="middle" fill="#efc4b9">Blood pressure</text></g>
+                <g transform="translate(252,484)"><rect width="128" height="32" rx="16" fill="rgba(127,213,255,.10)" stroke="rgba(127,213,255,.28)"></rect><text x="64" y="21" text-anchor="middle" fill="#aac0d3">Family history</text></g>
+              </g>
+
+              <a id="aorticStenosisPanel" href="../aortic-stenosis/" opacity="0" aria-label="Open the Aortic stenosis atlas">
+                <rect x="580" y="520" width="282" height="58" rx="18" fill="rgba(12,27,41,.78)" stroke="rgba(212,177,90,.34)"></rect>
+                <text x="603" y="544" fill="#f0d48a" font-size="13" font-weight="900">Next atlas</text>
+                <text x="603" y="565" fill="#aac0d3" font-size="13">Aortic stenosis: when narrowing strains the heart.</text>
+              </a>
+
+              <g id="labelsGroup" class="valve-label" font-family="Montserrat,Roboto,system-ui,sans-serif" font-size="13" font-weight="800">
+                <text id="lblValve" x="280" y="226" fill="#aac0d3">Aortic valve leaflets</text>
+                <text id="lblCalcium" x="452" y="226" fill="#f0d48a" opacity="0">Calcium deposits</text>
+                <text id="lblStiffness" x="520" y="392" fill="#efc4b9" opacity="0">Stiffer leaflets</text>
+                <text id="lblOpening" x="720" y="274" fill="#7fd5ff" opacity="0">Smaller opening</text>
+                <text id="lblNext" x="682" y="594" fill="#f0d48a" opacity="0">Hand-off to aortic stenosis</text>
+              </g>
+            </svg>
+          </div>
+
+          <aside class="legend" aria-label="Valve calcification stage details">
+            <h3>Current stage</h3>
+            <div class="metric"><div class="label">Valve calcium</div><div id="metricCalcium" class="value">None shown</div></div>
+            <div class="metric"><div class="label">Leaflet motion</div><div id="metricMotion" class="value">Flexible</div></div>
+            <div class="metric"><div class="label">Valve opening</div><div id="metricOpening" class="value">Open</div></div>
+            <div class="info-block"><h3>What this means</h3><p id="meaningText" class="panel-copy">A flexible aortic valve opens to let blood leave the heart and then closes to prevent backward flow.</p></div>
+            <div class="info-block"><h3>Discuss with your health team</h3><p id="discussText" class="panel-copy">Ask what your valve imaging shows, whether any murmur has been heard, and whether repeat monitoring is needed.</p></div>
+            <div class="info-block"><h3>What this does not show</h3><p id="limitsText" class="panel-copy">This visual is not an echocardiogram, CT scan, diagnosis, or severity grading tool.</p></div>
+          </aside>
+        </div>
+      </section>
+
+      <aside class="panel-card" id="compositionBlock" aria-labelledby="composition-h" hidden>
+        <div class="kicker">Valve pathway</div>
+        <h2 id="composition-h" class="panel-title">What valve calcification can involve</h2>
+        <ul class="panel-list">
+          <li>Aortic valve leaflets that need to open and close freely.</li>
+          <li>Calcium deposits collecting on or around the leaflets.</li>
+          <li>Stiffness that can reduce leaflet motion.</li>
+          <li>A smaller opening that can make blood leave the heart less easily.</li>
+          <li>A hand-off to aortic stenosis when narrowing and pressure load become the focus.</li>
+        </ul>
+        <div class="callout"><strong>Key point:</strong> valve calcification is not the same as coronary artery calcium. One involves a heart valve; the other involves artery plaque.</div>
+      </aside>
+    </section>
+
+    <section class="cta-card" aria-labelledby="cta-h">
+      <div>
+        <div class="kicker">Heart risk products</div>
+        <h2 id="cta-h">Clarify risk. Navigate danger. Prevent events.</h2>
+        <p>Valve calcification can sit outside the usual cholesterol conversation. If you have high Lp(a), ApoB concerns, a murmur, echo or CT findings, bicuspid-valve history, kidney disease, blood pressure concerns, or family history, the question is not only whether calcium is present. It is how this finding fits into your wider heart risk and what to ask your health team next.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn primary" href="https://shyntesy.com/clarify">Clarify risk</a>
+        <a class="btn secondary" href="https://shyntesy.com/navigate">Navigate danger</a>
+        <a class="btn secondary" href="https://shyntesy.com/prevent">Prevent events</a>
+      </div>
+    </section>
+  </main>
+  <footer id="atlasFooter" class="footer"></footer>
+
+  <script>
+    window.HFAtlas && HFAtlas.renderTopbar('topbarRoot');
+    window.HFAtlas && HFAtlas.buildSidebar('riskSidebar', window.location.pathname, { active:'valve-calcification', baseHref:'../' });
+    window.HFAtlas && HFAtlas.renderFooter('atlasFooter');
+    window.HFAtlas && HFAtlas.initShellControls();
+
+    (function(){
+      const { clamp, lerp, ease, pct } = HFAtlas;
+      const allowMotion = HFAtlas.allowMotion();
+      const slider = document.getElementById('progressSlider');
+      const playBtn = document.getElementById('playBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const labelsBtn = document.getElementById('labelsBtn');
+      const detailBtn = document.getElementById('detailBtn');
+      const stageText = document.getElementById('stageText');
+      const compositionBlock = document.getElementById('compositionBlock');
+
+      const railProgress = document.getElementById('railProgress');
+      const railArrows = document.getElementById('railArrows');
+      const eventGuides = document.getElementById('eventGuides');
+      const guideValve = document.getElementById('guideValve');
+      const guideCalcium = document.getElementById('guideCalcium');
+      const guideStiffness = document.getElementById('guideStiffness');
+      const guideOpening = document.getElementById('guideOpening');
+      const guideNext = document.getElementById('guideNext');
+      const nodeCalcium = document.getElementById('nodeCalcium');
+      const nodeStiffness = document.getElementById('nodeStiffness');
+      const nodeOpening = document.getElementById('nodeOpening');
+      const nodeNext = document.getElementById('nodeNext');
+
+      const leafletUpper = document.getElementById('leafletUpper');
+      const leafletLower = document.getElementById('leafletLower');
+      const leafletBack = document.getElementById('leafletBack');
+      const jetStream = document.getElementById('jetStream');
+      const valveOpening = document.getElementById('valveOpening');
+      const openingRing = document.getElementById('openingRing');
+      const leafletMotionCues = document.getElementById('leafletMotionCues');
+      const stiffnessArrows = document.getElementById('stiffnessArrows');
+      const riskLayerChips = document.getElementById('riskLayerChips');
+      const aorticStenosisPanel = document.getElementById('aorticStenosisPanel');
+      const sideCalcDots = document.getElementById('sideCalcDots');
+      const topCalcDots = document.getElementById('topCalcDots');
+      const flowParticles = document.getElementById('flowParticles');
+
+      const metricCalcium = document.getElementById('metricCalcium');
+      const metricMotion = document.getElementById('metricMotion');
+      const metricOpening = document.getElementById('metricOpening');
+      const meaningText = document.getElementById('meaningText');
+      const discussText = document.getElementById('discussText');
+      const limitsText = document.getElementById('limitsText');
+      const labels = ['lblValve','lblCalcium','lblStiffness','lblOpening','lblNext'].map(id => document.getElementById(id));
+
+      const stages = [
+        { max:12, title:'Valve motion context', short:'Valve', calcium:'None shown', motion:'Flexible', opening:'Open', explain:'The aortic valve sits between the left ventricle and the aorta. It opens to let blood leave the heart and closes to prevent backward flow.', meaning:'At this stage, the focus is valve movement: leaflets opening and closing freely.', discuss:'Ask whether your health team has ever heard a murmur and whether any valve imaging has been done.', limits:'This visual is not a scan and cannot show your valve structure, valve area, or pressure gradients.' },
+        { max:35, title:'Calcium deposits appear', short:'Deposits', calcium:'Early', motion:'Mostly flexible', opening:'Still open', explain:'Small calcium deposits can collect on valve leaflets or around the valve structure. Early deposits do not automatically mean severe narrowing.', meaning:'This is the hand-off from normal leaflet motion to visible valve change.', discuss:'Ask whether any valve calcification has been seen on echocardiography, CT, or other imaging, and what follow-up interval is appropriate.', limits:'The amount of calcium shown here is illustrative. It does not grade mild, moderate, or severe valve disease.' },
+        { max:60, title:'Leaflets become stiffer', short:'Stiffening', calcium:'Building', motion:'Stiffening', opening:'Less smooth', explain:'As calcification and tissue change build up, valve leaflets can become less flexible. The valve may still open, but motion can become less smooth.', meaning:'The educational focus is stiffness, not symptoms. A person can have valve calcification before they clearly feel anything.', discuss:'Ask how valve motion, valve thickness, and blood-flow speed are being monitored.', limits:'This does not show whether treatment is needed. Treatment decisions depend on imaging, symptoms, severity, and your health team.' },
+        { max:84, title:'The opening narrows', short:'Narrowing', calcium:'Heavy', motion:'Restricted', opening:'Narrowing', explain:'When stiff leaflets cannot open widely, the valve opening can narrow. Blood may need to pass through a smaller space.', meaning:'This is the hand-off toward aortic stenosis: the next module focuses on narrowing, pressure load, and heart strain.', discuss:'Ask whether your valve is being described as sclerosis, calcification, stenosis, mild, moderate, or severe, and what each term means for you.', limits:'A narrower drawing does not mean your own valve is narrowed. Only appropriate clinical testing can assess this.' },
+        { max:100, title:'Aortic stenosis hand-off', short:'Hand-off', calcium:'Marked', motion:'Markedly restricted', opening:'Very narrowed', explain:'The final stage points forward to aortic stenosis, where a narrowed valve can make the heart work harder to pump blood out to the body.', meaning:'The pathway matters because valve calcification can become clinically important when it restricts flow and increases pressure load.', discuss:'Ask what symptoms should prompt urgent advice, how often your valve should be checked, and whether Lp(a), ApoB, blood pressure, kidney health, or valve anatomy should be part of your risk discussion.', limits:'This is not a prediction. It does not mean calcification will progress, or that symptoms are present. It also does not replace urgent medical care if concerning symptoms occur.' }
+      ];
+
+      const state = { value:0, detail:false, showLabels:true, playing:false, raf:null, idle:null, railLength:0 };
+
+      function stageFor(v){
+        for(let i=0;i<stages.length;i++){ if(v <= stages[i].max) return stages[i]; }
+        return stages[stages.length-1];
+      }
+
+      function buildCues(){
+        const sideDots = [
+          [396,260,3.5],[415,275,3.2],[432,287,3.8],[404,344,3.1],[424,331,3.9],[444,318,3.4],[386,304,2.8],[454,304,3.6]
+        ];
+        sideCalcDots.innerHTML = sideDots.map((d,i) => `<circle class="calc-dot" data-i="${i}" data-base-r="${d[2]}" cx="${d[0]}" cy="${d[1]}" r="${d[2]}" fill="url(#vcCalciumGrad)" opacity="0"></circle>`).join('');
+        const topDots = [
+          [-16,-72,4.6],[14,-66,4.0],[-42,-38,3.4],[44,-32,3.6],[-66,22,3.9],[-35,42,3.1],[60,20,3.8],[32,48,3.4],[0,-30,3.1],[-12,14,3.0],[18,12,3.2]
+        ];
+        topCalcDots.innerHTML = topDots.map((d,i) => `<circle class="calc-dot" data-i="${i}" data-base-r="${d[2]}" cx="${d[0]}" cy="${d[1]}" r="${d[2]}" fill="url(#vcCalciumGrad)" opacity="0"></circle>`).join('');
+        const particles = Array.from({length:18}, (_,i) => ({ x:150 + i*27, y:304 + ((i%5)-2)*7, r:2.8 + (i%3)*.5, speed:.22 + (i%4)*.04 }));
+        flowParticles.innerHTML = particles.map((p,i) => `<circle class="flow-particle" data-i="${i}" data-x="${p.x}" data-y="${p.y}" data-r="${p.r}" data-speed="${p.speed}" cx="${p.x}" cy="${p.y}" r="${p.r}" fill="#fff3c2" opacity=".42"></circle>`).join('');
+      }
+
+      function drawRail(progress){
+        if(!state.railLength){
+          try{ state.railLength = railProgress.getTotalLength(); }catch(e){ state.railLength = 0; }
+          if(state.railLength){ railProgress.setAttribute('stroke-dasharray', state.railLength.toFixed(2)); }
+        }
+        if(!state.railLength) return;
+        railProgress.setAttribute('stroke-dashoffset', (state.railLength * (1 - progress)).toFixed(2));
+      }
+
+      function renderParticles(){
+        const v = state.value;
+        const narrowing = clamp((v-60)/24,0,1);
+        const handoff = clamp((v-84)/16,0,1);
+        const now = Date.now() / 1000;
+        document.querySelectorAll('.flow-particle').forEach((node,i) => {
+          const baseX = Number(node.getAttribute('data-x'));
+          const baseY = Number(node.getAttribute('data-y'));
+          const r = Number(node.getAttribute('data-r'));
+          const speed = Number(node.getAttribute('data-speed'));
+          const motion = allowMotion ? ((now*52*speed + i*31) % 470) : (i*27);
+          const x = 132 + motion;
+          const squeeze = clamp((x-360)/150,0,1) * clamp((590-x)/150,0,1) * narrowing;
+          const y = lerp(baseY, 304 + ((i%2) ? -5 : 5), squeeze);
+          const fade = 1 - handoff*.45 - squeeze*.22;
+          node.setAttribute('cx', x.toFixed(1));
+          node.setAttribute('cy', y.toFixed(1));
+          node.setAttribute('r', (r * (1 - narrowing*.18)).toFixed(2));
+          node.setAttribute('opacity', clamp(.18 + fade*.42, .12, .62).toFixed(2));
+        });
+      }
+
+      function updateShape(v){
+        v = clamp(Number(v) || 0,0,100);
+        state.value = v;
+        const stage = stageFor(v);
+        const p = pct(v);
+        const deposit = clamp((v-12)/23,0,1);
+        const stiffness = clamp((v-35)/25,0,1);
+        const narrowing = clamp((v-60)/24,0,1);
+        const handoff = clamp((v-84)/16,0,1);
+        const detail = state.detail ? 1 : 0;
+
+        stageText.textContent = stage.title;
+        metricCalcium.textContent = stage.calcium;
+        metricMotion.textContent = stage.motion;
+        metricOpening.textContent = stage.opening;
+        meaningText.textContent = stage.meaning;
+        discussText.textContent = stage.discuss;
+        limitsText.textContent = stage.limits;
+        HFAtlas.setSliderValueText(slider, Math.round(v), stage.title);
+
+        drawRail(p);
+        railArrows.setAttribute('opacity', clamp(.18 + p*.18 + detail*.42,.18,.78).toFixed(2));
+        eventGuides.setAttribute('opacity', clamp(detail*.20 + p*.16,0,.36).toFixed(2));
+        guideValve.setAttribute('opacity', detail ? .75 : .38);
+        guideCalcium.setAttribute('opacity', clamp(deposit*1.2,0,.82));
+        guideStiffness.setAttribute('opacity', clamp(stiffness*1.2,0,.82));
+        guideOpening.setAttribute('opacity', clamp(narrowing*1.2,0,.82));
+        guideNext.setAttribute('opacity', clamp(handoff*1.2,0,.82));
+
+        nodeCalcium.setAttribute('opacity', clamp(.45 + deposit*.55, .45, 1).toFixed(2));
+        nodeStiffness.setAttribute('opacity', clamp(.35 + stiffness*.65, .35, 1).toFixed(2));
+        nodeOpening.setAttribute('opacity', clamp(.30 + narrowing*.70, .30, 1).toFixed(2));
+        nodeNext.setAttribute('opacity', clamp(.25 + handoff*.75, .25, 1).toFixed(2));
+
+        const gap = lerp(46, 16, narrowing);
+        leafletUpper.setAttribute('d', `M392,252 C${lerp(420,430,stiffness).toFixed(1)},${lerp(268,282,narrowing).toFixed(1)} ${lerp(438,448,stiffness).toFixed(1)},${lerp(286,298,narrowing).toFixed(1)} 454,${(304-gap/2).toFixed(1)}`);
+        leafletLower.setAttribute('d', `M392,356 C${lerp(420,430,stiffness).toFixed(1)},${lerp(340,326,narrowing).toFixed(1)} ${lerp(438,448,stiffness).toFixed(1)},${lerp(322,310,narrowing).toFixed(1)} 454,${(304+gap/2).toFixed(1)}`);
+        leafletBack.setAttribute('opacity', (0.55 - narrowing*.25).toFixed(2));
+        jetStream.setAttribute('stroke-width', (narrowing*lerp(0,16,handoff*.45 + .55)).toFixed(1));
+        jetStream.setAttribute('opacity', clamp(narrowing*.82 + handoff*.16,0,.92).toFixed(2));
+        valveOpening.setAttribute('r', lerp(66,30,narrowing).toFixed(1));
+        openingRing.setAttribute('opacity', clamp(narrowing*.55 + detail*.35,0,.82).toFixed(2));
+        openingRing.querySelector('circle').setAttribute('r', lerp(62,31,narrowing).toFixed(1));
+        stiffnessArrows.setAttribute('opacity', clamp(stiffness*.46 + detail*.42,0,.82).toFixed(2));
+        leafletMotionCues.setAttribute('opacity', clamp(detail*(.25 + stiffness*.55),0,.8).toFixed(2));
+        riskLayerChips.setAttribute('opacity', clamp(detail*(.18 + deposit*.82),0,.95).toFixed(2));
+        aorticStenosisPanel.setAttribute('opacity', clamp(handoff,0,1).toFixed(2));
+
+        document.querySelectorAll('.calc-dot').forEach(node => {
+          const i = Number(node.getAttribute('data-i') || 0);
+          const base = Number(node.getAttribute('data-base-r') || 3.2);
+          const local = clamp(deposit*10 - i,0,1);
+          const extra = clamp(stiffness*5 - (i%5),0,1) * .5;
+          node.setAttribute('opacity', (local * (.28 + .62*deposit)).toFixed(2));
+          node.setAttribute('r', (base + local*.6 + extra).toFixed(2));
+        });
+
+        labels.forEach(node => { if(node) node.setAttribute('opacity', state.showLabels ? '1' : '0'); });
+        if(state.showLabels){
+          document.getElementById('lblCalcium').setAttribute('opacity', clamp(deposit*1.15,0,1).toFixed(2));
+          document.getElementById('lblStiffness').setAttribute('opacity', clamp(stiffness*1.15,0,1).toFixed(2));
+          document.getElementById('lblOpening').setAttribute('opacity', clamp(narrowing*1.15,0,1).toFixed(2));
+          document.getElementById('lblNext').setAttribute('opacity', clamp(handoff*1.15,0,1).toFixed(2));
+        }
+
+        if(compositionBlock){ compositionBlock.hidden = v < 5; }
+        renderParticles();
+      }
+
+      function setValue(v){
+        state.value = clamp(Number(v) || 0,0,100);
+        slider.value = Math.round(state.value);
+        updateShape(state.value);
+      }
+
+      function play(){
+        if(state.playing){ stop(); return; }
+        state.playing = true;
+        playBtn.textContent = 'Pause';
+        const start = performance.now();
+        const from = state.value;
+        const duration = Math.max(2500, (100-from)*72);
+        function tick(now){
+          if(!state.playing) return;
+          const t = clamp((now-start)/duration,0,1);
+          setValue(lerp(from,100,ease(t)));
+          if(t < 1){ state.raf = requestAnimationFrame(tick); }
+          else{ stop(); }
+        }
+        state.raf = requestAnimationFrame(tick);
+      }
+
+      function stop(){
+        state.playing = false;
+        playBtn.textContent = 'Play';
+        if(state.raf) cancelAnimationFrame(state.raf);
+        state.raf = null;
+      }
+
+      slider.addEventListener('input', function(){ stop(); setValue(slider.value); });
+      playBtn.addEventListener('click', play);
+      resetBtn.addEventListener('click', function(){ stop(); setValue(0); });
+      labelsBtn.addEventListener('click', function(){
+        state.showLabels = !state.showLabels;
+        labelsBtn.textContent = state.showLabels ? 'Labels on' : 'Labels off';
+        labelsBtn.setAttribute('aria-pressed', state.showLabels ? 'true' : 'false');
+        updateShape(state.value);
+      });
+      detailBtn.addEventListener('click', function(){
+        state.detail = !state.detail;
+        detailBtn.setAttribute('aria-pressed', state.detail ? 'true' : 'false');
+        updateShape(state.value);
+      });
+
+      buildCues();
+      setValue(0);
+      if(allowMotion){
+        state.idle = window.setInterval(function(){ if(!state.playing){ renderParticles(); } }, 190);
+      }
+    })();
+  </script>
+</body>
+</html>
