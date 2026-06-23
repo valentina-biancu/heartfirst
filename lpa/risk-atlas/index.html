@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="canonical" href="https://heartfirst.shyntesy.com/lpa/risk-atlas/" />
+  <title>HeartFirst — Lp(a) Risk Atlas</title>
+  <meta name="description" content="HeartFirst Lp(a) Risk Atlas: an interactive synthesis view showing how high Lipoprotein(a) [Lp(a)] can amplify artery, valve, and family risk pathways across a lifetime." />
+  <script src="../../risks/atlas.js"></script>
+  <link rel="stylesheet" href="../../risks/atlas.css" />
+  <style>
+    .lpa-panel-list{display:grid;gap:10px}
+    .lpa-panel-link{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:inherit;text-decoration:none}
+    .lpa-panel-link:hover{text-decoration:none;border-color:rgba(212,177,90,.44);transform:translateY(-1px)}
+    .lpa-panel-link strong{display:block;font-size:.96rem}
+    .lpa-panel-link span{display:block;color:var(--muted);font-size:.88rem;line-height:1.45}
+    .lpa-dot{width:10px;height:10px;border-radius:50%;margin-top:6px;background:var(--gold);flex:0 0 auto}
+    .lpa-dot.blue{background:var(--accent)}
+    .lpa-dot.red{background:var(--danger)}
+    .lpa-dot.green{background:var(--good)}
+    .module-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+    .module-card{padding:11px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);color:var(--text);text-decoration:none}
+    .module-card:hover{text-decoration:none;border-color:rgba(212,177,90,.44)}
+    .module-card strong{display:block;font-size:.9rem}
+    .module-card span{display:block;margin-top:4px;color:var(--muted);font-size:.78rem;line-height:1.35}
+    .lpa-chip text{font-weight:800;letter-spacing:.01em}
+    .lpa-label text{paint-order:stroke;stroke:rgba(7,17,28,.7);stroke-width:4px;stroke-linejoin:round}
+    html[data-theme="light"] .lpa-label text{stroke:rgba(255,255,255,.82)}
+    .family-card{margin-top:14px;border-top:1px solid rgba(255,255,255,.08);padding-top:14px}
+    html[data-theme="light"] .lpa-panel-link,
+    html[data-theme="light"] .module-card{background:rgba(13,34,54,.035);border-color:rgba(13,34,54,.10)}
+    html[data-theme="light"] .family-card{border-top-color:rgba(13,34,54,.11)}
+
+    .lpa-proof-section{margin:24px 0 0;display:grid;gap:16px}
+    .lpa-proof-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .lpa-proof-heading h2{margin:0;font-family:var(--display);font-size:clamp(1.35rem,2.2vw,2rem);line-height:1.12;color:var(--text)}
+    .lpa-proof-heading p{margin:0;max-width:680px;color:var(--muted);line-height:1.62;font-size:.96rem}
+    .lpa-proof-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .lpa-proof-card{border:1px solid rgba(255,255,255,.09);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));border-radius:22px;padding:20px;box-shadow:0 18px 40px rgba(0,0,0,.15)}
+    .lpa-proof-card h3{margin:0 0 10px;font-family:var(--display);font-size:1.25rem;color:var(--text)}
+    .lpa-proof-card p{margin:.55rem 0 0;color:var(--muted);font-size:.95rem;line-height:1.55}
+    .lpa-proof-card .proof-lead{color:var(--text);font-weight:800;font-size:1.02rem;line-height:1.42}
+    .lpa-proof-media{margin:10px 0 14px;padding:10px;border-radius:18px;background:rgba(255,255,255,.026);border:1px solid rgba(255,255,255,.065);overflow:hidden}
+    .lpa-proof-media svg{display:block;width:100%;height:auto;max-height:210px}
+    .lpa-proof-media img{
+      display:block;
+      width:100%;
+      height:auto;
+      border-radius:14px;
+    }
+    .proof-svg-neutral{stroke:#9aa7b4;fill:none}
+    .proof-svg-soft{stroke:#d8905f;fill:rgba(216,144,95,.14)}
+    .proof-svg-soft-fill{fill:rgba(216,144,95,.18);stroke:#d8905f}
+    .proof-svg-line{stroke:#7f8d9b;fill:none}
+    .proof-svg-label{fill:#9fb0c0;font-family:Montserrat,Roboto,system-ui,sans-serif;font-size:12px;font-weight:700}
+    .proof-svg-tag{fill:#d8905f;font-family:Montserrat,Roboto,system-ui,sans-serif;font-size:12px;font-weight:900;letter-spacing:.02em}
+    .lpa-why-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:4px}
+    .lpa-why-card{display:flex;gap:12px;align-items:flex-start;padding:15px;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025)}
+    .lpa-why-icon{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:rgba(216,144,95,.13);color:#d8905f;flex:0 0 auto}
+    .lpa-why-card p{margin:0;color:var(--text);font-size:.92rem;line-height:1.42;font-weight:700}
+    html[data-theme="light"] .lpa-proof-card,
+    html[data-theme="light"] .lpa-proof-media,
+    html[data-theme="light"] .lpa-why-card{background:rgba(13,34,54,.035);border-color:rgba(13,34,54,.10);box-shadow:0 16px 34px rgba(13,34,54,.08)}
+    html[data-theme="light"] .proof-svg-neutral{stroke:#5d6a76}
+    html[data-theme="light"] .proof-svg-line{stroke:#6e7b86}
+    html[data-theme="light"] .proof-svg-label{fill:#52606d}
+    @media(max-width:850px){.lpa-proof-grid,.lpa-why-grid{grid-template-columns:1fr}.lpa-proof-card{padding:17px}.lpa-proof-media svg{max-height:none}}
+    @media(max-width:700px){.module-grid{grid-template-columns:1fr}}
+
+    /* Lp(a) Risk Atlas — top-section layout refinement */
+
+    /* Keep the hero grid, but stop the right-side scope card from visually beating the headline. */
+    .hero{
+      align-items:stretch;
+    }
+
+    /* Keep the card in place, but move its internal content down/centre it within the card. */
+    .hero .scope-card{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    /* The “Common and inherited” intro applies to both proof cards, so centre it across the page. */
+    .lpa-proof-heading{
+      max-width:780px;
+      margin:0 auto;
+      text-align:center;
+      display:block;
+    }
+
+    .lpa-proof-heading > div{
+      margin:0 auto;
+    }
+
+    .lpa-proof-heading p{
+      max-width:720px;
+      margin:0.75rem auto 0;
+    }
+
+    /* Keep proof-card images constrained to their own media area without forcing a fixed height. */
+    .lpa-proof-media img{
+      display:block;
+      width:100%;
+      height:auto;
+      border-radius:14px;
+    }
+    .lpa-alert-notes{
+      margin-top:16px;
+      padding:14px 15px;
+      border-radius:16px;
+      border:1px solid rgba(216,144,95,.22);
+      background:rgba(216,144,95,.07);
+    }
+
+    .lpa-alert-heading{
+      margin:0 0 8px;
+      color:var(--text);
+      font-weight:800;
+      font-size:.95rem;
+      line-height:1.35;
+    }
+
+    .lpa-alert-notes ul{
+      margin:0;
+      padding-left:1.15rem;
+      display:grid;
+      gap:7px;
+    }
+
+    .lpa-alert-notes li{
+      color:var(--muted);
+      font-size:.9rem;
+      line-height:1.42;
+    }
+
+    .lpa-alert-notes li strong{
+      color:var(--text);
+    }
+  </style>
+</head>
+<body data-atlas-topic="Lp(a) Risk Atlas">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header id="topbarRoot" class="topbar" aria-label="Site header"></header>
+
+  <main id="main" class="page">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="https://heartfirst.shyntesy.com/">HeartFirst</a>
+      <span class="sep">›</span>
+      <a href="https://heartfirst.shyntesy.com/lpa/">Lp(a)</a>
+      <span class="sep">›</span>
+      <span aria-current="page">Risk Atlas</span>
+    </nav>
+
+    <section class="hero" aria-labelledby="hero-h">
+      <div class="hero-card">
+        <div class="kicker">Lp(a) · synthesis atlas</div>
+        <h1 id="hero-h">How one inherited signal can amplify more than one heart risk pathway.</h1>
+        <p class="hero-sub">
+          This atlas shows how high <strong>Lipoprotein(a) [Lp(a)]</strong> can sit upstream of artery, valve, and family risk pathways. Use the slider to move from inherited signal to lifelong exposure, artery amplification, valve amplification, and compounded risk context.
+        </p>
+      </div>
+      <aside class="scope-card" aria-labelledby="scope-h">
+        <h2 id="scope-h" class="scope-title">What this atlas does</h2>
+        <ul class="scope-list">
+          <li>Shows Lp(a) as a risk amplifier, not a personal risk calculator.</li>
+          <li>Connects artery and valve pathways without placing Lp(a) inside the /risks/ folder.</li>
+          <li>Links outward to the relevant Risk Atlas modules for deeper views.</li>
+          <li>Supports family and health team conversations about testing and next steps.</li>
+        </ul>
+      </aside>
+    </section>
+    <section class="lpa-proof-section" aria-labelledby="lpa-proof-h">
+      <div class="lpa-proof-heading">
+        <div>
+          <div class="kicker">Common and inherited</div>
+          <h2 id="lpa-proof-h">Two reasons Lp(a) needs its own risk map</h2>
+        </div>
+        <p>Lp(a) matters because it is both common and largely inherited. These two facts change the conversation: one result can clarify risk for one person, and may also point relatives toward testing.</p>
+      </div>
+
+      <div class="lpa-proof-grid">
+        <article class="lpa-proof-card" aria-labelledby="common-h">
+          <h3 id="common-h">Common</h3>
+
+          <div class="lpa-proof-media" aria-hidden="true">
+            <img
+              src="./one-in-five.png"
+              alt="Five human figures in a row, with one highlighted to show that roughly 1 in 5 people have elevated Lp(a)."
+            />
+          </div>
+
+          <p class="proof-lead">Roughly 1 in 5 people have elevated Lp(a).</p>
+          <p>This makes high Lp(a) common, even though many people have never heard of it, and standard cholesterol checks do not include it.</p>
+
+          <div class="lpa-alert-notes" aria-label="Why elevated Lp(a) matters">
+            <p class="lpa-alert-heading">High Lp(a) can increase risk because:</p>
+            <ul>
+              <li><strong>The level matters.</strong> Almost everyone has some Lp(a); the risk comes from having elevated levels.</li> <li><strong>Lp(a) is less familiar than HDL or LDL.</strong> Many people know about “good” and “bad” cholesterol, but few have heard of “stealth” cholesterol.</li> <li><strong>Lifestyle matters.</strong> Even if it does not directly lower Lp(a), lifestyle can reduce other risks around it.</li> <li><strong>New treatment trials are underway.</strong> Several Lp(a)-targeting medicines are being tested, including gene-silencing therapies.</li> <li><strong>It can be part of a complicated risk picture.</strong> Insulin resistance and metabolic risk, for example, can make Lp(a) numbers and interpretation more challenging.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="lpa-proof-card" aria-labelledby="inherited-h">
+          <h3 id="inherited-h">Inherited</h3>
+          <div class="lpa-proof-media" aria-hidden="true">
+            <img src="./family-tree.png" alt="A three-generation family tree showing how elevated Lp(a) can run through families." />
+          </div>
+          <p class="proof-lead">Lp(a) can run through families.</p>
+          <p>If one person has high Lp(a), close relatives may also need testing. The highlight shows possible family relevance, not certainty for every relative.</p>
+        </article>
+      </div>
+
+      <div class="lpa-why-grid" aria-label="Why Lp(a) matters">
+        <div class="lpa-why-card"><span class="lpa-why-icon" aria-hidden="true">◎</span><p>It can amplify risk beyond a standard lipid panel.</p></div>
+        <div class="lpa-why-card"><span class="lpa-why-icon" aria-hidden="true">◇</span><p>It can bring family history into sharper focus.</p></div>
+        <div class="lpa-why-card"><span class="lpa-why-icon" aria-hidden="true">⌕</span><p>It can help explain why “normal” results do not always mean complete reassurance.</p></div>
+      </div>
+    </section>
+
+    <section class="app-grid" aria-label="Interactive Lp(a) risk synthesis atlas">
+      <aside class="nav-card" aria-labelledby="lpa-nav-h">
+        <h2 id="lpa-nav-h" class="nav-title">Lp(a) Risk Atlas</h2>
+        <div class="lpa-panel-list" aria-label="Lp(a) atlas sections">
+          <a class="lpa-panel-link" href="https://heartfirst.shyntesy.com/lpa/">
+            <span class="lpa-dot"></span>
+            <div><strong>Lp(a) overview</strong><span>Return to the main Lipoprotein(a) hub.</span></div>
+          </a>
+          <a class="lpa-panel-link" href="https://heartfirst.shyntesy.com/risks/cascade/">
+            <span class="lpa-dot blue"></span>
+            <div><strong>Artery pathway</strong><span>Plaque, rupture, clot, heart attack, and stroke modules.</span></div>
+          </a>
+          <a class="lpa-panel-link" href="https://heartfirst.shyntesy.com/risks/valve-calcification/">
+            <span class="lpa-dot red"></span>
+            <div><strong>Valve pathway</strong><span>Valve calcification and aortic stenosis modules.</span></div>
+          </a>
+          <a class="lpa-panel-link" href="https://heartfirst.shyntesy.com/risks/">
+            <span class="lpa-dot green"></span>
+            <div><strong>All Risk Atlas modules</strong><span>Open the complete HeartFirst Risk Atlas.</span></div>
+          </a>
+        </div>
+        <div class="family-card">
+          <h3 class="panel-title">Why family matters</h3>
+          <p class="panel-copy">Lp(a) is mostly inherited. A high result can be relevant not only for one person, but also for parents, siblings, children, and other close relatives.</p>
+        </div>
+      </aside>
+
+      <section class="visual-card" aria-labelledby="visual-h">
+        <h2 id="visual-h" class="sr-only">Lp(a) risk pathway visualisation</h2>
+        <div class="control-row">
+          <div class="stage-wrap">
+            <label for="progressSlider">Amplification slider</label>
+            <input id="progressSlider" type="range" min="0" max="100" step="1" value="0" aria-describedby="stageText" />
+          </div>
+          <button id="playBtn" class="btn secondary" aria-pressed="false">Play</button>
+          <button id="labelsBtn" class="btn secondary" aria-pressed="true">Labels on</button>
+          <button id="detailBtn" class="btn secondary" aria-pressed="false" aria-describedby="detailHelp">Amplifier view</button>
+          <button id="resetBtn" class="btn ghost">Reset</button>
+        </div>
+        <p class="control-help" id="detailHelp">Amplifier view reveals risk-layer chips, family links, and module hand-offs. It does not estimate your personal risk.</p>
+
+        <div class="visual-wrap">
+          <div class="canvas-shell" aria-live="polite">
+            <div id="stageText" class="stage-pill">Inherited signal</div>
+            <svg id="lpaSvg" viewBox="0 0 940 650" role="img" aria-labelledby="svgTitle svgDesc">
+              <title id="svgTitle">Interactive Lp(a) risk amplification visualisation</title>
+              <desc id="svgDesc">A central Lp(a) signal branches into artery and valve pathways, with optional amplifier and family-risk context.</desc>
+              <defs>
+                <linearGradient id="bgGlow" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#12314b" />
+                  <stop offset="100%" stop-color="#08111c" />
+                </linearGradient>
+                <linearGradient id="lpaGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#f8e7a8" />
+                  <stop offset="100%" stop-color="#b58d2b" />
+                </linearGradient>
+                <linearGradient id="arteryGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#f0d48a" />
+                  <stop offset="50%" stop-color="#ef7c63" />
+                  <stop offset="100%" stop-color="#7fd5ff" />
+                </linearGradient>
+                <linearGradient id="valveGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#f0d48a" />
+                  <stop offset="56%" stop-color="#d7dce3" />
+                  <stop offset="100%" stop-color="#ff9b57" />
+                </linearGradient>
+                <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feDropShadow dx="0" dy="8" stdDeviation="12" flood-opacity="0.28" />
+                </filter>
+                <marker id="arrowGold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#f0d48a"></path>
+                </marker>
+                <marker id="arrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 Z" fill="#7fd5ff"></path>
+                </marker>
+              </defs>
+
+              <rect x="0" y="0" width="940" height="650" fill="url(#bgGlow)" opacity=".46"></rect>
+
+              <g id="lifeAxis" font-family="Montserrat, Roboto, system-ui, sans-serif">
+                <line x1="150" y1="86" x2="790" y2="86" stroke="rgba(170,192,211,.28)" stroke-width="5" stroke-linecap="round"></line>
+                <line id="lifeProgress" x1="150" y1="86" x2="790" y2="86" stroke="#f0d48a" stroke-width="5" stroke-linecap="round" opacity="0"></line>
+                <g id="lifeTicks" fill="rgba(170,192,211,.5)">
+                  <circle cx="150" cy="86" r="5"></circle><circle cx="310" cy="86" r="5"></circle><circle cx="470" cy="86" r="5"></circle><circle cx="630" cy="86" r="5"></circle><circle cx="790" cy="86" r="5"></circle>
+                </g>
+                <g id="timelineLabels" class="lpa-label" fill="#aac0d3" font-size="11">
+                  <text x="150" y="66" text-anchor="middle">inherited</text>
+                  <text x="470" y="66" text-anchor="middle">lifelong exposure</text>
+                  <text x="790" y="66" text-anchor="middle">risk review</text>
+                </g>
+              </g>
+
+              <g id="pathwayVisual" font-family="Montserrat, Roboto, system-ui, sans-serif">
+                <g id="lpaNode" transform="translate(150,320)" filter="url(#softShadow)">
+                  <circle r="66" fill="rgba(212,177,90,.16)" stroke="#d4b15a" stroke-width="2"></circle>
+                  <circle id="lpaCore" r="42" fill="url(#lpaGrad)" opacity=".96"></circle>
+                  <text y="-6" text-anchor="middle" font-size="24" font-weight="900" fill="#10243a">Lp(a)</text>
+                  <text y="18" text-anchor="middle" font-size="10" font-weight="800" fill="#10243a">inherited signal</text>
+                </g>
+
+                <path id="arteryBase" d="M218,284 C325,178 474,176 608,220 C714,254 770,250 836,218" fill="none" stroke="rgba(170,192,211,.26)" stroke-width="7" stroke-linecap="round"></path>
+                <path id="arteryProgress" d="M218,284 C325,178 474,176 608,220 C714,254 770,250 836,218" fill="none" stroke="url(#arteryGrad)" stroke-width="7" stroke-linecap="round" opacity="0"></path>
+                <path id="valveBase" d="M218,356 C326,456 474,466 610,426 C720,394 782,410 836,452" fill="none" stroke="rgba(170,192,211,.24)" stroke-width="7" stroke-linecap="round"></path>
+                <path id="valveProgress" d="M218,356 C326,456 474,466 610,426 C720,394 782,410 836,452" fill="none" stroke="url(#valveGrad)" stroke-width="7" stroke-linecap="round" opacity="0"></path>
+
+                <g id="arteryNodes" class="lpa-chip">
+                  <g id="nodePlaque" transform="translate(330,214)" opacity=".25"><circle r="33" fill="rgba(240,212,138,.13)" stroke="#f0d48a" stroke-width="2"></circle><text y="5" text-anchor="middle" font-size="11" fill="#eef5fb">Plaque</text></g>
+                  <g id="nodeRuptureClot" transform="translate(610,220)" opacity=".18"><circle r="35" fill="rgba(239,124,99,.14)" stroke="#ef7c63" stroke-width="2"></circle><text y="-2" text-anchor="middle" font-size="10" fill="#eef5fb">Rupture</text><text y="13" text-anchor="middle" font-size="10" fill="#aac0d3">and clot</text></g>
+                  <g id="nodeEvents" transform="translate(836,218)" opacity=".14"><circle r="38" fill="rgba(127,213,255,.12)" stroke="#7fd5ff" stroke-width="2"></circle><text y="-4" text-anchor="middle" font-size="10" fill="#eef5fb">Heart attack</text><text y="12" text-anchor="middle" font-size="10" fill="#aac0d3">or stroke</text></g>
+                </g>
+
+                <g id="valveNodes" class="lpa-chip">
+                  <g id="nodeValveCalc" transform="translate(330,430)" opacity=".22"><circle r="35" fill="rgba(240,212,138,.13)" stroke="#f0d48a" stroke-width="2"></circle><text y="-2" text-anchor="middle" font-size="10" fill="#eef5fb">Valve</text><text y="13" text-anchor="middle" font-size="10" fill="#aac0d3">calcification</text></g>
+                  <g id="nodeValveNarrow" transform="translate(610,426)" opacity=".16"><circle r="35" fill="rgba(215,220,227,.13)" stroke="#d7dce3" stroke-width="2"></circle><text y="-2" text-anchor="middle" font-size="10" fill="#eef5fb">Narrowing</text><text y="13" text-anchor="middle" font-size="10" fill="#aac0d3">and stiffness</text></g>
+                  <g id="nodeAorticStenosis" transform="translate(836,452)" opacity=".12"><circle r="39" fill="rgba(255,155,87,.14)" stroke="#ff9b57" stroke-width="2"></circle><text y="-2" text-anchor="middle" font-size="10" fill="#eef5fb">Aortic</text><text y="13" text-anchor="middle" font-size="10" fill="#aac0d3">stenosis</text></g>
+                </g>
+
+                <g id="pathwayArrows" stroke="#f0d48a" stroke-width="2.2" fill="none" marker-end="url(#arrowGold)" opacity=".18">
+                  <path d="M252,274 C280,242 298,224 316,216"></path>
+                  <path d="M365,213 C450,182 536,194 584,212"></path>
+                  <path d="M646,220 C716,230 768,226 808,218"></path>
+                  <path d="M252,366 C284,398 304,418 314,426"></path>
+                  <path d="M365,432 C456,470 538,450 584,431"></path>
+                  <path d="M646,428 C718,408 779,424 808,444"></path>
+                </g>
+
+                <g id="eventGuides" stroke="#aac0d3" stroke-width="1.3" stroke-dasharray="5 7" opacity="0">
+                  <line x1="330" y1="250" x2="330" y2="390"></line>
+                  <line x1="610" y1="258" x2="610" y2="388"></line>
+                  <line x1="836" y1="260" x2="836" y2="408"></line>
+                </g>
+
+                <g id="riskLayerChips" class="lpa-chip" opacity="0" font-family="Montserrat, Roboto, sans-serif">
+                  <g transform="translate(258,548)"><rect x="-64" y="-16" width="128" height="32" rx="16" fill="rgba(127,213,255,.11)" stroke="#7fd5ff"></rect><text y="5" text-anchor="middle" font-size="11" fill="#eef5fb">ApoB context</text></g>
+                  <g transform="translate(402,548)"><rect x="-70" y="-16" width="140" height="32" rx="16" fill="rgba(127,213,255,.10)" stroke="#7fd5ff"></rect><text y="5" text-anchor="middle" font-size="11" fill="#eef5fb">blood pressure</text></g>
+                  <g transform="translate(560,548)"><rect x="-72" y="-16" width="144" height="32" rx="16" fill="rgba(127,213,255,.10)" stroke="#7fd5ff"></rect><text y="5" text-anchor="middle" font-size="11" fill="#eef5fb">metabolic risk</text></g>
+                  <g transform="translate(718,548)"><rect x="-82" y="-16" width="164" height="32" rx="16" fill="rgba(127,213,255,.10)" stroke="#7fd5ff"></rect><text y="5" text-anchor="middle" font-size="11" fill="#eef5fb">inflammatory markers</text></g>
+                </g>
+
+                <g id="familySignal" opacity="0" font-family="Montserrat, Roboto, sans-serif">
+                  <path d="M150,386 C104,438 104,492 150,530" fill="none" stroke="#f0d48a" stroke-width="2.4" stroke-dasharray="6 8"></path>
+                  <g transform="translate(84,456)"><circle r="18" fill="rgba(240,212,138,.15)" stroke="#f0d48a"></circle><text y="4" text-anchor="middle" font-size="9" fill="#eef5fb">family</text></g>
+                  <g fill="rgba(240,212,138,.18)" stroke="#f0d48a">
+                    <circle cx="60" cy="502" r="11"></circle><circle cx="86" cy="526" r="11"></circle><circle cx="114" cy="504" r="11"></circle>
+                  </g>
+                  <text x="148" y="540" font-size="11" fill="#aac0d3">one result can prompt family testing conversations</text>
+                </g>
+
+                <g id="labelsGroup" class="lpa-label" font-family="Montserrat, Roboto, sans-serif" font-size="12" fill="#dce8f4">
+                  <text id="lblLp" x="150" y="244" text-anchor="middle">Mostly inherited</text>
+                  <text id="lblArtery" x="512" y="162" text-anchor="middle" opacity="0">Artery pathway</text>
+                  <text id="lblValve" x="512" y="508" text-anchor="middle" opacity="0">Valve pathway</text>
+                  <text id="lblCompound" x="560" y="590" text-anchor="middle" opacity="0">Risk layers can compound the picture</text>
+                </g>
+
+                <g id="lpaParticles" fill="#f0d48a" opacity="0"></g>
+              </g>
+            </svg>
+          </div>
+
+          <aside class="legend" aria-label="Lp(a) stage details">
+            <h3>What the slider shows</h3>
+            <div class="legend-row"><span class="swatch" style="background:#d4b15a"></span><span><strong>Lp(a)</strong><br />An inherited cholesterol-carrying particle that can amplify risk context.</span></div>
+            <div class="legend-row"><span class="swatch" style="background:#ef7c63"></span><span><strong>Artery pathway</strong><br />Plaque, rupture, clot, heart attack, and stroke modules.</span></div>
+            <div class="legend-row"><span class="swatch" style="background:#d7dce3"></span><span><strong>Valve pathway</strong><br />Valve calcification and aortic stenosis modules.</span></div>
+            <div class="info-block">
+              <div class="metric"><div class="label">Lp(a) signal</div><div id="metricSignal" class="value">Inherited</div></div>
+              <div class="metric"><div class="label">Artery pathway</div><div id="metricArtery" class="value">Context</div></div>
+              <div class="metric"><div class="label">Valve pathway</div><div id="metricValve" class="value">Context</div></div>
+              <div class="metric"><div class="label">Family relevance</div><div id="metricFamily" class="value">Possible</div></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <aside class="panel-card" aria-labelledby="panel-h">
+        <h2 id="panel-h" class="panel-title">Stage explanation</h2>
+        <p id="explain" class="panel-copy">Lp(a) is mostly inherited. The first step is recognising that this risk signal can be present before symptoms, before routine testing, and before anyone in the family knows to ask.</p>
+        <div class="info-block">
+          <h3 class="subhead">What this means</h3>
+          <p id="meaning" class="panel-copy">This page does not say high Lp(a) will cause an event. It shows why one inherited result can matter across more than one risk pathway.</p>
+        </div>
+        <div class="info-block">
+          <h3 class="subhead">Discuss with your health team</h3>
+          <p id="discuss" class="panel-copy">Ask whether you have ever had Lp(a) tested and how it should be interpreted alongside ApoB, LDL-C, blood pressure, metabolic risk, imaging, and family history.</p>
+        </div>
+        <div class="callout" id="limits">This is not a risk calculator, diagnosis, or treatment plan. It is a visual map for organising questions.</div>
+        <div id="compositionBlock" class="info-block" hidden>
+          <h3 class="subhead">What Lp(a) can amplify</h3>
+          <ul class="panel-list">
+            <li>Artery risk through plaque and event-pathway context.</li>
+            <li>Valve risk through calcification and narrowing context.</li>
+            <li>Family risk because Lp(a) is mostly inherited.</li>
+            <li>Risk interpretation when ApoB, blood pressure, metabolic risk, or inflammation are also present.</li>
+          </ul>
+        </div>
+      </aside>
+    </section>
+
+    <section class="panel-card" style="margin-top:24px" aria-labelledby="modules-h">
+      <div class="kicker">Related Risk Atlas modules</div>
+      <h2 id="modules-h" class="panel-title">Follow the pathway into the detailed modules</h2>
+      <div class="module-grid">
+        <a class="module-card" href="https://heartfirst.shyntesy.com/risks/plaque/"><strong>Plaque</strong><span>How plaque forms and narrows an artery.</span></a>
+        <a class="module-card" href="https://heartfirst.shyntesy.com/risks/inflammation/"><strong>Inflammation</strong><span>How activity around plaque can change risk context.</span></a>
+        <a class="module-card" href="https://heartfirst.shyntesy.com/risks/rupture/"><strong>Rupture</strong><span>How a cap can break and expose plaque contents.</span></a>
+        <a class="module-card" href="https://heartfirst.shyntesy.com/risks/clot/"><strong>Clot</strong><span>How blood can react at the rupture site.</span></a>
+        <a class="module-card" href="https://heartfirst.shyntesy.com/risks/cascade/"><strong>Cascade</strong><span>How artery processes can connect.</span></a>
+        <a class="module-card" href="https://heartfirst.shyntesy.com/risks/heart-attack/"><strong>Heart attack</strong><span>How coronary flow loss can affect heart muscle.</span></a>
+        <a class="module-card" href="https://heartfirst.shyntesy.com/risks/stroke/"><strong>Stroke</strong><span>How brain blood flow can be interrupted.</span></a>
+        <a class="module-card" href="https://heartfirst.shyntesy.com/risks/valve-calcification/"><strong>Valve calcification</strong><span>How calcium can build up on the aortic valve.</span></a>
+        <a class="module-card" href="https://heartfirst.shyntesy.com/risks/aortic-stenosis/"><strong>Aortic stenosis</strong><span>How a narrowed aortic valve can strain the heart.</span></a>
+      </div>
+    </section>
+
+    <section class="cta-card" aria-labelledby="cta-h">
+      <div>
+        <div class="kicker">Heart risk products</div>
+        <h2 id="cta-h">Clarify risk. Navigate danger. Prevent events.</h2>
+        <p>High Lp(a) is rarely a single-answer problem. The practical question is how it fits with your current tests, family history, artery risk, valve risk, and modifiable risk layers. Start with Clarify if you need to organise what your checks show and miss. Use Navigate if you already have signals to connect. Use Prevent if you want a structured plan to reduce avoidable cardiovascular damage.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn primary" href="https://shyntesy.com/clarify">Clarify risk</a>
+        <a class="btn secondary" href="https://shyntesy.com/navigate">Navigate danger</a>
+        <a class="btn ghost" href="https://shyntesy.com/prevent">Prevent events</a>
+      </div>
+    </section>
+  </main>
+
+  <footer id="atlasFooter" class="footer"></footer>
+
+  <script>
+    (function(){
+      if(!window.HFAtlas){ return; }
+      HFAtlas.renderTopbar('topbarRoot', { topic:'Lp(a) Risk Atlas' });
+      HFAtlas.renderFooter('atlasFooter');
+      HFAtlas.initShellControls();
+
+      const { clamp, lerp, ease, pct } = HFAtlas;
+      const allowMotion = HFAtlas.allowMotion();
+      const slider = document.getElementById('progressSlider');
+      const playBtn = document.getElementById('playBtn');
+      const labelsBtn = document.getElementById('labelsBtn');
+      const detailBtn = document.getElementById('detailBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const stageText = document.getElementById('stageText');
+      const explain = document.getElementById('explain');
+      const meaning = document.getElementById('meaning');
+      const discuss = document.getElementById('discuss');
+      const limits = document.getElementById('limits');
+      const compositionBlock = document.getElementById('compositionBlock');
+      const lifeProgress = document.getElementById('lifeProgress');
+      const arteryProgress = document.getElementById('arteryProgress');
+      const valveProgress = document.getElementById('valveProgress');
+      const arteryBase = document.getElementById('arteryBase');
+      const valveBase = document.getElementById('valveBase');
+      const pathwayArrows = document.getElementById('pathwayArrows');
+      const eventGuides = document.getElementById('eventGuides');
+      const riskLayerChips = document.getElementById('riskLayerChips');
+      const familySignal = document.getElementById('familySignal');
+      const labelsGroup = document.getElementById('labelsGroup');
+      const lblArtery = document.getElementById('lblArtery');
+      const lblValve = document.getElementById('lblValve');
+      const lblCompound = document.getElementById('lblCompound');
+      const lpaParticles = document.getElementById('lpaParticles');
+      const lpaCore = document.getElementById('lpaCore');
+      const metricSignal = document.getElementById('metricSignal');
+      const metricArtery = document.getElementById('metricArtery');
+      const metricValve = document.getElementById('metricValve');
+      const metricFamily = document.getElementById('metricFamily');
+      const nodes = {
+        plaque: document.getElementById('nodePlaque'),
+        ruptureClot: document.getElementById('nodeRuptureClot'),
+        events: document.getElementById('nodeEvents'),
+        valveCalc: document.getElementById('nodeValveCalc'),
+        valveNarrow: document.getElementById('nodeValveNarrow'),
+        stenosis: document.getElementById('nodeAorticStenosis')
+      };
+
+      const state = { value:0, playing:false, showLabels:true, detail:false };
+      let playTimer = null;
+      let arteryLength = 0;
+      let valveLength = 0;
+
+      const stages = [
+        { max:12, title:'Inherited signal', signal:'Inherited', artery:'Context', valve:'Context', family:'Possible', explain:'Lp(a) is mostly inherited. The first step is recognising that this risk signal can be present before symptoms, before routine testing, and before anyone in the family knows to ask.', meaning:'This page does not say high Lp(a) will cause an event. It shows why one inherited result can matter across more than one risk pathway.', discuss:'Ask whether you have ever had Lp(a) tested and how it should be interpreted alongside ApoB, LDL-C, blood pressure, metabolic risk, imaging, and family history.', limits:'This is not a risk calculator, diagnosis, or treatment plan. It is a visual map for organising questions.' },
+        { max:35, title:'Lifelong exposure', signal:'Lifelong', artery:'Context', valve:'Context', family:'Relevant', explain:'Because Lp(a) is mostly genetic, exposure can begin early and persist for years. This is different from a short-term risk marker that appears only later in life.', meaning:'Lifelong exposure helps explain why testing once can be useful for a person and potentially for close relatives.', discuss:'Ask whether family members should be offered Lp(a) testing, especially when there is premature heart disease, unexplained events, or known high Lp(a).', limits:'This does not show the amount of Lp(a) in your blood or whether damage has occurred. A blood test and health team interpretation are still needed.' },
+        { max:60, title:'Artery pathway amplification', signal:'Amplifying', artery:'Artery', valve:'Context', family:'Relevant', explain:'High Lp(a) can add to artery-risk context by carrying ApoB-containing particles and oxidised phospholipid-related biology into the wider plaque, inflammation, rupture, and clot pathway.', meaning:'The artery pathway is not automatic. It is one route through which Lp(a) may compound other risks such as ApoB burden, blood pressure, metabolic risk, smoking exposure, or inflammation.', discuss:'Ask how your Lp(a) result changes the interpretation of ApoB, LDL-C, non-HDL-C, blood pressure, calcium-score findings, and family history.', limits:'This does not show your arteries or predict heart attack or stroke. It links to the detailed artery Risk Atlas modules for process-level education.' },
+        { max:84, title:'Valve pathway amplification', signal:'Amplifying', artery:'Artery', valve:'Valve', family:'Relevant', explain:'Lp(a) is also connected with aortic-valve risk context. This pathway is different from artery plaque: it involves valve leaflet calcification, stiffness, narrowing, and possible aortic stenosis.', meaning:'This is why an Lp(a) conversation should not only focus on artery events. Valve history, murmurs, symptoms, imaging, and echocardiography context may also matter.', discuss:'Ask whether valve history, aortic valve calcification, murmur, shortness of breath, chest symptoms, fainting, or echocardiogram findings belong in your Lp(a) risk discussion.', limits:'This does not diagnose valve disease. Valve assessment belongs with your health team and appropriate imaging when indicated.' },
+        { max:100, title:'Compounded risk context', signal:'Stratify', artery:'Linked', valve:'Linked', family:'Important', explain:'The most useful Lp(a) question is often not what the result means alone, but how it interacts with the rest of the risk context: artery risk, valve risk, family history, and modifiable risk layers.', meaning:'This is the hand-off from awareness to navigation. High Lp(a) can make other risk-control decisions more important, even when Lp(a)-specific treatments are not yet part of routine care.', discuss:'Ask what you can clarify now, what your health team can monitor, which relatives may need testing, and which risks can be reduced systematically.', limits:'This final stage is not a prediction and not a personalised action plan. It is a map for better testing, family conversations, and health team navigation.' }
+      ];
+
+      function stageFor(v){
+        for(let i=0;i<stages.length;i++){ if(v <= stages[i].max) return stages[i]; }
+        return stages[stages.length - 1];
+      }
+
+      function drawPath(path, progress){
+        if(!path) return;
+        let len = 0;
+        try{ len = path.getTotalLength(); }catch(e){ len = 0; }
+        if(!len){ return; }
+        path.setAttribute('stroke-dasharray', len.toFixed(2));
+        path.setAttribute('stroke-dashoffset', (len * (1 - clamp(progress,0,1))).toFixed(2));
+        path.setAttribute('opacity', progress > .01 ? '1' : '0');
+      }
+
+      function buildParticles(){
+        const dots = [];
+        for(let i=0;i<18;i++){
+          const r = i % 3 === 0 ? 3.8 : 2.8;
+          dots.push('<circle class="lpa-particle" data-i="' + i + '" r="' + r + '" cx="150" cy="320" opacity="0"></circle>');
+        }
+        lpaParticles.innerHTML = dots.join('');
+      }
+
+      function particlePoint(track, t){
+        const path = track === 'valve' ? valveBase : arteryBase;
+        let len = track === 'valve' ? valveLength : arteryLength;
+        if(!len){
+          try{ len = path.getTotalLength(); }catch(e){ len = 0; }
+          if(track === 'valve') valveLength = len; else arteryLength = len;
+        }
+        if(!len) return {x:150,y:320};
+        return path.getPointAtLength(clamp(t,0,1) * len);
+      }
+
+      function renderParticles(){
+        const v = state.value;
+        const artery = clamp((v - 35) / 25, 0, 1);
+        const valve = clamp((v - 60) / 24, 0, 1);
+        const lifetime = clamp((v - 12) / 23, 0, 1);
+        const now = Date.now() / 1000;
+        lpaParticles.querySelectorAll('.lpa-particle').forEach(function(node, i){
+          const toValve = i % 2 === 1;
+          const trackProgress = toValve ? valve : artery;
+          const base = toValve ? .12 + valve * .82 : .12 + artery * .82;
+          const travel = allowMotion ? ((now * .06 + i * .071) % 1) : (i / 18);
+          const t = clamp(base * .72 + travel * .28, 0, 1);
+          const pt = particlePoint(toValve ? 'valve' : 'artery', t);
+          const show = clamp((lifetime + trackProgress) * 1.2 - i * .035, 0, 1);
+          node.setAttribute('cx', pt.x.toFixed(1));
+          node.setAttribute('cy', (pt.y + Math.sin(i + now) * (allowMotion ? 2.2 : 0)).toFixed(1));
+          node.setAttribute('opacity', (show * (toValve ? .62 : .72)).toFixed(2));
+        });
+      }
+
+      function render(){
+        const v = state.value;
+        const stage = stageFor(v);
+        const genetic = clamp(v / 12, 0, 1);
+        const lifetime = clamp((v - 12) / 23, 0, 1);
+        const artery = clamp((v - 35) / 25, 0, 1);
+        const valve = clamp((v - 60) / 24, 0, 1);
+        const compound = clamp((v - 84) / 16, 0, 1);
+        const detail = state.detail ? 1 : 0;
+        const detailReveal = ease(detail);
+        const lifeWidth = 640 * clamp((genetic * .18 + lifetime * .32 + artery * .22 + valve * .18 + compound * .10), 0, 1);
+        lifeProgress.setAttribute('x2', (150 + lifeWidth).toFixed(1));
+        lifeProgress.setAttribute('opacity', v > 2 ? '1' : '0');
+        drawPath(arteryProgress, artery);
+        drawPath(valveProgress, valve);
+
+        lpaCore.setAttribute('transform', 'scale(' + (1 + genetic * .05 + compound * .05).toFixed(3) + ')');
+        pathwayArrows.setAttribute('opacity', (0.16 + artery * .18 + valve * .13 + detailReveal * .36).toFixed(2));
+        eventGuides.setAttribute('opacity', (detailReveal * clamp(.2 + compound, 0, 1)).toFixed(2));
+        riskLayerChips.setAttribute('opacity', (detailReveal * clamp(.15 + compound * .85, 0, 1)).toFixed(2));
+        familySignal.setAttribute('opacity', (detailReveal * clamp(.2 + lifetime * .45 + compound * .55, 0, 1)).toFixed(2));
+
+        nodes.plaque.setAttribute('opacity', (.25 + artery * .75).toFixed(2));
+        nodes.ruptureClot.setAttribute('opacity', (.18 + clamp((artery - .35) / .65, 0, 1) * .82).toFixed(2));
+        nodes.events.setAttribute('opacity', (.14 + compound * .86).toFixed(2));
+        nodes.valveCalc.setAttribute('opacity', (.22 + valve * .78).toFixed(2));
+        nodes.valveNarrow.setAttribute('opacity', (.16 + clamp((valve - .3) / .7, 0, 1) * .84).toFixed(2));
+        nodes.stenosis.setAttribute('opacity', (.12 + clamp((valve - .55) / .45, 0, 1) * .88).toFixed(2));
+
+        labelsGroup.setAttribute('opacity', state.showLabels ? '1' : '0');
+        lblArtery.setAttribute('opacity', state.showLabels && artery > .05 ? '1' : '0');
+        lblValve.setAttribute('opacity', state.showLabels && valve > .05 ? '1' : '0');
+        lblCompound.setAttribute('opacity', state.showLabels && compound > .05 ? '1' : '0');
+
+        stageText.textContent = stage.title;
+        explain.textContent = stage.explain;
+        meaning.textContent = stage.meaning;
+        discuss.textContent = stage.discuss;
+        limits.textContent = stage.limits;
+        metricSignal.textContent = stage.signal;
+        metricArtery.textContent = stage.artery;
+        metricValve.textContent = stage.valve;
+        metricFamily.textContent = stage.family;
+        if(compositionBlock){ compositionBlock.hidden = v < 5; }
+        HFAtlas.setSliderValueText(slider, stage.title + ', ' + v + ' percent');
+        renderParticles();
+      }
+
+      function setValue(v){
+        state.value = clamp(Number(v) || 0, 0, 100);
+        slider.value = String(Math.round(state.value));
+        render();
+      }
+
+      function setPlaying(on){
+        state.playing = !!on;
+        playBtn.setAttribute('aria-pressed', state.playing ? 'true' : 'false');
+        playBtn.textContent = state.playing ? 'Pause' : 'Play';
+        if(playTimer){ window.clearInterval(playTimer); playTimer = null; }
+        if(state.playing){
+          playTimer = window.setInterval(function(){
+            if(state.value >= 100){ setPlaying(false); return; }
+            setValue(state.value + 1);
+          }, allowMotion ? 135 : 260);
+        }
+      }
+
+      buildParticles();
+      slider.addEventListener('input', function(){ setValue(slider.value); });
+      playBtn.addEventListener('click', function(){ setPlaying(!state.playing); });
+      labelsBtn.addEventListener('click', function(){
+        state.showLabels = !state.showLabels;
+        labelsBtn.setAttribute('aria-pressed', state.showLabels ? 'true' : 'false');
+        labelsBtn.textContent = state.showLabels ? 'Labels on' : 'Labels off';
+        render();
+      });
+      detailBtn.addEventListener('click', function(){
+        state.detail = !state.detail;
+        detailBtn.setAttribute('aria-pressed', state.detail ? 'true' : 'false');
+        detailBtn.textContent = state.detail ? 'Amplifier view on' : 'Amplifier view';
+        render();
+      });
+      resetBtn.addEventListener('click', function(){ setPlaying(false); state.detail = false; state.showLabels = true; detailBtn.setAttribute('aria-pressed','false'); detailBtn.textContent = 'Amplifier view'; labelsBtn.setAttribute('aria-pressed','true'); labelsBtn.textContent = 'Labels on'; setValue(0); });
+      if(allowMotion){ window.setInterval(function(){ if(!state.playing && state.value > 15){ renderParticles(); } }, 220); }
+      setValue(0);
+    })();
+  </script>
+</body>
+</html>
