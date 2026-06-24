@@ -344,3 +344,161 @@ Five pages in, the discipline is locked: aligned thresholds, progressive per-ele
 Cascade is now doing its job: it's the page a user reaches after Plaque → Inflammation → Rupture → Clot and finally sees how those four connect, with an honest hand-off toward Heart Attack and Stroke. That's a complete educational arc for the arterial cascade. The remaining four pages (heart-attack, stroke, valve-calcification, aortic-stenosis) are net-new ground rather than synthesis, so they'll have different design challenges — but the patterns are now there to inherit.
 
 Ship it.
+
+---
+
+===
+
+---
+
+Let me read the full file.Good. Now the large truncated section.I have the complete file. Here is the full review.
+
+---
+
+## A. Executive verdict
+
+**Ready to publish — and the most strategically important page in the HeartFirst digital estate.** No must-fix bugs. The architecture is correct: `atlas.js` and `atlas.css` imported via `../../risks/`, `HFAtlas.clamp/lerp/ease/pct` imported, `HFAtlas.allowMotion()` used, `<link rel="canonical">` present, all `getElementById` references map to present elements, all labels participate in the toggle. The two images (`one-in-five.png`, `family-tree.png`) have correct, descriptive `alt` text. This page works harder than any other in the atlas because it has to simultaneously serve as an educational standalone, a synthesis view of the nine-module atlas, a product entry point, and the primary SEO asset for the `stealth cholesterol` / `Lp(a)` category. It does all four jobs. There are improvements worth making — particularly on the "useless block" you identified in Note 3, and on a small but important bug in the `limits` element — but nothing here blocks publication.
+
+---
+
+## B. One genuine bug
+
+**`limits` is rendered as a `<div class="callout">` (line 408) but `limits.textContent = stage.limits` in `render()` (line 607) treats it like a plain text container.** The `<div>` has the initial text "This is not a risk calculator, diagnosis, or treatment plan. It is a visual map for organising questions." hardcoded as its inner HTML (not inner text). When JS runs `limits.textContent = stage.limits` at slider value 0, it overwrites the element's content with the same string — which happens to match stage 0's `limits` field exactly, so at slider 0 it looks fine. But at every other stage, `textContent` assignment strips any child elements that may have been inside the `callout` div (there are none currently, but this is fragile). More critically: the `<div class="callout">` has left-border and background styling from `atlas.css` that is correct for the initial disclaimer but visually identical for stage-specific `limits` copy that should read as plain informational text rather than a styled alert. Stage 4's limits copy ("This does not diagnose valve disease") and stage 5's ("This final stage is not a prediction") don't need the gold-border alert styling — they're informational rather than warning. Consider rendering `limits` as a plain `<p>` inside a standard `info-block` rather than a styled callout, or keeping the callout only for the stage-0 disclaimer and switching to a plain element for stages 1–4. Simplest fix that preserves current appearance:
+
+```html
+<!-- Replace the callout div with a standard info-block: -->
+<div class="info-block">
+  <h3 class="subhead">What this does not show</h3>
+  <p id="limits" class="panel-copy">This is not a risk calculator, diagnosis, or treatment plan. It is a visual map for organising questions.</p>
+</div>
+```
+
+---
+
+## C. The "useless block" — your diagnosis is correct, your proposed fix is better, but there is a more valuable version
+
+Your current block (lines 388–392):
+```
+Lp(a) signal: Inherited
+Artery pathway: Context
+Valve pathway: Context
+Family relevance: Possible
+```
+
+Your proposed replacement:
+```
+Lp(a) signal: Inherited
+Artery relevance: Plaque, inflammation, rupture, clot, heart attack, stroke
+Valve relevance: Calcification and aortic stenosis
+Risk relevance: Can elevate, accelerate, and compound other cardiovascular risk
+Family relevance: Close relatives may also have high levels
+```
+
+Your diagnosis is right: "Context" and "Possible" are internal notes masquerading as public content. Your proposed fix is genuinely better — the named risk domains replace the flat placeholders with real information.
+
+But there is a more valuable version of this block, because the stage data already drives it. The current stage values update dynamically but only output single words that don't tell the reader anything. The real opportunity is to make this block **change meaningfully as the slider advances** — so it reflects what is actually being shown at each stage rather than being a static snapshot. Here is what it could say across five stages:
+
+| Stage | Lp(a) signal | Artery | Valve | Family |
+|-------|-------------|--------|-------|--------|
+| 0 | Mostly inherited | Not yet shown | Not yet shown | May be relevant |
+| 1 | Lifelong exposure | Context building | Context building | Testing may help family |
+| 2 | Amplifying artery risk | Plaque → clot pathway | Background context | Siblings and children |
+| 3 | Amplifying valve risk | Linked | Calcification → stenosis | First-degree relatives |
+| 4 | Compounded picture | Linked | Linked | Test close relatives |
+
+The values already in the stage objects (`signal`, `artery`, `valve`, `family`) are the seeds of this, but they are too compressed as currently written ("Amplifying", "Artery", "Context") to be useful. Replacing those four values in the stage data with the full-sentence versions above, and updating the metric labels to match, would make this block the most scannable summary panel on the page — a reader who has slid to stage 3 and glances at the legend immediately understands where they are in the pathway without reading the full prose panel.
+
+Concrete implementation: update each stage's metric values in the `stages` array:
+
+```js
+// Stage 0:
+signal:'Mostly inherited', artery:'Not yet shown', valve:'Not yet shown', family:'May be relevant for close relatives'
+
+// Stage 1:
+signal:'Lifelong exposure', artery:'Building context', valve:'Building context', family:'Family testing worth discussing'
+
+// Stage 2:
+signal:'Amplifying artery risk', artery:'Plaque → rupture → clot → events', valve:'Background context', family:'Siblings and children may share it'
+
+// Stage 3:
+signal:'Amplifying valve risk', artery:'Linked', valve:'Calcification → stenosis pathway', family:'First-degree relatives worth testing'
+
+// Stage 4:
+signal:'Compounded picture', artery:'Linked — artery modules', valve:'Linked — valve modules', family:'Test close relatives'
+```
+
+And update the legend metric labels to be slightly wider to accommodate the longer values — or keep the labels short but make the `.value` element font slightly smaller for longer strings via a CSS rule:
+
+```css
+.metric .value{font-weight:800;word-break:break-word;font-size:clamp(.78rem,.95rem,1rem);}
+```
+
+This makes the block genuinely informative at every stage and earns its space in the layout.
+
+---
+
+## D. What this module does exceptionally well
+
+**The dual pathway design — artery path curving upward from the Lp(a) node, valve path curving downward — is the most effective visual metaphor in the atlas.** It communicates "one source, two diverging risk directions" without any text. The path animation (`drawPath`) tracing each route as the slider advances makes the branching legible as a progression rather than as a static diagram. This is exactly the right visual architecture for a synthesis module.
+
+**The `familySignal` group** (lines 361–368) — a dashed arc from the Lp(a) node to a small cluster of family circles, with the text "one result can prompt family testing conversations" — is the most emotionally resonant visual element in the entire atlas. It is also medically accurate: the dashed line correctly implies possibility rather than certainty, the cluster of three circles correctly implies "some relatives, not all," and the text avoids both false reassurance and unnecessary alarm. Keep this exactly as designed.
+
+**The `lpa-proof-section`** (lines 174–220) with the two proof cards (Common/Inherited) plus the three `lpa-why-cards` is a structural addition that no other atlas module has — a standalone educational argument for why this topic matters before the interactive element begins. The sequence (proof cards → interactive visual → detailed modules → CTA) is the right information architecture for a page that needs to serve both first-time visitors and returning users who already understand Lp(a) basics.
+
+**The `lpa-alert-notes` block** (lines 197–202) is the most useful single text block in the atlas. Five concise, specific, non-alarmist points — level matters, less familiar than HDL/LDL, lifestyle still matters, treatment trials underway, metabolic complexity — address the five questions a motivated non-specialist actually has after learning their Lp(a) is elevated. "New treatment trials are underway. Several Lp(a)-targeting medicines are being tested, including gene-silencing therapies" is the most forward-looking sentence in HeartFirst's educational content to date, and it is accurate as of the current state of Lp(a) pharmacotherapy development. Keep this, but add a low-key recency signal ("as of [year]" or "at the time of publication") since this is the one sentence most likely to become outdated:
+
+```html
+<li><strong>New treatment trials are underway.</strong> Several Lp(a)-targeting medicines are being tested, including gene-silencing therapies — ask your health team about the current state of Lp(a)-specific treatment options.</li>
+```
+
+**The `compositionBlock` "What Lp(a) can amplify" list** (lines 410–416) is correctly scoped — it names the four amplification domains (artery, valve, family, compounding) without claiming inevitability for any of them. This is the cleanest summary of Lp(a)'s risk relevance in any HeartFirst page.
+
+**The CTA card copy** (line 441) is the best CTA in the project: "High Lp(a) is rarely a single-answer problem. The practical question is how it fits with your current tests, family history, artery risk, valve risk, and modifiable risk layers." This framing is accurate, non-alarming, and directly justifies why a paid structured product (rather than a free web search) is the appropriate next step.
+
+---
+
+## E. Should-fix items
+
+**1. `Date.now()/1000` in `renderParticles()` (line 554)** — same flag as Valve Calcification and Aortic Stenosis. Replace with `performance.now()/1000`. Add this module to the single-pass update covering all three affected files.
+
+**2. `buildSidebar` is not called for this module** (line 456–458 confirm the JS only calls `renderTopbar`, `renderFooter`, and `initShellControls` — no `buildSidebar` call). This is intentional: this module has its own `lpa-panel-list` navigation (lines 225–241) rather than the standard `riskSidebar`. That design decision is correct — the Lp(a) atlas nav logically links to the Lp(a) hub, artery pathway, valve pathway, and all modules rather than the per-module sidebar used inside `/risks/`. Document this as a confirmed structural difference. The `<aside id="riskSidebar">` element is absent from the HTML (confirmed — no such element exists in this file), which means there is no orphaned container. Clean.
+
+**3. The scope card** (line 168) includes "Connects artery and valve pathways without placing Lp(a) inside the /risks/ folder" — this is an internal implementation note, not visitor-facing information. A visitor reading the scope card does not care or need to know about folder structure. Replace with something visitor-meaningful:
+
+```html
+<li>Treats Lp(a) as a cross-cutting risk signal rather than a single artery or valve condition.</li>
+```
+
+**4. `nodeEvents` is labelled "Heart attack or stroke"** (line 330) in the SVG but the atlas module it should link to is `/risks/cascade/` or `/risks/heart-attack/` — the visual node doesn't link anywhere. The `module-grid` links at lines 425–434 provide full module navigation below the visual, so this is not a missing feature — just a note that the SVG nodes are informational only, not interactive. Confirm this is intentional. If future versions add click-through from SVG nodes to individual modules (a reasonable v2 feature given the visual is already a synthesis map), the node IDs and group structure are already set up correctly for it.
+
+---
+
+## F. Final checklist before publishing
+
+- [ ] Fix `limits` element: replace `<div class="callout">` with a standard `info-block` / `<p id="limits">` to decouple the gold-border alert styling from stage-specific informational limits copy
+- [ ] Upgrade stage metric values from compressed single words ("Context", "Possible") to the fuller per-stage descriptions proposed in section C
+- [ ] Add recency signal to the "New treatment trials are underway" sentence
+- [ ] Replace "without placing Lp(a) inside the /risks/ folder" scope card item with visitor-meaningful language
+- [ ] Replace `Date.now()/1000` with `performance.now()/1000` in `renderParticles()` — include in same pass as Valve Calcification and Aortic Stenosis
+- [ ] Confirm `nodeEvents` SVG nodes are intentionally non-interactive (for now) and document v2 click-through as a future feature
+- [ ] Confirm product CTA URLs are intentional placeholders or update to live URLs across all ten modules simultaneously
+
+
+---
+
+===
+
+---
+
+
+signal:'Inherited', artery:'Not yet shown', valve:'Not yet shown', family:'Relevant for family and loved ones'
+
+signal:'Lifelong exposure', artery:'Building context', valve:'Building context', family:'Your result can inform family and loved ones'
+
+signal:'Amplifies artery risk', artery:'Plaque → rupture → clot → events', valve:'Background context', family:'Parents, siblings, and children may share it'
+
+signal:'Amplifies valve risk', artery:'Linked artery pathway', valve:'Calcification → stenosis pathway', family:'Helps family and loved ones stay informed'
+
+signal:'Compounded risk', artery:'Linked artery pathway', valve:'Linked valve pathway', family:'Helps family and loved ones plan next steps'
+
+

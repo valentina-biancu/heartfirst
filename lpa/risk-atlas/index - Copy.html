@@ -165,7 +165,7 @@
         <h2 id="scope-h" class="scope-title">What this atlas does</h2>
         <ul class="scope-list">
           <li>Shows Lp(a) as a risk amplifier, not a personal risk calculator.</li>
-          <li>Connects artery and valve pathways without placing Lp(a) inside the /risks/ folder.</li>
+          <li>Treats Lp(a) as a cross-cutting risk signal rather than a single artery or valve condition.</li>
           <li>Links outward to the relevant Risk Atlas modules for deeper views.</li>
           <li>Supports family and health team conversations about testing and next steps.</li>
         </ul>
@@ -175,7 +175,7 @@
       <div class="lpa-proof-heading">
         <div>
           <div class="kicker">Common and inherited</div>
-          <h2 id="lpa-proof-h">Two reasons Lp(a) needs its own risk map</h2>
+          <h2 id="lpa-proof-h">Why Lp(a) needs its own risk map</h2>
         </div>
         <p>Lp(a) matters because it is both common and largely inherited. These two facts change the conversation: one result can clarify risk for one person, and may also point relatives toward testing.</p>
       </div>
@@ -212,10 +212,21 @@
         </article>
       </div>
 
-      <div class="lpa-why-grid" aria-label="Why Lp(a) matters">
-        <div class="lpa-why-card"><span class="lpa-why-icon" aria-hidden="true">◎</span><p>It can amplify risk beyond a standard lipid panel.</p></div>
-        <div class="lpa-why-card"><span class="lpa-why-icon" aria-hidden="true">◇</span><p>It can bring family history into sharper focus.</p></div>
-        <div class="lpa-why-card"><span class="lpa-why-icon" aria-hidden="true">⌕</span><p>It can help explain why “normal” results do not always mean complete reassurance.</p></div>
+      <div class="lpa-why-grid" aria-label="What Lp(a) changes">
+        <div class="lpa-why-card">
+          <span class="lpa-why-icon" aria-hidden="true">1</span>
+          <p><strong>Test once.</strong> Lp(a) is inherited, so one test can clarify your lifelong risk signal. <strong>But a low number does not always mean all clear.</strong> In insulin resistance or high-insulin states, Lp(a) may be "masked" and appear low, which is why any result needs wider risk context.</p>
+        </div>
+
+        <div class="lpa-why-card">
+          <span class="lpa-why-icon" aria-hidden="true">2</span>
+          <p><strong>Build your risk picture.</strong> Your risk is easier to understand when Lp(a) is read alongside ApoB, blood pressure, metabolic risk, inflammation, imaging, and family history details.</p>
+        </div>
+
+        <div class="lpa-why-card">
+          <span class="lpa-why-icon" aria-hidden="true">3</span>
+          <p><strong>Have informed conversations.</strong> Your result may help your parents, siblings, children, and other people you love consider whether to get tested, and help you make better decisions with your health team.</p>
+        </div>
       </div>
     </section>
 
@@ -241,8 +252,8 @@
           </a>
         </div>
         <div class="family-card">
-          <h3 class="panel-title">Why family matters</h3>
-          <p class="panel-copy">Lp(a) is mostly inherited. A high result can be relevant not only for one person, but also for parents, siblings, children, and other close relatives.</p>
+          <h3 class="panel-title">How to use this atlas</h3>
+          <p class="panel-copy">Use this atlas to organise what you know, identify what may still be unknown, prepare better questions and conversations, and choose the right next action with your health team.</p>
         </div>
       </aside>
 
@@ -405,7 +416,10 @@
           <h3 class="subhead">Discuss with your health team</h3>
           <p id="discuss" class="panel-copy">Ask whether you have ever had Lp(a) tested and how it should be interpreted alongside ApoB, LDL-C, blood pressure, metabolic risk, imaging, and family history.</p>
         </div>
-        <div class="callout" id="limits">This is not a risk calculator, diagnosis, or treatment plan. It is a visual map for organising questions.</div>
+        <div class="info-block">
+          <h3 class="subhead">What this does not show</h3>
+          <p id="limits" class="panel-copy">This is not a risk calculator, diagnosis, or treatment plan. It is a visual map for organising questions.</p>
+        </div>
         <div id="compositionBlock" class="info-block" hidden>
           <h3 class="subhead">What Lp(a) can amplify</h3>
           <ul class="panel-list">
@@ -504,7 +518,7 @@
       let valveLength = 0;
 
       const stages = [
-        { max:12, title:'Inherited signal', signal:'Inherited', artery:'Context', valve:'Context', family:'Possible', explain:'Lp(a) is mostly inherited. The first step is recognising that this risk signal can be present before symptoms, before routine testing, and before anyone in the family knows to ask.', meaning:'This page does not say high Lp(a) will cause an event. It shows why one inherited result can matter across more than one risk pathway.', discuss:'Ask whether you have ever had Lp(a) tested and how it should be interpreted alongside ApoB, LDL-C, blood pressure, metabolic risk, imaging, and family history.', limits:'This is not a risk calculator, diagnosis, or treatment plan. It is a visual map for organising questions.' },
+        { max:12, title:'Inherited signal', signal:'Inherited', artery:'Context', valve:'Context', family:'Possible', explain:'Lp(a) is inherited. The first step is recognising that this risk signal can be present before symptoms, before routine testing, and before anyone in the family knows to ask.', meaning:'This page does not say high Lp(a) will cause an event. It shows why one inherited result can matter across more than one risk pathway.', discuss:'Ask whether you have ever had Lp(a) tested and how it should be interpreted alongside ApoB, LDL-C, blood pressure, metabolic risk, imaging, and family history.', limits:'This is not a risk calculator, diagnosis, or treatment plan. It is a visual map for organising questions.' },
         { max:35, title:'Lifelong exposure', signal:'Lifelong', artery:'Context', valve:'Context', family:'Relevant', explain:'Because Lp(a) is mostly genetic, exposure can begin early and persist for years. This is different from a short-term risk marker that appears only later in life.', meaning:'Lifelong exposure helps explain why testing once can be useful for a person and potentially for close relatives.', discuss:'Ask whether family members should be offered Lp(a) testing, especially when there is premature heart disease, unexplained events, or known high Lp(a).', limits:'This does not show the amount of Lp(a) in your blood or whether damage has occurred. A blood test and health team interpretation are still needed.' },
         { max:60, title:'Artery pathway amplification', signal:'Amplifying', artery:'Artery', valve:'Context', family:'Relevant', explain:'High Lp(a) can add to artery-risk context by carrying ApoB-containing particles and oxidised phospholipid-related biology into the wider plaque, inflammation, rupture, and clot pathway.', meaning:'The artery pathway is not automatic. It is one route through which Lp(a) may compound other risks such as ApoB burden, blood pressure, metabolic risk, smoking exposure, or inflammation.', discuss:'Ask how your Lp(a) result changes the interpretation of ApoB, LDL-C, non-HDL-C, blood pressure, calcium-score findings, and family history.', limits:'This does not show your arteries or predict heart attack or stroke. It links to the detailed artery Risk Atlas modules for process-level education.' },
         { max:84, title:'Valve pathway amplification', signal:'Amplifying', artery:'Artery', valve:'Valve', family:'Relevant', explain:'Lp(a) is also connected with aortic-valve risk context. This pathway is different from artery plaque: it involves valve leaflet calcification, stiffness, narrowing, and possible aortic stenosis.', meaning:'This is why an Lp(a) conversation should not only focus on artery events. Valve history, murmurs, symptoms, imaging, and echocardiography context may also matter.', discuss:'Ask whether valve history, aortic valve calcification, murmur, shortness of breath, chest symptoms, fainting, or echocardiogram findings belong in your Lp(a) risk discussion.', limits:'This does not diagnose valve disease. Valve assessment belongs with your health team and appropriate imaging when indicated.' },
@@ -610,7 +624,7 @@
         metricValve.textContent = stage.valve;
         metricFamily.textContent = stage.family;
         if(compositionBlock){ compositionBlock.hidden = v < 5; }
-        HFAtlas.setSliderValueText(slider, stage.title + ', ' + v + ' percent');
+        HFAtlas.setSliderValueText(slider, Math.round(v) + ' percent', stage.title);
         renderParticles();
       }
 

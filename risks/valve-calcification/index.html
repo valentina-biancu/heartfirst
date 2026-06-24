@@ -40,9 +40,9 @@
       </aside>
     </section>
 
-    <aside id="riskSidebar" class="nav-card" aria-labelledby="nav-h"></aside>
+    <section class="app-grid" aria-label="Valve calcification visual explorer">
+      <aside id="riskSidebar" class="nav-card" aria-labelledby="nav-h"></aside>
 
-    <section class="content-grid">
       <section class="visual-card" aria-labelledby="visual-h">
         <div class="section-heading">
           <div class="kicker">Interactive explainer</div>
@@ -175,7 +175,7 @@
                 <g transform="translate(252,484)"><rect width="128" height="32" rx="16" fill="rgba(127,213,255,.10)" stroke="rgba(127,213,255,.28)"></rect><text x="64" y="21" text-anchor="middle" fill="#aac0d3">Family history</text></g>
               </g>
 
-              <a id="aorticStenosisPanel" href="../aortic-stenosis/" opacity="0" aria-label="Open the Aortic stenosis atlas">
+              <a id="aorticStenosisPanel" href="../aortic-stenosis/" opacity="0" tabindex="-1" aria-label="Open the Aortic stenosis atlas">
                 <rect x="580" y="520" width="282" height="58" rx="18" fill="rgba(12,27,41,.78)" stroke="rgba(212,177,90,.34)"></rect>
                 <text x="603" y="544" fill="#f0d48a" font-size="13" font-weight="900">Next atlas</text>
                 <text x="603" y="565" fill="#aac0d3" font-size="13">Aortic stenosis: when narrowing strains the heart.</text>
@@ -325,7 +325,7 @@
         const v = state.value;
         const narrowing = clamp((v-60)/24,0,1);
         const handoff = clamp((v-84)/16,0,1);
-        const now = Date.now() / 1000;
+        const now = performance.now() / 1000;
         document.querySelectorAll('.flow-particle').forEach((node,i) => {
           const baseX = Number(node.getAttribute('data-x'));
           const baseY = Number(node.getAttribute('data-y'));
@@ -333,7 +333,7 @@
           const speed = Number(node.getAttribute('data-speed'));
           const motion = allowMotion ? ((now*52*speed + i*31) % 470) : (i*27);
           const x = 132 + motion;
-          const squeeze = clamp((x-360)/150,0,1) * clamp((590-x)/150,0,1) * narrowing;
+          const squeeze = clamp((x-360)/150,0,1) * clamp((590-x)/150,0,1) * narrowing * 1.4;
           const y = lerp(baseY, 304 + ((i%2) ? -5 : 5), squeeze);
           const fade = 1 - handoff*.45 - squeeze*.22;
           node.setAttribute('cx', x.toFixed(1));
@@ -389,7 +389,9 @@
         stiffnessArrows.setAttribute('opacity', clamp(stiffness*.46 + detail*.42,0,.82).toFixed(2));
         leafletMotionCues.setAttribute('opacity', clamp(detail*(.25 + stiffness*.55),0,.8).toFixed(2));
         riskLayerChips.setAttribute('opacity', clamp(detail*(.18 + deposit*.82),0,.95).toFixed(2));
-        aorticStenosisPanel.setAttribute('opacity', clamp(handoff,0,1).toFixed(2));
+        const panelOpacity = clamp(handoff,0,1);
+        aorticStenosisPanel.setAttribute('opacity', panelOpacity.toFixed(2));
+        aorticStenosisPanel.setAttribute('tabindex', panelOpacity < 0.1 ? '-1' : '0');
 
         document.querySelectorAll('.calc-dot').forEach(node => {
           const i = Number(node.getAttribute('data-i') || 0);
