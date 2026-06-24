@@ -9,6 +9,38 @@
   <meta name="description" content="A HeartFirst Risk Atlas visual explainer showing how reduced or blocked coronary blood flow can threaten heart muscle, without diagnosing symptoms or predicting an event." />
   <script src="../atlas.js"></script>
   <link rel="stylesheet" href="../atlas.css" />
+  <style>
+    #heartAttackSvg{
+      --ha-blood-a:#e76b72;
+      --ha-blood-b:#9c2634;
+      --ha-artery-a:#f39aa2;
+      --ha-artery-b:#d75561;
+      --ha-artery-c:#8f2230;
+      --ha-muscle-a:#bd3f48;
+      --ha-muscle-b:#6e1f30;
+      --ha-injury-a:#ffb45f;
+      --ha-injury-b:#ef7c63;
+      --ha-injury-c:#b93137;
+      --ha-glow-a:#ffefb0;
+      --ha-glow-b:#ef7c63;
+    }
+
+    html[data-theme="light"] #heartAttackSvg{
+      --ha-blood-a:#C75A5F;
+      --ha-blood-b:#8F2A34;
+      --ha-artery-a:#D87278;
+      --ha-artery-b:#B94D58;
+      --ha-artery-c:#7F2630;
+      --ha-muscle-a:#B84A52;
+      --ha-muscle-b:#7A2635;
+      --ha-injury-a:#D98A3A;
+      --ha-injury-b:var(--danger);
+      --ha-injury-c:#9D3438;
+      --ha-glow-a:#D8A94D;
+      --ha-glow-b:var(--danger);
+    }
+  </style>
+  <script src="../atlas.js"></script>
 </head>
 <body data-atlas-topic="Heart attack explorer">
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -67,8 +99,8 @@
                   <stop offset="1" stop-color="#8f2230" />
                 </linearGradient>
                 <linearGradient id="haMuscleGrad" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0" stop-color="#bd3f48" />
-                  <stop offset="1" stop-color="#6e1f30" />
+                  <stop offset="0" stop-color="var(--ha-muscle-a)" />
+                  <stop offset="1" stop-color="var(--ha-muscle-b)" />
                 </linearGradient>
                 <linearGradient id="haInjuryGrad" x1="0" x2="1" y1="0" y2="1">
                   <stop offset="0" stop-color="#ffb45f" />
