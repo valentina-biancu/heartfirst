@@ -319,7 +319,8 @@
         playTimer: null,
         particles: []
       };
-      const allowFragmentMotion = HFAtlas.allowMotion();
+      const allowMotion = HFAtlas.allowMotion();
+      const allowFragmentMotion = allowMotion;
 
       const clamp = HFAtlas.clamp;
       const lerp = HFAtlas.lerp;
@@ -350,7 +351,8 @@
         const bottom = 342 - p*9;
         const middleY = (top + bottom) / 2;
         flowParticles.innerHTML = state.particles.map((particle) => {
-          const x = 225 + ((particle.offset + performance.now()/9000) % 1) * 430;
+          const timeOffset = allowMotion ? performance.now()/9000 : 0;
+          const x = 225 + ((particle.offset + timeOffset) % 1) * 430;
           const centreBand = 1 - Math.abs((x - 455) / 250);
           const constrict = 1 - (centreBand * constriction / 100) * 0.56;
           const y = middleY + particle.yJitter * constrict;
@@ -470,7 +472,7 @@
           slider.value = String(next);
           updateShape(next);
           if(next >= 100){ stopPlayback(); }
-        }, 80);
+        }, allowMotion ? 80 : 180);
       }
 
       slider.addEventListener('input', e => { stopPlayback(); updateShape(e.target.value); });
@@ -504,7 +506,7 @@
       buildExposureSignals();
       initParticles();
       updateShape(0);
-      setInterval(() => { if(!state.playing) renderParticles(); }, 120);
+      if(allowMotion){ setInterval(() => { if(!state.playing) renderParticles(); }, 120); }
     })();
   </script>
 </body>
