@@ -187,7 +187,7 @@
             <div class="legend-row"><div class="swatch" style="background:#8e4a22"></div><div><strong>Exposed plaque contents</strong><br>The surface where blood can react after rupture.</div></div>
             <div class="info-block">
               <div class="metric"><div class="label">Current stage</div><div id="clotMetricStage" class="value">Exposure</div></div>
-              <div class="metric"><div class="label">Blood flow</div><div id="clotMetricFlow" class="value">Low</div></div>
+              <div class="metric"><div class="label">Flow reduction</div><div id="clotMetricFlow" class="value">None shown</div></div>
               <div class="metric"><div class="label">Coagulation view</div><div id="clotMetricDetail" class="value">Off</div></div>
             </div>
           </aside>
@@ -283,12 +283,12 @@
       const lblFlow = document.getElementById('lblFlow');
 
       const stages = [
-        { max: 12, title: 'Exposed plaque surface', short: 'Exposure', flow: 'Low',
+        { max: 12, title: 'Exposed plaque surface', short: 'Exposure', flow: 'None shown',
           explain: 'This page picks up after plaque rupture. Exposed plaque contents are shown close to flowing blood, before a visible clot has formed.',
           meaning: 'The key idea is contact. Blood can react to exposed plaque contents, which is why rupture and clot are connected but separate atlas topics.',
           discuss: 'Ask what your current checks show, what they do not show, and whether your wider risk context has been organised clearly.',
           limits: 'This educational view does not diagnose a clot, show your clotting tendency, or predict whether an event will occur.' },
-        { max: 35, title: 'Platelets attach', short: 'Platelets', flow: 'Rising',
+        { max: 35, title: 'Platelets attach', short: 'Platelets', flow: 'Early',
           explain: 'Platelets are shown attaching to the exposed surface and beginning to cluster at the rupture site.',
           meaning: 'Platelets are part of normal repair. The problem is location and scale: a helpful repair response can become dangerous if it grows inside an artery lumen.',
           discuss: 'Ask how medicines, symptoms, blood pressure, metabolic risk, smoking exposure, Lp(a), ApoB, and family history fit into your prevention plan.',
@@ -356,7 +356,8 @@
         const middleY = (top + bottom) / 2;
         const flowFade = Math.max(.08, .58 - growth*.28 - obstruction*.34);
         flowParticles.innerHTML = state.particles.map((particle) => {
-          const x = 225 + ((particle.offset + performance.now()/9500) % 1) * 430;
+          const timeOffset = allowMotion ? performance.now()/9500 : 0;
+          const x = 225 + ((particle.offset + timeOffset) % 1) * 430;
           const clotZone = clamp(1 - Math.abs(x - 570) / 130, 0, 1);
           const deflect = clotZone * (growth*18 + obstruction*24) * (x < 570 ? -1 : 1);
           const constrict = 1 - clotZone * (growth*.45 + obstruction*.5);
@@ -470,7 +471,7 @@
           slider.value = String(next);
           updateShape(next);
           if(next >= 100){ stopPlayback(); }
-        }, 80);
+        }, allowMotion ? 80 : 180);
       }
 
       slider.addEventListener('input', e => { stopPlayback(); updateShape(e.target.value); });
