@@ -175,7 +175,7 @@
                 <g transform="translate(252,484)"><rect width="128" height="32" rx="16" fill="rgba(127,213,255,.10)" stroke="rgba(127,213,255,.28)"></rect><text x="64" y="21" text-anchor="middle" fill="#aac0d3">Family history</text></g>
               </g>
 
-              <a id="aorticStenosisPanel" href="../aortic-stenosis/" opacity="0" tabindex="-1" aria-label="Open the Aortic stenosis atlas">
+              <a id="aorticStenosisPanel" href="../aortic-stenosis/" opacity="0" tabindex="-1" aria-hidden="true" style="pointer-events:none" aria-label="Open the Aortic stenosis atlas">
                 <rect x="580" y="520" width="282" height="58" rx="18" fill="rgba(12,27,41,.78)" stroke="rgba(212,177,90,.34)"></rect>
                 <text x="603" y="544" fill="#f0d48a" font-size="13" font-weight="900">Next atlas</text>
                 <text x="603" y="565" fill="#aac0d3" font-size="13">Aortic stenosis: when narrowing strains the heart.</text>
@@ -391,7 +391,10 @@
         riskLayerChips.setAttribute('opacity', clamp(detail*(.18 + deposit*.82),0,.95).toFixed(2));
         const panelOpacity = clamp(handoff,0,1);
         aorticStenosisPanel.setAttribute('opacity', panelOpacity.toFixed(2));
-        aorticStenosisPanel.setAttribute('tabindex', panelOpacity < 0.1 ? '-1' : '0');
+        const panelInteractive = panelOpacity >= 0.1;
+        aorticStenosisPanel.setAttribute('tabindex', panelInteractive ? '0' : '-1');
+        aorticStenosisPanel.setAttribute('aria-hidden', panelInteractive ? 'false' : 'true');
+        aorticStenosisPanel.style.pointerEvents = panelInteractive ? 'auto' : 'none';
 
         document.querySelectorAll('.calc-dot').forEach(node => {
           const i = Number(node.getAttribute('data-i') || 0);

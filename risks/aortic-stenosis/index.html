@@ -162,14 +162,14 @@
                 </g>
               </g>
 
-              <g id="evaluationPanel" opacity="0" aria-label="Valve evaluation context">
+              <g id="evaluationPanel" opacity="0" aria-hidden="true" aria-label="Valve evaluation context">
                 <rect x="566" y="512" width="308" height="70" rx="18" fill="rgba(12,27,41,.78)" stroke="rgba(212,177,90,.34)"></rect>
                 <text x="590" y="536" fill="#f0d48a" font-size="13" font-weight="900">Evaluation pathway</text>
                 <text x="590" y="557" fill="#aac0d3" font-size="13">Symptoms, echo results, gradients, and valve area</text>
                 <text x="590" y="575" fill="#aac0d3" font-size="13">belong with your health team.</text>
               </g>
 
-              <g id="symptomChips" class="as-chip" opacity="0">
+              <g id="symptomChips" class="as-chip" opacity="0" aria-hidden="true">
                 <g transform="translate(112,444)"><rect width="104" height="32" rx="16" fill="rgba(239,124,99,.10)" stroke="rgba(239,124,99,.28)"></rect><text x="52" y="21" text-anchor="middle" fill="#efc4b9">Breathless</text></g>
                 <g transform="translate(224,444)"><rect width="96" height="32" rx="16" fill="rgba(239,124,99,.10)" stroke="rgba(239,124,99,.28)"></rect><text x="48" y="21" text-anchor="middle" fill="#efc4b9">Chest pain</text></g>
                 <g transform="translate(328,444)"><rect width="92" height="32" rx="16" fill="rgba(239,124,99,.10)" stroke="rgba(239,124,99,.28)"></rect><text x="46" y="21" text-anchor="middle" fill="#efc4b9">Fainting</text></g>
@@ -204,7 +204,7 @@
         <h2 id="composition-h" class="panel-title">What aortic stenosis can involve</h2>
         <ul class="panel-list">
           <li>A narrowed aortic valve opening.</li>
-          <li>Reduced or blocked blood flow from the heart to the aorta.</li>
+          <li>Restricted or reduced blood flow from the heart to the aorta.</li>
           <li>Higher pressure load on the left ventricle.</li>
           <li>Symptoms or reduced capacity that need health team review.</li>
           <li>Monitoring and valve-treatment decisions based on severity, symptoms, and imaging.</li>
@@ -373,8 +373,12 @@
         lvWall.setAttribute('opacity', clamp(.18 + pressure*.18 + strain*.42, .18, .76).toFixed(2));
         pressureArrows.setAttribute('opacity', clamp(detail*(.20 + pressure*.62),0,.82).toFixed(2));
         gradientCues.setAttribute('opacity', clamp(detail*(.25 + narrowing*.55),0,.82).toFixed(2));
-        symptomChips.setAttribute('opacity', clamp(detail*(.12 + strain*.88),0,.94).toFixed(2));
-        evaluationPanel.setAttribute('opacity', clamp(evalStage,0,1).toFixed(2));
+        const symptomOpacity = clamp(detail*(.12 + strain*.88),0,.94);
+        symptomChips.setAttribute('opacity', symptomOpacity.toFixed(2));
+        symptomChips.setAttribute('aria-hidden', symptomOpacity < 0.1 ? 'true' : 'false');
+        const evaluationOpacity = clamp(evalStage,0,1);
+        evaluationPanel.setAttribute('opacity', evaluationOpacity.toFixed(2));
+        evaluationPanel.setAttribute('aria-hidden', evaluationOpacity < 0.1 ? 'true' : 'false');
 
         labels.forEach(node => { if(node) node.setAttribute('opacity', state.showLabels ? '1' : '0'); });
         if(state.showLabels){
