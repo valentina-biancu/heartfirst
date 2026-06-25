@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="canonical" href="https://heartfirst.shyntesy.com/risks/inflammation/" />
+  <title>HeartFirst Risk Atlas — Inflammation</title>
+  <meta name="description" content="HeartFirst Risk Atlas: an interactive educational inflammation explorer showing how inflammation can affect artery walls, plaque behaviour, and cardiovascular risk context." />
+  <script src="../atlas.js"></script>
+  <link rel="stylesheet" href="../atlas.css" />
+  <style>
+    /* Inflammation-specific SVG refinements */
+    html[data-theme="light"] #inflammationSvg rect:first-child{opacity:.16}
+    html[data-theme="light"] #crossInflameGlow{stroke:#ff8b4888;stroke-width:1.5}
+    @media (prefers-reduced-motion: reduce){
+      #activityDetailLayer, #immuneCells *, #signalParticles *, #foamCells *{transition:none!important}
+    }
+
+    .inflammation-proof-section{margin:24px 0 0;display:grid;gap:16px}
+    .inflammation-proof-heading{max-width:800px;margin:0 auto;text-align:center}
+    .inflammation-proof-heading h2{margin:0;font-family:var(--display);font-size:clamp(1.35rem,2.2vw,2rem);line-height:1.12;color:var(--text)}
+    .inflammation-proof-heading p{margin:.75rem auto 0;max-width:740px;color:var(--muted);line-height:1.62;font-size:.96rem}
+    .inflammation-proof-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .inflammation-proof-card{padding:16px;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025)}
+    .inflammation-proof-card strong{display:block;margin-bottom:6px;color:var(--text);font-size:.98rem}
+    .inflammation-proof-card p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.48}
+    .inflammation-bridge{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;padding:14px 16px;border-radius:18px;border:1px solid rgba(255,139,72,.22);background:rgba(255,139,72,.07)}
+    .inflammation-bridge span{color:var(--muted);font-size:.9rem;font-weight:800}
+    .inflammation-bridge a{color:var(--text);font-weight:800;text-decoration:none;padding:7px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.035)}
+    .inflammation-bridge a:hover{text-decoration:none;border-color:rgba(255,139,72,.46)}
+    html[data-theme="light"] .inflammation-proof-card,
+    html[data-theme="light"] .inflammation-bridge{background:rgba(13,34,54,.035);border-color:rgba(13,34,54,.10)}
+    @media(max-width:850px){.inflammation-proof-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body data-atlas-topic="Inflammation explorer">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header id="topbarRoot" class="topbar" aria-label="Site header"></header>
+
+  <main id="main" class="page">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="https://heartfirst.shyntesy.com/">HeartFirst</a>
+      <span class="sep">›</span>
+      <a href="https://heartfirst.shyntesy.com/risks/">Risks</a>
+      <span class="sep">›</span>
+      <span aria-current="page">Inflammation</span>
+    </nav>
+
+    <section class="hero" aria-labelledby="hero-h">
+      <div class="hero-card">
+        <div class="kicker">Risk Atlas · inflammation</div>
+        <h1 id="hero-h">How inflammation can affect artery walls, plaque behaviour, and cardiovascular risk.</h1>
+        <p class="hero-sub">
+          This risk atlas shows how <strong>inflammation can affect artery walls and plaque behaviour over time</strong>. It helps make clear one process rather than trying to explain every cardiovascular pathway at once. Use the slider to move from a quieter artery environment to more active inflammatory signalling, immune cell involvement, and a more concerning plaque context.
+        </p>
+      </div>
+      <aside class="scope-card" aria-labelledby="scope-h">
+        <h2 id="scope-h" class="scope-title">What this atlas does</h2>
+        <ul class="scope-list">
+          <li>Shows how inflammation can affect the artery wall and plaque behaviour in a visual way.</li>
+          <li>Explains immune cells, inflammatory signals, endothelial irritation, and plaque activation.</li>
+          <li>Lets you compare quieter and more active inflammatory stages by using the slider.</li>
+          <li>Supports better questions and discussions with your health team.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="inflammation-proof-section" aria-labelledby="inflammation-proof-h">
+      <div class="inflammation-proof-heading">
+        <div class="kicker">Risk layer map</div>
+        <h2 id="inflammation-proof-h">Why inflammation needs its own atlas</h2>
+        <p>Inflammation is not a vague warning word. In this atlas it means vessel-wall irritation, immune-cell involvement, and signalling around plaque that can change how the wider risk pathway behaves.</p>
+      </div>
+      <div class="inflammation-proof-grid">
+        <article class="inflammation-proof-card"><strong>It is a context layer.</strong><p>Inflammation sits around plaque, blood pressure, metabolic risk, smoking exposure, ApoB, Lp(a), and family history rather than replacing them.</p></article>
+        <article class="inflammation-proof-card"><strong>It is not the same as clot.</strong><p>The visual keeps inflammatory signals, immune cells, rupture, and clot as separate ideas so later modules stay clear.</p></article>
+        <article class="inflammation-proof-card"><strong>It changes the conversation.</strong><p>Readers can ask better questions about markers, risk layers, artery-wall biology, and what can be reduced systematically.</p></article>
+      </div>
+      <div class="inflammation-bridge" aria-label="Inflammation pathway bridge">
+        <span>Connect this layer to:</span>
+        <a href="../plaque/">Plaque</a>
+        <a href="../rupture/">Rupture</a>
+        <a href="../cascade/">Cascade</a>
+        <a href="../../lpa/risk-atlas/">Lp(a) amplifier</a>
+      </div>
+    </section>
+
+
+    <section class="app-grid" aria-label="Interactive inflammation explorer">
+      <aside id="riskSidebar" class="nav-card" aria-labelledby="nav-h"></aside>
+
+      <section class="visual-card" aria-labelledby="visual-h">
+        <h2 id="visual-h" class="sr-only">Inflammation visualisation</h2>
+        <div class="control-row">
+          <div class="stage-wrap">
+            <label for="progressSlider">Progression slider</label>
+            <input id="progressSlider" type="range" min="0" max="100" step="1" value="0" aria-describedby="stageText" />
+          </div>
+          <button id="playBtn" class="btn secondary" aria-pressed="false">Play</button>
+          <button id="labelsBtn" class="btn secondary" aria-pressed="true">Labels on</button>
+          <button id="explodeBtn" class="btn secondary" aria-pressed="false" aria-describedby="activityHelp">Activity view</button>
+          <button id="resetBtn" class="btn ghost">Reset</button>
+        </div>
+        <p class="control-help" id="activityHelp">Activity view reveals endothelial irritation arrows and signal pathways without changing the stage.</p>
+
+        <div class="visual-wrap">
+          <div class="canvas-shell" aria-live="polite">
+            <div id="stageText" class="stage-pill">Quieter artery environment</div>
+            <svg id="inflammationSvg" viewBox="0 0 940 620" role="img" aria-labelledby="svgTitle svgDesc">
+              <title id="svgTitle">Interactive inflammation visualisation</title>
+              <desc id="svgDesc">A 3D-style artery segment and cross-section showing inflammatory activity around an artery wall and plaque over time.</desc>
+              <defs>
+                <linearGradient id="bgGlow" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#12314b" />
+                  <stop offset="100%" stop-color="#08111c" />
+                </linearGradient>
+                <linearGradient id="outerWallGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#9b6d6d" />
+                  <stop offset="100%" stop-color="#603636" />
+                </linearGradient>
+                <linearGradient id="innerWallGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#e88a8a" />
+                  <stop offset="100%" stop-color="#a84545" />
+                </linearGradient>
+                <linearGradient id="bloodGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#ff8585" />
+                  <stop offset="50%" stop-color="#d13c4e" />
+                  <stop offset="100%" stop-color="#ff8585" />
+                </linearGradient>
+                <linearGradient id="plaqueGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#f7d587" />
+                  <stop offset="100%" stop-color="#ba8a2e" />
+                </linearGradient>
+                <linearGradient id="coreGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#8e4a22" />
+                  <stop offset="100%" stop-color="#4a231a" />
+                </linearGradient>
+                <linearGradient id="capGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#fdeab7" />
+                  <stop offset="100%" stop-color="#dfc184" />
+                </linearGradient>
+                <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feDropShadow dx="0" dy="8" stdDeviation="12" flood-opacity="0.28" />
+                </filter>
+                <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feGaussianBlur stdDeviation="8" result="blur" />
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+
+              <rect x="0" y="0" width="940" height="620" fill="url(#bgGlow)" opacity=".45"></rect>
+
+              <g id="tube" filter="url(#softShadow)">
+                <path id="arteryBodyOuter" d="M165,220 C245,192 640,192 725,220 L725,400 C645,430 245,430 165,400 Z" fill="url(#outerWallGrad)" opacity=".96"></path>
+                <path id="arteryBodyInner" d="M182,245 C252,220 628,220 708,245 L708,376 C632,400 252,400 182,376 Z" fill="url(#innerWallGrad)" opacity=".98"></path>
+                <path id="lumenBody" d="M205,270 C270,247 610,247 685,270 L685,351 C615,372 270,372 205,351 Z" fill="url(#bloodGrad)"></path>
+
+                <ellipse cx="165" cy="310" rx="44" ry="92" fill="url(#outerWallGrad)"></ellipse>
+                <ellipse cx="165" cy="310" rx="28" ry="72" fill="url(#innerWallGrad)"></ellipse>
+                <ellipse id="frontLumen" cx="165" cy="310" rx="17" ry="54" fill="url(#bloodGrad)"></ellipse>
+
+                <ellipse cx="725" cy="310" rx="44" ry="92" fill="#5b3333" opacity=".85"></ellipse>
+                <ellipse cx="725" cy="310" rx="28" ry="72" fill="#923d46" opacity=".9"></ellipse>
+                <ellipse id="backLumen" cx="725" cy="310" rx="17" ry="54" fill="#c63d4b"></ellipse>
+
+                <g id="plaqueMain" opacity="0">
+                  <path id="plaqueShape" d="M250,332 C310,350 465,356 545,347 C603,341 638,323 667,300 C647,312 623,314 600,311 C520,299 424,292 310,302 C284,304 263,313 250,332 Z" fill="url(#plaqueGrad)"></path>
+                  <path id="coreShape" d="M330,319 C390,334 515,336 592,316 C558,347 427,359 323,337 C309,333 310,323 330,319 Z" fill="url(#coreGrad)" opacity=".42"></path>
+                  <path id="fibrousCap" d="M252,328 C311,338 462,344 544,338 C603,334 638,320 665,300 C642,306 621,304 598,302 C520,291 426,286 309,294 C283,297 264,308 252,328 Z" fill="url(#capGrad)" opacity=".95"></path>
+                  <g id="foamCells" opacity="1"></g>
+                  <g id="calciumDots" opacity="0"></g>
+                </g>
+                <g id="inflammationLayer" opacity="1">
+                  <ellipse id="wallGlow" cx="486" cy="315" rx="210" ry="82" fill="#ff6a2a" opacity="0" filter="url(#softGlow)"></ellipse>
+                  <path id="endotheliumLine" d="M235,283 C330,262 555,263 670,285" fill="none" stroke="#9be4ff" stroke-width="2.2" stroke-linecap="round" opacity="0"></path>
+                  <path id="endothelialIrritation" d="M235,286 C330,265 555,266 670,288" fill="none" stroke="#ff9b57" stroke-width="5" stroke-linecap="round" stroke-dasharray="16 18" opacity="0"></path>
+                  <g id="immuneCells"></g>
+                  <g id="signalParticles"></g>
+                </g>
+                <g id="activityDetailLayer" opacity="0">
+                  <path d="M285,250 C325,228 360,228 398,248" fill="none" stroke="#9be4ff" stroke-width="2" stroke-linecap="round" stroke-dasharray="8 9"></path>
+                  <path d="M500,246 C542,226 584,232 626,256" fill="none" stroke="#9be4ff" stroke-width="2" stroke-linecap="round" stroke-dasharray="8 9"></path>
+                  <path d="M365,375 C405,400 480,404 535,376" fill="none" stroke="#ffbd73" stroke-width="2" stroke-linecap="round" stroke-dasharray="7 10"></path>
+                  <g stroke="#ffbd73" stroke-width="2" stroke-linecap="round" fill="none" opacity=".95">
+                    <path d="M368,274 L350,258 L356,276"></path>
+                    <path d="M518,272 L498,256 L507,276"></path>
+                    <path d="M602,288 L579,274 L592,294"></path>
+                  </g>
+                </g>
+
+                <g id="flowParticles"></g>
+              </g>
+
+              <g id="crossSection" transform="translate(650,430)" filter="url(#softShadow)">
+                <text x="-90" y="-120" font-family="Montserrat, Roboto, sans-serif" font-size="18" fill="#aac0d3">Cross-section view</text>
+                <ellipse cx="0" cy="0" rx="150" ry="110" fill="#693737"></ellipse>
+                <ellipse cx="0" cy="0" rx="120" ry="88" fill="#a24447"></ellipse>
+                <ellipse id="crossLumen" cx="0" cy="0" rx="86" ry="62" fill="url(#bloodGrad)"></ellipse>
+                <ellipse id="crossInflameGlow" cx="-24" cy="-12" rx="108" ry="78" fill="#ff6a2a" opacity="0" filter="url(#softGlow)"></ellipse>
+                <path id="crossPlaque" d="M-92,15 C-100,-35 -55,-85 0,-84 C34,-84 58,-69 75,-48 C48,-44 27,-33 7,-10 C-9,8 -13,31 -10,58 C-42,62 -83,51 -92,15 Z" fill="url(#plaqueGrad)" opacity="0"></path>
+                <path id="crossCore" d="M-72,16 C-74,-22 -42,-58 4,-57 C28,-56 47,-46 59,-33 C35,-27 16,-16 1,2 C-10,18 -13,36 -10,52 C-38,52 -66,41 -72,16 Z" fill="url(#coreGrad)" opacity="0"></path>
+                <path id="crossCap" d="M-77,2 C-78,-31 -45,-63 -2,-63 C19,-63 38,-56 53,-45 C30,-42 13,-34 -1,-19 C-13,-6 -20,12 -21,32 C-48,31 -76,24 -77,2 Z" fill="url(#capGrad)" opacity="0"></path>
+              </g>
+
+              <g id="labelsGroup" font-family="Montserrat, Roboto, system-ui, sans-serif" font-size="18" fill="#eef5fb" stroke="none">
+                <g id="lblWall"><line x1="83" y1="175" x2="130" y2="220" stroke="#7fd5ff" stroke-width="2"></line><circle cx="130" cy="220" r="3" fill="#7fd5ff"></circle><text x="20" y="170">Artery wall</text></g>
+                <g id="lblLumen"><line x1="60" y1="260" x2="146" y2="280" stroke="#7fd5ff" stroke-width="2"></line><circle cx="146" cy="280" r="3" fill="#7fd5ff"></circle><text x="18" y="255">Blood-flow lumen</text></g>
+                <g id="lblPlaque" opacity="0"><line x1="490" y1="192" x2="510" y2="286" stroke="#f0d48a" stroke-width="2"></line><circle cx="510" cy="286" r="3" fill="#f0d48a"></circle><text x="428" y="185">Plaque environment</text></g>
+                <g id="lblCap" opacity="0"><line x1="660" y1="210" x2="622" y2="291" stroke="#f0d48a" stroke-width="2"></line><circle cx="622" cy="291" r="3" fill="#f0d48a"></circle><text x="640" y="200">Fibrous cap</text></g>
+                <g id="lblEndothelium" opacity="0"><line x1="300" y1="210" x2="326" y2="277" stroke="#9be4ff" stroke-width="2"></line><circle cx="326" cy="277" r="3" fill="#9be4ff"></circle><text x="212" y="205">Irritated endothelium</text></g>
+                <g id="lblImmuneCells" opacity="0"><line x1="720" y1="366" x2="642" y2="333" stroke="#ff9b57" stroke-width="2"></line><circle cx="642" cy="333" r="3" fill="#ff9b57"></circle><text x="710" y="362">Immune cells</text></g>
+                <g id="lblSignals" opacity="0"><line x1="650" y1="500" x2="585" y2="360" stroke="#ff9b57" stroke-width="2"></line><circle cx="585" cy="360" r="3" fill="#ff9b57"></circle><text x="600" y="525">Inflammatory signals</text></g>
+              </g>
+            </svg>
+          </div>
+
+          <aside class="legend" aria-labelledby="legend-h">
+            <h3 id="legend-h">Visual guide</h3>
+            <p style="margin:0 0 8px;color:var(--muted);font-size:.92rem;line-height:1.5">The main vessel shows the artery from the side. The inset diagram shows the same artery seen from the end — a cross-section view.</p>
+            <div class="legend-row"><div class="swatch" style="background:#d13c4e"></div><div><strong>Blood flow</strong><br>Shown in red within the artery lumen.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#ba8a2e"></div><div><strong>Plaque environment</strong><br>A plaque with a lipid core and cap can become more biologically active.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#9be4ff"></div><div><strong>Endothelium</strong><br>The inner artery lining is shown as a key activity zone.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#ff8b48"></div><div><strong>Inflammatory signals</strong><br>Orange glow and dots show increasing inflammatory activity.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#f3dba4"></div><div><strong>Immune cells</strong><br>Small pale cells represent immune cell involvement within the plaque environment.</div></div>
+            <div class="info-block">
+              <div class="metric"><div class="label">Current stage</div><div id="metricStage" class="value">Healthy</div></div>
+              <div class="metric"><div class="label">Inflammatory activity</div><div id="metricActivity" class="value">Low</div></div>
+              <div class="metric"><div class="label">Activity view</div><div id="metricActivityView" class="value">Off</div></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <aside class="panel-card" aria-labelledby="panel-h">
+        <h2 id="panel-h" class="panel-title">Stage explanation</h2>
+        <div id="stageHeadline" class="subhead" style="margin-top:0">Quieter artery environment</div>
+        <p id="stageExplain" class="panel-copy">The artery wall and plaque environment are shown with low inflammatory signal.</p>
+
+        <h3 class="subhead">What this means</h3>
+        <p id="stageMeaning" class="panel-copy">This baseline view helps separate inflammation from vague alarm language. Inflammation here means immune cell involvement, chemical signalling, and vessel-wall irritation in and around the plaque environment.</p>
+
+        <h3 class="subhead">What this does not show</h3>
+        <p id="stageLimits" class="panel-copy">This atlas does not tell you whether inflammation is present in your arteries, how active it is, or whether a plaque is unstable. It shows one educational process in isolation so the underlying structure is easier to understand.</p>
+
+        <div id="compositionBlock">
+        <h3 class="subhead">What inflammation can involve</h3>
+        <ul id="compositionList" class="panel-list">
+          <li>Immune-cell movement into the artery wall</li>
+          <li>Inflammatory chemical signals</li>
+          <li>Endothelial irritation or dysfunction</li>
+          <li>More active plaque behaviour</li>
+        </ul>
+        </div>
+
+        <h3 class="subhead">Discuss with your health team</h3>
+        <p id="stageDiscuss" class="panel-copy">If your risk picture feels incomplete, ask what current checks do and do not show, and whether inflammatory context is relevant to discuss.</p>
+
+        <div class="callout">
+          This visualisation is educational. It does not diagnose, predict, or treat any condition. It is not a substitute for advice from your health team. If symptoms suggest an emergency, seek urgent medical help.
+        </div>
+      </aside>
+    </section>
+
+    <section class="cta-card" aria-labelledby="cta-h">
+      <div>
+        <div class="kicker">Heart risk products</div>
+        <h2 id="cta-h">Clarify risk. Navigate danger. Prevent events.</h2>
+        <p>Inflammation is only one layer of the wider heart risk picture. If you want help organising what your current heart risk checks do and do not show, Clarify can help. If you already have signals and want to understand how they may interact and what you can do next, Navigate may be the right fit. If you want to reduce your — or a loved one’s — risk of heart attack, stroke, or avoidable cardiovascular damage, Prevent may be right for you.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn primary" href="https://shyntesy.com/clarify">Clarify risk</a>
+        <a class="btn secondary" href="https://shyntesy.com/navigate">Navigate danger</a>
+        <a class="btn secondary" href="https://shyntesy.com/prevent">Prevent events</a>
+      </div>
+    </section>
+  </main>
+  <footer id="atlasFooter" class="footer"></footer>
+
+  <script>
+    (function(){
+      const slider = document.getElementById('progressSlider');
+      const playBtn = document.getElementById('playBtn');
+      const labelsBtn = document.getElementById('labelsBtn');
+      const explodeBtn = document.getElementById('explodeBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const stageText = document.getElementById('stageText');
+      const metricStage = document.getElementById('metricStage');
+      const metricActivity = document.getElementById('metricActivity');
+      const metricActivityView = document.getElementById('metricActivityView');
+      const stageHeadline = document.getElementById('stageHeadline');
+      const stageExplain = document.getElementById('stageExplain');
+      const stageMeaning = document.getElementById('stageMeaning');
+      const stageDiscuss = document.getElementById('stageDiscuss');
+      const stageLimits = document.getElementById('stageLimits');
+      const compositionBlock = document.getElementById('compositionBlock');
+
+      const frontLumen = document.getElementById('frontLumen');
+      const backLumen = document.getElementById('backLumen');
+      const lumenBody = document.getElementById('lumenBody');
+      const plaqueMain = document.getElementById('plaqueMain');
+      const plaqueShape = document.getElementById('plaqueShape');
+      const fibrousCap = document.getElementById('fibrousCap');
+      const coreShape = document.getElementById('coreShape');
+      const foamCells = document.getElementById('foamCells');
+      const calciumDots = document.getElementById('calciumDots');
+      const inflammationLayer = document.getElementById('inflammationLayer');
+      const endotheliumLine = document.getElementById('endotheliumLine');
+      const activityDetailLayer = document.getElementById('activityDetailLayer');
+      const wallGlow = document.getElementById('wallGlow');
+      const crossInflameGlow = document.getElementById('crossInflameGlow');
+      const endothelialIrritation = document.getElementById('endothelialIrritation');
+      const immuneCells = document.getElementById('immuneCells');
+      const signalParticles = document.getElementById('signalParticles');
+      const crossLumen = document.getElementById('crossLumen');
+      const crossPlaque = document.getElementById('crossPlaque');
+      const crossCore = document.getElementById('crossCore');
+      const crossCap = document.getElementById('crossCap');
+      const flowParticles = document.getElementById('flowParticles');
+      const labelsGroup = document.getElementById('labelsGroup');
+      const plaqueLabel = document.getElementById('lblPlaque');
+      const capLabel = document.getElementById('lblCap');
+      const endotheliumLabel = document.getElementById('lblEndothelium');
+      const immuneLabel = document.getElementById('lblImmuneCells');
+      const signalLabel = document.getElementById('lblSignals');
+
+      const stages = [
+        { max: 12, title: 'Quieter artery environment', short: 'Low activity', activity: 'Low',
+          explain: 'The artery wall and plaque environment are shown with low inflammatory signal.',
+          meaning: 'This baseline view helps separate inflammation from vague alarm language. Inflammation here means immune cell involvement, chemical signalling, and vessel-wall irritation in and around the plaque environment.',
+          discuss: 'If your risk picture feels incomplete, ask what current checks do and do not show, and whether inflammatory context is relevant to discuss.',
+          limits: 'A quieter visual state does not prove that inflammation is absent in a real artery. This is an educational starting point, not a personal assessment.'
+        },
+        { max: 35, title: 'Endothelial irritation', short: 'Early signal', activity: 'Rising',
+          explain: 'The inner lining of the artery is shown becoming more irritated, with early inflammatory signalling around the plaque environment.',
+          meaning: 'The endothelium is not just a passive lining. It helps regulate vessel tone, clotting balance, and inflammatory signalling.',
+          discuss: 'Ask whether your wider risk context includes factors that can irritate the artery wall, such as blood pressure, metabolic risk, smoking exposure, or inherited lipid risk.',
+          limits: 'This stage does not identify a cause. Many factors can influence endothelial function, and this visual deliberately avoids reducing the process to one trigger.'
+        },
+        { max: 60, title: 'Immune-cell involvement', short: 'Active involvement', activity: 'Moderate',
+          explain: 'Immune cells are shown moving into the plaque environment, where inflammatory signalling becomes more active.',
+          meaning: 'Inflammation can turn plaque from a passive buildup into a more biologically active environment.',
+          discuss: 'Ask how markers such as hs-CRP, metabolic health, ApoB, Lp(a), blood pressure, and family history fit into your overall risk discussion.',
+          limits: 'This module does not say that an inflammatory blood marker proves plaque inflammation. Blood markers and artery-wall processes are related but not identical.'
+        },
+        { max: 84, title: 'Plaque activation', short: 'Higher activity', activity: 'High',
+          explain: 'The plaque environment is shown as more active, with stronger inflammatory glow, immune cell clustering, and a more stressed cap region.',
+          meaning: 'An inflamed plaque environment can matter because inflammation may influence plaque growth, cap integrity, and clot-related risk context.',
+          discuss: 'Ask your health team how risk layers are being considered together rather than one result at a time.',
+          limits: 'This visual does not show plaque rupture or clot formation. Those are separate Risk Atlas topics that come later in the sequence.'
+        },
+        { max: 100, title: 'Higher-risk inflammatory context', short: 'High context', activity: 'Higher',
+          explain: 'This final stage shows a more concerning inflammatory context without showing rupture or an event.',
+          meaning: 'The point is not that inflammation alone causes an event. The point is that inflammation can interact with plaque burden, lipid risk, blood pressure, clotting context, and other risk layers.',
+          discuss: 'Ask what can be clarified, monitored, or acted on in your own prevention plan, and what belongs in a health-team conversation rather than self-interpretation.',
+          limits: 'This stage is not a prediction. It does not show what is happening in your body, and it does not mean a heart attack or stroke is inevitable.'
+        }
+      ];
+
+      const allowMotion = HFAtlas.allowMotion();
+
+      const state = {
+        value: 0,
+        showLabels: true,
+        exploded: false,
+        playing: false,
+        playTimer: null,
+        particles: []
+      };
+
+      const clamp = HFAtlas.clamp;
+      const lerp = HFAtlas.lerp;
+      const ease = HFAtlas.ease;
+      const pct = HFAtlas.pct;
+      function stageFor(v){ return stages.find(s => v <= s.max) || stages[stages.length-1]; }
+      function visualConstrictionFor(v){
+        const p = pct(v);
+        return Math.round(Math.pow(p,1.15) * 60);
+      }
+
+      function buildFoamCells(){
+        const cells = [
+          [330,319,12],[380,325,11],[425,323,10],[470,320,12],[520,318,11],[570,313,10],
+          [355,340,11],[408,338,10],[455,336,11],[505,334,9],[553,329,10]
+        ];
+        foamCells.innerHTML = cells.map(([cx,cy,r], i) => {
+          const threshold = 18 + i * 4;
+          return `<g data-reveal="${threshold}" opacity="0"><circle cx="${cx}" cy="${cy}" r="${r}" fill="#f3dba4" opacity=".94"></circle><circle cx="${cx-2}" cy="${cy-2}" r="${Math.max(3,r/2.8)}" fill="#e7c987" opacity=".88"></circle></g>`;
+        }).join('');
+      }
+
+      function buildInflammationCues(){
+        const cells = [[338,305,12],[388,304,11],[432,300,10],[480,302,12],[524,305,11],[568,302,10],[608,296,10],[365,330,11],[418,332,10],[472,328,11],[535,324,10]];
+        immuneCells.innerHTML = cells.map(([cx,cy,r], i) => {
+          const threshold = 30 + i * 4.5;
+          return `<g data-reveal="${threshold}" opacity="0"><circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff0c6" opacity=".88"></circle><circle cx="${cx+2}" cy="${cy-2}" r="${Math.max(3,r/2.6)}" fill="#ff9b57" opacity=".72"></circle></g>`;
+        }).join('');
+        const signals = [[305,264,3],[350,252,2.5],[408,248,3],[455,252,2.6],[512,250,3.2],[575,258,2.8],[625,270,3],[330,374,2.8],[410,385,2.6],[500,378,3],[590,365,2.5]];
+        signalParticles.innerHTML = signals.map(([cx,cy,r], i) => {
+          const threshold = 16 + i * 5;
+          return `<circle data-reveal="${threshold}" cx="${cx}" cy="${cy}" r="${r}" fill="#ff9b57" opacity="0"></circle>`;
+        }).join('');
+      }
+
+      function revealProgressively(root, v, boost){
+        if(!root) return;
+        root.querySelectorAll('[data-reveal]').forEach(node => {
+          const threshold = Number(node.getAttribute('data-reveal') || 0);
+          const opacity = clamp((v - threshold) / 14, 0, 1) * boost;
+          node.setAttribute('opacity', opacity.toFixed(2));
+        });
+      }
+
+      function initParticles(){
+        state.particles = Array.from({length: 14}, (_,i) => ({
+          offset: i / 14,
+          yJitter: (Math.random()*2-1) * 16,
+          radius: 5.2 + Math.random()*1.3
+        }));
+      }
+
+      function renderParticles(){
+        const p = pct(state.value);
+        const constriction = visualConstrictionFor(state.value);
+        const top = 281 + p*16;
+        const bottom = 342 - p*8;
+        const height = Math.max(20, bottom - top);
+        const middleY = (top + bottom) / 2;
+        flowParticles.innerHTML = state.particles.map((particle, i) => {
+          const timeOffset = allowMotion ? performance.now()/9000 : 0;
+          const x = 225 + ((particle.offset + timeOffset) % 1) * 430;
+          const centreBand = 1 - Math.abs((x - 455) / 250);
+          const constrict = 1 - (centreBand * constriction / 100) * 0.6;
+          const y = middleY + particle.yJitter * constrict;
+          const fade = Math.max(.18, .52 - constriction/180);
+          const rx = particle.radius * (1 - constriction/140);
+          const ry = Math.max(2.1, particle.radius * .58 * constrict);
+          return `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="${rx.toFixed(1)}" ry="${ry.toFixed(1)}" fill="#ffd3d3" opacity="${fade.toFixed(2)}"></ellipse>`;
+        }).join('');
+      }
+
+      function updateShape(v){
+        state.value = +v;
+        const p = pct(v);
+        const e = ease(p);
+                const frontRx = lerp(17, 10.2, e);
+        const frontRy = lerp(54, 26, e);
+        const backRx = lerp(17, 10.2, e);
+        const backRy = lerp(54, 26, e);
+        frontLumen.setAttribute('rx', frontRx.toFixed(1));
+        frontLumen.setAttribute('ry', frontRy.toFixed(1));
+        backLumen.setAttribute('rx', backRx.toFixed(1));
+        backLumen.setAttribute('ry', backRy.toFixed(1));
+
+        const top = lerp(270, 293, e);
+        const bottom = lerp(351, 336, e);
+        lumenBody.setAttribute('d', `M205,${top.toFixed(1)} C270,${(247+e*25).toFixed(1)} 610,${(247+e*18).toFixed(1)} 685,${top.toFixed(1)} L685,${bottom.toFixed(1)} C615,${(372-e*20).toFixed(1)} 270,${(372-e*12).toFixed(1)} 205,${bottom.toFixed(1)} Z`);
+
+        plaqueMain.setAttribute('opacity', Math.max(0, p*1.15).toFixed(2));
+        coreShape.setAttribute('opacity', (0.10 + p * 0.42).toFixed(2));
+        crossPlaque.setAttribute('opacity', Math.max(0, p*1.15).toFixed(2));
+        crossCore.setAttribute('opacity', Math.max(0, p*0.85).toFixed(2));
+        crossCap.setAttribute('opacity', Math.max(0, p*1.15).toFixed(2));
+        const plaqueY = lerp(332, 290, e);
+        const plaqueLeft = lerp(250, 235, e);
+        const plaqueRight = lerp(667, 680, e);
+        const plaqueC1 = lerp(310, 305, e);
+        const plaqueC2 = lerp(545, 570, e);
+        plaqueShape.setAttribute('d', `M${plaqueLeft.toFixed(1)},${plaqueY.toFixed(1)} C${plaqueC1.toFixed(1)},${(350-e*52).toFixed(1)} 465,${(356-e*58).toFixed(1)} ${plaqueC2.toFixed(1)},${(347-e*37).toFixed(1)} C603,${(341-e*43).toFixed(1)} 638,${(323-e*32).toFixed(1)} ${plaqueRight.toFixed(1)},${(300-e*12).toFixed(1)} C647,${(312-e*13).toFixed(1)} 623,${(314-e*18).toFixed(1)} 600,${(311-e*18).toFixed(1)} C520,${(299-e*14).toFixed(1)} 424,${(292-e*11).toFixed(1)} 310,${(302-e*4).toFixed(1)} C284,${(304+e*4).toFixed(1)} 263,${(313+e*2).toFixed(1)} ${plaqueLeft.toFixed(1)},${plaqueY.toFixed(1)} Z`);
+        fibrousCap.setAttribute('d', `M252,${(328-e*28).toFixed(1)} C311,${(338-e*24).toFixed(1)} 462,${(344-e*26).toFixed(1)} 544,${(338-e*20).toFixed(1)} C603,${(334-e*20).toFixed(1)} 638,${(320-e*17).toFixed(1)} 665,${(300-e*8).toFixed(1)} C642,${(306-e*11).toFixed(1)} 621,${(304-e*12).toFixed(1)} 598,${(302-e*14).toFixed(1)} C520,${(291-e*8).toFixed(1)} 426,${(286-e*4).toFixed(1)} 309,${(294+e*1).toFixed(1)} C283,${(297+e*3).toFixed(1)} 264,${(308+e*1).toFixed(1)} 252,${(328-e*28).toFixed(1)} Z`);
+
+        const crossRx = lerp(86, 38, e);
+        const crossRy = lerp(62, 28, e);
+        crossLumen.setAttribute('rx', crossRx.toFixed(1));
+        crossLumen.setAttribute('ry', crossRy.toFixed(1));
+
+        const activity = clamp((v - 8) / 82, 0, 1);
+        const activityBoost = state.exploded ? 1 : .82;
+        calciumDots.setAttribute('opacity', '0');
+        inflammationLayer.setAttribute('opacity', '1');
+        wallGlow.setAttribute('opacity', (0.08 + activity * 0.34 * activityBoost).toFixed(2));
+        crossInflameGlow.setAttribute('opacity', (activity * 0.42 * activityBoost).toFixed(2));
+        endotheliumLine.setAttribute('opacity', (state.exploded ? clamp((v - 10) / 30, 0, .9) : clamp((v - 18) / 45, 0, .35)).toFixed(2));
+        endothelialIrritation.setAttribute('opacity', (activity * .88 * activityBoost).toFixed(2));
+        activityDetailLayer.setAttribute('opacity', (state.exploded ? clamp((v - 14) / 46, 0, 1) : 0).toFixed(2));
+        revealProgressively(foamCells, v, .82);
+        revealProgressively(immuneCells, v, state.exploded ? 1 : .78);
+        revealProgressively(signalParticles, v, state.exploded ? 1 : .72);
+        plaqueLabel.setAttribute('opacity', (v > 8 && state.showLabels ? 1 : 0).toFixed(2));
+        capLabel.setAttribute('opacity', (v > 55 && state.showLabels ? 1 : 0).toFixed(2));
+        endotheliumLabel.setAttribute('opacity', (state.exploded && v > 18 && state.showLabels ? 1 : 0).toFixed(2));
+        immuneLabel.setAttribute('opacity', (v > 38 && state.showLabels ? 1 : 0).toFixed(2));
+        signalLabel.setAttribute('opacity', (v > 22 && state.showLabels ? 1 : 0).toFixed(2));
+
+        labelsGroup.setAttribute('opacity', state.showLabels ? '1' : '0');
+        crossLumen.setAttribute('opacity', state.exploded ? '.72' : '1');
+        crossPlaque.setAttribute('transform', 'translate(0,0)');
+        plaqueShape.setAttribute('transform', 'translate(0,0)');
+        fibrousCap.setAttribute('transform', 'translate(0,0)');
+
+        const stage = stageFor(v);
+        stageText.textContent = stage.title;
+        window.HFAtlas && HFAtlas.setSliderValueText(slider, slider.value, stage.title);
+        metricStage.textContent = stage.short;
+        metricActivity.textContent = stage.activity;
+        metricActivityView.textContent = state.exploded ? 'On' : 'Off';
+        stageHeadline.textContent = stage.title;
+        stageExplain.textContent = stage.explain;
+        stageMeaning.textContent = stage.meaning;
+        stageDiscuss.textContent = stage.discuss;
+        stageLimits.textContent = stage.limits;
+        if(compositionBlock){
+          compositionBlock.hidden = state.value < 5;
+        }
+        renderParticles();
+      }
+
+      function stopPlayback(){
+        state.playing = false;
+        playBtn.textContent = 'Play';
+        playBtn.setAttribute('aria-pressed','false');
+        if(state.playTimer){
+          window.clearInterval(state.playTimer);
+          state.playTimer = null;
+        }
+      }
+
+      function startPlayback(){
+        if(Number(slider.value) >= 100){
+          slider.value = '0';
+          updateShape(0);
+        }
+        state.playing = true;
+        playBtn.textContent = 'Pause';
+        playBtn.setAttribute('aria-pressed','true');
+        if(state.playTimer){ window.clearInterval(state.playTimer); }
+        state.playTimer = window.setInterval(() => {
+          const next = Math.min(100, Number(slider.value) + 1);
+          slider.value = String(next);
+          updateShape(next);
+          if(next >= 100){ stopPlayback(); }
+        }, allowMotion ? 80 : 180);
+      }
+
+      slider.addEventListener('input', e => { stopPlayback(); updateShape(e.target.value); });
+      playBtn.addEventListener('click', ()=>{
+        if(state.playing){ stopPlayback(); }
+        else { startPlayback(); }
+      });
+      labelsBtn.addEventListener('click', ()=>{
+        state.showLabels = !state.showLabels;
+        labelsBtn.textContent = state.showLabels ? 'Labels on' : 'Labels off';
+        labelsBtn.setAttribute('aria-pressed', state.showLabels ? 'true' : 'false');
+        updateShape(slider.value);
+      });
+      explodeBtn.addEventListener('click', ()=>{
+        state.exploded = !state.exploded;
+        explodeBtn.setAttribute('aria-pressed', state.exploded ? 'true' : 'false');
+        explodeBtn.textContent = state.exploded ? 'Activity view on' : 'Activity view';
+        metricActivityView.textContent = state.exploded ? 'On' : 'Off';
+        updateShape(slider.value);
+      });
+      resetBtn.addEventListener('click', ()=>{
+        stopPlayback();
+        slider.value = 0;
+        state.exploded = false;
+        explodeBtn.setAttribute('aria-pressed','false');
+        explodeBtn.textContent = 'Activity view';
+        state.showLabels = true;
+        labelsBtn.textContent = 'Labels on';
+        labelsBtn.setAttribute('aria-pressed','true');
+        updateShape(0);
+      });
+
+      window.HFAtlas && HFAtlas.renderTopbar("topbarRoot"); window.HFAtlas && HFAtlas.buildSidebar("riskSidebar", window.location.pathname, { active:"inflammation", baseHref:"../" }); window.HFAtlas && HFAtlas.renderFooter("atlasFooter"); window.HFAtlas && HFAtlas.initShellControls();
+      buildFoamCells();
+      buildInflammationCues();
+      initParticles();
+      updateShape(0);
+      if(allowMotion){ setInterval(()=>{ if(!state.playing) renderParticles(); }, 120); }
+    })();
+  </script>
+</body>
+</html>

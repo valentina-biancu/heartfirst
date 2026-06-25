@@ -6,17 +6,245 @@
   <meta name="color-scheme" content="light dark" />
   <link rel="canonical" href="https://heartfirst.shyntesy.com/risks/plaque/" />
   <title>HeartFirst Risk Atlas — Plaque</title>
-  <meta name="description" content="HeartFirst Risk Atlas: an interactive educational plaque explorer showing how plaque can develop within an artery over time." />
+  <meta name="description" content="What plaque is, what it contains, and how it builds inside an artery wall. An interactive educational module from the HeartFirst Risk Atlas." />
   <script src="../atlas.js"></script>
   <link rel="stylesheet" href="../atlas.css" />
   <style>
-    /* Plaque-module only: keep shared shell CSS clean. */
+    /* ── Plaque-module only ─────────────────────────────────────────── */
     html[data-theme="light"] #plaqueSvg .bg-surface{opacity:.16}
     #labelsGroup text,
-    #structureOverlay text{font-family:Montserrat, Roboto, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif}
+    #structureOverlay text{font-family:Montserrat,Roboto,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
     #structureOverlay text{font-weight:700;paint-order:stroke;stroke:#07111c;stroke-width:3px;stroke-linejoin:round}
     html[data-theme="light"] #structureOverlay text{stroke:#ffffff}
-    .plaque-note{color:var(--muted);font-size:.88rem;line-height:1.5;margin:-6px 0 16px}
+
+    /* ── Proof section ──────────────────────────────────────────────── */
+    .plaque-proof{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+      margin-bottom:24px;
+    }
+    .plaque-proof-card{
+      background:linear-gradient(180deg,rgba(18,37,56,.94),rgba(12,27,41,.94));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius-sm);
+      padding:20px 18px;
+    }
+    .plaque-proof-card .proof-num{
+      font-size:2.2rem;
+      font-weight:900;
+      color:var(--gold);
+      line-height:1;
+      margin-bottom:6px;
+    }
+    .plaque-proof-card .proof-label{
+      font-size:.82rem;
+      font-weight:700;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      margin-bottom:8px;
+    }
+    .plaque-proof-card .proof-body{
+      font-size:.9rem;
+      color:var(--muted);
+      line-height:1.55;
+    }
+    html[data-theme="light"] .plaque-proof-card{
+      background:linear-gradient(180deg,rgba(255,255,255,.97),rgba(244,248,250,.97));
+      border-color:rgba(13,34,54,.10);
+    }
+
+    /* ── Why-cards row ──────────────────────────────────────────────── */
+    .plaque-why-row{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-bottom:24px;
+    }
+    .plaque-why-card{
+      background:linear-gradient(180deg,rgba(18,37,56,.94),rgba(12,27,41,.94));
+      border:1px solid rgba(255,255,255,.07);
+      border-top:3px solid var(--gold);
+      border-radius:var(--radius-sm);
+      padding:18px 16px;
+    }
+    .plaque-why-card h3{
+      font-size:.9rem;
+      font-weight:800;
+      color:var(--text);
+      margin:0 0 7px;
+    }
+    .plaque-why-card p{
+      font-size:.86rem;
+      color:var(--muted);
+      line-height:1.55;
+      margin:0;
+    }
+    html[data-theme="light"] .plaque-why-card{
+      background:linear-gradient(180deg,rgba(255,255,255,.97),rgba(244,248,250,.97));
+      border-color:rgba(13,34,54,.08);
+      border-top-color:var(--gold);
+    }
+
+    /* ── Alert notes ────────────────────────────────────────────────── */
+    .plaque-alert-notes{
+      background:rgba(212,177,90,.07);
+      border:1px solid rgba(212,177,90,.22);
+      border-left:3px solid var(--gold);
+      border-radius:var(--radius-sm);
+      padding:18px 18px;
+      max-width:840px;
+      margin:0 auto 24px;
+    }
+    .plaque-alert-notes h3{
+      font-size:.85rem;
+      font-weight:800;
+      color:var(--gold-2);
+      text-transform:uppercase;
+      letter-spacing:.07em;
+      margin:0 0 10px;
+    }
+    .plaque-alert-notes ul{
+      margin:0;
+      padding-left:18px;
+      display:grid;
+      gap:8px;
+    }
+    .plaque-alert-notes li{
+      font-size:.9rem;
+      color:var(--muted);
+      line-height:1.55;
+    }
+    .plaque-alert-notes li strong{color:var(--text);}
+
+
+    /* ── Pathway bridge ─────────────────────────────────────────────── */
+    .plaque-bridge{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:center;
+      padding:14px 16px;
+      border-radius:var(--radius-sm);
+      border:1px solid rgba(212,177,90,.20);
+      background:rgba(212,177,90,.06);
+      margin-bottom:24px;
+    }
+    .plaque-bridge span{
+      color:var(--muted);
+      font-size:.9rem;
+      font-weight:800;
+    }
+    .plaque-bridge a{
+      color:var(--text);
+      font-weight:800;
+      text-decoration:none;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.035);
+    }
+    .plaque-bridge a:hover{
+      text-decoration:none;
+      border-color:rgba(212,177,90,.44);
+    }
+    html[data-theme="light"] .plaque-bridge{
+      background:rgba(13,34,54,.035);
+      border-color:rgba(13,34,54,.10);
+    }
+
+
+
+    /* Product CTAs: three intentional choices, with Prevent allowed to carry the primary emphasis. */
+    .cta-card .cta-actions{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+      align-items:stretch;
+      min-width:min(100%,460px);
+    }
+    .cta-card .cta-actions .btn{
+      width:100%;
+      justify-content:center;
+      text-align:center;
+      white-space:nowrap;
+      text-decoration:none;
+      position:relative;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow:0 10px 22px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.10);
+      transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .cta-card .cta-actions .btn.secondary{
+      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));
+      color:var(--text);
+    }
+    .cta-card .cta-actions .btn.primary{
+      background:linear-gradient(135deg,var(--gold),var(--gold-2));
+      color:#111;
+      border-color:rgba(255,255,255,.26);
+      box-shadow:0 14px 30px rgba(212,177,90,.24), inset 0 1px 0 rgba(255,255,255,.32);
+    }
+    .cta-card .cta-actions .btn:hover{
+      transform:translateY(-2px);
+      text-decoration:none;
+      border-color:rgba(212,177,90,.52);
+      box-shadow:0 16px 34px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.16);
+    }
+    .cta-card .cta-actions .btn.primary:hover{
+      box-shadow:0 18px 38px rgba(212,177,90,.34), inset 0 1px 0 rgba(255,255,255,.36);
+    }
+    .cta-card .cta-actions .btn:active{
+      transform:translateY(0);
+      box-shadow:0 8px 18px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.12);
+    }
+    html[data-theme="light"] .cta-card .cta-actions .btn.secondary{
+      background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(244,248,250,.92));
+      border-color:rgba(13,34,54,.13);
+      box-shadow:0 12px 24px rgba(13,34,54,.08), inset 0 1px 0 rgba(255,255,255,.9);
+    }
+    @media(max-width:760px){
+      .cta-card .cta-actions{
+        grid-template-columns:1fr;
+        min-width:0;
+      }
+      .cta-card .cta-actions .btn{
+        white-space:normal;
+      }
+    }
+
+    /* Dynamic legend metrics: stack label and value inside the narrow visual-guide column. */
+    .legend .info-block .metric{
+      grid-template-columns:1fr;
+      gap:3px;
+      align-items:start;
+    }
+    .legend .info-block .metric .value{
+      font-weight:800;
+      font-size:.92rem;
+      line-height:1.35;
+      text-align:left;
+      max-width:100%;
+      word-break:normal;
+      overflow-wrap:break-word;
+    }
+
+    /* ── Control help text ──────────────────────────────────────────── */
+    .control-help{
+      margin:-6px 0 16px;
+      color:var(--muted);
+      font-size:.88rem;
+      line-height:1.5;
+    }
+
+    @media(max-width:900px){
+      .plaque-proof,.plaque-why-row{grid-template-columns:1fr 1fr;}
+    }
+    @media(max-width:600px){
+      .plaque-proof,.plaque-why-row{grid-template-columns:1fr;}
+    }
   </style>
 </head>
 <body data-atlas-topic="Plaque explorer">
@@ -32,25 +260,89 @@
       <span aria-current="page">Plaque</span>
     </nav>
 
+    <!-- ── HERO ───────────────────────────────────────────────────── -->
     <section class="hero" aria-labelledby="hero-h">
       <div class="hero-card">
-        <div class="kicker">Risk Atlas · plaque</div>
-        <h1 id="hero-h">What plaque is, where it builds, and why it matters.</h1>
+        <div class="kicker">Risk Atlas · Plaque</div>
+        <h1 id="hero-h">Plaque builds inside artery walls, not in the bloodstream. That distinction matters.</h1>
         <p class="hero-sub">
-          This risk atlas shows how <strong>plaque can develop within an artery wall over time</strong>. It focuses on one foundational process, then helps connect this process to later atlas modules on inflammation, rupture, clot, and downstream events. Use the slider to move from a healthy artery to early particle entry, a growing lipid core, a fibrous cap, and more advanced artery narrowing.
+          Most people picture a blocked pipe. The reality is more subtle and more important.
+          <strong>Plaque develops within the artery wall itself</strong> — through particle entry,
+          immune-cell accumulation, lipid-core formation, and fibrous-cap development — before it
+          ever significantly narrows the channel blood flows through. Use the slider below to move
+          through that process, layer by layer, from a healthy artery to advanced plaque with calcific
+          change. Then use the links to continue into inflammation, rupture, and what can follow.
         </p>
       </div>
       <aside class="scope-card" aria-labelledby="scope-h">
         <h2 id="scope-h" class="scope-title">What this atlas does</h2>
         <ul class="scope-list">
-          <li>Shows artery structure and plaque buildup in a visual way.</li>
-          <li>Explains core components such as endothelium, ApoB-containing particle entry, lipid core, foam cells, fibrous cap, calcium, and narrowing.</li>
-          <li>Lets you compare early and advanced stages by using the slider, from a healthy artery to more advanced plaque and narrowing.</li>
-          <li>Supports better questions and discussions with your health team.</li>
+          <li>Shows artery wall structure and plaque buildup layer by layer.</li>
+          <li>Names the core components: endothelium, ApoB-containing particle entry, lipid core, foam cells, fibrous cap, and calcium.</li>
+          <li>Lets you move from a healthy artery to advanced plaque using the progression slider.</li>
+          <li>Connects to the Inflammation, Rupture, and Clot modules that follow from this foundation.</li>
+          <li>Does not show plaque in your arteries, predict events, or replace clinical assessment.</li>
         </ul>
       </aside>
     </section>
 
+    <!-- ── PROOF SECTION ──────────────────────────────────────────── -->
+    <div class="plaque-proof" aria-label="Key plaque facts">
+      <div class="plaque-proof-card">
+        <div class="proof-num">Within</div>
+        <div class="proof-label">The artery wall</div>
+        <div class="proof-body">Plaque does not float in blood. It develops inside the wall — which is why it can grow undetected before it causes symptoms or narrows the channel significantly.</div>
+      </div>
+      <div class="plaque-proof-card">
+        <div class="proof-num">ApoB</div>
+        <div class="proof-label">The entry particle</div>
+        <div class="proof-body">ApoB-containing particles, including LDL, carry lipid material into the artery wall. This is why ApoB is considered a more direct measure of atherogenic particle burden than LDL-C alone.</div>
+      </div>
+      <div class="plaque-proof-card">
+        <div class="proof-num">Lp(a)</div>
+        <div class="proof-label">The amplifier</div>
+        <div class="proof-body">Lp(a) is an inherited ApoB-containing particle with additional pro-inflammatory and pro-thrombotic biology. It can amplify plaque-related risk and is not reliably lowered by diet, exercise, or standard statins.</div>
+      </div>
+    </div>
+
+    <!-- ── WHY CARDS ──────────────────────────────────────────────── -->
+    <div class="plaque-why-row" aria-label="Why plaque matters">
+      <div class="plaque-why-card">
+        <h3>Why plaque can be hidden</h3>
+        <p>Standard cholesterol tests do not directly measure plaque. They measure markers associated with risk. Plaque can build over years without producing symptoms or appearing in routine results.</p>
+      </div>
+      <div class="plaque-why-card">
+        <h3>Why the fibrous cap matters</h3>
+        <p>A fibrous cap separates plaque contents from flowing blood. If the cap becomes thin, inflamed, or stressed, it can rupture — exposing material that can trigger clotting. That is the next atlas module.</p>
+      </div>
+      <div class="plaque-why-card">
+        <h3>Why this connects to Lp(a)</h3>
+        <p>Elevated Lp(a) can add to plaque-related risk, increase inflammatory activity around plaques, and contribute to plaque instability. That is why an Lp(a) result should be discussed alongside your lipid panel, ApoB, family history, and wider risk context.</p>
+      </div>
+    </div>
+
+    <!-- ── ALERT NOTES ────────────────────────────────────────────── -->
+    <div class="plaque-alert-notes" aria-label="Key things to know about plaque">
+      <h3>Five things worth knowing about plaque</h3>
+      <ul>
+        <li><strong>Plaque is not cholesterol stuck to a pipe.</strong> It is a dynamic, living structure inside the artery wall — with a lipid core, immune cells, and a fibrous cover.</li>
+        <li><strong>ApoB is a more direct measure than LDL-C.</strong> ApoB counts the number of atherogenic particles; LDL-C measures the cholesterol they carry. A person can have normal LDL-C but high ApoB.</li>
+        <li><strong>Lp(a) can add to plaque risk independently.</strong> It carries ApoB-related lipid burden plus oxidised phospholipid biology. It is largely genetic and not reliably reduced by diet or standard statins.</li>
+        <li><strong>Plaque can narrow arteries significantly before symptoms appear.</strong> This is one reason cardiovascular events can feel sudden even when underlying disease has been building for years.</li>
+        <li><strong>Calcium scoring and imaging can detect plaque burden.</strong> A coronary artery calcium (CAC) scan is one way to detect and quantify plaque that standard blood tests do not show. Ask your health team whether it is relevant for you.</li>
+      </ul>
+    </div>
+
+
+    <div class="plaque-bridge" aria-label="Plaque pathway bridge">
+      <span>Continue the pathway:</span>
+      <a href="../inflammation/">Inflammation</a>
+      <a href="../rupture/">Rupture</a>
+      <a href="../clot/">Clot</a>
+      <a href="../../lpa/risk-atlas/">Lp(a) amplifier</a>
+    </div>
+
+    <!-- ── INTERACTIVE EXPLORER ───────────────────────────────────── -->
     <section class="app-grid" aria-label="Interactive plaque explorer">
       <aside id="riskSidebar" class="nav-card" aria-labelledby="nav-h"></aside>
 
@@ -58,22 +350,23 @@
         <h2 id="visual-h" class="sr-only">Plaque visualisation</h2>
         <div class="control-row">
           <div class="stage-wrap">
-            <label for="progressSlider">Progression slider</label>
-            <input id="progressSlider" type="range" min="0" max="100" step="1" value="0" aria-describedby="stageText" />
+            <label for="progressSlider">Progression — healthy artery to advanced plaque</label>
+            <input id="progressSlider" type="range" min="0" max="100" step="1" value="0"
+              aria-describedby="stageText" />
           </div>
           <button id="playBtn" class="btn secondary" aria-pressed="false">Play</button>
           <button id="labelsBtn" class="btn secondary" aria-pressed="true">Labels on</button>
-          <button id="explodeBtn" class="btn secondary" aria-pressed="false">Structure view</button>
+          <button id="explodeBtn" class="btn secondary" aria-pressed="false" aria-describedby="structureHelp">Structure view</button>
           <button id="resetBtn" class="btn ghost">Reset</button>
         </div>
-        <p class="plaque-note">Structure view separates key plaque structures — endothelium, ApoB-containing particle entry, lipid core, fibrous cap, and calcium — so the relationship between layers is easier to read.</p>
+        <p id="structureHelp" class="control-help">Structure view separates plaque layers — endothelium, ApoB particle entry, lipid core, fibrous cap, and calcium — so the relationship between each is easier to read.</p>
 
         <div class="visual-wrap">
           <div class="canvas-shell" aria-live="polite">
             <div id="stageText" class="stage-pill">Healthy artery</div>
             <svg id="plaqueSvg" viewBox="0 0 940 620" role="img" aria-labelledby="svgTitle svgDesc">
               <title id="svgTitle">Interactive artery plaque visualisation</title>
-              <desc id="svgDesc">A 3D-style artery segment and cross-section showing plaque development over time.</desc>
+              <desc id="svgDesc">A 3D-style artery segment and cross-section showing plaque development from a healthy artery through to advanced plaque with calcific change.</desc>
               <defs>
                 <linearGradient id="bgGlow" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0%" stop-color="#12314b" />
@@ -152,7 +445,7 @@
               </g>
 
               <g id="crossSection" transform="translate(650,430)" filter="url(#softShadow)">
-                <text x="-90" y="-120" font-family="Montserrat, Roboto, sans-serif" font-size="18" fill="#aac0d3">Cross-section view</text>
+                <text x="-90" y="-120" font-family="Montserrat,Roboto,sans-serif" font-size="18" fill="#aac0d3">Cross-section view</text>
                 <ellipse cx="0" cy="0" rx="150" ry="110" fill="#693737"></ellipse>
                 <ellipse cx="0" cy="0" rx="120" ry="88" fill="#a24447"></ellipse>
                 <ellipse id="crossLumen" cx="0" cy="0" rx="86" ry="62" fill="url(#bloodGrad)"></ellipse>
@@ -169,7 +462,7 @@
                 </g>
               </g>
 
-              <g id="labelsGroup" font-family="Montserrat, Roboto, system-ui, sans-serif" font-size="18" fill="#eef5fb" stroke="none">
+              <g id="labelsGroup" font-family="Montserrat,Roboto,system-ui,sans-serif" font-size="18" fill="#eef5fb" stroke="none">
                 <g id="lblWall"><line x1="83" y1="175" x2="130" y2="220" stroke="#7fd5ff" stroke-width="2"></line><circle cx="130" cy="220" r="3" fill="#7fd5ff"></circle><text x="20" y="170">Artery wall</text></g>
                 <g id="lblLumen"><line x1="60" y1="260" x2="146" y2="280" stroke="#7fd5ff" stroke-width="2"></line><circle cx="146" cy="280" r="3" fill="#7fd5ff"></circle><text x="18" y="255">Blood-flow lumen</text></g>
                 <g id="lblPlaque" opacity="0"><line x1="490" y1="192" x2="510" y2="286" stroke="#f0d48a" stroke-width="2"></line><circle cx="510" cy="286" r="3" fill="#f0d48a"></circle><text x="428" y="185">Plaque</text></g>
@@ -184,365 +477,418 @@
 
           <aside class="legend" aria-labelledby="legend-h">
             <h3 id="legend-h">Visual guide</h3>
-            <p style="margin:0 0 8px;color:var(--muted);font-size:.92rem;line-height:1.5">The main vessel shows the artery from the side. The inset diagram shows the same artery seen from the end — a cross-section view.</p>
-            <div class="legend-row"><div class="swatch" style="background:#d13c4e"></div><div><strong>Blood flow</strong><br>Shown in red within the artery lumen.</div></div>
-            <div class="legend-row"><div class="swatch" style="background:#7fd5ff"></div><div><strong>Endothelium</strong><br>The inner lining where particle entry and irritation can begin.</div></div>
-            <div class="legend-row"><div class="swatch" style="background:#ba8a2e"></div><div><strong>Plaque</strong><br>A fatty, inflammatory buildup within the artery wall.</div></div>
-            <div class="legend-row"><div class="swatch" style="background:#f2b64d"></div><div><strong>Lipid core</strong><br>A lipid-rich area inside some plaques.</div></div>
-            <div class="legend-row"><div class="swatch" style="background:#f0d48a"></div><div><strong>ApoB-containing particles</strong><br>Shown entering the artery wall as an educational cue.</div></div>
-            <div class="legend-row"><div class="swatch" style="background:#dfc184"></div><div><strong>Fibrous cap</strong><br>A cover over the plaque core that helps separate it from flowing blood.</div></div>
-            <div class="legend-row"><div class="swatch" style="background:#f2efe7"></div><div><strong>Calcium specks</strong><br>Can appear as plaque becomes more advanced.</div></div>
+            <p style="margin:0 0 10px;color:var(--muted);font-size:.9rem;line-height:1.55">The main vessel shows the artery from the side. The inset diagram shows the same artery seen from the end — a cross-section view, so you can see how the lumen narrows as plaque builds.</p>
+            <div class="legend-row"><div class="swatch" style="background:#d13c4e"></div><div><strong>Blood flow</strong> — the open channel inside the artery lumen.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#7fd5ff"></div><div><strong>Endothelium</strong> — the inner lining where particle entry and irritation can begin.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#ba8a2e"></div><div><strong>Plaque</strong> — a fatty, inflammatory buildup within the artery wall.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#f2b64d"></div><div><strong>Lipid core</strong> — a lipid-rich area at the centre of developing plaque.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#f0d48a"></div><div><strong>ApoB-containing particles</strong> — shown entering the artery wall as an educational cue.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#dfc184"></div><div><strong>Fibrous cap</strong> — a cover over the plaque core that separates it from flowing blood.</div></div>
+            <div class="legend-row"><div class="swatch" style="background:#f2efe7"></div><div><strong>Calcium specks</strong> — can appear as plaque becomes more advanced.</div></div>
+
             <div class="info-block">
               <div class="metric"><div class="label">Current stage</div><div id="metricStage" class="value">Healthy</div></div>
-              <div class="metric"><div class="label">Estimated narrowing</div><div id="metricPlaqueNarrow" class="value">0%</div></div>
+              <div class="metric"><div class="label">Artery narrowing</div><div id="metricPlaqueNarrow" class="value">0%</div></div>
+              <div class="metric"><div class="label">ApoB relevance</div><div id="metricApoB" class="value">Foundation</div></div>
+              <div class="metric"><div class="label">Lp(a) relevance</div><div id="metricLpa" class="value">Amplifier</div></div>
               <div class="metric"><div class="label">Structure view</div><div id="metricStructureView" class="value">Off</div></div>
             </div>
           </aside>
         </div>
       </section>
 
+      <!-- ── RIGHT PANEL ──────────────────────────────────────────── -->
       <aside class="panel-card" aria-labelledby="panel-h">
         <h2 id="panel-h" class="panel-title">Stage explanation</h2>
         <div id="stageHeadline" class="subhead" style="margin-top:0">Healthy artery</div>
-        <p id="stageExplain" class="panel-copy">The artery wall is smooth and the flow channel is open.</p>
+        <p id="stageExplain" class="panel-copy">The artery wall is smooth, the endothelium is intact, and the flow channel is fully open.</p>
 
         <h3 class="subhead">What this means</h3>
-        <p id="stageMeaning" class="panel-copy">This baseline view shows where plaque develops: within the artery wall, not floating freely in the bloodstream.</p>
+        <p id="stageMeaning" class="panel-copy">This baseline view shows where plaque develops — within the artery wall itself, not floating freely in the bloodstream. That distinction explains why plaque can grow for years without being visible in a standard blood test.</p>
 
         <h3 class="subhead">What this does not show</h3>
-        <p id="stageLimits" class="panel-copy">This module does not show every cause of cardiovascular risk or tell you whether a plaque is present in your own body. It shows one educational process in isolation so the underlying structure is easier to understand.</p>
+        <div class="info-block">
+          <p id="stageLimits" class="panel-copy" style="margin:0">This module does not show every cause of cardiovascular risk or tell you whether a plaque is present in your own body. It shows one educational process in isolation so the underlying structure is easier to understand.</p>
+        </div>
 
-        <div id="compositionBlock">
-        <h3 class="subhead">What plaque is made of</h3>
-        <ul id="compositionList" class="panel-list">
-          <li>A lipid-rich core carried into the wall by ApoB-containing particles</li>
-          <li>Inflammatory cells, including foam cells</li>
-          <li>Scar-like fibrous tissue forming a cap over the core</li>
-          <li>Sometimes calcium specks as plaque becomes more advanced</li>
-        </ul>
+        <div id="compositionBlock" hidden>
+          <h3 class="subhead">What plaque is made of</h3>
+          <ul class="panel-list">
+            <li>A <strong>lipid-rich core</strong> carried into the wall by ApoB-containing particles including LDL and Lp(a)</li>
+            <li><strong>Inflammatory cells</strong>, including foam cells formed when macrophages absorb excess lipid</li>
+            <li><strong>Scar-like fibrous tissue</strong> forming a cap over the core — a key structural feature in plaque stability</li>
+            <li><strong>Calcium specks</strong> that can appear as plaque becomes more advanced, visible on some imaging</li>
+          </ul>
         </div>
 
         <h3 class="subhead">Discuss with your health team</h3>
-        <p id="stageDiscuss" class="panel-copy">If your risk picture feels incomplete, ask what current checks do and do not show, and whether further context is needed.</p>
+        <p id="stageDiscuss" class="panel-copy">If your risk picture feels incomplete, ask what your current checks do and do not show — and whether ApoB, Lp(a), or imaging context should be part of the picture.</p>
 
-        <div class="callout">
+        <div class="callout" style="margin-top:16px">
           This visualisation is educational. It does not diagnose, predict, or treat any condition. It is not a substitute for advice from your health team. If symptoms suggest an emergency, seek urgent medical help.
         </div>
       </aside>
     </section>
 
+    <!-- ── CTA ────────────────────────────────────────────────────── -->
     <section class="cta-card" aria-labelledby="cta-h">
       <div>
         <div class="kicker">Heart risk products</div>
-        <h2 id="cta-h">Clarify risk. Navigate danger. Prevent events.</h2>
-        <p>Plaque is only one piece of the wider heart risk picture. If you want help organising what your current heart risk checks do and do not show, Clarify can help. If you already have signals and want to understand how they may interact and what you can do next, Navigate may be the right fit. If you want to reduce your — or a loved one’s — risk of heart attack, stroke, or avoidable cardiovascular damage, Prevent may be right for you.</p>
+        <h2 id="cta-h">Plaque is the starting point, not the whole picture.</h2>
+        <p>Plaque is one piece of a wider risk context that can include ApoB discordance, elevated Lp(a), family history, blood pressure, metabolic risk, and inflammation. If you want help organising what your current checks do and do not show, <strong>Clarify</strong> is the right place to start. If you already have signals to connect, <strong>Navigate</strong> gives you a 90-day structure. If you want to build lasting preventive action, <strong>Prevent</strong> is designed for that.</p>
       </div>
       <div class="cta-actions">
-        <a class="btn primary" href="https://shyntesy.com/clarify">Clarify risk</a>
-        <a class="btn secondary" href="https://shyntesy.com/navigate">Navigate danger</a>
-        <a class="btn secondary" href="https://shyntesy.com/prevent">Prevent events</a>
+        <a class="btn secondary" href="https://shyntesy.com/clarify">Clarify risk</a>
+        <a class="btn secondary" href="https://shyntesy.com/navigate">Navigate risk</a>
+        <a class="btn primary" href="https://shyntesy.com/prevent">Prevent risk</a>
       </div>
     </section>
   </main>
+
   <footer id="atlasFooter" class="footer"></footer>
 
   <script>
-    (function(){
-      const slider = document.getElementById('progressSlider');
-      const playBtn = document.getElementById('playBtn');
-      const labelsBtn = document.getElementById('labelsBtn');
-      const explodeBtn = document.getElementById('explodeBtn');
-      const resetBtn = document.getElementById('resetBtn');
-      const stageText = document.getElementById('stageText');
-      const metricStage = document.getElementById('metricStage');
-      const metricPlaqueNarrow = document.getElementById('metricPlaqueNarrow');
-      const metricStructureView = document.getElementById('metricStructureView');
-      const compositionBlock = document.getElementById('compositionBlock');
-      const stageHeadline = document.getElementById('stageHeadline');
-      const stageExplain = document.getElementById('stageExplain');
-      const stageMeaning = document.getElementById('stageMeaning');
-      const stageDiscuss = document.getElementById('stageDiscuss');
-      const stageLimits = document.getElementById('stageLimits');
+  (function(){
+    const slider      = document.getElementById('progressSlider');
+    const playBtn     = document.getElementById('playBtn');
+    const labelsBtn   = document.getElementById('labelsBtn');
+    const explodeBtn  = document.getElementById('explodeBtn');
+    const resetBtn    = document.getElementById('resetBtn');
+    const stageText   = document.getElementById('stageText');
 
-      const frontLumen = document.getElementById('frontLumen');
-      const backLumen = document.getElementById('backLumen');
-      const lumenBody = document.getElementById('lumenBody');
-      const plaqueMain = document.getElementById('plaqueMain');
-      const plaqueShape = document.getElementById('plaqueShape');
-      const fibrousCap = document.getElementById('fibrousCap');
-      const foamCells = document.getElementById('foamCells');
-      const calciumDots = document.getElementById('calciumDots');
-      const lipidCore = document.getElementById('lipidCore');
-      const apobParticles = document.getElementById('apobParticles');
-      const entryZone = document.getElementById('entryZone');
-      const endotheliumLine = document.getElementById('endotheliumLine');
-      const structureOverlay = document.getElementById('structureOverlay');
-      const crossLumen = document.getElementById('crossLumen');
-      const crossPlaque = document.getElementById('crossPlaque');
-      const crossCore = document.getElementById('crossCore');
-      const crossCap = document.getElementById('crossCap');
-      const crossExploded = document.getElementById('crossExploded');
-      const flowParticles = document.getElementById('flowParticles');
-      const labelsGroup = document.getElementById('labelsGroup');
-      const plaqueLabel = document.getElementById('lblPlaque');
-      const capLabel = document.getElementById('lblCap');
-      const coreLabel = document.getElementById('lblCore');
-      const calciumLabel = document.getElementById('lblCalcium');
-      const endotheliumLabel = document.getElementById('lblEndothelium');
-      const apobLabel = document.getElementById('lblApoB');
+    const metricStage         = document.getElementById('metricStage');
+    const metricPlaqueNarrow  = document.getElementById('metricPlaqueNarrow');
+    const metricApoB          = document.getElementById('metricApoB');
+    const metricLpa           = document.getElementById('metricLpa');
+    const metricStructureView = document.getElementById('metricStructureView');
 
-      const stages = [
-        { max: 12, title: 'Healthy artery', short: 'Healthy', narrowing: 0,
-          explain: 'The artery wall is smooth and the flow channel is open.',
-          meaning: 'This baseline view shows where plaque develops: within the artery wall, not floating freely in the bloodstream.',
-          discuss: 'If your risk picture feels incomplete, ask what current checks do and do not show, and whether further context is needed.',
-          limits: 'A healthy-looking educational diagram does not prove that risk is absent. It also does not show inherited or biochemical risk that may still matter.'
-        },
-        { max: 37, title: 'Early particle entry', short: 'Early change', narrowing: 10,
-          explain: 'Material associated with cholesterol-carrying particles can begin collecting within the artery wall.',
-          meaning: 'Early change can begin long before symptoms. This is one reason “feeling fine” does not always mean risk is absent.',
-          discuss: 'Ask what hidden or incomplete risk factors may still matter, especially if family history or Lp(a) is relevant.',
-          limits: 'This stage does not tell you whether early plaque is present in you, or how quickly change may progress. It illustrates one possible early process.'
-        },
-        { max: 62, title: 'Lipid core develops', short: 'Lipid core', narrowing: 25,
-          explain: 'A growing plaque develops a softer lipid-rich core and begins to narrow the open channel.',
-          meaning: 'Plaque is not a single lump. It is a living, changing structure within the artery wall.',
-          discuss: 'Ask what else shapes your risk context, including ApoB, blood pressure, metabolic risk, and inherited risk.',
-          limits: 'A growing lipid core is only one feature. This module does not measure plaque burden, symptoms, or event risk in an individual person.'
-        },
-        { max: 87, title: 'Fibrous cap and advanced plaque', short: 'Advanced plaque', narrowing: 45,
-          explain: 'A fibrous cap forms over the plaque core. The artery may now be more significantly narrowed.',
-          meaning: 'As plaque advances, the relationship between plaque burden, inflammation, cap stability, and symptoms becomes more important.',
-          discuss: 'Ask what your current results show, what they do not show, and what may need follow-up or imaging.',
-          limits: 'This does not show whether a plaque is stable or unstable in your own case. Educational structure is not the same as personalised interpretation.'
-        },
-        { max: 100, title: 'Advanced plaque with calcific change', short: 'Advanced / calcific', narrowing: 60,
-          explain: 'More advanced plaque may contain calcium and create marked narrowing of the artery lumen.',
-          meaning: 'Calcium can be part of more advanced plaque, but calcification does not describe the whole story on its own.',
-          discuss: 'Ask how plaque burden, calcium, symptoms, family history, and other risk layers fit together in your own case.',
-          limits: 'Calcific change can be part of a more advanced process, but calcium alone is not the whole story. This module does not replace imaging, clinical context, or health-team assessment.'
-        }
+    const compositionBlock = document.getElementById('compositionBlock');
+    const stageHeadline    = document.getElementById('stageHeadline');
+    const stageExplain     = document.getElementById('stageExplain');
+    const stageMeaning     = document.getElementById('stageMeaning');
+    const stageDiscuss     = document.getElementById('stageDiscuss');
+    const stageLimits      = document.getElementById('stageLimits');
+
+    const frontLumen       = document.getElementById('frontLumen');
+    const backLumen        = document.getElementById('backLumen');
+    const lumenBody        = document.getElementById('lumenBody');
+    const plaqueMain       = document.getElementById('plaqueMain');
+    const plaqueShape      = document.getElementById('plaqueShape');
+    const fibrousCap       = document.getElementById('fibrousCap');
+    const foamCells        = document.getElementById('foamCells');
+    const calciumDots      = document.getElementById('calciumDots');
+    const lipidCore        = document.getElementById('lipidCore');
+    const apobParticles    = document.getElementById('apobParticles');
+    const entryZone        = document.getElementById('entryZone');
+    const endotheliumLine  = document.getElementById('endotheliumLine');
+    const structureOverlay = document.getElementById('structureOverlay');
+    const crossLumen       = document.getElementById('crossLumen');
+    const crossPlaque      = document.getElementById('crossPlaque');
+    const crossCore        = document.getElementById('crossCore');
+    const crossCap         = document.getElementById('crossCap');
+    const crossExploded    = document.getElementById('crossExploded');
+    const flowParticles    = document.getElementById('flowParticles');
+    const labelsGroup      = document.getElementById('labelsGroup');
+    const plaqueLabel      = document.getElementById('lblPlaque');
+    const capLabel         = document.getElementById('lblCap');
+    const coreLabel        = document.getElementById('lblCore');
+    const calciumLabel     = document.getElementById('lblCalcium');
+    const endotheliumLabel = document.getElementById('lblEndothelium');
+    const apobLabel        = document.getElementById('lblApoB');
+
+    /* ── Use shared HFAtlas utilities ──────────────────────────── */
+    const { clamp, lerp, ease, pct } = HFAtlas;
+    const allowMotion = HFAtlas.allowMotion ? HFAtlas.allowMotion() :
+      !window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+    function stageFor(v){ return stages.find(s => v <= s.max) || stages[stages.length-1]; }
+    function narrowingFor(v){ return Math.round(Math.pow(pct(v), 1.15) * 60); }
+
+    /* ── Stage data ─────────────────────────────────────────────── */
+    const stages = [
+      {
+        max: 12,
+        title: 'Healthy artery',
+        short: 'Healthy',
+        narrowing: 0,
+        apob: 'Foundation particle',
+        lpa: 'Amplifier if elevated',
+        explain: 'The artery wall is smooth, the endothelium is intact, and the flow channel is fully open. No plaque is present at this stage.',
+        meaning: 'This baseline view shows where plaque develops — within the artery wall itself, not floating in the bloodstream. That distinction explains why plaque can grow undetected for years without appearing in a standard blood test.',
+        discuss: 'If you have never had ApoB or Lp(a) tested alongside your standard lipid panel, ask whether they are relevant to your risk picture. Standard cholesterol results do not always capture the full atherogenic particle burden.',
+        limits: 'A healthy-looking educational diagram does not prove that risk is absent. Inherited factors such as elevated Lp(a) or familial hypercholesterolaemia can be present and significant without any visible sign in this kind of view.'
+      },
+      {
+        max: 37,
+        title: 'Early particle entry',
+        short: 'Early change',
+        narrowing: 10,
+        apob: 'Entering the wall',
+        lpa: 'Amplifying entry risk',
+        explain: 'ApoB-containing particles can begin entering and accumulating within the artery wall, particularly where the endothelial surface is more susceptible to lipid retention.',
+        meaning: 'Early plaque change can begin long before symptoms and long before significant narrowing. This is one reason cardiovascular events can feel sudden even though the underlying process has been building for years.',
+        discuss: 'Ask what your ApoB result means in the context of your LDL-C, non-HDL-C, and any Lp(a) result. A person can have normal LDL-C but elevated ApoB — and the particle count is often the more relevant measure for atherogenic risk.',
+        limits: 'This stage does not tell you whether early plaque is present in your arteries, or how quickly any change may progress. It illustrates one possible early biological process for educational purposes.'
+      },
+      {
+        max: 62,
+        title: 'Lipid core develops',
+        short: 'Lipid core',
+        narrowing: 25,
+        apob: 'Contributing to core',
+        lpa: 'Accelerating development',
+        explain: 'Accumulated lipid material and inflammatory cells form a growing core within the plaque. A fibrous cap begins to develop over the top. The artery lumen starts to narrow.',
+        meaning: 'Plaque is not a single lump. It is a living, changing structure — with a soft lipid interior, an inflammatory environment, and a fibrous cover. Whether that cover remains stable or becomes vulnerable is a key question in plaque biology.',
+        discuss: 'Ask what else shapes your risk context beyond LDL-C: ApoB, Lp(a), blood pressure, metabolic risk markers, family history of premature cardiovascular disease, and — if relevant — imaging options such as coronary artery calcium scoring.',
+        limits: 'A growing lipid core is only one feature of plaque. This module does not measure plaque burden, identify vulnerable plaques, or predict event risk in any individual person. Those assessments require clinical evaluation and appropriate imaging.'
+      },
+      {
+        max: 87,
+        title: 'Fibrous cap and advanced plaque',
+        short: 'Advanced plaque',
+        narrowing: 45,
+        apob: 'Sustained atherogenic burden',
+        lpa: 'Plaque instability context',
+        explain: 'A fibrous cap forms over the plaque core, separating lipid material from flowing blood. The artery may be more significantly narrowed. Plaque stability — the integrity of this cap — becomes an important consideration.',
+        meaning: 'As plaque advances, the relationship between plaque burden, inflammation, cap integrity, and symptoms becomes more clinically important. The next atlas modules — Inflammation and Rupture — address what happens when a cap is stressed or breaks.',
+        discuss: 'Ask what your current results show about your plaque risk context, what they do not show, and what further assessment may be relevant — including ApoB target levels, Lp(a) interpretation, and imaging options appropriate to your situation.',
+        limits: 'This does not show whether any particular plaque is stable or unstable in your own case. Plaque stability is a clinical assessment that requires imaging and specialist evaluation. This visual shows one educational structural possibility, not a depiction of any individual\'s arteries.'
+      },
+      {
+        max: 100,
+        title: 'Advanced plaque with calcific change',
+        short: 'Advanced / calcific',
+        narrowing: 60,
+        apob: 'Longstanding atherogenic exposure',
+        lpa: 'Valve and artery risk context',
+        explain: 'More advanced plaque can contain calcium deposits alongside the lipid core and fibrous tissue. Significant artery narrowing may be present. Calcium can be visible on some types of imaging such as a coronary artery calcium (CAC) scan.',
+        meaning: 'Calcium in plaque is not simply a sign of "hardening" — it is part of a more complex biology. A CAC score can identify and quantify calcific plaque burden, but the full clinical picture requires integrating this with other risk markers, symptoms, and family history.',
+        discuss: 'Ask how plaque burden, calcium scoring, ApoB, Lp(a), symptoms, family history, and other risk layers fit together in your own risk context. Elevated Lp(a) in particular has a specific association with aortic valve calcification that is worth discussing separately.',
+        limits: 'Calcific change can be part of a more advanced process, but calcium alone does not tell the complete story. This module does not replace imaging, clinical context, or health team assessment. A CAC scan can provide important additional information, but its interpretation should be handled with your health team.'
+      }
+    ];
+
+    const state = {
+      value: 0,
+      showLabels: true,
+      exploded: false,
+      playing: false,
+      playTimer: null,
+      particles: []
+    };
+
+    /* ── Build cues ─────────────────────────────────────────────── */
+    function buildFoamCells(){
+      const cells = [
+        [330,319,10],[380,325,9],[425,323,8],[470,320,10],[520,318,9],[570,313,8],
+        [355,340,9],[408,338,8],[455,336,9],[505,334,7],[553,329,8]
       ];
+      foamCells.innerHTML = cells.map(([cx,cy,r], i) =>
+        `<g class="foam-cell" data-reveal="${i}"><circle cx="${cx}" cy="${cy}" r="${r}" fill="#f3dba4" opacity=".94"></circle><circle cx="${cx-2}" cy="${cy-2}" r="${Math.max(3,r/2.8)}" fill="#e7c987" opacity=".88"></circle></g>`
+      ).join('');
+    }
 
-      const state = {
-        value: 0,
-        showLabels: true,
-        exploded: false,
-        playing: false,
-        playTimer: null,
-        particles: []
-      };
+    function buildApoBParticles(){
+      const particles = [
+        [286,258,5,305,292],[326,263,4.5,345,298],[366,270,4.5,386,304],[408,276,4,428,306],[448,281,4,467,309]
+      ];
+      apobParticles.innerHTML = particles.map(([cx,cy,r,x2,y2], i) =>
+        `<g class="apob-particle" data-reveal="${i}"><circle cx="${cx}" cy="${cy}" r="${r}" fill="#f0d48a"></circle><path d="M${cx},${cy} L${x2},${y2}" stroke="#f0d48a" stroke-width="2" stroke-linecap="round" opacity=".78"></path></g>`
+      ).join('');
+    }
 
-      const clamp = HFAtlas.clamp;
-      const lerp = HFAtlas.lerp;
-      const ease = HFAtlas.ease;
-      const pct = HFAtlas.pct;
-      function stageFor(v){ return stages.find(s => v <= s.max) || stages[stages.length-1]; }
-      function narrowingFor(v){
-        const p = pct(v);
-        return Math.round(Math.pow(p,1.15) * 60);
-      }
+    function buildCalcium(){
+      const dots = [[505,301,4],[534,304,3],[560,303,4],[590,302,5],[608,299,3],[626,297,4],[546,315,3],[580,314,4]];
+      calciumDots.innerHTML = dots.map(([cx,cy,r], i) =>
+        `<circle class="calcium-dot" data-reveal="${i}" cx="${cx}" cy="${cy}" r="${r}" fill="#f1ede7"></circle>`
+      ).join('');
+    }
 
-      function buildFoamCells(){
-        const cells = [
-          [330,319,10],[380,325,9],[425,323,8],[470,320,10],[520,318,9],[570,313,8],
-          [355,340,9],[408,338,8],[455,336,9],[505,334,7],[553,329,8]
-        ];
-        foamCells.innerHTML = cells.map(([cx,cy,r], i) => `<g class="foam-cell" data-reveal="${i}"><circle cx="${cx}" cy="${cy}" r="${r}" fill="#f3dba4" opacity=".94"></circle><circle cx="${cx-2}" cy="${cy-2}" r="${Math.max(3,r/2.8)}" fill="#e7c987" opacity=".88"></circle></g>`).join('');
-      }
+    function initParticles(){
+      state.particles = Array.from({length: 14}, () => ({
+        offset: Math.random(),
+        yJitter: (Math.random()*2-1) * 16,
+        radius: 5.2 + Math.random()*1.3
+      }));
+    }
 
-      function buildApoBParticles(){
-        const particles = [
-          [286,258,5,305,292],[326,263,4.5,345,298],[366,270,4.5,386,304],[408,276,4,428,306],[448,281,4,467,309]
-        ];
-        apobParticles.innerHTML = particles.map(([cx,cy,r,x2,y2], i) => `<g class="apob-particle" data-reveal="${i}"><circle cx="${cx}" cy="${cy}" r="${r}" fill="#f0d48a"></circle><path d="M${cx},${cy} L${x2},${y2}" stroke="#f0d48a" stroke-width="2" stroke-linecap="round" opacity=".78"></path></g>`).join('');
-      }
+    function renderParticles(){
+      const p = pct(state.value);
+      const narrow = narrowingFor(state.value);
+      const top = 281 + p*16;
+      const bottom = 342 - p*8;
+      const middleY = (top + bottom) / 2;
+      flowParticles.innerHTML = state.particles.map(particle => {
+        const timeOffset = allowMotion ? performance.now()/9000 : 0;
+        const x = 225 + ((particle.offset + timeOffset) % 1) * 430;
+        const centreBand = 1 - Math.abs((x - 455) / 250);
+        const constrict = 1 - (centreBand * narrow / 100) * 0.6;
+        const y = middleY + particle.yJitter * constrict;
+        const fade = Math.max(.18, .52 - narrow/180);
+        const rx = particle.radius * (1 - narrow/140);
+        const ry = Math.max(2.1, particle.radius * .58 * constrict);
+        return `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="${rx.toFixed(1)}" ry="${ry.toFixed(1)}" fill="#ffd3d3" opacity="${fade.toFixed(2)}"></ellipse>`;
+      }).join('');
+    }
 
-      function buildCalcium(){
-        const dots = [[505,301,4],[534,304,3],[560,303,4],[590,302,5],[608,299,3],[626,297,4],[546,315,3],[580,314,4]];
-        calciumDots.innerHTML = dots.map(([cx,cy,r], i) => `<circle class="calcium-dot" data-reveal="${i}" cx="${cx}" cy="${cy}" r="${r}" fill="#f1ede7"></circle>`).join('');
-      }
-
-      function initParticles(){
-        state.particles = Array.from({length: 14}, (_,i) => ({
-          offset: i / 14,
-          yJitter: (Math.random()*2-1) * 16,
-          radius: 5.2 + Math.random()*1.3
-        }));
-      }
-
-      function renderParticles(){
-        const p = pct(state.value);
-        const narrow = narrowingFor(state.value);
-        const top = 281 + p*16;
-        const bottom = 342 - p*8;
-        const height = Math.max(20, bottom - top);
-        const middleY = (top + bottom) / 2;
-        flowParticles.innerHTML = state.particles.map((particle, i) => {
-          const x = 225 + ((particle.offset + performance.now()/9000) % 1) * 430;
-          const centreBand = 1 - Math.abs((x - 455) / 250);
-          const constrict = 1 - (centreBand * narrow / 100) * 0.6;
-          const y = middleY + particle.yJitter * constrict;
-          const fade = Math.max(.18, .52 - narrow/180);
-          const rx = particle.radius * (1 - narrow/140);
-          const ry = Math.max(2.1, particle.radius * .58 * constrict);
-          return `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="${rx.toFixed(1)}" ry="${ry.toFixed(1)}" fill="#ffd3d3" opacity="${fade.toFixed(2)}"></ellipse>`;
-        }).join('');
-      }
-
-      function setProgressiveReveal(selector, start, span, step, boost){
-        const nodes = document.querySelectorAll(selector);
-        nodes.forEach((node, i) => {
-          const reveal = clamp((state.value - start - i * step) / span, 0, 1);
-          const opacity = Math.min(1, reveal * (boost || 1));
-          node.setAttribute('opacity', opacity.toFixed(2));
+    function setProgressiveReveal(selector, start, span, step, boost){
+      document.querySelectorAll(selector).forEach((node, i) => {
+        const reveal = clamp((state.value - start - i * step) / span, 0, 1);
+        const opacity = Math.min(1, reveal * (boost || 1));
+        node.setAttribute('opacity', opacity.toFixed(2));
+        if(allowMotion){
           node.setAttribute('transform', `scale(${(0.82 + opacity * 0.18).toFixed(2)})`);
           node.style.transformBox = 'fill-box';
           node.style.transformOrigin = 'center';
-        });
-      }
-
-      function updateShape(v){
-        state.value = +v;
-        const p = pct(v);
-        const e = ease(p);
-        const narrowing = narrowingFor(v);
-        const frontRx = lerp(17, 10.2, e);
-        const frontRy = lerp(54, 26, e);
-        const backRx = lerp(17, 10.2, e);
-        const backRy = lerp(54, 26, e);
-        frontLumen.setAttribute('rx', frontRx.toFixed(1));
-        frontLumen.setAttribute('ry', frontRy.toFixed(1));
-        backLumen.setAttribute('rx', backRx.toFixed(1));
-        backLumen.setAttribute('ry', backRy.toFixed(1));
-
-        const top = lerp(270, 293, e);
-        const bottom = lerp(351, 336, e);
-        lumenBody.setAttribute('d', `M205,${top.toFixed(1)} C270,${(247+e*25).toFixed(1)} 610,${(247+e*18).toFixed(1)} 685,${top.toFixed(1)} L685,${bottom.toFixed(1)} C615,${(372-e*20).toFixed(1)} 270,${(372-e*12).toFixed(1)} 205,${bottom.toFixed(1)} Z`);
-
-        plaqueMain.setAttribute('opacity', Math.max(0, p*1.15).toFixed(2));
-        crossPlaque.setAttribute('opacity', Math.max(0, p*1.15).toFixed(2));
-        crossCap.setAttribute('opacity', Math.max(0, p*1.15).toFixed(2));
-        if(crossCore){ crossCore.setAttribute('opacity', (v > 20 ? clamp((v-20)/35,0,1) * .92 : 0).toFixed(2)); }
-        const plaqueY = lerp(332, 290, e);
-        const plaqueLeft = lerp(250, 235, e);
-        const plaqueRight = lerp(667, 680, e);
-        const plaqueC1 = lerp(310, 305, e);
-        const plaqueC2 = lerp(545, 570, e);
-        plaqueShape.setAttribute('d', `M${plaqueLeft.toFixed(1)},${plaqueY.toFixed(1)} C${plaqueC1.toFixed(1)},${(350-e*52).toFixed(1)} 465,${(356-e*58).toFixed(1)} ${plaqueC2.toFixed(1)},${(347-e*37).toFixed(1)} C603,${(341-e*43).toFixed(1)} 638,${(323-e*32).toFixed(1)} ${plaqueRight.toFixed(1)},${(300-e*12).toFixed(1)} C647,${(312-e*13).toFixed(1)} 623,${(314-e*18).toFixed(1)} 600,${(311-e*18).toFixed(1)} C520,${(299-e*14).toFixed(1)} 424,${(292-e*11).toFixed(1)} 310,${(302-e*4).toFixed(1)} C284,${(304+e*4).toFixed(1)} 263,${(313+e*2).toFixed(1)} ${plaqueLeft.toFixed(1)},${plaqueY.toFixed(1)} Z`);
-        fibrousCap.setAttribute('d', `M252,${(328-e*28).toFixed(1)} C311,${(338-e*24).toFixed(1)} 462,${(344-e*26).toFixed(1)} 544,${(338-e*20).toFixed(1)} C603,${(334-e*20).toFixed(1)} 638,${(320-e*17).toFixed(1)} 665,${(300-e*8).toFixed(1)} C642,${(306-e*11).toFixed(1)} 621,${(304-e*12).toFixed(1)} 598,${(302-e*14).toFixed(1)} C520,${(291-e*8).toFixed(1)} 426,${(286-e*4).toFixed(1)} 309,${(294+e*1).toFixed(1)} C283,${(297+e*3).toFixed(1)} 264,${(308+e*1).toFixed(1)} 252,${(328-e*28).toFixed(1)} Z`);
-
-        const crossRx = lerp(86, 38, e);
-        const crossRy = lerp(62, 28, e);
-        crossLumen.setAttribute('rx', crossRx.toFixed(1));
-        crossLumen.setAttribute('ry', crossRy.toFixed(1));
-
-        calciumDots.setAttribute('opacity', (v >= 70 ? clamp((v-70)/20,0,1) : 0).toFixed(2));
-        if(lipidCore){ lipidCore.setAttribute('opacity', (v > 20 ? clamp((v-20)/35,0,1) * .92 : 0).toFixed(2)); }
-        if(apobParticles){ apobParticles.setAttribute('opacity', (v > 8 && v < 68 ? clamp((v-8)/25,0,1) * (state.exploded ? 1 : .82) : 0).toFixed(2)); }
-        if(entryZone){ entryZone.setAttribute('opacity', (state.exploded && v > 8 && v < 70 ? clamp((v-8)/18,0,1) : 0).toFixed(2)); }
-        if(endotheliumLine){ endotheliumLine.setAttribute('opacity', (state.exploded ? 1 : (v < 70 ? .88 : .55)).toFixed(2)); }
-        if(structureOverlay){ structureOverlay.setAttribute('opacity', (state.exploded && v > 8 ? 1 : 0).toFixed(2)); }
-        setProgressiveReveal('.foam-cell', 22, 16, 3.8, 1);
-        setProgressiveReveal('.apob-particle', 8, 14, 4.8, state.exploded ? 1 : .9);
-        setProgressiveReveal('.calcium-dot', 70, 14, 3.5, 1);
-        calciumLabel.setAttribute('opacity', (v >= 70 && state.showLabels ? 1 : 0).toFixed(2));
-        plaqueLabel.setAttribute('opacity', (v > 10 && state.showLabels ? 1 : 0).toFixed(2));
-        capLabel.setAttribute('opacity', (v > 40 && state.showLabels ? 1 : 0).toFixed(2));
-        coreLabel.setAttribute('opacity', (v > 20 && state.showLabels ? 1 : 0).toFixed(2));
-        if(endotheliumLabel){ endotheliumLabel.setAttribute('opacity', (state.showLabels && (state.exploded || v <= 70) ? 1 : 0).toFixed(2)); }
-        if(apobLabel){ apobLabel.setAttribute('opacity', (state.showLabels && v > 8 && v < 68 ? 1 : 0).toFixed(2)); }
-
-        labelsGroup.setAttribute('opacity', state.showLabels ? '1' : '0');
-        crossExploded.setAttribute('opacity', (state.exploded && v > 15 ? '1' : '0')); 
-        crossLumen.setAttribute('opacity', state.exploded ? '.35' : '1');
-        crossPlaque.setAttribute('transform', state.exploded ? 'translate(-5,0)' : 'translate(0,0)');
-        plaqueShape.setAttribute('transform', state.exploded ? 'translate(-18,0)' : 'translate(0,0)');
-        fibrousCap.setAttribute('transform', state.exploded ? 'translate(6,-12)' : 'translate(0,0)');
-        if(lipidCore){ lipidCore.setAttribute('transform', state.exploded ? 'translate(-6,10)' : 'translate(0,0)'); }
-        if(crossCore){ crossCore.setAttribute('transform', state.exploded ? 'translate(6,4)' : 'translate(0,0)'); }
-        if(crossCap){ crossCap.setAttribute('transform', state.exploded ? 'translate(-4,-8)' : 'translate(0,0)'); }
-
-        const stage = stageFor(v);
-        stageText.textContent = stage.title;
-        window.HFAtlas && HFAtlas.setSliderValueText(slider, slider.value, stage.title);
-        metricStage.textContent = stage.short;
-        metricPlaqueNarrow.textContent = `${narrowing}%`;
-        metricStructureView.textContent = state.exploded ? 'On' : 'Off';
-        stageHeadline.textContent = stage.title;
-        stageExplain.textContent = stage.explain;
-        stageMeaning.textContent = stage.meaning;
-        stageDiscuss.textContent = stage.discuss;
-        stageLimits.textContent = stage.limits;
-        if(compositionBlock){
-          compositionBlock.hidden = state.value < 5;
         }
-        renderParticles();
-      }
-
-      function stopPlayback(){
-        state.playing = false;
-        playBtn.textContent = 'Play';
-        playBtn.setAttribute('aria-pressed','false');
-        if(state.playTimer){
-          window.clearInterval(state.playTimer);
-          state.playTimer = null;
-        }
-      }
-
-      function startPlayback(){
-        if(Number(slider.value) >= 100){
-          slider.value = '0';
-          updateShape(0);
-        }
-        state.playing = true;
-        playBtn.textContent = 'Pause';
-        playBtn.setAttribute('aria-pressed','true');
-        if(state.playTimer){ window.clearInterval(state.playTimer); }
-        state.playTimer = window.setInterval(() => {
-          const next = Math.min(100, Number(slider.value) + 1);
-          slider.value = String(next);
-          updateShape(next);
-          if(next >= 100){ stopPlayback(); }
-        }, 80);
-      }
-
-      slider.addEventListener('input', e => { stopPlayback(); updateShape(e.target.value); });
-      playBtn.addEventListener('click', ()=>{
-        if(state.playing){ stopPlayback(); }
-        else { startPlayback(); }
       });
-      labelsBtn.addEventListener('click', ()=>{
-        state.showLabels = !state.showLabels;
-        labelsBtn.textContent = state.showLabels ? 'Labels on' : 'Labels off';
-        labelsBtn.setAttribute('aria-pressed', state.showLabels ? 'true' : 'false');
-        updateShape(slider.value);
-      });
-      explodeBtn.addEventListener('click', ()=>{
-        state.exploded = !state.exploded;
-        explodeBtn.setAttribute('aria-pressed', state.exploded ? 'true' : 'false');
-        metricStructureView.textContent = state.exploded ? 'On' : 'Off';
-        updateShape(slider.value);
-      });
-      resetBtn.addEventListener('click', ()=>{
-        stopPlayback();
-        slider.value = 0;
-        state.exploded = false;
-        explodeBtn.setAttribute('aria-pressed','false');
-        state.showLabels = true;
-        labelsBtn.textContent = 'Labels on';
-        labelsBtn.setAttribute('aria-pressed','true');
-        updateShape(0);
-      });
+    }
 
-      window.HFAtlas && HFAtlas.renderTopbar("topbarRoot"); window.HFAtlas && HFAtlas.buildSidebar("riskSidebar", window.location.pathname, { active:"plaque", baseHref:"../" }); window.HFAtlas && HFAtlas.renderFooter("atlasFooter"); window.HFAtlas && HFAtlas.initShellControls();
-      buildFoamCells();
-      buildApoBParticles();
-      buildCalcium();
-      initParticles();
+    /* ── Main update ────────────────────────────────────────────── */
+    function updateShape(v){
+      state.value = +v;
+      const p = pct(v);
+      const e = ease(p);
+      const narrowing = narrowingFor(v);
+
+      /* Lumen geometry */
+      const frontRx = lerp(17, 10.2, e);
+      const frontRy = lerp(54, 26, e);
+      frontLumen.setAttribute('rx', frontRx.toFixed(1));
+      frontLumen.setAttribute('ry', frontRy.toFixed(1));
+      backLumen.setAttribute('rx', frontRx.toFixed(1));
+      backLumen.setAttribute('ry', frontRy.toFixed(1));
+
+      const top    = lerp(270, 293, e);
+      const bottom = lerp(351, 336, e);
+      lumenBody.setAttribute('d', `M205,${top.toFixed(1)} C270,${(247+e*25).toFixed(1)} 610,${(247+e*18).toFixed(1)} 685,${top.toFixed(1)} L685,${bottom.toFixed(1)} C615,${(372-e*20).toFixed(1)} 270,${(372-e*12).toFixed(1)} 205,${bottom.toFixed(1)} Z`);
+
+      /* Plaque opacity and geometry */
+      plaqueMain.setAttribute('opacity', Math.max(0, p*1.15).toFixed(2));
+      crossPlaque.setAttribute('opacity', Math.max(0, p*1.15).toFixed(2));
+      crossCap.setAttribute('opacity', Math.max(0, p*1.15).toFixed(2));
+      if(crossCore){ crossCore.setAttribute('opacity', (v > 20 ? clamp((v-20)/35,0,1) * .92 : 0).toFixed(2)); }
+
+      const plaqueY     = lerp(332, 290, e);
+      const plaqueLeft  = lerp(250, 235, e);
+      const plaqueRight = lerp(667, 680, e);
+      const plaqueC1    = lerp(310, 305, e);
+      const plaqueC2    = lerp(545, 570, e);
+      plaqueShape.setAttribute('d', `M${plaqueLeft.toFixed(1)},${plaqueY.toFixed(1)} C${plaqueC1.toFixed(1)},${(350-e*52).toFixed(1)} 465,${(356-e*58).toFixed(1)} ${plaqueC2.toFixed(1)},${(347-e*37).toFixed(1)} C603,${(341-e*43).toFixed(1)} 638,${(323-e*32).toFixed(1)} ${plaqueRight.toFixed(1)},${(300-e*12).toFixed(1)} C647,${(312-e*13).toFixed(1)} 623,${(314-e*18).toFixed(1)} 600,${(311-e*18).toFixed(1)} C520,${(299-e*14).toFixed(1)} 424,${(292-e*11).toFixed(1)} 310,${(302-e*4).toFixed(1)} C284,${(304+e*4).toFixed(1)} 263,${(313+e*2).toFixed(1)} ${plaqueLeft.toFixed(1)},${plaqueY.toFixed(1)} Z`);
+      fibrousCap.setAttribute('d', `M252,${(328-e*28).toFixed(1)} C311,${(338-e*24).toFixed(1)} 462,${(344-e*26).toFixed(1)} 544,${(338-e*20).toFixed(1)} C603,${(334-e*20).toFixed(1)} 638,${(320-e*17).toFixed(1)} 665,${(300-e*8).toFixed(1)} C642,${(306-e*11).toFixed(1)} 621,${(304-e*12).toFixed(1)} 598,${(302-e*14).toFixed(1)} C520,${(291-e*8).toFixed(1)} 426,${(286-e*4).toFixed(1)} 309,${(294+e*1).toFixed(1)} C283,${(297+e*3).toFixed(1)} 264,${(308+e*1).toFixed(1)} 252,${(328-e*28).toFixed(1)} Z`);
+
+      /* Cross-section */
+      crossLumen.setAttribute('rx', lerp(86, 38, e).toFixed(1));
+      crossLumen.setAttribute('ry', lerp(62, 28, e).toFixed(1));
+
+      /* Progressive reveals */
+      calciumDots.setAttribute('opacity', (v >= 70 ? clamp((v-70)/20,0,1) : 0).toFixed(2));
+      if(lipidCore){ lipidCore.setAttribute('opacity', (v > 20 ? clamp((v-20)/35,0,1) * .92 : 0).toFixed(2)); }
+      if(apobParticles){ apobParticles.setAttribute('opacity', (v > 8 && v < 68 ? clamp((v-8)/25,0,1) * (state.exploded ? 1 : .82) : 0).toFixed(2)); }
+      if(entryZone){ entryZone.setAttribute('opacity', (state.exploded && v > 8 && v < 70 ? clamp((v-8)/18,0,1) : 0).toFixed(2)); }
+      if(endotheliumLine){ endotheliumLine.setAttribute('opacity', (state.exploded ? 1 : (v < 70 ? .88 : .55)).toFixed(2)); }
+      if(structureOverlay){ structureOverlay.setAttribute('opacity', (state.exploded && v > 8 ? 1 : 0).toFixed(2)); }
+      setProgressiveReveal('.foam-cell',      22, 16, 3.8, 1);
+      setProgressiveReveal('.apob-particle',   8, 14, 4.8, state.exploded ? 1 : .9);
+      setProgressiveReveal('.calcium-dot',    70, 14, 3.5, 1);
+
+      /* Labels */
+      calciumLabel.setAttribute('opacity',    (v >= 70 && state.showLabels ? 1 : 0).toFixed(2));
+      plaqueLabel.setAttribute('opacity',     (v > 10 && state.showLabels ? 1 : 0).toFixed(2));
+      capLabel.setAttribute('opacity',        (v > 40 && state.showLabels ? 1 : 0).toFixed(2));
+      coreLabel.setAttribute('opacity',       (v > 20 && state.showLabels ? 1 : 0).toFixed(2));
+      if(endotheliumLabel){ endotheliumLabel.setAttribute('opacity', (state.showLabels && (state.exploded || v <= 70) ? 1 : 0).toFixed(2)); }
+      if(apobLabel){ apobLabel.setAttribute('opacity', (state.showLabels && v > 8 && v < 68 ? 1 : 0).toFixed(2)); }
+      labelsGroup.setAttribute('opacity', state.showLabels ? '1' : '0');
+
+      /* Structure view transforms */
+      crossExploded.setAttribute('opacity', (state.exploded && v > 15 ? '1' : '0'));
+      crossLumen.setAttribute('opacity', state.exploded ? '.35' : '1');
+      crossPlaque.setAttribute('transform', state.exploded ? 'translate(-5,0)' : 'translate(0,0)');
+      plaqueShape.setAttribute('transform', state.exploded ? 'translate(-18,0)' : 'translate(0,0)');
+      fibrousCap.setAttribute('transform', state.exploded ? 'translate(6,-12)' : 'translate(0,0)');
+      if(lipidCore){ lipidCore.setAttribute('transform', state.exploded ? 'translate(-6,10)' : 'translate(0,0)'); }
+      if(crossCore){ crossCore.setAttribute('transform', state.exploded ? 'translate(6,4)' : 'translate(0,0)'); }
+      if(crossCap){ crossCap.setAttribute('transform', state.exploded ? 'translate(-4,-8)' : 'translate(0,0)'); }
+
+      /* Stage text and metrics */
+      const stage = stageFor(v);
+      stageText.textContent = stage.title;
+      HFAtlas.setSliderValueText(slider, slider.value, stage.title);
+      metricStage.textContent        = stage.short;
+      metricPlaqueNarrow.textContent = `${narrowing}%`;
+      metricApoB.textContent         = stage.apob;
+      metricLpa.textContent          = stage.lpa;
+      metricStructureView.textContent = state.exploded ? 'On' : 'Off';
+      stageHeadline.textContent = stage.title;
+      stageExplain.textContent  = stage.explain;
+      stageMeaning.textContent  = stage.meaning;
+      stageDiscuss.textContent  = stage.discuss;
+      stageLimits.textContent   = stage.limits;
+      if(compositionBlock){ compositionBlock.hidden = state.value < 5; }
+
+      renderParticles();
+    }
+
+    /* ── Playback ───────────────────────────────────────────────── */
+    function stopPlayback(){
+      state.playing = false;
+      playBtn.textContent = 'Play';
+      playBtn.setAttribute('aria-pressed','false');
+      if(state.playTimer){ window.clearInterval(state.playTimer); state.playTimer = null; }
+    }
+    function startPlayback(){
+      if(Number(slider.value) >= 100){ slider.value = '0'; updateShape(0); }
+      state.playing = true;
+      playBtn.textContent = 'Pause';
+      playBtn.setAttribute('aria-pressed','true');
+      if(state.playTimer){ window.clearInterval(state.playTimer); }
+      state.playTimer = window.setInterval(() => {
+        const next = Math.min(100, Number(slider.value) + 1);
+        slider.value = String(next);
+        updateShape(next);
+        if(next >= 100){ stopPlayback(); }
+      }, allowMotion ? 80 : 180);
+    }
+
+    /* ── Events ─────────────────────────────────────────────────── */
+    slider.addEventListener('input', e => { stopPlayback(); updateShape(e.target.value); });
+    playBtn.addEventListener('click', () => { state.playing ? stopPlayback() : startPlayback(); });
+    labelsBtn.addEventListener('click', () => {
+      state.showLabels = !state.showLabels;
+      labelsBtn.textContent = state.showLabels ? 'Labels on' : 'Labels off';
+      labelsBtn.setAttribute('aria-pressed', state.showLabels ? 'true' : 'false');
+      updateShape(slider.value);
+    });
+    explodeBtn.addEventListener('click', () => {
+      state.exploded = !state.exploded;
+      explodeBtn.setAttribute('aria-pressed', state.exploded ? 'true' : 'false');
+      metricStructureView.textContent = state.exploded ? 'On' : 'Off';
+      updateShape(slider.value);
+    });
+    resetBtn.addEventListener('click', () => {
+      stopPlayback();
+      slider.value = 0;
+      state.exploded = false;
+      explodeBtn.setAttribute('aria-pressed','false');
+      state.showLabels = true;
+      labelsBtn.textContent = 'Labels on';
+      labelsBtn.setAttribute('aria-pressed','true');
       updateShape(0);
-      setInterval(()=>{ if(!state.playing) renderParticles(); }, 120);
-    })();
+    });
+
+    /* ── Init ───────────────────────────────────────────────────── */
+    window.HFAtlas && HFAtlas.renderTopbar('topbarRoot');
+    window.HFAtlas && HFAtlas.buildSidebar('riskSidebar', window.location.pathname, { active:'plaque', baseHref:'../' });
+    window.HFAtlas && HFAtlas.renderFooter('atlasFooter');
+    window.HFAtlas && HFAtlas.initShellControls();
+    buildFoamCells();
+    buildApoBParticles();
+    buildCalcium();
+    initParticles();
+    updateShape(0);
+    if(allowMotion){ window.setInterval(() => { if(!state.playing) renderParticles(); }, 120); }
+  })();
   </script>
 </body>
 </html>
