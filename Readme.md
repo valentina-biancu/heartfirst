@@ -502,3 +502,17 @@ signal:'Amplifies valve risk', artery:'Linked artery pathway', valve:'Calcificat
 signal:'Compounded risk', artery:'Linked artery pathway', valve:'Linked valve pathway', family:'Helps family and loved ones plan next steps'
 
 
+---
+
+We need to upgrade both the Plaque and the Inflammation risk atlases 
+
+these were our first two attempts and probably now our weakest entries
+they are however the first two risk atlases so should be amongst the best, most compelling and engaging, grabbing readers and ensuring they want to go through other modules
+
+/lpa/risk-atlas may be one of our stronger modules and we wonder if you can use this as a 'template' or standard to elevate both the plaque and the inflammation modules. Alternatively, if you remember and prefer another module, let us know and we'll share it with you
+
+We're assuming you still have ready access to /lpa/risk-atlas and the existing plaque file is at /risks/plaque
+
+Please make the plaque risk atlas exemplary, premium, compelling
+
+Thanks in advance
