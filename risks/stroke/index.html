@@ -347,7 +347,7 @@
           max:100,
           title:'Emergency stroke pathway', short:'Emergency', flow:'Threatened', brain:'Emergency',
           explain:'At this point, emergency teams assess symptoms, timing, imaging, and treatment options. The atlas stops at urgent evaluation.',
-          meaning:'The educational message is simple: possible stroke symptoms are time-sensitive. Do not use this page to decide whether to wait.',
+          meaning:'The atlas stops here because stroke care is urgent, personal, and time-sensitive. The educational message is: do not wait to self-interpret possible stroke symptoms.',
           limits:'This stage is not a prediction and not a diagnostic image. It does not show what is happening in your body or what treatment you need.',
           discuss:'Create a clear emergency plan with your health team if you have known risk, prior TIA or stroke, symptoms, rhythm concerns, or multiple risk signals.'
         }
@@ -477,6 +477,7 @@
         metricFlow.textContent = stage.flow;
         metricBrain.textContent = stage.brain;
         metricDetail.textContent = state.detail ? 'On' : 'Off';
+        detailBtn.textContent = state.detail ? 'Stroke pathway view on' : 'Stroke pathway view off';        
         if(compositionBlock){ compositionBlock.hidden = state.value < 5; }
         HFAtlas.setSliderValueText(slider, Math.round(state.value), stage.title);
         renderParticles();
