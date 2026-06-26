@@ -1,46 +1,171 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="color-scheme" content="light dark" />
-  <link rel="canonical" href="https://heartfirst.shyntesy.com/risks/" />
-  <title>HeartFirst Risk Atlas — Risks</title>
-  <meta name="description" content="HeartFirst Risk Atlas: visual explainers for cardiovascular risk processes including plaque, inflammation, rupture, clot, cascade, heart attack, stroke, valve calcification, and aortic stenosis." />
-  <script src="./atlas.js"></script>
-  <link rel="stylesheet" href="./atlas.css" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="light dark" name="color-scheme"/>
+<link href="https://heartfirst.shyntesy.com/risks/" rel="canonical"/>
+<title>HeartFirst Risk Atlas — Visual Explainers for Connected Heart Risk</title>
+<meta content="Explore the HeartFirst Risk Atlas: visual explainers for connected cardiovascular risk processes including plaque, inflammation, rupture, clot, cascade, heart attack, stroke, valve calcification, and aortic stenosis." name="description"/>
+<meta content="index, follow, max-image-preview:large" name="robots"/>
+<meta content="HeartFirst by Shyntesy" name="author"/>
+<meta content="en_GB" property="og:locale"/>
+<meta content="HeartFirst by Shyntesy" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="HeartFirst Risk Atlas — Visual Explainers for Connected Heart Risk" property="og:title"/>
+<meta content="Plaque + inflammation → rupture → clot → events. Explore visual explainers for connected cardiovascular risk processes." property="og:description"/>
+<meta content="https://heartfirst.shyntesy.com/risks/" property="og:url"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="HeartFirst Risk Atlas — Connected Heart Risk Explained Visually" name="twitter:title"/>
+<meta content="Plaque + inflammation → rupture → clot → events. Explore visual explainers for connected cardiovascular risk." name="twitter:description"/>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://heartfirst.shyntesy.com/#organization",
+        "name": "HeartFirst by Shyntesy",
+        "url": "https://heartfirst.shyntesy.com/",
+        "sameAs": [
+          "https://x.com/HeartFirstNow",
+          "https://heartfirstnow.substack.com/"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://heartfirst.shyntesy.com/#website",
+        "name": "HeartFirst",
+        "url": "https://heartfirst.shyntesy.com/",
+        "publisher": { "@id": "https://heartfirst.shyntesy.com/#organization" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://heartfirst.shyntesy.com/risks/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "HeartFirst",
+            "item": "https://heartfirst.shyntesy.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Risk Atlas",
+            "item": "https://heartfirst.shyntesy.com/risks/"
+          }
+        ]
+      },
+      {
+        "@type": "CollectionPage",
+        "@id": "https://heartfirst.shyntesy.com/risks/#webpage",
+        "url": "https://heartfirst.shyntesy.com/risks/",
+        "name": "HeartFirst Risk Atlas",
+        "description": "Visual explainers for connected cardiovascular risk processes, including plaque, inflammation, rupture, clot, cascade, heart attack, stroke, valve calcification, and aortic stenosis.",
+        "isPartOf": { "@id": "https://heartfirst.shyntesy.com/#website" },
+        "publisher": { "@id": "https://heartfirst.shyntesy.com/#organization" },
+        "breadcrumb": { "@id": "https://heartfirst.shyntesy.com/risks/#breadcrumb" },
+        "about": [
+          "cardiovascular risk",
+          "plaque",
+          "inflammation",
+          "plaque rupture",
+          "blood clot",
+          "heart attack",
+          "stroke",
+          "aortic valve calcification",
+          "aortic stenosis",
+          "Lipoprotein(a)"
+        ],
+        "educationalUse": "Patient education",
+        "audience": {
+          "@type": "Audience",
+          "audienceType": "People seeking to understand hidden and incomplete heart risk"
+        },
+        "hasPart": { "@id": "https://heartfirst.shyntesy.com/risks/#risk-atlas-list" }
+      },
+      {
+        "@type": "ItemList",
+        "@id": "https://heartfirst.shyntesy.com/risks/#risk-atlas-list",
+        "name": "HeartFirst Risk Atlas modules",
+        "itemListOrder": "https://schema.org/ItemListOrderAscending",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Plaque", "url": "https://heartfirst.shyntesy.com/risks/plaque/" },
+          { "@type": "ListItem", "position": 2, "name": "Inflammation", "url": "https://heartfirst.shyntesy.com/risks/inflammation/" },
+          { "@type": "ListItem", "position": 3, "name": "Rupture", "url": "https://heartfirst.shyntesy.com/risks/rupture/" },
+          { "@type": "ListItem", "position": 4, "name": "Clot", "url": "https://heartfirst.shyntesy.com/risks/clot/" },
+          { "@type": "ListItem", "position": 5, "name": "Cascade", "url": "https://heartfirst.shyntesy.com/risks/cascade/" },
+          { "@type": "ListItem", "position": 6, "name": "Heart attack", "url": "https://heartfirst.shyntesy.com/risks/heart-attack/" },
+          { "@type": "ListItem", "position": 7, "name": "Stroke", "url": "https://heartfirst.shyntesy.com/risks/stroke/" },
+          { "@type": "ListItem", "position": 8, "name": "Valve calcification", "url": "https://heartfirst.shyntesy.com/risks/valve-calcification/" },
+          { "@type": "ListItem", "position": 9, "name": "Aortic stenosis", "url": "https://heartfirst.shyntesy.com/risks/aortic-stenosis/" },
+          { "@type": "ListItem", "position": 10, "name": "Lp(a) Risk Atlas", "url": "https://heartfirst.shyntesy.com/lpa/risk-atlas/" }
+        ]
+      }
+    ]
+  }
+  </script>
+<script src="./atlas.js"></script>
+<link href="./atlas.css" rel="stylesheet"/>
+<style>
+    .atlas-index-aside a{
+      color:inherit;
+      font-weight:800;
+      text-decoration:underline;
+      text-underline-offset:.18em;
+      text-decoration-thickness:.06em;
+    }
+    .atlas-index-aside a:hover{
+      color:var(--gold);
+      text-decoration-thickness:.1em;
+    }
+    .atlas-index-scope-note{
+      grid-column:1 / -1;
+      margin-top:18px;
+      padding:16px 18px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.025);
+      color:var(--muted);
+      font-size:.92rem;
+      line-height:1.55;
+    }
+    .atlas-index-scope-note strong{
+      color:var(--text);
+    }
+    html[data-theme="light"] .atlas-index-scope-note{
+      background:rgba(13,34,54,.035);
+      border-color:rgba(13,34,54,.10);
+    }
+  </style>
 </head>
 <body data-atlas-topic="Risks explorer">
-  <a class="skip-link" href="#main">Skip to main content</a>
-  <header id="topbarRoot" class="topbar" aria-label="Site header"></header>
-  <main id="main" class="page">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="https://heartfirst.shyntesy.com/">HeartFirst</a><span class="sep">›</span><span>Risks</span></nav>
-    <section class="hero atlas-index-hero" aria-labelledby="hero-h">
-      <div class="hero-card">
-        <div class="kicker">Risk Atlas</div>
-        <h1 id="hero-h">Visual explainers for hidden and incomplete heart risk</h1>
-        <p class="hero-sub">The Risk Atlas shows one cardiovascular risk process at a time, then links processes through risk pathways to help you understand how these risks interact, and to enable informed conversations with your health team and family.</p>
-      </div>
-    </section>
-    <section class="atlas-index-grid" aria-label="Risk Atlas index">
-      <aside id="riskSidebar" class="nav-card" aria-labelledby="nav-h"></aside>
-      <aside class="scope-card atlas-index-aside" aria-labelledby="index-start-h">
-        <h2 id="index-start-h" class="scope-title">Suggested path</h2>
-        <ul class="scope-list">
-          <li>Start with Plaque to understand this foundational risk.</li>
-          <li>Continue to Inflammation for biological risk activity around the artery wall.</li>
-          <li>Continue to Rupture to see how a plaque cap can fail.</li>
-          <li>Continue to Clot to see how blood can react at a rupture site and reduce flow.</li>
-          <li>Continue to Cascade to see how plaque, inflammation, rupture, and clot can connect in an event pathway.</li>
-          <li>Continue to Heart attack to see how blocked coronary blood flow can threaten heart muscle.</li>
-          <li>Continue to Stroke to see how blocked brain blood flow can become an emergency pathway.</li>
-          <li>Continue to Valve calcification to see how calcium can build up on the aortic valve leaflets.</li>
-          <li>Continue to Aortic stenosis to see how a narrowed valve can increase pressure load and strain the heart.</li>
-        </ul>
-      </aside>
-    </section>
-  </main>
-  <footer id="atlasFooter" class="footer atlas-index-footer"></footer>
-  <script>window.HFAtlas && HFAtlas.renderTopbar("topbarRoot"); window.HFAtlas && HFAtlas.buildSidebar("riskSidebar", window.location.pathname, { baseHref:"./" }); window.HFAtlas && HFAtlas.renderFooter("atlasFooter"); window.HFAtlas && HFAtlas.initShellControls();</script>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header aria-label="Site header" class="topbar" id="topbarRoot"></header>
+<main class="page" id="main">
+<nav aria-label="Breadcrumb" class="crumbs"><a href="https://heartfirst.shyntesy.com/">HeartFirst</a><span class="sep">›</span><span aria-current="page">Risks</span></nav>
+<section aria-labelledby="hero-h" class="hero atlas-index-hero">
+<div class="hero-card">
+<div class="kicker">Risk Atlas</div>
+<h1 id="hero-h">Visual explainers for hidden and incomplete heart risk</h1>
+<p class="hero-sub">The Risk Atlas shows one cardiovascular risk process at a time, then links processes through risk pathways to help you understand how these risks interact, and to enable informed conversations with your health team and family.</p>
+</div>
+</section>
+<section aria-label="Risk Atlas index" class="atlas-index-grid">
+<aside aria-labelledby="nav-h" class="nav-card" id="riskSidebar"></aside>
+<aside aria-labelledby="index-start-h" class="scope-card atlas-index-aside">
+<h2 class="scope-title" id="index-start-h">Suggested path</h2>
+<ul class="scope-list"><li><a href="./plaque/">Start with Plaque</a> to understand this foundational risk.</li><li><a href="./inflammation/">Continue to Inflammation</a> for biological risk activity around the artery wall.</li><li><a href="./rupture/">Continue to Rupture</a> to see how a plaque cap can fail.</li><li><a href="./clot/">Continue to Clot</a> to see how blood can react at a rupture site and reduce flow.</li><li><a href="./cascade/">Continue to Cascade</a> to see how plaque, inflammation, rupture, and clot can connect in an event pathway.</li><li><a href="./heart-attack/">Continue to Heart attack</a> to see how blocked coronary blood flow can threaten heart muscle.</li><li><a href="./stroke/">Continue to Stroke</a> to see how blocked brain blood flow can become an emergency pathway.</li><li><a href="./valve-calcification/">Continue to Valve calcification</a> to see how calcium can build up on the aortic valve leaflets.</li><li><a href="./aortic-stenosis/">Continue to Aortic stenosis</a> to see how a narrowed valve can increase pressure load and strain the heart.</li></ul>
+</aside>
+<aside class="atlas-index-scope-note" aria-labelledby="education-scope-h">
+<h2 class="sr-only" id="education-scope-h">Educational scope</h2>
+<strong>Educational scope:</strong> these visual explainers do not diagnose, predict, or treat any condition. They are designed to clarify risk pathways and prepare better health team conversations. The <a href="../lpa/risk-atlas/">Lp(a) Risk Atlas</a> sits separately as a cross-cutting inherited risk signal.
+</aside>
+</section>
+</main>
+<footer class="footer atlas-index-footer" id="atlasFooter"></footer>
+<script>window.HFAtlas && HFAtlas.renderTopbar("topbarRoot"); window.HFAtlas && HFAtlas.buildSidebar("riskSidebar", window.location.pathname, { baseHref:"./" }); window.HFAtlas && HFAtlas.renderFooter("atlasFooter"); window.HFAtlas && HFAtlas.initShellControls();</script>
 </body>
 </html>
