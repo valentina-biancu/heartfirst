@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heart Context Snapshot — HeartFirst</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ---------- VARIABLES ---------- */
+    :root {
+      --bg-body: #f7f5f0;
+      --bg-page: #ffffff;
+      --text-primary: #111827;
+      --brand-blue: #183a8a;
+      --brand-teal: #0f8b8d;
+      --brand-red: #c93a3f;
+      --border-line: #d9dde3;
+      --soft-bg: #eef2f5;
+      --soft-bg-2: #f5f8fa;
+      --grad-start: #f8fbfc;
+      --grad-end: #eef5f7;
+      --flow-bg: #fafcfd;
+      --flow-end: #f3f7f9;
+      --note-bg: #fff8f8;
+      --cta-start: #f7fbfc;
+      --cta-end: #eef6f7;
+      --page-width: 210mm;
+      --page-height: 297mm;
+      --page-pad-x: 16mm;
+      --page-pad-y: 14mm;
+      --radius: 10px;
+    }
+    [data-theme="dark"] {
+      --bg-body: #121212;
+      --bg-page: #1e1e1e;
+      --text-primary: #f9fafb;
+      --brand-blue: #5a9cff;
+      --brand-teal: #2dd4bf;
+      --brand-red: #f87171;
+      --border-line: #4b5563;
+      --soft-bg: #2a2a2a;
+      --soft-bg-2: #2f2f2f;
+      --grad-start: #252525;
+      --grad-end: #1f1f1f;
+      --flow-bg: #262626;
+      --flow-end: #222222;
+      --note-bg: #2c2424;
+      --cta-start: #1e2a2b;
+      --cta-end: #172527;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.35;
+      font-size: 10.5pt;
+      color: var(--text-primary);
+      background-color: var(--bg-body);
+      transition: background 0.2s, color 0.2s;
+    }
+
+    /* Toolbar (screen only) - desktop base */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-page);
+      border-bottom: 1px solid var(--border-line);
+      padding: 0.5rem 1rem;
+      display: flex;
+      justify-content: flex-start;  /* changed from flex-end to left-align brand */
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .toolbar-brand {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--brand-teal);
+      letter-spacing: 0.02em;
+      margin-right: auto;           /* pushes buttons to the right */
+      white-space: nowrap;
+    }
+    .toolbar button, .toolbar a {
+      background: var(--soft-bg);
+      border: 1px solid var(--border-line);
+      border-radius: 30px;
+      padding: 0.4rem 1rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: 0.2s;
+      white-space: nowrap;
+    }
+    .toolbar button:hover, .toolbar a:hover {
+      background: var(--soft-bg-2);
+      transform: translateY(-1px);
+    }
+
+    /* ---------- PAGE LAYOUT ---------- */
+    .document { width: 100%; }
+    .page {
+      width: var(--page-width);
+      min-height: var(--page-height);
+      margin: 10mm auto;
+      background: var(--bg-page);
+      padding: var(--page-pad-y) var(--page-pad-x) 18mm;
+      position: relative;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+      page-break-after: always;
+      break-after: page;
+      background-image:
+        radial-gradient(circle at top right, rgba(15,139,141,0.05), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(24,58,138,0.04), transparent 32%);
+    }
+    [data-theme="dark"] .page {
+      background-image:
+        radial-gradient(circle at top right, rgba(45,212,191,0.08), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(90,156,255,0.06), transparent 32%);
+    }
+    .page:last-child {
+      page-break-after: auto;
+      break-after: auto;
+    }
+
+    .top-rule {
+      width: 82px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--brand-red) 0%, var(--brand-teal) 100%);
+      border-radius: 999px;
+      margin: 0 0 8mm 0;
+    }
+    @media print {
+      .top-rule {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      h1 {
+        color: #0f8b8d !important;
+      }
+    }
+
+    /* Typography – centre headings, left body text */
+    .eyebrow {
+      font-size: 10pt;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--brand-blue);
+      margin-bottom: 4mm;
+      text-align: center;
+    }
+    h1 {
+      font-size: 26pt;
+      line-height: 1.06;
+      margin-bottom: 3mm;
+      color: var(--brand-teal);
+      text-align: center;
+    }
+    h2 {
+      font-size: 20pt;
+      line-height: 1.12;
+      margin-bottom: 4mm;
+      color: var(--brand-teal);
+      text-align: center;
+    }
+    h3 {
+      font-size: 12.5pt;
+      line-height: 1.2;
+      margin-bottom: 2.5mm;
+      color: var(--text-primary);
+      text-align: center;
+    }
+    .subtitle {
+      font-size: 11.5pt;
+      color: var(--text-primary);
+      margin-bottom: 6mm;
+      text-align: center;
+    }
+    .lede {
+      font-size: 11.5pt;
+      color: var(--text-primary);
+      max-width: 60ch;
+      margin: 0 auto 5mm auto;
+      text-align: center;
+    }
+    p, li, .prompt, .anchor-note, .flow-caption {
+      font-size: 10.6pt;
+      line-height: 1.35;
+      color: var(--text-primary);
+      text-align: left;
+    }
+    .box, .anchor-box, .field-group, .flow-bridge, .next-action, .cta-box, .note-box {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .box {
+      background: var(--soft-bg);
+      border-left: 4px solid var(--brand-teal);
+      border-radius: var(--radius);
+      padding: 4.5mm 5mm;
+      margin: 4.5mm auto;
+      max-width: 60ch;
+    }
+    .anchor-box {
+      background: linear-gradient(180deg, var(--grad-start) 0%, var(--grad-end) 100%);
+      border: 1px solid var(--border-line);
+      border-left: 4px solid var(--brand-blue);
+      border-radius: var(--radius);
+      padding: 4.5mm 5mm;
+      margin: 4.5mm auto;
+      max-width: 60ch;
+    }
+    .anchor-title {
+      font-weight: 700;
+      margin-bottom: 1.5mm;
+      color: var(--text-primary);
+      text-align: center;
+    }
+    .flow-bridge {
+      background: linear-gradient(180deg, var(--flow-bg) 0%, var(--flow-end) 100%);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius);
+      padding: 5mm;
+      margin: 6mm auto;
+      width: 90%;
+      text-align: center;
+    }
+    .flow-eyebrow {
+      color: var(--brand-teal);
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 2mm;
+      text-align: center;
+    }
+    .flow-mini {
+      display: flex;
+      justify-content: center;
+      gap: 3mm;
+      flex-wrap: wrap;
+      margin: 2mm 0;
+    }
+    .flow-pill {
+      background: var(--bg-page);
+      border: 1px solid var(--border-line);
+      border-radius: 999px;
+      padding: 2mm 4mm;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .flow-arrow {
+      font-size: 11pt;
+      color: var(--text-primary);
+    }
+    .flow-caption {
+      text-align: center;
+      margin-top: 3mm;
+    }
+    .field-group {
+      background: var(--bg-page);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius);
+      padding: 4mm;
+      margin-bottom: 4mm;
+    }
+    .mini-label {
+      font-size: 9pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--brand-blue);
+      margin-bottom: 2mm;
+      text-align: left;
+    }
+    .grid-2, .snapshot-grid, .two-col-questions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4mm;
+      margin: 4.5mm auto;
+      max-width: 64ch;
+    }
+    .spaced-list {
+      list-style: none;
+      margin: 1.5mm 0 0 0;
+      padding-left: 0;
+    }
+    .spaced-list li {
+      margin-bottom: 2mm;
+      padding-left: 5mm;
+      position: relative;
+      text-align: left;
+    }
+    .spaced-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--brand-teal);
+    }
+    .simple-list {
+      list-style: none;
+      margin: 1.5mm 0 0 0;
+      padding-left: 5mm;
+    }
+    .simple-list li {
+      margin-bottom: 2mm;
+      text-align: left;
+    }
+    .micro-progress {
+      background: #fbfcfd;
+      border: 1px solid var(--border-line);
+      border-radius: 999px;
+      padding: 2.5mm 4mm;
+      font-size: 9.5pt;
+      color: var(--text-primary);
+      display: inline-block;
+      margin: 1mm auto 5mm;
+      text-align: center;
+    }
+    .next-action {
+      background: var(--soft-bg-2);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius);
+      padding: 4.5mm;
+      margin: 4.5mm auto;
+      max-width: 60ch;
+    }
+    .cta-box {
+      background: linear-gradient(180deg, var(--cta-start) 0%, var(--cta-end) 100%);
+      border: 1px solid var(--border-line);
+      border-left: 4px solid var(--brand-blue);
+      border-radius: var(--radius);
+      padding: 5mm;
+      margin: 4.5mm auto;
+      max-width: 60ch;
+      text-align: center;
+    }
+    .note-box {
+      background: var(--note-bg);
+      border-left-color: var(--brand-red);
+    }
+    .cta-link {
+      color: var(--brand-blue);
+      text-decoration: none;
+      font-weight: 700;
+      border-bottom: 1px solid transparent;
+      transition: 0.2s;
+    }
+    .cta-link:hover {
+      border-bottom-color: var(--brand-blue);
+    }
+    .footer-mark, .page-number {
+      position: absolute;
+      bottom: 8mm;
+      font-size: 9pt;
+      color: var(--text-primary);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .page-number { right: 16mm; }
+    .footer-mark { left: 16mm; }
+
+    /* Fill-area (white background, pure black text) */
+    .fill-area {
+      background-color: #ffffff;
+    }
+    .fill-area, .fill-area p, .fill-area .prompt, .fill-area .prompt strong, .fill-area h3, .fill-area .mini-label, .fill-area .example-text, .fill-area .prompt * {
+      color: #000000 !important;
+    }
+    [data-theme="dark"] .fill-area, [data-theme="dark"] .fill-area p, [data-theme="dark"] .fill-area .prompt, [data-theme="dark"] .fill-area .prompt strong, [data-theme="dark"] .fill-area h3, [data-theme="dark"] .fill-area .mini-label, [data-theme="dark"] .fill-area .example-text, [data-theme="dark"] .fill-area .prompt * {
+      color: #000000 !important;
+      background-color: #ffffff !important;
+    }
+    .fill-area .line {
+      border-bottom-color: #bfc6cf;
+    }
+    [data-theme="dark"] .fill-area .line {
+      border-bottom-color: #9ca3af;
+    }
+
+    .known-section, .unknown-section {
+      background: transparent;
+    }
+    .unknown-section {
+      border-left: 2px dashed #6b7280;
+      padding-left: 3mm;
+      margin-top: 2mm;
+    }
+    .lines { margin-top: 1.6mm; }
+    .line {
+      height: 6.1mm;
+      border-bottom: 1px solid #bfc6cf;
+      margin-bottom: 1.6mm;
+    }
+    .line.tight {
+      height: 5.2mm;
+      margin-bottom: 1.4mm;
+    }
+
+    /* ---------- MOBILE-ONLY STYLES ---------- */
+    .hamburger-btn {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      /* --- Toolbar: hamburger layout --- */
+      .toolbar {
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0.75rem;
+        flex-wrap: nowrap;
+        position: relative;
+      }
+      .toolbar-brand {
+        margin-right: 0;
+      }
+      /* Hide all toolbar items by default on mobile */
+      .toolbar-items {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        left: 0;
+        background: var(--bg-page);
+        border-bottom: 1px solid var(--border-line);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        padding: 0.5rem 0.75rem 0.75rem;
+        gap: 0.5rem;
+        z-index: 200;
+      }
+      .toolbar-items.open {
+        display: flex;
+      }
+      .toolbar-items button,
+      .toolbar-items a {
+        width: 100%;
+        text-align: left;
+        justify-content: flex-start;
+        border-radius: 8px;
+        padding: 0.55rem 1rem;
+        font-size: 0.85rem;
+      }
+
+      /* Show hamburger button on mobile */
+      .hamburger-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--soft-bg);
+        border: 1px solid var(--border-line);
+        border-radius: 8px;
+        padding: 0.45rem 0.65rem;
+        cursor: pointer;
+        font-size: 1rem;
+        color: var(--text-primary);
+        line-height: 1;
+        transition: 0.2s;
+        flex-shrink: 0;
+      }
+      .hamburger-btn:hover {
+        background: var(--soft-bg-2);
+      }
+
+      /* --- Page: full-width, no fixed mm sizing --- */
+      .page {
+        width: 100%;
+        min-height: unset;
+        margin: 0 0 6px 0;
+        padding: 6vw 5vw 14vw;
+        box-shadow: none;
+        border-radius: 0;
+      }
+
+      /* --- Typography scale-down --- */
+      h1 { font-size: 20pt; }
+      h2 { font-size: 16pt; }
+      h3 { font-size: 11pt; }
+      .lede { font-size: 10.5pt; max-width: 100%; }
+      .subtitle { font-size: 10.5pt; }
+      .eyebrow { font-size: 9pt; }
+
+      /* --- All 2-column grids → single column --- */
+      .grid-2,
+      .snapshot-grid,
+      .two-col-questions {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+      }
+
+      /* --- Constrain wide boxes --- */
+      .box,
+      .anchor-box,
+      .next-action,
+      .cta-box,
+      .flow-bridge {
+        max-width: 100%;
+        width: 100%;
+      }
+
+      /* --- Flow bridge pills: wrap nicely --- */
+      .flow-mini {
+        gap: 2mm;
+      }
+      .flow-pill {
+        font-size: 9pt;
+        padding: 1.5mm 3mm;
+      }
+
+      /* --- Footer positioning: relative on mobile to avoid overlap --- */
+      .footer-mark,
+      .page-number {
+        position: relative;
+        bottom: unset;
+        left: unset;
+        right: unset;
+        display: inline-block;
+        margin-top: 6vw;
+      }
+      .footer-mark {
+        margin-right: 1rem;
+      }
+
+      /* --- Top rule spacing --- */
+      .top-rule {
+        margin: 0 0 5vw 0;
+      }
+
+      /* --- Lines: slightly taller for easier finger-writing on print --- */
+      .line {
+        height: 7mm;
+      }
+      .line.tight {
+        height: 6mm;
+      }
+    }
+
+    /* PRINT – force black text except h1 and top rule, white backgrounds */
+    @media print {
+      .toolbar { display: none; }
+      body, .page {
+        background: white;
+        margin: 0;
+        padding: 0;
+      }
+      .page {
+        box-shadow: none;
+        page-break-after: always;
+        break-after: page;
+        margin: 0;
+        padding: 1.2cm;
+        background: white;
+        background-image: none;
+      }
+      body, .page, p, li, h2, h3, h4, .eyebrow, .subtitle, .lede, .mini-label, .anchor-title, .anchor-note, .flow-caption, .flow-pill, .flow-arrow, .footer-mark, .page-number, .spaced-list li, .simple-list li, .prompt, .micro-progress, .cta-box p, .note-box p {
+        color: #000000 !important;
+      }
+      h1 {
+        color: #0f8b8d !important;
+      }
+      .top-rule {
+        background: linear-gradient(90deg, #c93a3f, #0f8b8d);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      a, .cta-link {
+        color: black !important;
+        text-decoration: none;
+      }
+      .grid-2, .snapshot-grid, .two-col-questions {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 4mm;
+      }
+      .fill-area, .fill-area * {
+        background: white !important;
+        color: #000000 !important;
+      }
+      .fill-area .line {
+        border-bottom-color: #000 !important;
+      }
+    }
+    @page {
+      size: A4;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+<div class="toolbar">
+  <span class="toolbar-brand">HeartFirst</span>
+  <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
+    <i class="fas fa-bars"></i>
+  </button>
+  <div class="toolbar-items" id="toolbarItems">
+    <button onclick="window.print()"><i class="fas fa-print"></i> Print / Save as PDF</button>
+    <a href="snapshot.pdf" download style="background: var(--soft-bg); border: 1px solid var(--border-line); border-radius: 30px; padding: 0.4rem 1rem; text-decoration: none; color: var(--text-primary); font-size: 0.8rem; font-weight: 500; display: inline-flex; align-items: center; gap: 0.3rem;">
+      <i class="fas fa-download"></i> Download PDF
+    </a>
+    <a href="https://shyntesy.com"><i class="fas fa-home"></i> To HeartFirst</a>
+    <button id="themeToggle"><i class="fas fa-moon"></i> Dark mode</button>
+  </div>
+</div>
+
+<div class="document">
+  <!-- PAGE 1 -->
+  <div class="page">
+    <div class="top-rule"></div>
+    <div class="eyebrow">72-Hour Heart Risk Stabilizer System</div>
+    <h1>Heart Context Snapshot</h1>
+    <div class="subtitle" style="font-style: italic; font-weight: 500;">Starter tool for your next cardiovascular risk reduction action</div>
+    <div class="lede">
+      This is a simple way to begin. It helps you capture what you already know, identify what is missing or unclear, prepare for a more focused conversation with your health team, and decide one clear next action.
+    </div>
+    <div class="box">
+      <h3>How to use this tool</h3>
+      <ul class="spaced-list">
+        <li><strong>Record facts,</strong> not guesses</li>
+        <li>If you have results, include <strong>value + unit + date</strong></li>
+        <li>Mark items as <strong>Known</strong> or <strong>Unknown</strong></li>
+        <li>Add <strong>To discuss</strong> where needed</li>
+        <li>Focus on one <strong>Next action</strong>, not everything at once</li>
+      </ul>
+    </div>
+    <div class="grid-2">
+      <div class="field-group">
+        <div class="mini-label">What this tool helps you do</div>
+        <p>Start from where you are, not from where you think you should be.</p>
+        <p>Use this snapshot to record what you know and don't know, work through your risks with your health team, and take the next clear action.</p>
+      </div>
+      <div class="field-group">
+        <div class="mini-label">What it does not do</div>
+        <p>This is not a medical tool: it is an education, heart risk organization, and risk reduction tool.</p>
+        <p>It does not diagnose, prescribe, or replace your health team. It also does not encourage worry, fear, inaction, overreaction, or panic.</p>
+      </div>
+    </div>
+    <div class="flow-bridge">
+      <div class="flow-eyebrow">This tool uses one simple process</div>
+      <div class="flow-mini">
+        <span class="flow-pill">Known or Unknown</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-pill">To discuss</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-pill">Next action</span>
+      </div>
+      <div class="flow-caption">Capture known and unknown risks. Prepare the discussion. Agree on the best next action.</div>
+    </div>
+    <div class="anchor-box">
+      <div class="anchor-note" style="text-align: center;">You do not need to figure everything out today</div>
+      <div class="anchor-title" style="margin-top: 3mm;">You do need a starting point you can trust</div>
+    </div>
+    <div class="footer-mark">Heart Context Snapshot</div>
+    <div class="page-number">1</div>
+  </div>
+
+  <!-- PAGE 2 (corrected – fewer lines to prevent print overflow) -->
+  <div class="page">
+    <div class="top-rule"></div>
+    <div class="eyebrow">Your Snapshot</div>
+    <h2>Your Heart Context Snapshot</h2>
+    <p class="lede">Use this page to map what you know, what you do not know, <br>and what to discuss with your health team.</p>
+    <div class="snapshot-grid">
+      <div class="field-group fill-area">
+        <h3>1. Test results I have</h3>
+        <p class="prompt"><strong>Question:</strong> What are your most recent lab or blood pressure results?<br>
+        <span class="example-text"><em>Example:</em> “LDL 110 mg/dL, March 2025” or “BP 128/82, last week”</span></p>
+        <div class="known-section"><div class="mini-label">Known</div><div class="lines"><div class="line"></div><div class="line"></div></div></div>
+        <div class="unknown-section"><div class="mini-label">Unknown</div><div class="lines"><div class="line tight"></div></div></div>
+        <div class="mini-label">To discuss</div><div class="lines"><div class="line tight"></div></div>
+      </div>
+      <div class="field-group fill-area">
+        <h3>2. Family history I know</h3>
+        <p class="prompt"><strong>Question:</strong> Has a family member (parent, sibling, child) had early heart attack or stroke?<br>
+        <span class="example-text"><em>Example:</em> “Father had heart attack at 52”</span></p>
+        <div class="known-section"><div class="mini-label">Known</div><div class="lines"><div class="line"></div><div class="line"></div></div></div>
+        <div class="unknown-section"><div class="mini-label">Unknown</div><div class="lines"><div class="line tight"></div></div></div>
+        <div class="mini-label">To discuss</div><div class="lines"><div class="line tight"></div></div>
+      </div>
+      <div class="field-group fill-area">
+        <h3>3. Diagnoses or concerns already raised</h3>
+        <p class="prompt"><strong>Question:</strong> What cardiovascular or related conditions have you been told you have?<br>
+        <span class="example-text"><em>Example:</em> “High blood pressure”, “Borderline diabetes”</span></p>
+        <div class="known-section"><div class="mini-label">Known</div><div class="lines"><div class="line tight"></div></div></div>
+        <div class="unknown-section"><div class="mini-label">Unknown</div><div class="lines"><div class="line tight"></div></div></div>
+        <div class="mini-label">To discuss</div><div class="lines"><div class="line tight"></div></div>
+      </div>
+      <div class="field-group fill-area">
+        <h3>4. What has not been measured or is unclear</h3>
+        <p class="prompt"><strong>Question:</strong> Which tests have you not had, or results are missing?<br>
+        <span class="example-text"><em>Example:</em> “Lp(a) never tested”, “Don’t know my ApoB”</span></p>
+        <div class="unknown-section"><div class="mini-label">Unknown</div><div class="lines"><div class="line"></div></div></div>
+        <div class="mini-label">To discuss</div><div class="lines"><div class="line tight"></div><div class="line tight"></div></div>
+      </div>
+    </div>
+    <div class="anchor-box">
+      <div class="anchor-title">Record what is known and unknown. Discuss what matters. <br>Agree on the best next action.</div>
+    </div>
+    <div class="footer-mark">Heart Context Snapshot</div>
+    <div class="page-number">2</div>
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="page">
+    <div class="top-rule"></div>
+    <div class="eyebrow">Prepare to Act</div>
+    <h2>Prepare your next conversation and action</h2>
+    <p class="lede">You don’t need bad information. <br>You need the right answer to take the next right action.</p>
+
+    <div class="two-col-questions">
+      <div class="field-group fill-area">
+        <h3>1. The answer I need now</h3>
+        <p class="prompt"><strong>Question:</strong> What's the single most important thing I need to know about my heart risk?
+        <span class="example-text"><em>Example:</em> “Whether my ApoB, Lp(a), or LDL-P levels are high” or “How my blood pressure affects my long‑term risk”</span></p>
+        <div class="lines"><div class="line"></div><div class="line"></div></div>
+      </div>
+      <div class="field-group fill-area">
+        <h3>2. The action to take now</h3>
+        <p class="prompt"><strong>Action:</strong> What's the best action I can take now to reduce my risk?
+        <span class="example-text"><em>Example:</em>  “Get Lp(a), ApoB, or LDL‑P tested”, “Quit smoking“, “Reduce alcohol”, “Start exercising or move more by walking, dancing, or biking”</span></p>
+        <div class="lines"><div class="line"></div><div class="line"></div></div>
+      </div>
+    </div>
+    <div class="two-col-questions">
+      <div class="field-group fill-area">
+        <h3>3. Is my action working?</h3>
+        <p class="prompt"><strong>Measure:</strong> What do I measure and observe to see if my action is reducing my risk?
+        <span class="example-text"><em>Example:</em> “Repeat blood test regularly”, “Track blood pressure reading”, “Monitor exercise intensity or sleep quality”, “Log sleep hours“</span></p>
+        <div class="lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+      </div>
+      <div class="field-group fill-area">
+        <h3>4. Momentum is habit</h3>
+        <p class="prompt"><strong>Habit:</strong> What habits should I be changing to reduce my risk of heart attack or stroke?
+        <span class="example-text"><em>Example:</em> “Follow‑up with my health team”, “Share information or results with my family”, “Follow the 72‑hour Heart Risk Stabilizer System”</span></p>
+        <div class="lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+      </div>
+    </div>
+
+    <div class="next-action fill-area">
+      <h3>Your next action is for life</h3>
+      <p>Turn understanding of your heart risks into lifelong prevention.</p> 
+      <p style="margin-top: 3mm;">Repeat this simple process regularly to stay on top of your heart risk.</p>
+      <div class="mini-label" style="margin-top: 3mm;">⚠️ Your next action may be the most important in your life.</div>
+    </div>
+    <div class="footer-mark">Heart Context Snapshot</div>
+    <div class="page-number">3</div>
+  </div>
+
+  <!-- PAGE 4 -->
+  <div class="page">
+    <div class="top-rule"></div>
+    <div class="eyebrow">Live healthier for longer</div>
+    <h1>Heart Health System</h1>
+    <div class="subtitle">Your repeatable process for lifelong risk reduction</div>
+    <div class="lede">
+      You now have a clear starting point, a structured snapshot, and a defined next action. This system is repeatable because heart risk management is not a one‑time event.
+    </div>
+
+    <div class="box">
+      <h3>How to reduce heart attack and stroke risk</h3>
+      <ul class="spaced-list">
+        <li><strong>Know your risk picture</strong>: not just standard cholesterol</li>
+        <li><strong>Take the right action</strong>: based on the right questions and answers</li>
+        <li><strong>Measure risks that matter</strong>: blood pressure, Lp(a), ApoB, LDL-P</li>
+        <li><strong>Build habits that protect you</strong>: movement, sleep, food, follow‑ups</li>
+        <li><strong>Repeat the process</strong>: because risks change over time</li>
+      </ul>
+    </div>
+
+    <div class="grid-2">
+      <div class="field-group">
+        <div class="mini-label">What you now have</div>
+        <ul class="spaced-list" style="margin-top: 0;">
+          <li>a clear starting point</li>
+          <li>a structured snapshot</li>
+          <li>one defined next action</li>
+          <li>ways to keep reducing cardiovascular risk, step by step</li>
+        </ul>
+      </div>
+      <div class="field-group">
+        <div class="mini-label">What you may notice soon</div>
+        <ul class="simple-list" style="margin-top: 0;">
+          <li>New questions may arise: this is progress</li>
+          <li>Some gaps become clearer: get the right answers to fill them</li>
+          <li>Priorities start to shift: reducing your risk remains constant</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note-box box">
+      <h3>The 72‑Hour Heart Risk Stabilizer System</h3>
+      <p>The <strong>HeartFirst Manual + Toolkit</strong> expands this snapshot into a structured 72‑hour system. It helps you prioritize what matters, prepare effective conversations with your health team, avoid early mistakes, and build a clearer path to heart health.</p>
+    </div>
+
+    <div class="cta-box">
+      <h3>Go further with the full system</h3>
+      <p>You’ve taken the first step. Get the complete system and ongoing support to reduce your heart attack and stroke risk for life. Learn more here:</p>
+      <p style="text-align: center;"><a class="cta-link" href="https://shyntesy.com">https://shyntesy.com</a></p>
+      <p style="text-align: center; margin-top: 3mm;"><strong>Clarity begins here</strong></p>
+    </div>
+
+    <div class="footer-mark">Heart Context Snapshot</div>
+    <div class="page-number">4</div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // --- Theme toggle ---
+    const toggle = document.getElementById('themeToggle');
+    const root = document.documentElement;
+    const saved = localStorage.getItem('snapshotTheme') || 'light';
+    root.setAttribute('data-theme', saved);
+    if (toggle) {
+      const icon = toggle.querySelector('i');
+      if (saved === 'dark') {
+        icon.className = 'fas fa-sun';
+        toggle.innerHTML = '<i class="fas fa-sun"></i> Light mode';
+      } else {
+        icon.className = 'fas fa-moon';
+        toggle.innerHTML = '<i class="fas fa-moon"></i> Dark mode';
+      }
+      toggle.addEventListener('click', () => {
+        const cur = root.getAttribute('data-theme');
+        const nxt = cur === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', nxt);
+        localStorage.setItem('snapshotTheme', nxt);
+        if (nxt === 'dark') {
+          toggle.innerHTML = '<i class="fas fa-sun"></i> Light mode';
+        } else {
+          toggle.innerHTML = '<i class="fas fa-moon"></i> Dark mode';
+        }
+      });
+    }
+
+    // --- Hamburger menu toggle ---
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const toolbarItems = document.getElementById('toolbarItems');
+    if (hamburgerBtn && toolbarItems) {
+      hamburgerBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isOpen = toolbarItems.classList.toggle('open');
+        hamburgerBtn.setAttribute('aria-expanded', isOpen);
+        hamburgerBtn.innerHTML = isOpen
+          ? '<i class="fas fa-times"></i>'
+          : '<i class="fas fa-bars"></i>';
+      });
+      // Close menu when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!toolbarItems.contains(e.target) && e.target !== hamburgerBtn) {
+          toolbarItems.classList.remove('open');
+          hamburgerBtn.setAttribute('aria-expanded', 'false');
+          hamburgerBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+      });
+      // Close menu after any item is tapped (except theme toggle, which stays open)
+      toolbarItems.querySelectorAll('a, button').forEach(function(el) {
+        el.addEventListener('click', function() {
+          if (el.id === 'themeToggle') return;
+          toolbarItems.classList.remove('open');
+          hamburgerBtn.setAttribute('aria-expanded', 'false');
+          hamburgerBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        });
+      });
+    }
+  })();
+</script>
+</body>
+</html>
