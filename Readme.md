@@ -520,3 +520,41 @@ Thanks in advance
 
 ---
 
+Breadcrumbs in both visible HTML and JSON-LD BreadcrumbList. The upgraded index has both. The individual module pages have visible breadcrumbs but some are missing JSON-LD BreadcrumbList — add this to each module's <head>. The pattern is the same for every module, only the position 2 item changes:
+json{
+  "@type": "BreadcrumbList",
+  "@id": "https://heartfirst.shyntesy.com/risks/plaque/#breadcrumb",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"HeartFirst","item":"https://heartfirst.shyntesy.com/"},
+    {"@type":"ListItem","position":2,"name":"Risk Atlas","item":"https://heartfirst.shyntesy.com/risks/"},
+    {"@type":"ListItem","position":3,"name":"Plaque","item":"https://heartfirst.shyntesy.com/risks/plaque/"}
+  ]
+}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "@id": "https://heartfirst.shyntesy.com/risks/plaque/#breadcrumb",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "HeartFirst",
+      "item": "https://heartfirst.shyntesy.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Risk Atlas",
+      "item": "https://heartfirst.shyntesy.com/risks/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Plaque",
+      "item": "https://heartfirst.shyntesy.com/risks/plaque/"
+    }
+  ]
+}
+</script>
