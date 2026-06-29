@@ -1,868 +1,479 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Heart Risk Navigator Starter — HeartFirst</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    /* ---------- VARIABLES ---------- */
-    :root {
-      --bg-body: #f7f5f0;
-      --bg-page: #ffffff;
-      --text-primary: #111827;
-      --brand-blue: #183a8a;
-      --brand-teal: #0f8b8d;
-      --brand-red: #c93a3f;
-      --border-line: #d9dde3;
-      --soft-bg: #eef2f5;
-      --soft-bg-2: #f5f8fa;
-      --grad-start: #f8fbfc;
-      --grad-end: #eef5f7;
-      --flow-bg: #fafcfd;
-      --flow-end: #f3f7f9;
-      --note-bg: #fff8f8;
-      --cta-start: #f7fbfc;
-      --cta-end: #eef6f7;
-      --page-width: 210mm;
-      --page-height: 297mm;
-      --page-pad-x: 16mm;
-      --page-pad-y: 14mm;
-      --radius: 10px;
-    }
-    [data-theme="dark"] {
-      --bg-body: #121212;
-      --bg-page: #1e1e1e;
-      --text-primary: #f9fafb;
-      --brand-blue: #5a9cff;
-      --brand-teal: #2dd4bf;
-      --brand-red: #f87171;
-      --border-line: #4b5563;
-      --soft-bg: #2a2a2a;
-      --soft-bg-2: #2f2f2f;
-      --grad-start: #252525;
-      --grad-end: #1f1f1f;
-      --flow-bg: #262626;
-      --flow-end: #222222;
-      --note-bg: #2c2424;
-      --cta-start: #1e2a2b;
-      --cta-end: #172527;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.35;
-      font-size: 10.5pt;
-      color: var(--text-primary);
-      background-color: var(--bg-body);
-      transition: background 0.2s, color 0.2s;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
 
-    /* Toolbar (screen only) - desktop base */
-    .toolbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--bg-page);
-      border-bottom: 1px solid var(--border-line);
-      padding: 0.5rem 1rem;
-      display: flex;
-      justify-content: flex-start;  /* changed from flex-end to left-align brand */
-      align-items: center;
-      gap: 1rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
-    .toolbar-brand {
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--brand-teal);
-      letter-spacing: 0.02em;
-      margin-right: auto;           /* pushes buttons to the right */
-      white-space: nowrap;
-    }
-    .toolbar button, .toolbar a {
-      background: var(--soft-bg);
-      border: 1px solid var(--border-line);
-      border-radius: 30px;
-      padding: 0.4rem 1rem;
-      cursor: pointer;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--text-primary);
-      text-decoration: none;
-      transition: 0.2s;
-      white-space: nowrap;
-    }
-    .toolbar button:hover, .toolbar a:hover {
-      background: var(--soft-bg-2);
-      transform: translateY(-1px);
-    }
+<title>Heart Risk Navigator Starter — Printable Heart Risk Worksheet by Shyntesy</title>
+<meta name="description" content="A printable HeartFirst worksheet for organising what you know, what needs clarification, what to discuss with your health team, and one useful next action.">
+<meta name="author" content="HeartFirst by Shyntesy">
+<link rel="canonical" href="https://heartfirst.shyntesy.com/toolkit/heart-risk-navigator-starter/">
 
-    /* ---------- PAGE LAYOUT ---------- */
-    .document { width: 100%; }
-    .page {
-      width: var(--page-width);
-      min-height: var(--page-height);
-      margin: 10mm auto;
-      background: var(--bg-page);
-      padding: var(--page-pad-y) var(--page-pad-x) 18mm;
-      position: relative;
-      box-shadow: 0 8px 28px rgba(0,0,0,0.08);
-      page-break-after: always;
-      break-after: page;
-      background-image:
-        radial-gradient(circle at top right, rgba(15,139,141,0.05), transparent 28%),
-        radial-gradient(circle at bottom left, rgba(24,58,138,0.04), transparent 32%);
-    }
-    [data-theme="dark"] .page {
-      background-image:
-        radial-gradient(circle at top right, rgba(45,212,191,0.08), transparent 28%),
-        radial-gradient(circle at bottom left, rgba(90,156,255,0.06), transparent 32%);
-    }
-    .page:last-child {
-      page-break-after: auto;
-      break-after: auto;
-    }
+<meta property="og:title" content="Heart Risk Navigator Starter — Printable Heart Risk Worksheet">
+<meta property="og:description" content="Organise what you know, what needs clarification, what to discuss, and one useful next action before your health team conversation.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://heartfirst.shyntesy.com/toolkit/heart-risk-navigator-starter/">
 
-    .top-rule {
-      width: 82px;
-      height: 3px;
-      background: linear-gradient(90deg, var(--brand-red) 0%, var(--brand-teal) 100%);
-      border-radius: 999px;
-      margin: 0 0 8mm 0;
-    }
-    @media print {
-      .top-rule {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-      h1 {
-        color: #0f8b8d !important;
-      }
-    }
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Heart Risk Navigator Starter">
+<meta name="twitter:description" content="A printable worksheet for heart risk clarity, health team preparation, and one useful next action.">
 
-    /* Typography – centre headings, left body text */
-    .eyebrow {
-      font-size: 10pt;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--brand-blue);
-      margin-bottom: 4mm;
-      text-align: center;
-    }
-    h1 {
-      font-size: 26pt;
-      line-height: 1.06;
-      margin-bottom: 3mm;
-      color: var(--brand-teal);
-      text-align: center;
-    }
-    h2 {
-      font-size: 20pt;
-      line-height: 1.12;
-      margin-bottom: 4mm;
-      color: var(--brand-teal);
-      text-align: center;
-    }
-    h3 {
-      font-size: 12.5pt;
-      line-height: 1.2;
-      margin-bottom: 2.5mm;
-      color: var(--text-primary);
-      text-align: center;
-    }
-    .subtitle {
-      font-size: 11.5pt;
-      color: var(--text-primary);
-      margin-bottom: 6mm;
-      text-align: center;
-    }
-    .lede {
-      font-size: 11.5pt;
-      color: var(--text-primary);
-      max-width: 60ch;
-      margin: 0 auto 5mm auto;
-      text-align: center;
-    }
-    p, li, .prompt, .anchor-note, .flow-caption {
-      font-size: 10.6pt;
-      line-height: 1.35;
-      color: var(--text-primary);
-      text-align: left;
-    }
-    .box, .anchor-box, .field-group, .flow-bridge, .next-action, .cta-box, .note-box {
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .box {
-      background: var(--soft-bg);
-      border-left: 4px solid var(--brand-teal);
-      border-radius: var(--radius);
-      padding: 4.5mm 5mm;
-      margin: 4.5mm auto;
-      max-width: 60ch;
-    }
-    .anchor-box {
-      background: linear-gradient(180deg, var(--grad-start) 0%, var(--grad-end) 100%);
-      border: 1px solid var(--border-line);
-      border-left: 4px solid var(--brand-blue);
-      border-radius: var(--radius);
-      padding: 4.5mm 5mm;
-      margin: 4.5mm auto;
-      max-width: 60ch;
-    }
-    .anchor-title {
-      font-weight: 700;
-      margin-bottom: 1.5mm;
-      color: var(--text-primary);
-      text-align: center;
-    }
-    .flow-bridge {
-      background: linear-gradient(180deg, var(--flow-bg) 0%, var(--flow-end) 100%);
-      border: 1px solid var(--border-line);
-      border-radius: var(--radius);
-      padding: 5mm;
-      margin: 6mm auto;
-      width: 90%;
-      text-align: center;
-    }
-    .flow-eyebrow {
-      color: var(--brand-teal);
-      text-transform: uppercase;
-      font-weight: 700;
-      margin-bottom: 2mm;
-      text-align: center;
-    }
-    .flow-mini {
-      display: flex;
-      justify-content: center;
-      gap: 3mm;
-      flex-wrap: wrap;
-      margin: 2mm 0;
-    }
-    .flow-pill {
-      background: var(--bg-page);
-      border: 1px solid var(--border-line);
-      border-radius: 999px;
-      padding: 2mm 4mm;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-    .flow-arrow {
-      font-size: 11pt;
-      color: var(--text-primary);
-    }
-    .flow-caption {
-      text-align: center;
-      margin-top: 3mm;
-    }
-    .field-group {
-      background: var(--bg-page);
-      border: 1px solid var(--border-line);
-      border-radius: var(--radius);
-      padding: 4mm;
-      margin-bottom: 4mm;
-    }
-    .mini-label {
-      font-size: 9pt;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--brand-blue);
-      margin-bottom: 2mm;
-      text-align: left;
-    }
-    .grid-2, .snapshot-grid, .two-col-questions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4mm;
-      margin: 4.5mm auto;
-      max-width: 64ch;
-    }
-    .spaced-list {
-      list-style: none;
-      margin: 1.5mm 0 0 0;
-      padding-left: 0;
-    }
-    .spaced-list li {
-      margin-bottom: 2mm;
-      padding-left: 5mm;
-      position: relative;
-      text-align: left;
-    }
-    .spaced-list li::before {
-      content: "•";
-      position: absolute;
-      left: 0;
-      color: var(--brand-teal);
-    }
-    .simple-list {
-      list-style: none;
-      margin: 1.5mm 0 0 0;
-      padding-left: 5mm;
-    }
-    .simple-list li {
-      margin-bottom: 2mm;
-      text-align: left;
-    }
-    .micro-progress {
-      background: #fbfcfd;
-      border: 1px solid var(--border-line);
-      border-radius: 999px;
-      padding: 2.5mm 4mm;
-      font-size: 9.5pt;
-      color: var(--text-primary);
-      display: inline-block;
-      margin: 1mm auto 5mm;
-      text-align: center;
-    }
-    .next-action {
-      background: var(--soft-bg-2);
-      border: 1px solid var(--border-line);
-      border-radius: var(--radius);
-      padding: 4.5mm;
-      margin: 4.5mm auto;
-      max-width: 60ch;
-    }
-    .cta-box {
-      background: linear-gradient(180deg, var(--cta-start) 0%, var(--cta-end) 100%);
-      border: 1px solid var(--border-line);
-      border-left: 4px solid var(--brand-blue);
-      border-radius: var(--radius);
-      padding: 5mm;
-      margin: 4.5mm auto;
-      max-width: 60ch;
-      text-align: center;
-    }
-    .note-box {
-      background: var(--note-bg);
-      border-left-color: var(--brand-red);
-    }
-    .cta-link {
-      color: var(--brand-blue);
-      text-decoration: none;
-      font-weight: 700;
-      border-bottom: 1px solid transparent;
-      transition: 0.2s;
-    }
-    .cta-link:hover {
-      border-bottom-color: var(--brand-blue);
-    }
-    .footer-mark, .page-number {
-      position: absolute;
-      bottom: 8mm;
-      font-size: 9pt;
-      color: var(--text-primary);
-      text-align: center;
-      white-space: nowrap;
-    }
-    .page-number { right: 16mm; }
-    .footer-mark { left: 16mm; }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,ital,wght@8..60,0,300;8..60,0,400;8..60,0,600;8..60,0,700;8..60,1,400;8..60,1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
 
-    /* Fill-area (white background, pure black text) */
-    .fill-area {
-      background-color: #ffffff;
-    }
-    .fill-area, .fill-area p, .fill-area .prompt, .fill-area .prompt strong, .fill-area h3, .fill-area .mini-label, .fill-area .example-text, .fill-area .prompt * {
-      color: #000000 !important;
-    }
-    [data-theme="dark"] .fill-area, [data-theme="dark"] .fill-area p, [data-theme="dark"] .fill-area .prompt, [data-theme="dark"] .fill-area .prompt strong, [data-theme="dark"] .fill-area h3, [data-theme="dark"] .fill-area .mini-label, [data-theme="dark"] .fill-area .example-text, [data-theme="dark"] .fill-area .prompt * {
-      color: #000000 !important;
-      background-color: #ffffff !important;
-    }
-    .fill-area .line {
-      border-bottom-color: #bfc6cf;
-    }
-    [data-theme="dark"] .fill-area .line {
-      border-bottom-color: #9ca3af;
-    }
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DigitalDocument",
+  "name": "Heart Risk Navigator Starter",
+  "description": "A printable HeartFirst worksheet for organising heart risk information, health team questions, and one useful next action.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "HeartFirst by Shyntesy",
+    "url": "https://heartfirst.shyntesy.com"
+  },
+  "isPartOf": {
+    "@type": "CollectionPage",
+    "name": "HeartFirst Toolkit",
+    "url": "https://heartfirst.shyntesy.com/toolkit/"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "Cardiovascular risk education and preparation"
+  },
+  "accessMode": ["textual"],
+  "accessibilityFeature": ["readingOrder", "structuralNavigation", "highContrastDisplay"]
+}
+</script>
 
-    .known-section, .unknown-section {
-      background: transparent;
-    }
-    .unknown-section {
-      border-left: 2px dashed #6b7280;
-      padding-left: 3mm;
-      margin-top: 2mm;
-    }
-    .lines { margin-top: 1.6mm; }
-    .line {
-      height: 6.1mm;
-      border-bottom: 1px solid #bfc6cf;
-      margin-bottom: 1.6mm;
-    }
-    .line.tight {
-      height: 5.2mm;
-      margin-bottom: 1.4mm;
-    }
+<style>
+:root{
+  --navy:#0D2236;--navy2:#102A43;--gold:#C7A44A;--gold2:#E7D293;
+  --teal:#2F6F73;--teal2:#1B4F52;--cream:#F7F4EF;--white:#FFFFFF;
+  --ink:#111820;--ink2:#2C3440;--muted:#5A6270;--border:#D8D3CA;
+  --r:12px;--R:22px;
+  --serif:"Source Serif 4",Georgia,serif;--sans:"DM Sans",system-ui,sans-serif;
+  --t:220ms ease;
+  --shadow:0 12px 40px rgba(13,34,54,.13);
+  --shadow-lg:0 24px 60px rgba(13,34,54,.18);
+  --bg:var(--cream);--surface:var(--white);--text:var(--ink);--text2:var(--ink2);--subdued:var(--muted);--line:var(--border);
+}
+html[data-theme="dark"]{
+  --bg:#0B1220;--surface:#111827;--text:#F9FAFB;--text2:#CBD5E1;--subdued:#94A3B8;--line:#1E3A52;color-scheme:dark;
+}
+@media(prefers-color-scheme:dark){html:not([data-theme]){
+  --bg:#0B1220;--surface:#111827;--text:#F9FAFB;--text2:#CBD5E1;--subdued:#94A3B8;--line:#1E3A52;color-scheme:dark;
+}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:17px;scrollbar-gutter:stable}
+body{font-family:var(--serif);color:var(--text);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background var(--t),color var(--t)}
+a{color:var(--teal);text-decoration:none}a:hover{text-decoration:underline}html[data-theme="dark"] a{color:#8BCCC8}html[data-theme="dark"] a:hover{color:var(--gold2)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:4px;border-radius:4px}
+.skip-link{position:fixed;top:12px;left:12px;z-index:3000;padding:10px 14px;border-radius:8px;background:var(--surface);color:var(--text);border:1px solid var(--line);font-family:var(--sans);font-size:.84rem;font-weight:700;text-decoration:none;transform:translateY(-140%);transition:transform var(--t)}
+.skip-link:focus{transform:translateY(0)}#main{scroll-margin-top:86px}
 
-    /* ---------- MOBILE-ONLY STYLES ---------- */
-    .hamburger-btn {
-      display: none;
-    }
+/* Navigation */
+.nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0 clamp(20px,4vw,48px);height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,34,54,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(199,164,74,.18);transition:background var(--t)}
+.nav-brand{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-size:.95rem;font-weight:700;color:#F9FAFB;text-decoration:none}.nav-brand:hover{text-decoration:none}.nav-links{display:flex;align-items:center;gap:24px}.nav-link{font-family:var(--sans);font-size:.82rem;color:#8AABB8;transition:color var(--t)}.nav-link:hover,.nav-link[aria-current="page"]{color:#DCE8F4;text-decoration:none}.nav-right{display:flex;align-items:center;gap:14px}.theme-btn{appearance:none;border:1px solid rgba(199,164,74,.3);border-radius:999px;background:rgba(199,164,74,.08);color:#E7D293;padding:5px 14px;font-family:var(--sans);font-size:.78rem;font-weight:600;cursor:pointer;transition:background var(--t),border-color var(--t)}.theme-btn:hover{background:rgba(199,164,74,.15);border-color:rgba(199,164,74,.55)}.menu-btn{display:flex;align-items:center;justify-content:center;width:39px;height:39px;border-radius:999px;border:1px solid rgba(199,164,74,.3);background:rgba(199,164,74,.08);color:#E7D293;cursor:pointer;transition:background var(--t),border-color var(--t),transform var(--t)}.menu-btn:hover{background:rgba(199,164,74,.15);border-color:rgba(199,164,74,.55)}.menu-btn:active{transform:translateY(1px)}.menu-icon{position:relative;width:18px;height:12px;display:block}.menu-icon span{position:absolute;left:0;width:18px;height:2px;border-radius:99px;background:currentColor;transition:transform var(--t),opacity var(--t),top var(--t)}.menu-icon span:nth-child(1){top:0}.menu-icon span:nth-child(2){top:5px}.menu-icon span:nth-child(3){top:10px}.menu-btn[aria-expanded="true"] .menu-icon span:nth-child(1){top:5px;transform:rotate(45deg)}.menu-btn[aria-expanded="true"] .menu-icon span:nth-child(2){opacity:0}.menu-btn[aria-expanded="true"] .menu-icon span:nth-child(3){top:5px;transform:rotate(-45deg)}.mobile-menu-backdrop{position:fixed;inset:64px 0 0;z-index:830;background:rgba(5,15,26,.46);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity var(--t)}.mobile-menu{position:fixed;top:76px;right:clamp(12px,4vw,28px);z-index:860;width:min(420px,calc(100vw - 24px));padding:.7rem;border:1px solid rgba(199,164,74,.24);border-radius:18px;background:rgba(13,34,54,.98);box-shadow:0 24px 70px rgba(5,15,26,.42);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);opacity:0;pointer-events:none;transform:translateY(-10px) scale(.985);transition:opacity var(--t),transform var(--t)}body.menu-open{overflow:hidden}body.menu-open .mobile-menu-backdrop{opacity:1;pointer-events:auto}body.menu-open .mobile-menu{opacity:1;pointer-events:auto;transform:translateY(0) scale(1)}.mobile-menu a{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.86rem 1rem;border-radius:12px;color:#DCE8F4;font-family:var(--sans);font-size:.94rem;font-weight:600;text-decoration:none;transition:background var(--t),color var(--t),transform var(--t)}.mobile-menu a:hover{background:rgba(255,255,255,.07);color:#FFFFFF;text-decoration:none;transform:translateX(2px)}.mobile-menu a span{color:#8AABB8;font-size:.78rem;font-weight:500}.mobile-menu .mobile-menu-cta{margin-top:.35rem;justify-content:center;background:var(--gold);color:var(--navy);font-weight:800}.mobile-menu .mobile-menu-cta:hover{background:#D4B25A;color:var(--navy);transform:translateY(-1px)}
 
-    @media (max-width: 768px) {
-      /* --- Toolbar: hamburger layout --- */
-      .toolbar {
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.5rem 0.75rem;
-        flex-wrap: nowrap;
-        position: relative;
-      }
-      .toolbar-brand {
-        margin-right: 0;
-      }
-      /* Hide all toolbar items by default on mobile */
-      .toolbar-items {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        right: 0;
-        left: 0;
-        background: var(--bg-page);
-        border-bottom: 1px solid var(--border-line);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        padding: 0.5rem 0.75rem 0.75rem;
-        gap: 0.5rem;
-        z-index: 200;
-      }
-      .toolbar-items.open {
-        display: flex;
-      }
-      .toolbar-items button,
-      .toolbar-items a {
-        width: 100%;
-        text-align: left;
-        justify-content: flex-start;
-        border-radius: 8px;
-        padding: 0.55rem 1rem;
-        font-size: 0.85rem;
-      }
+/* Hero */
+.hero{min-height:72svh;display:grid;place-items:center;padding:120px clamp(20px,4vw,48px) 70px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 68% 18%,rgba(47,111,115,.28),transparent 48%),radial-gradient(ellipse at 14% 78%,rgba(199,164,74,.13),transparent 44%),linear-gradient(158deg,#050F1A 0%,var(--navy) 48%,#071520 100%)}
+.hero::before,.closing-cta::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");opacity:.55}.hero-inner{position:relative;z-index:2;max-width:min(930px,calc(100vw - 48px));margin:0 auto;text-align:center}.hero-kicker{font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);margin-bottom:1.4rem;display:flex;align-items:center;justify-content:center;gap:10px;animation:fade-up .7s .1s both cubic-bezier(.22,1,.36,1)}.hero-kicker::before,.hero-kicker::after{content:'';display:block;width:32px;height:1px;background:var(--gold)}.hero-h1{font-family:var(--serif);font-size:clamp(2.7rem,5.6vw,5.15rem);font-weight:600;line-height:1.04;letter-spacing:-.03em;color:#fff;margin-bottom:1.5rem;font-optical-sizing:auto;animation:fade-up .7s .22s both cubic-bezier(.22,1,.36,1)}.hero-h1 em{font-style:italic;color:var(--gold2)}.hero-sub{font-family:var(--sans);font-size:clamp(1rem,1.7vw,1.2rem);color:#B8C8D8;line-height:1.68;font-weight:300;max-width:760px;margin:0 auto 2.4rem;animation:fade-up .7s .36s both cubic-bezier(.22,1,.36,1)}.hero-actions{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;animation:fade-up .7s .48s both cubic-bezier(.22,1,.36,1)}.btn-primary,.btn-secondary{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:.96rem;font-weight:700;padding:14px 30px;border-radius:999px;transition:transform var(--t),box-shadow var(--t),background var(--t),border-color var(--t);cursor:pointer}.btn-primary{background:var(--gold);color:var(--navy);box-shadow:0 8px 28px rgba(199,164,74,.38);border:0}.btn-primary:hover{background:#D4B25A;transform:translateY(-2px);box-shadow:0 14px 36px rgba(199,164,74,.48);text-decoration:none}.btn-secondary{color:#DCE8F4;border:1px solid rgba(220,232,244,.28);background:rgba(255,255,255,.04)}.btn-secondary:hover{border-color:rgba(199,164,74,.55);background:rgba(255,255,255,.07);text-decoration:none}.btn-quiet{font-family:var(--sans);font-size:.86rem;font-weight:700;color:var(--teal);background:transparent;border:0;padding:0;cursor:pointer;text-decoration:none}.btn-quiet:hover{text-decoration:underline}
 
-      /* Show hamburger button on mobile */
-      .hamburger-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: var(--soft-bg);
-        border: 1px solid var(--border-line);
-        border-radius: 8px;
-        padding: 0.45rem 0.65rem;
-        cursor: pointer;
-        font-size: 1rem;
-        color: var(--text-primary);
-        line-height: 1;
-        transition: 0.2s;
-        flex-shrink: 0;
-      }
-      .hamburger-btn:hover {
-        background: var(--soft-bg-2);
-      }
+/* ECG */
+.ecg-div{position:relative;width:100%;height:28px;overflow:hidden;background:color-mix(in srgb,var(--bg) 72%,var(--surface))}.ecg-div::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='28' viewBox='0 0 1200 28'%3E%3Cpath d='M0 14 H478 L500 5 L518 23 L531 14 H1200' fill='none' stroke='%23C7A44A' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% 28px no-repeat;opacity:.72}.ecg-div--dark{background:linear-gradient(180deg,rgba(13,34,54,.98),rgba(13,34,54,.98))}.ecg-div--dark::before{opacity:.38}html[data-theme="dark"] .ecg-div{background:color-mix(in srgb,var(--bg) 82%,#0D2236)}html[data-theme="dark"] .ecg-div::before{opacity:.42}html[data-theme="dark"] .ecg-div--dark::before{opacity:.34}
 
-      /* --- Page: full-width, no fixed mm sizing --- */
-      .page {
-        width: 100%;
-        min-height: unset;
-        margin: 0 0 6px 0;
-        padding: 6vw 5vw 14vw;
-        box-shadow: none;
-        border-radius: 0;
-      }
+/* Sections */
+.section{padding:clamp(54px,8vw,96px) clamp(20px,4vw,48px)}.section--dark{background:var(--navy);color:#F9FAFB}.section--cream{background:var(--cream)}.section--white{background:var(--white)}html[data-theme="dark"] .section--cream{background:var(--bg)}html[data-theme="dark"] .section--white{background:var(--surface)}.container{width:min(1060px,calc(100vw - 48px));margin:0 auto}.container--mid{width:min(900px,calc(100vw - 48px));margin:0 auto}.section-kicker{font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:10px}.section-kicker::before{content:'';display:block;width:22px;height:1px;background:var(--gold)}.section-h2{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,3.5vw,3rem);line-height:1.13;letter-spacing:-.022em;margin-bottom:1.1rem;font-optical-sizing:auto}.section-lead{font-family:var(--sans);font-size:clamp(1rem,1.45vw,1.1rem);color:var(--subdued);line-height:1.72;max-width:720px;font-weight:300}.section--dark .section-lead{color:#9DB4C8}
 
-      /* --- Typography scale-down --- */
-      h1 { font-size: 20pt; }
-      h2 { font-size: 16pt; }
-      h3 { font-size: 11pt; }
-      .lede { font-size: 10.5pt; max-width: 100%; }
-      .subtitle { font-size: 10.5pt; }
-      .eyebrow { font-size: 9pt; }
+/* Tool explainer cards */
+.tool-intro-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem}.intro-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--R);padding:1.35rem 1.35rem;border-left:3px solid var(--gold);transition:border-color var(--t),box-shadow var(--t),background var(--t)}.intro-card:hover{border-color:var(--gold);box-shadow:var(--shadow);background:color-mix(in srgb,var(--gold) 3%,var(--surface))}.intro-title{font-family:var(--sans);font-size:.96rem;font-weight:800;color:var(--text);line-height:1.25;margin-bottom:.45rem}.intro-copy{font-family:var(--sans);font-size:.86rem;color:var(--subdued);line-height:1.56;font-weight:300}
 
-      /* --- All 2-column grids → single column --- */
-      .grid-2,
-      .snapshot-grid,
-      .two-col-questions {
-        grid-template-columns: 1fr;
-        max-width: 100%;
-      }
+/* Worksheet */
+.tool-shell{margin-top:2.4rem;border:1px solid rgba(199,164,74,.24);border-radius:var(--R);background:var(--surface);box-shadow:var(--shadow-lg);overflow:hidden}.tool-head{padding:1.5rem 1.65rem;background:linear-gradient(135deg,#071522 0%,var(--navy2) 100%);display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}.tool-head-main{max-width:720px}.tool-eyebrow{font-family:var(--sans);font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);margin-bottom:.55rem}.tool-title{font-family:var(--serif);font-size:clamp(1.7rem,3vw,2.45rem);font-weight:600;line-height:1.08;letter-spacing:-.02em;color:#fff}.tool-title em{font-style:italic;color:var(--gold2)}.tool-meta{font-family:var(--sans);font-size:.82rem;color:#9DB4C8;line-height:1.5;margin-top:.7rem}.tool-actions{display:flex;flex-wrap:wrap;gap:.65rem;align-items:center;justify-content:flex-end}.tool-actions .btn-primary,.tool-actions .btn-secondary{padding:9px 16px;font-size:.84rem}.worksheet{padding:1.65rem}.worksheet-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.work-section{border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--surface) 96%,var(--cream));padding:1.15rem 1.15rem;break-inside:avoid}.work-section.full{grid-column:1/-1}.work-section-title{display:flex;align-items:center;gap:.65rem;font-family:var(--sans);font-size:1rem;font-weight:800;color:var(--text);line-height:1.2;margin-bottom:.35rem}.section-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--navy);font-family:var(--sans);font-size:.72rem;font-weight:900;flex-shrink:0}.work-section-intro{font-family:var(--sans);font-size:.82rem;color:var(--subdued);line-height:1.5;margin-bottom:.95rem}.field-row{display:grid;grid-template-columns:minmax(140px,220px) 1fr;gap:.8rem;align-items:start;margin:.65rem 0}.field-row label{font-family:var(--sans);font-size:.82rem;font-weight:750;color:var(--text2);line-height:1.35;padding-top:.45rem}.field-hint{display:block;font-weight:400;color:var(--subdued);font-size:.72rem;margin-top:.08rem}input[type="text"],textarea{width:100%;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font-family:var(--sans);font-size:.9rem;line-height:1.45;padding:.65rem .72rem;transition:border-color var(--t),box-shadow var(--t),background var(--t)}textarea{min-height:78px;resize:vertical}input[type="text"]:focus,textarea:focus{outline:0;border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 18%,transparent)}.choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem;margin-top:.8rem}.choice{display:flex;gap:.55rem;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:.65rem;background:var(--surface);font-family:var(--sans);font-size:.82rem;color:var(--text2);line-height:1.35}.choice input{width:18px;height:18px;accent-color:var(--gold);margin-top:.08rem;flex-shrink:0}.one-action{margin-top:.9rem;padding:.95rem;border-radius:14px;background:color-mix(in srgb,var(--gold) 7%,var(--surface));border-left:4px solid var(--gold)}.one-action label{display:block;font-family:var(--sans);font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:.45rem}.worksheet-footer{margin-top:1rem;padding:1rem 1.1rem;border-radius:16px;border:1px solid rgba(199,164,74,.24);background:color-mix(in srgb,var(--gold) 6%,var(--surface));font-family:var(--sans);font-size:.82rem;color:var(--text2);line-height:1.55}.worksheet-footer strong{color:var(--text)}.print-header{display:none}
 
-      /* --- Constrain wide boxes --- */
-      .box,
-      .anchor-box,
-      .next-action,
-      .cta-box,
-      .flow-bridge {
-        max-width: 100%;
-        width: 100%;
-      }
+/* Standards and footer */
+.note-card{margin-top:2.2rem;border:1px solid rgba(199,164,74,.22);border-radius:var(--R);overflow:hidden;background:var(--surface);box-shadow:var(--shadow)}.note-head{padding:1.35rem 1.5rem;background:linear-gradient(135deg,#071522 0%,var(--navy2) 100%)}.note-title{font-family:var(--serif);font-size:clamp(1.35rem,2.2vw,1.9rem);font-weight:600;color:#fff;line-height:1.18;margin-bottom:.45rem}.note-copy{font-family:var(--sans);font-size:.94rem;color:#B8C8D8;line-height:1.62;font-weight:300;max-width:760px}.note-body{padding:1.25rem 1.45rem;font-family:var(--sans);font-size:.9rem;color:var(--text2);line-height:1.65}.note-body strong{color:var(--text)}.closing-cta{text-align:center;padding:clamp(62px,8vw,96px) clamp(20px,4vw,48px);background:radial-gradient(ellipse at 50% 0%,rgba(47,111,115,.26),transparent 52%),radial-gradient(ellipse at 50% 100%,rgba(199,164,74,.10),transparent 44%),linear-gradient(160deg,#050F1A 0%,var(--navy) 100%);position:relative;overflow:hidden}.closing-inner{position:relative;z-index:2;max-width:760px;margin:0 auto}.closing-h2{font-family:var(--serif);font-size:clamp(2rem,3.8vw,3.2rem);font-weight:600;line-height:1.12;letter-spacing:-.022em;color:#fff;margin-bottom:1rem}.closing-h2 em{font-style:italic;color:var(--gold2)}.closing-sub{font-family:var(--sans);font-size:1rem;color:#9DB4C8;max-width:620px;margin:0 auto 2.2rem;line-height:1.68;font-weight:300}.closing-links{display:flex;align-items:center;justify-content:center;gap:1.2rem;flex-wrap:wrap;margin-top:2rem}.closing-links a{font-family:var(--sans);font-size:.84rem;color:#7A9AB0;transition:color var(--t)}.closing-links a:hover{color:#B8D0E0;text-decoration:none}.closing-links span{color:rgba(122,154,176,.4)}.footer{background:var(--navy);border-top:1px solid rgba(199,164,74,.14);padding:2.4rem clamp(20px,4vw,48px)}.footer-inner{width:min(1060px,calc(100vw - 48px));margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}.footer-brand{font-family:var(--sans);font-size:.82rem;font-weight:700;color:#F9FAFB}.footer-meta{font-family:var(--sans);font-size:.75rem;color:#5A7A94;text-align:right;line-height:1.6}.footer-meta a{color:#5A7A94;text-decoration:underline}
 
-      /* --- Flow bridge pills: wrap nicely --- */
-      .flow-mini {
-        gap: 2mm;
-      }
-      .flow-pill {
-        font-size: 9pt;
-        padding: 1.5mm 3mm;
-      }
 
-      /* --- Footer positioning: relative on mobile to avoid overlap --- */
-      .footer-mark,
-      .page-number {
-        position: relative;
-        bottom: unset;
-        left: unset;
-        right: unset;
-        display: inline-block;
-        margin-top: 6vw;
-      }
-      .footer-mark {
-        margin-right: 1rem;
-      }
+/* Breadcrumb and bottom navigation */
+.breadcrumb-wrap{background:var(--surface);border-bottom:1px solid var(--line);padding:1rem clamp(20px,4vw,48px)}
+.breadcrumb{width:min(1060px,calc(100vw - 48px));margin:0 auto;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;font-family:var(--sans);font-size:.78rem;line-height:1.5;color:var(--subdued)}
+.breadcrumb a{color:var(--teal);text-decoration:underline;text-underline-offset:.18em;text-decoration-thickness:.05em}
+.breadcrumb a:hover{color:var(--teal2)}
+html[data-theme="dark"] .breadcrumb a:hover{color:var(--gold2)}
+.breadcrumb span{color:var(--subdued)}
+.breadcrumb [aria-current="page"]{color:var(--text);font-weight:700}
 
-      /* --- Top rule spacing --- */
-      .top-rule {
-        margin: 0 0 5vw 0;
-      }
+.hf-cta-spacer{height:clamp(2.25rem,4vw,3.25rem)}
+.hf-bottom-nav-block{padding-top:1.5rem;border-top:1px solid rgba(199,164,74,.20);text-align:center}
+.hf-bottom-nav-label{display:block;width:max-content;max-width:100%;margin:0 auto 1rem;padding:.42rem .95rem;border:1px solid rgba(199,164,74,.42);border-radius:999px;background:rgba(199,164,74,.10);color:var(--gold2);font-family:var(--sans);font-size:.72rem;font-weight:800;letter-spacing:.11em;line-height:1.2;text-transform:uppercase}
+.hf-bottom-nav{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.48rem;font-family:var(--sans);font-size:.78rem;line-height:1.7}
+.hf-bottom-nav a{color:#7A9AB0;text-decoration:underline;text-underline-offset:.18em;text-decoration-thickness:.05em;transition:color var(--t)}
+.hf-bottom-nav a:hover{color:#B8D0E0;text-decoration:none}
+.hf-bottom-nav span{color:rgba(122,154,176,.42)}
 
-      /* --- Lines: slightly taller for easier finger-writing on print --- */
-      .line {
-        height: 7mm;
-      }
-      .line.tight {
-        height: 6mm;
-      }
-    }
+/* Button contrast locks */
+a.btn-primary,a.btn-primary:link,a.btn-primary:visited,a.btn-primary:hover,a.btn-primary:focus-visible,button.btn-primary,button.btn-primary:hover,button.btn-primary:focus-visible,html[data-theme="dark"] a.btn-primary,html[data-theme="dark"] a.btn-primary:link,html[data-theme="dark"] a.btn-primary:visited,html[data-theme="dark"] a.btn-primary:hover,html[data-theme="dark"] a.btn-primary:focus-visible,html[data-theme="dark"] button.btn-primary,html[data-theme="dark"] button.btn-primary:hover,html[data-theme="dark"] button.btn-primary:focus-visible,.mobile-menu a.mobile-menu-cta,.mobile-menu a.mobile-menu-cta:link,.mobile-menu a.mobile-menu-cta:visited,.mobile-menu a.mobile-menu-cta:hover,.mobile-menu a.mobile-menu-cta:focus-visible,html[data-theme="dark"] .mobile-menu a.mobile-menu-cta,html[data-theme="dark"] .mobile-menu a.mobile-menu-cta:link,html[data-theme="dark"] .mobile-menu a.mobile-menu-cta:visited,html[data-theme="dark"] .mobile-menu a.mobile-menu-cta:hover,html[data-theme="dark"] .mobile-menu a.mobile-menu-cta:focus-visible{color:var(--navy)!important;text-decoration:none!important}a.btn-secondary,a.btn-secondary:link,a.btn-secondary:visited,a.btn-secondary:hover,a.btn-secondary:focus-visible,button.btn-secondary,button.btn-secondary:hover,button.btn-secondary:focus-visible,html[data-theme="dark"] a.btn-secondary,html[data-theme="dark"] a.btn-secondary:link,html[data-theme="dark"] a.btn-secondary:visited,html[data-theme="dark"] a.btn-secondary:hover,html[data-theme="dark"] a.btn-secondary:focus-visible,html[data-theme="dark"] button.btn-secondary,html[data-theme="dark"] button.btn-secondary:hover,html[data-theme="dark"] button.btn-secondary:focus-visible{color:#DCE8F4!important;text-decoration:none!important}
 
-    /* PRINT – force black text except h1 and top rule, white backgrounds */
-    @media print {
-      .toolbar { display: none; }
-      body, .page {
-        background: white;
-        margin: 0;
-        padding: 0;
-      }
-      .page {
-        box-shadow: none;
-        page-break-after: always;
-        break-after: page;
-        margin: 0;
-        padding: 1.2cm;
-        background: white;
-        background-image: none;
-      }
-      body, .page, p, li, h2, h3, h4, .eyebrow, .subtitle, .lede, .mini-label, .anchor-title, .anchor-note, .flow-caption, .flow-pill, .flow-arrow, .footer-mark, .page-number, .spaced-list li, .simple-list li, .prompt, .micro-progress, .cta-box p, .note-box p {
-        color: #000000 !important;
-      }
-      h1 {
-        color: #0f8b8d !important;
-      }
-      .top-rule {
-        background: linear-gradient(90deg, #c93a3f, #0f8b8d);
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-      a, .cta-link {
-        color: black !important;
-        text-decoration: none;
-      }
-      .grid-2, .snapshot-grid, .two-col-questions {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 4mm;
-      }
-      .fill-area, .fill-area * {
-        background: white !important;
-        color: #000000 !important;
-      }
-      .fill-area .line {
-        border-bottom-color: #000 !important;
-      }
-    }
-    @page {
-      size: A4;
-      margin: 0;
-    }
-  </style>
+@keyframes fade-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media(max-width:1260px){.nav-links{gap:16px}.nav-link{font-size:.78rem}}
+@media(max-width:1040px){.tool-intro-grid{grid-template-columns:1fr}.nav-links{display:none}.worksheet-grid{grid-template-columns:1fr}.work-section.full{grid-column:auto}.tool-head{display:block}.tool-actions{justify-content:flex-start;margin-top:1rem}.pathway-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.footer-meta{text-align:left}.hero{min-height:68svh}.hero-kicker{font-size:.66rem}.nav{padding:0 16px}.nav-right{gap:9px}.mobile-menu{right:12px}.field-row{grid-template-columns:1fr;gap:.3rem}.field-row label{padding-top:0}.choice-grid{grid-template-columns:1fr}}
+@media(max-width:540px){html{font-size:16px}.hero-actions{align-items:stretch}.btn-primary,.btn-secondary{width:100%;justify-content:center}.footer-inner{display:block}.footer-meta{margin-top:.8rem}.theme-btn{padding:5px 11px}.nav-brand{font-size:.9rem}.mobile-menu a{padding:.82rem .9rem}.worksheet{padding:1.1rem}.tool-head{padding:1.25rem}.work-section{padding:1rem}.pathway-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}.mobile-menu a:hover,.btn-primary:hover{transform:none!important;box-shadow:none!important}}
+
+/* Print and browser-PDF optimization */
+@page{size:auto;margin:12mm}
+@media print{
+  :root{--navy:#0D2236;--gold:#C7A44A;--teal:#2F6F73;--cream:#F7F4EF;--white:#FFFFFF;--ink:#111820;--muted:#4B5563;--border:#CFC8BB;--surface:#FFFFFF;--text:#111820;--text2:#2C3440;--subdued:#4B5563;--line:#CFC8BB;color-scheme:light}
+  *{box-shadow:none!important;text-shadow:none!important;animation:none!important;transition:none!important}
+  html,body{background:#fff!important;color:#111820!important;font-size:10.5pt;line-height:1.35;overflow:visible!important}
+  .nav,.mobile-menu,.mobile-menu-backdrop,.skip-link,.hero,.ecg-div,.breadcrumb-wrap,.section:first-of-type,.closing-cta,.footer,.tool-actions,.btn-primary,.btn-secondary,.btn-quiet{display:none!important}
+  .print-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;border-bottom:2px solid #C7A44A;padding-bottom:6mm;margin-bottom:6mm;break-after:avoid}
+  .print-brand{font-family:var(--sans);font-size:11pt;font-weight:800;color:#0D2236;letter-spacing:.03em;text-transform:uppercase}
+  .print-meta{font-family:var(--sans);font-size:8pt;color:#4B5563;text-align:right;line-height:1.25}
+  .section{padding:0!important;background:#fff!important}.container,.container--mid{width:100%!important;max-width:none!important}.tool-shell{margin:0!important;border:0!important;border-radius:0!important;overflow:visible!important;background:#fff!important}.tool-head{display:none!important}.worksheet{padding:0!important}.worksheet-grid{display:block}.work-section{break-inside:avoid;page-break-inside:avoid;border:1px solid #CFC8BB!important;border-radius:7px!important;background:#fff!important;padding:4mm!important;margin-bottom:4mm!important}.work-section.full{grid-column:auto}.work-section-title{font-size:12pt!important;margin-bottom:1mm}.section-num{width:20px;height:20px;font-size:7pt;background:#C7A44A!important;color:#0D2236!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.work-section-intro{font-size:8.5pt!important;margin-bottom:3mm;color:#4B5563!important}.field-row{display:grid!important;grid-template-columns:42mm 1fr!important;gap:4mm!important;margin:2.3mm 0!important;break-inside:avoid}.field-row label{font-size:8.5pt!important;color:#111820!important;padding-top:1mm}.field-hint{font-size:7.5pt!important;color:#4B5563!important}input[type="text"],textarea{border:0!important;border-bottom:1px solid #888!important;border-radius:0!important;background:#fff!important;color:#111820!important;font-size:9pt!important;padding:1mm 0!important;min-height:8mm!important;resize:none!important}textarea{height:20mm!important}.choice-grid{display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:2.5mm!important}.choice{border:0!important;background:#fff!important;padding:0!important;font-size:8.5pt!important;color:#111820!important}.choice input{appearance:none;width:11px;height:11px;border:1px solid #111820!important;margin-top:2px}.one-action{border-left:2mm solid #C7A44A!important;background:#fff!important;padding:3mm!important;margin-top:3mm!important}.one-action label{font-size:7.5pt!important;color:#111820!important}.worksheet-footer{break-inside:avoid;border:1px solid #CFC8BB!important;border-radius:7px!important;background:#fff!important;font-size:8pt!important;color:#111820!important;margin-top:4mm!important;padding:3.5mm!important}.note-card{display:none!important}
+}
+</style>
 </head>
+
 <body>
-<div class="toolbar">
-  <span class="toolbar-brand">HeartFirst</span>
-  <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
-    <i class="fas fa-bars"></i>
-  </button>
-  <div class="toolbar-items" id="toolbarItems">
-    <button onclick="window.print()"><i class="fas fa-print"></i> Print / Save as PDF</button>
-    <a href="snapshot.pdf" download style="background: var(--soft-bg); border: 1px solid var(--border-line); border-radius: 30px; padding: 0.4rem 1rem; text-decoration: none; color: var(--text-primary); font-size: 0.8rem; font-weight: 500; display: inline-flex; align-items: center; gap: 0.3rem;">
-      <i class="fas fa-download"></i> Download PDF
-    </a>
-    <a href="https://shyntesy.com"><i class="fas fa-home"></i> To HeartFirst</a>
-    <button id="themeToggle"><i class="fas fa-moon"></i> Dark mode</button>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<nav class="nav" aria-label="Site navigation">
+  <a class="nav-brand" href="/" aria-label="HeartFirst home">
+    <svg width="26" height="26" viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="M50 85 C50 85 8 55 8 33 C8 18 18 10 29 10 C38 10 45 16 50 22 C50 22 50 85 50 85Z" fill="#102A43"/><path d="M50 85 C50 85 92 55 92 33 C92 18 82 10 71 10 C62 10 55 16 50 22 C50 22 50 85 50 85Z" fill="#C0392B"/><polyline points="20,42 30,42 36,28 42,55 47,38 53,38 58,38 64,28 70,55 75,38 81,42" fill="none" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    HeartFirst
+  </a>
+  <div class="nav-links" aria-label="Primary navigation">
+    <a href="/about/" class="nav-link">About</a>
+    <a href="/products/" class="nav-link">Products</a>
+    <a href="/toolkit/" class="nav-link">Toolkit</a>
+    <a href="/glossary/" class="nav-link">Glossary</a>
+    <a href="/research/" class="nav-link">Research</a>
+    <a href="/articles/" class="nav-link">Articles</a>
+    <a href="/briefings/" class="nav-link">Briefings</a>
+    <a href="/lpa/" class="nav-link">Lp(a)</a>
   </div>
+  <div class="nav-right">
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch colour theme">Dark</button>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open page contents" aria-expanded="false" aria-controls="mobileMenu">
+      <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu-backdrop" id="mobileMenuBackdrop" aria-hidden="true"></div>
+<nav class="mobile-menu" id="mobileMenu" aria-label="Heart Risk Navigator Starter page contents" aria-hidden="true">
+  <a href="#top">Start <span>tool overview</span></a>
+  <a href="#how">How to use it <span>before the conversation</span></a>
+  <a href="#tool">Worksheet <span>fill, print, save</span></a>
+  <a href="#privacy">Privacy and boundary <span>local use only</span></a>
+  <a href="#next">Next <span>where to go from here</span></a>
+</nav>
+
+<main id="main">
+<section class="hero" id="top" aria-labelledby="hero-h1">
+  <div class="hero-inner">
+    <div class="hero-kicker">HeartFirst Toolkit · Printable tool</div>
+    <h1 id="hero-h1" class="hero-h1">Heart Risk<br><em>Navigator Starter</em></h1>
+    <p class="hero-sub">A guided starter tool for organising what you know, identifying what is missing, preparing better health team questions, and choosing one clear next action.</p>
+    <div class="hero-actions">
+      <a href="#tool" class="btn-primary">Use the worksheet <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M7.5 3v9M3.5 9l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <button type="button" class="btn-secondary" id="heroPrintBtn">Print or save PDF</button>
+    </div>
+  </div>
+</section>
+
+<div class="ecg-div ecg-div--dark" aria-hidden="true"></div>
+
+<div class="breadcrumb-wrap">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <a href="/toolkit/">Toolkit</a>
+    <span>/</span>
+    <span aria-current="page">Heart Risk Navigator Starter</span>
+  </nav>
 </div>
 
-<div class="document">
-  <!-- PAGE 1 -->
-  <div class="page">
-    <div class="top-rule"></div>
-    <div class="eyebrow">HeartFirst by Shyntesy</div>
-    <h1>Heart Risk Navigator Starter</h1>
-    <div class="subtitle" style="font-style: italic; font-weight: 500;">A simple tool to organise what you know, identify what is missing, prepare better health team questions and conversations, and choose one clear next action.</div>
-    <div class="lede">
-      This is a simple way to begin. It helps you capture what you already know, identify what is missing or unclear, prepare for a more focused conversation with your health team, and decide one clear next action.
-    </div>
-    <div class="box">
-      <h3>How to use this tool</h3>
-      <ul class="spaced-list">
-        <li><strong>Record facts,</strong> not guesses</li>
-        <li>If you have results, include <strong>value + unit + date</strong></li>
-        <li>Mark items as <strong>Known</strong> or <strong>Unknown</strong></li>
-        <li>Add <strong>To discuss</strong> where needed</li>
-        <li>Focus on one <strong>Next action</strong>, not everything at once</li>
-      </ul>
-    </div>
-    <div class="grid-2">
-      <div class="field-group">
-        <div class="mini-label">What this tool helps you do</div>
-        <p>Start from where you are, not from where you think you should be.</p>
-        <p>Use this to record what you know and don't know, to work through your risks with your health team, and to take the next clear action.</p>
+<section class="section section--white" id="how" aria-labelledby="how-h">
+  <div class="container--mid">
+    <div class="section-kicker">How to use this</div>
+    <h2 id="how-h" class="section-h2">Use it before the conversation, not instead of the conversation.</h2>
+    <p class="section-lead">The Heart Risk Navigator Starter is a preparation tool. It does not interpret your results for you. It helps you collect the pieces, reduce the noise, and bring a clearer snapshot to your health team.</p>
+
+    <div class="tool-intro-grid" aria-label="How the Heart Risk Navigator Starter helps">
+      <div class="intro-card">
+        <div class="intro-title">Capture the known facts</div>
+        <div class="intro-copy">Write down results, dates, units, family history, medicines, and your main concern without trying to solve everything at once.</div>
       </div>
-      <div class="field-group">
-        <div class="mini-label">What it does not do</div>
-        <p>This is not a medical tool: it is an education, heart risk organisation, and risk reduction tool.</p>
-        <p>It does not diagnose, prescribe, or replace your health team. It also does not encourage worry, fear, inaction, overreaction, or panic.</p>
+      <div class="intro-card">
+        <div class="intro-title">Name what needs clarifying</div>
+        <div class="intro-copy">Identify tests you wonder about, results that do not make sense, records you still need, and questions worth raising.</div>
+      </div>
+      <div class="intro-card">
+        <div class="intro-title">Choose one next action</div>
+        <div class="intro-copy">Move from scattered worry to one practical step: request, message, gather, prepare, or begin a prevention habit.</div>
+      </div>
+    </div>  </div>
+</section>
+
+<div class="ecg-div" aria-hidden="true"></div>
+
+<section class="section section--cream" id="tool" aria-labelledby="tool-h">
+  <div class="container">
+    <div class="section-kicker">The worksheet</div>
+    <h2 id="tool-h" class="section-h2">Fill it online, then print or save as PDF.</h2>
+    <p class="section-lead">Nothing you type into this page is submitted to HeartFirst. Use it locally, print it, save it, or clear it when you are done.</p>
+
+    <div class="tool-shell" aria-label="Heart Risk Navigator Starter worksheet">
+      <div class="tool-head">
+        <div class="tool-head-main">
+          <div class="tool-eyebrow">Heart Risk Navigator Starter</div>
+          <h3 class="tool-title">Known. Unknown. To discuss. <em>Next action.</em></h3>
+          <div class="tool-meta">Estimated time: 10–20 minutes · Difficulty: beginner · Format: web, print, browser PDF</div>
+        </div>
+        <div class="tool-actions">
+          <button type="button" class="btn-primary" id="printBtn">Print or save PDF</button>
+          <button type="button" class="btn-secondary" id="clearBtn">Clear fields</button>
+        </div>
+      </div>
+
+      <form class="worksheet" id="clarityForm" autocomplete="off">
+        <div class="print-header" aria-hidden="true">
+          <div>
+            <div class="print-brand">Heart Risk Navigator Starter</div>
+            <div style="font-family:var(--sans);font-size:8pt;color:#4B5563">HeartFirst by Shyntesy</div>
+          </div>
+          <div class="print-meta">Educational use only · Not medical advice<br>legal.shyntesy.com/disclaimer<br>After printing: bring this sheet to your appointment, or save the PDF to your records.</div>
+        </div>
+
+        <div class="worksheet-grid">
+          <section class="work-section" aria-labelledby="known-h">
+            <h3 class="work-section-title" id="known-h"><span class="section-num">1</span> What I know</h3>
+            <p class="work-section-intro">Capture facts first. Interpretation can come later with your health team. <a href="/glossary/" style="color:var(--teal)">Not sure what a term means?</a></p>
+            <div class="field-row">
+              <label for="labResults">Lab results <span class="field-hint" id="labResultsHint">date, value, unit</span></label>
+              <textarea id="labResults" name="labResults" rows="3" aria-label="Lab results, including date, value, and unit" aria-describedby="labResultsHint"></textarea>
+            </div>
+            <div class="field-row">
+              <label for="familyHistory">Family history <span class="field-hint">heart attack, stroke, high cholesterol, Lp(a)</span></label>
+              <textarea id="familyHistory" name="familyHistory" rows="3"></textarea>
+            </div>
+            <div class="field-row">
+              <label for="medicines">Current medicines <span class="field-hint">include supplements if relevant</span></label>
+              <textarea id="medicines" name="medicines" rows="2"></textarea>
+            </div>
+            <div class="field-row">
+              <label for="mainConcern">My main concern right now</label>
+              <textarea id="mainConcern" name="mainConcern" rows="2"></textarea>
+            </div>
+          </section>
+
+          <section class="work-section" aria-labelledby="clarify-h">
+            <h3 class="work-section-title" id="clarify-h"><span class="section-num">2</span> What I need to clarify</h3>
+            <p class="work-section-intro">Name the gaps. This helps you avoid vague worry and prepare focused questions. <a href="/research/" style="color:var(--teal)">Want deeper evidence?</a></p>
+            <div class="field-row">
+              <label for="testsWonder">Tests I have not had but wonder about</label>
+              <textarea id="testsWonder" name="testsWonder" rows="3" placeholder="Example: Lp(a), ApoB, hs-CRP, blood pressure review..."></textarea>
+            </div>
+            <div class="field-row">
+              <label for="unclearResults">Results I do not fully understand</label>
+              <textarea id="unclearResults" name="unclearResults" rows="3"></textarea>
+            </div>
+            <div class="field-row">
+              <label for="missingRecords">Records or context I still need</label>
+              <textarea id="missingRecords" name="missingRecords" rows="2"></textarea>
+            </div>
+            <div class="field-row">
+              <label for="urgentQuestion">Anything that may need urgent advice?</label>
+              <textarea id="urgentQuestion" name="urgentQuestion" rows="2" placeholder="If symptoms may be urgent, seek urgent medical care."></textarea>
+            </div>
+          </section>
+
+          <section class="work-section" aria-labelledby="discuss-h">
+            <h3 class="work-section-title" id="discuss-h"><span class="section-num">3</span> What I want to discuss</h3>
+            <p class="work-section-intro">A shorter question list usually works better than a long unsorted list.</p>
+            <div class="field-row">
+              <label for="questionOne">Question 1</label>
+              <textarea id="questionOne" name="questionOne" rows="2"></textarea>
+            </div>
+            <div class="field-row">
+              <label for="questionTwo">Question 2</label>
+              <textarea id="questionTwo" name="questionTwo" rows="2"></textarea>
+            </div>
+            <div class="field-row">
+              <label for="questionThree">Question 3</label>
+              <textarea id="questionThree" name="questionThree" rows="2"></textarea>
+            </div>
+          </section>
+
+          <section class="work-section" aria-labelledby="action-h">
+            <h3 class="work-section-title" id="action-h"><span class="section-num">4</span> My next action</h3>
+            <p class="work-section-intro">Choose one useful action. You can add more later.</p>
+            <div class="choice-grid" role="group" aria-labelledby="action-h">
+              <label class="choice"><input type="checkbox" name="nextAction" value="request-test">Request a test</label>
+              <label class="choice"><input type="checkbox" name="nextAction" value="portal-message">Send a portal message</label>
+              <label class="choice"><input type="checkbox" name="nextAction" value="gather-records">Gather records</label>
+              <label class="choice"><input type="checkbox" name="nextAction" value="prepare-appointment">Prepare for appointment</label>
+              <label class="choice"><input type="checkbox" name="nextAction" value="prevention-habit">Start a prevention habit</label>
+              <label class="choice"><input type="checkbox" name="nextAction" value="family-conversation">Begin a family conversation</label>
+            </div>
+            <div class="one-action">
+              <label for="oneAction">The one action I will take next</label>
+              <textarea id="oneAction" name="oneAction" rows="3"></textarea>
+            </div>
+          </section>
+
+          <section class="work-section full" aria-labelledby="notes-h">
+            <h3 class="work-section-title" id="notes-h"><span class="section-num">5</span> Notes for my health team</h3>
+            <p class="work-section-intro">Use this space for anything you want to bring into the conversation without losing it.</p>
+            <textarea id="notes" name="notes" rows="5" aria-label="Notes for my health team"></textarea>
+          </section>
+        </div>
+
+        <div class="worksheet-footer" id="privacy">
+          <p><strong>Privacy and boundary:</strong> This page runs in your browser. It does not submit, save, or send what you type. If you print or save a PDF, you control that copy. This worksheet is for education and preparation only. It does not diagnose, treat, or replace personalised medical advice. If symptoms may be urgent, seek urgent medical care.</p>
+          <p style="font-size:.72rem;color:var(--subdued);margin-top:.5rem">This worksheet is designed toward WCAG 2.2 AA accessibility expectations. Fields are structured for keyboard use and screen-reader navigation. If something does not work for you, please contact us through our <a href="https://legal.shyntesy.com/accessibility" style="color:var(--teal);text-decoration:underline">Accessibility page</a>.</p>
+        </div>
+      </form>
+    </div>
+
+    <div class="note-card" aria-labelledby="standards-h">
+      <div class="note-head">
+        <h3 class="note-title" id="standards-h">Built for local use and low friction.</h3>
+        <p class="note-copy">The first standalone Toolkit resource is deliberately simple: no account, no upload, no tracking of what you write.</p>
+      </div>
+      <div class="note-body">
+        <strong>Use it as a preparation aid.</strong> Fill it before an appointment, after a confusing result, before sending a portal message, or when you need to separate known facts from unanswered questions. For more context, use the <a href="/glossary/">Glossary</a>, <a href="/research/">Research</a>, and <a href="/briefings/">Briefings</a> sections.
       </div>
     </div>
-    <div class="flow-bridge">
-      <div class="flow-eyebrow">This tool uses one simple process</div>
-      <div class="flow-mini">
-        <span class="flow-pill">Known or Unknown</span>
-        <span class="flow-arrow">→</span>
-        <span class="flow-pill">To discuss</span>
-        <span class="flow-arrow">→</span>
-        <span class="flow-pill">Next action</span>
-      </div>
-      <div class="flow-caption">Capture known and unknown risks. Prepare the discussion. Agree on the best next action.</div>
-    </div>
-    <div class="anchor-box">
-      <div class="anchor-note" style="text-align: center;">You do not need to figure everything out today</div>
-      <div class="anchor-title" style="margin-top: 3mm;">What you get is a starting point you can start using today</div>
-    </div>
-    <div class="footer-mark">Heart Risk Navigator Starter — HeartFirst</div>
-    <div class="page-number">1</div>
   </div>
+</section>
 
-  <!-- PAGE 2 (corrected – fewer lines to prevent print overflow) -->
-  <div class="page">
-    <div class="top-rule"></div>
-    <div class="eyebrow">Your Snapshot</div>
-    <h2>Your Heart Context Snapshot</h2>
-    <p class="lede">Use this page to map what you know, what you do not know, <br>and what to discuss with your health team.</p>
-    <div class="snapshot-grid">
-      <div class="field-group fill-area">
-        <h3>1. Test results I have</h3>
-        <p class="prompt"><strong>Question:</strong> What are your most recent lab or blood pressure results?<br>
-        <span class="example-text"><em>Example:</em> “LDL 110 mg/dL, March 2025” or “BP 128/82, last week”</span></p>
-        <div class="known-section"><div class="mini-label">Known</div><div class="lines"><div class="line"></div><div class="line"></div></div></div>
-        <div class="unknown-section"><div class="mini-label">Unknown</div><div class="lines"><div class="line tight"></div></div></div>
-        <div class="mini-label">To discuss</div><div class="lines"><div class="line tight"></div></div>
-      </div>
-      <div class="field-group fill-area">
-        <h3>2. Family history I know</h3>
-        <p class="prompt"><strong>Question:</strong> Has a family member (parent, sibling, child) had early heart attack or stroke?<br>
-        <span class="example-text"><em>Example:</em> “Father had heart attack at 52”</span></p>
-        <div class="known-section"><div class="mini-label">Known</div><div class="lines"><div class="line"></div><div class="line"></div></div></div>
-        <div class="unknown-section"><div class="mini-label">Unknown</div><div class="lines"><div class="line tight"></div></div></div>
-        <div class="mini-label">To discuss</div><div class="lines"><div class="line tight"></div></div>
-      </div>
-      <div class="field-group fill-area">
-        <h3>3. Diagnoses or concerns already raised</h3>
-        <p class="prompt"><strong>Question:</strong> What cardiovascular or related conditions have you been told you have?<br>
-        <span class="example-text"><em>Example:</em> “High blood pressure”, “Borderline diabetes”</span></p>
-        <div class="known-section"><div class="mini-label">Known</div><div class="lines"><div class="line tight"></div></div></div>
-        <div class="unknown-section"><div class="mini-label">Unknown</div><div class="lines"><div class="line tight"></div></div></div>
-        <div class="mini-label">To discuss</div><div class="lines"><div class="line tight"></div></div>
-      </div>
-      <div class="field-group fill-area">
-        <h3>4. What has not been measured or is unclear</h3>
-        <p class="prompt"><strong>Question:</strong> Which tests have you not had, or results you are missing?<br>
-        <span class="example-text"><em>Example:</em> “Lp(a) never tested”, “Don’t know my ApoB”</span></p>
-        <div class="unknown-section"><div class="mini-label">Unknown</div><div class="lines"><div class="line"></div></div></div>
-        <div class="mini-label">To discuss</div><div class="lines"><div class="line tight"></div><div class="line tight"></div></div>
-      </div>
+<section class="closing-cta" id="next" aria-labelledby="closing-h">
+  <div class="closing-inner">
+    <div class="section-kicker" style="justify-content:center"><span style="width:22px;height:1px;background:var(--gold);display:block"></span>Next</div>
+    <h2 id="closing-h" class="closing-h2">Need more structure?<br><em>Use the product pathway.</em></h2>
+    <p class="closing-sub">The Heart Risk Navigator Starter is a free preparation worksheet. The HeartFirst product pathway gives a fuller guided system for clarifying risk signals, preparing conversations, and building prevention momentum.</p>
+    <a href="/products/" class="btn-primary">See the full pathway <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M3 7.5h9M8 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <div class="hf-cta-spacer" aria-hidden="true"></div>
+
+    <div class="hf-bottom-nav-block">
+      <div class="hf-bottom-nav-label">Where to go next</div>
+      <nav class="hf-bottom-nav" aria-label="HeartFirst section navigation">
+        <a href="/">Home</a>
+        <span>&middot;</span>
+        <a href="/about/">About</a>
+        <span>&middot;</span>
+        <a href="/products/">Products</a>
+        <span>&middot;</span>
+        <a href="/toolkit/">Toolkit</a>
+        <span>&middot;</span>
+        <a href="/glossary/">Glossary</a>
+        <span>&middot;</span>
+        <a href="/research/">Research</a>
+        <span>&middot;</span>
+        <a href="/articles/">Articles</a>
+        <span>&middot;</span>
+        <a href="/briefings/">Briefings</a>
+        <span>&middot;</span>
+        <a href="/lpa/">Lp(a)</a>
+      </nav>
     </div>
-    <div class="anchor-box">
-      <div class="anchor-title">Record what is known and unknown. Discuss what matters. <br>Agree on the best next action.</div>
-    </div>
-    <div class="footer-mark">Heart Risk Navigator Starter — HeartFirst</div>
-    <div class="page-number">2</div>
   </div>
+</section>
+</main>
 
-  <!-- PAGE 3 -->
-  <div class="page">
-    <div class="top-rule"></div>
-    <div class="eyebrow">Prepare to Act</div>
-    <h2>Prepare your next conversation and action</h2>
-    <p class="lede">You don’t need everything at once. <br>You need the right answer to take the next right action.</p>
-
-    <div class="two-col-questions">
-      <div class="field-group fill-area">
-        <h3>1. The answer I need now</h3>
-        <p class="prompt"><strong>Question:</strong> What's the single most important thing I need to know about my heart risk?
-        <span class="example-text"><em>Example:</em> “Whether my ApoB, Lp(a), or LDL-P levels are high” or “How my blood pressure affects my long‑term risk”</span></p>
-        <div class="lines"><div class="line"></div><div class="line"></div></div>
-      </div>
-      <div class="field-group fill-area">
-        <h3>2. The action to take now</h3>
-        <p class="prompt"><strong>Action:</strong> What's the best action I can take now to reduce my risk?
-        <span class="example-text"><em>Example:</em>  “Get Lp(a), ApoB, or LDL‑P tested”, “Quit smoking“, “Reduce alcohol”, “Start exercising or move more by walking, dancing, or biking”</span></p>
-        <div class="lines"><div class="line"></div><div class="line"></div></div>
-      </div>
+<footer class="footer">
+  <div class="footer-inner">
+    <div style="display:flex;align-items:center;gap:9px">
+      <svg width="22" height="22" viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="M50 85 C50 85 8 55 8 33 C8 18 18 10 29 10 C38 10 45 16 50 22 C50 22 50 85 50 85Z" fill="#102A43"/><path d="M50 85 C50 85 92 55 92 33 C92 18 82 10 71 10 C62 10 55 16 50 22 C50 22 50 85 50 85Z" fill="#C0392B"/><polyline points="20,42 30,42 36,28 42,55 47,38 53,38 58,38 64,28 70,55 75,38 81,42" fill="none" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="footer-brand">HeartFirst by Shyntesy</span>
     </div>
-    <div class="two-col-questions">
-      <div class="field-group fill-area">
-        <h3>3. Is my action working?</h3>
-        <p class="prompt"><strong>Measure:</strong> What do I measure and observe to see if my action is reducing my risk?
-        <span class="example-text"><em>Example:</em> “Repeat blood test regularly”, “Track blood pressure reading”, “Monitor exercise intensity or sleep quality”, “Log sleep hours“</span></p>
-        <div class="lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
-      </div>
-      <div class="field-group fill-area">
-        <h3>4. Momentum is habit</h3>
-        <p class="prompt"><strong>Habit:</strong> What habits should I be changing to reduce my risk of heart attack or stroke?
-        <span class="example-text"><em>Example:</em> “Follow‑up with my health team”, “Share information or results with my family”, “Follow the Heart Risk Navigator System”</span></p>
-        <div class="lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
-      </div>
+    <div class="footer-meta">
+      <a href="https://legal.shyntesy.com/terms">Terms</a> &middot; <a href="https://legal.shyntesy.com/privacy">Privacy</a> &middot; <a href="https://legal.shyntesy.com/cookies">Cookies</a> &middot; <a href="https://legal.shyntesy.com/refunds">Refunds</a> &middot; <a href="https://legal.shyntesy.com/disclaimer">Disclaimer</a> &middot; <a href="https://legal.shyntesy.com/accessibility">Accessibility</a> &middot; <a href="https://legal.shyntesy.com/contact">Contact</a><br>
+      &copy; 2026 HeartFirst by Shyntesy &middot; <a href="https://shyntesy.com" target="_blank" rel="noopener">shyntesy.com</a><br>
+      Educational use only &mdash; not medical advice, diagnosis, or treatment.
     </div>
-
-    <div class="next-action fill-area">
-      <h3>Your next action is for life</h3>
-      <p>Turn understanding of your heart risks into lifelong prevention.</p> 
-      <p style="margin-top: 3mm;">Repeat this simple process regularly to stay on top of your heart risk.</p>
-      <div class="mini-label" style="margin-top: 3mm;">⚠️ Early informed prevention can reduce your risk of heart attack, stroke, and cardiovascular damage.</div>
-    </div>
-    <div class="footer-mark">Heart Context Snapshot</div>
-    <div class="page-number">3</div>
   </div>
-
-  <!-- PAGE 4 -->
-  <div class="page">
-    <div class="top-rule"></div>
-    <div class="eyebrow">Live healthier for longer</div>
-    <h1>Heart Risk Navigator System</h1>
-    <div class="subtitle">Your repeatable process for lifelong risk reduction</div>
-    <div class="lede">
-      You now have a clear starting point, a structured snapshot, and a defined next action. This system is repeatable because heart risk management is not a one‑time event.
-    </div>
-
-    <div class="box">
-      <h3>How to reduce heart attack and stroke risk</h3>
-      <ul class="spaced-list">
-        <li><strong>Know your risk picture</strong>: not just your cholesterol numbers</li>
-        <li><strong>Take the right action</strong>: based on the right questions, answers, discussions, and decisions</li>
-        <li><strong>Measure risks that matter</strong>: blood pressure, Lp(a), ApoB, LDL-P</li>
-        <li><strong>Build habits that protect you</strong>: movement, sleep, food, follow‑ups</li>
-        <li><strong>Repeat the process</strong>: because risks change over time</li>
-      </ul>
-    </div>
-
-    <div class="grid-2">
-      <div class="field-group">
-        <div class="mini-label">What you now have</div>
-        <ul class="spaced-list" style="margin-top: 0;">
-          <li>a clear starting point</li>
-          <li>a structured snapshot</li>
-          <li>one defined next action</li>
-          <li>ways to keep reducing cardiovascular risk, step by step</li>
-        </ul>
-      </div>
-      <div class="field-group">
-        <div class="mini-label">What you may notice soon</div>
-        <ul class="simple-list" style="margin-top: 0;">
-          <li>New questions may arise: this is progress</li>
-          <li>Some gaps become clearer: get the right answers to fill them</li>
-          <li>Priorities start to shift: reducing your risk remains constant</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="note-box box">
-      <h3>The Heart Risk Navigator System</h3>
-      <p>The <strong>HeartFirst System</strong> expands this snapshot into a structured system to <strong>clarify, navigate, and prevent</strong> avoidable heart attack, stroke, and cardiovascular damage. It helps you prioritise what matters, prepare effective conversations with your health team, avoid early mistakes, and build a clearer path to heart health.</p>
-    </div>
-
-    <div class="cta-box">
-      <h3>Go further with the full system</h3>
-      <p>You’ve taken the first step. Get the complete system and ongoing support to reduce your heart attack and stroke risk for life. Learn more here:</p>
-      <p style="text-align: center;"><a class="cta-link" href="https://shyntesy.com">https://shyntesy.com</a></p>
-      <p style="text-align: center; margin-top: 3mm;"><strong>Clarify risk &middot; Navigate danger &middot; Prevent events</strong></p>
-    </div>
-
-    <div class="footer-mark">Heart Risk Navigator Starter</div>
-    <div class="page-number">4</div>
-  </div>
-</div>
+</footer>
 
 <script>
-  (function() {
-    // --- Theme toggle ---
-    const toggle = document.getElementById('themeToggle');
-    const root = document.documentElement;
-    const saved = localStorage.getItem('snapshotTheme') || 'light';
-    root.setAttribute('data-theme', saved);
-    if (toggle) {
-      const icon = toggle.querySelector('i');
-      if (saved === 'dark') {
-        icon.className = 'fas fa-sun';
-        toggle.innerHTML = '<i class="fas fa-sun"></i> Light mode';
-      } else {
-        icon.className = 'fas fa-moon';
-        toggle.innerHTML = '<i class="fas fa-moon"></i> Dark mode';
-      }
-      toggle.addEventListener('click', () => {
-        const cur = root.getAttribute('data-theme');
-        const nxt = cur === 'dark' ? 'light' : 'dark';
-        root.setAttribute('data-theme', nxt);
-        localStorage.setItem('snapshotTheme', nxt);
-        if (nxt === 'dark') {
-          toggle.innerHTML = '<i class="fas fa-sun"></i> Light mode';
-        } else {
-          toggle.innerHTML = '<i class="fas fa-moon"></i> Dark mode';
-        }
-      });
-    }
+(function(){
+  'use strict';
+  var btn=document.getElementById('themeBtn');
+  var root=document.documentElement;
+  var KEY='hf-theme';
 
-    // --- Hamburger menu toggle ---
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const toolbarItems = document.getElementById('toolbarItems');
-    if (hamburgerBtn && toolbarItems) {
-      hamburgerBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const isOpen = toolbarItems.classList.toggle('open');
-        hamburgerBtn.setAttribute('aria-expanded', isOpen);
-        hamburgerBtn.innerHTML = isOpen
-          ? '<i class="fas fa-times"></i>'
-          : '<i class="fas fa-bars"></i>';
-      });
-      // Close menu when clicking outside
-      document.addEventListener('click', function(e) {
-        if (!toolbarItems.contains(e.target) && e.target !== hamburgerBtn) {
-          toolbarItems.classList.remove('open');
-          hamburgerBtn.setAttribute('aria-expanded', 'false');
-          hamburgerBtn.innerHTML = '<i class="fas fa-bars"></i>';
-        }
-      });
-      // Close menu after any item is tapped (except theme toggle, which stays open)
-      toolbarItems.querySelectorAll('a, button').forEach(function(el) {
-        el.addEventListener('click', function() {
-          if (el.id === 'themeToggle') return;
-          toolbarItems.classList.remove('open');
-          hamburgerBtn.setAttribute('aria-expanded', 'false');
-          hamburgerBtn.innerHTML = '<i class="fas fa-bars"></i>';
-        });
-      });
+  function setTheme(t){
+    root.setAttribute('data-theme',t);
+    try{localStorage.setItem(KEY,t);}catch(e){}
+    if(btn){
+      btn.textContent=t==='dark'?'Light':'Dark';
+      btn.setAttribute('aria-label',t==='dark'?'Switch to light theme':'Switch to dark theme');
+      btn.setAttribute('aria-pressed',t==='dark'?'true':'false');
     }
-  })();
+  }
+
+  var stored;
+  try{stored=localStorage.getItem(KEY);}catch(e){}
+  var dark=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;
+  setTheme(stored||(dark?'dark':'light'));
+
+  if(btn){
+    btn.addEventListener('click',function(){setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');});
+  }
+
+  var menuBtn=document.getElementById('menuBtn');
+  var mobileMenu=document.getElementById('mobileMenu');
+  var mobileBackdrop=document.getElementById('mobileMenuBackdrop');
+  function setMenu(open){
+    if(!menuBtn||!mobileMenu)return;
+    document.body.classList.toggle('menu-open',open);
+    menuBtn.setAttribute('aria-expanded',open?'true':'false');
+    menuBtn.setAttribute('aria-label',open?'Close page contents':'Open page contents');
+    mobileMenu.setAttribute('aria-hidden',open?'false':'true');
+    if(mobileBackdrop){mobileBackdrop.setAttribute('aria-hidden',open?'false':'true');}
+  }
+  if(menuBtn&&mobileMenu){
+    menuBtn.addEventListener('click',function(){setMenu(menuBtn.getAttribute('aria-expanded')!=='true');});
+    if(mobileBackdrop){mobileBackdrop.addEventListener('click',function(){setMenu(false);});}
+    mobileMenu.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){setMenu(false);});});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false);});
+  }
+
+  var nav=document.querySelector('.nav');
+  if(nav){
+    window.addEventListener('scroll',function(){nav.style.background=window.scrollY>60?'rgba(13,34,54,.99)':'rgba(13,34,54,.94)';},{passive:true});
+  }
+
+  var printBtn=document.getElementById('printBtn');
+  var heroPrintBtn=document.getElementById('heroPrintBtn');
+  function doPrint(){window.print();}
+  if(printBtn){printBtn.addEventListener('click',doPrint);}
+  if(heroPrintBtn){heroPrintBtn.addEventListener('click',doPrint);}
+
+  var clearBtn=document.getElementById('clearBtn');
+  var form=document.getElementById('clarityForm');
+  if(clearBtn&&form){
+    clearBtn.addEventListener('click',function(){
+      var ok=window.confirm('Clear all fields on this page? This cannot be undone.');
+      if(ok){form.reset();}
+    });
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var target=document.querySelector(a.getAttribute('href'));
+      if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth',block:'start'});}
+    });
+  });
+})();
 </script>
 </body>
 </html>
