@@ -567,15 +567,52 @@ json{
 
 ---
 
-<section class="section section--white" id="full-guide" aria-labelledby="full-guide-h" style="min-height:clamp(520px,78svh,760px);display:grid;place-items:center;padding-block:clamp(76px,10vw,128px);">
-  <div class="container--mid" style="max-width:760px;text-align:center;margin-inline:auto;">
-    <div class="section-kicker" style="justify-content:center;"><span style="width:22px;height:1px;background:var(--gold);display:block"></span>Want more support?</div>
-    <h2 id="full-guide-h" class="section-h2">Use the Full Guide for more context and examples</h2>
-    <p class="section-lead" style="margin-inline:auto;">
-      This Starter is the quick introduction to the Navigator system. The Full Guide follows the same pathway with more explanation, examples, and prompts if you want extra structure before a health team conversation.
-    </p>
-    <a href="/toolkit/heart-risk-navigator-starter/full-guide" class="btn-secondary" style="margin-top:1.6rem;background:var(--navy);border-color:var(--navy);color:#fff!important;">Use the Full Guide</a>
-    <p class="print-url" style="display:none;">Full Guide: https://heartfirst.shyntesy.com/toolkit/heart-risk-navigator-starter/full-guide</p>
-  </div>
-</section>
+Github & Codex split
+
+
+define the boundary like this:
+
+heartfirst = public educational site and domain files
+heartfirst-dev = sales, marketing, funnel, experiments, and portable assets
+
+heartfirst-dev.
+
+Examples:
+
+sales pages
+Systeme.io HTML blocks
+checkout-support copy
+marketing landing pages
+launch pages
+offer positioning
+email funnel page content
+experimental product pages
+If a file starts in heartfirst-dev but may move later
+That is fine. Just treat it as a draft until you decide where it belongs.
+
+Possible destinations:
+
+heartfirst
+legal
+Systeme.io
+Shyntesy main
+another product workspace
+
+focusing on sales and marketing in heartfirst-dev, that sounds like the correct place for:
+
+sales page copy;
+
+product positioning;
+
+offer framing;
+
+funnel structure;
+
+pricing / value proposition language;
+
+Systeme.io-compatible HTML;
+
+marketing assets that are not yet public HeartFirst site pages.
+
+
 
