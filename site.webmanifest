@@ -1,0 +1,20 @@
+{
+  "name": "HeartFirst by Shyntesy",
+  "short_name": "HeartFirst",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0D2236",
+  "icons": [
+    {
+      "src": "https://res.cloudinary.com/dc5do6xto/image/upload/v1783182986/android-chrome-192x192_dfgknd.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://res.cloudinary.com/dc5do6xto/image/upload/v1783182994/android-chrome-512x512_hf8etv.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
