@@ -9,11 +9,11 @@ import { Stage1Who } from './stage1-who';
 import { Stage2Known } from './stage2-known';
 import { Stage3Unknown } from './stage3-unknown';
 import { Stage4Discuss } from './stage4-discuss';
-import { Stage5Next } from './stage5-next';
-import { OutputsHub } from './outputs-hub';
+import Stage5Next from './stage5-next';
+import OutputsHub from './outputs-hub';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ArrowRight, AlertTriangle } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 
 export function ClarifyShell() {
   const started = useClarifyStore((s) => s.started);
@@ -21,11 +21,11 @@ export function ClarifyShell() {
   const setStage = useClarifyStore((s) => s.setStage);
   const persons = useClarifyStore((s) => s.persons);
   const activePersonId = useClarifyStore((s) => s.activePersonId);
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => {
-    setHydrated(true);
-  }, []);
+  const hydrated = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
   if (!hydrated) {
     return (

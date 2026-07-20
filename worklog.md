@@ -197,4 +197,36 @@ The minimum viable path through the application:
 2. The precise wording of the medical disclaimer that must appear on every output.
 3. Whether the People You Love follow-up should show a summary table or individual cards.
 4. Pricing page integration — how the paywall/gate works for the €17 product.
-5. Whether to include a data export (JSON) feature in addition to print/PDF.
+5. Whether to include a data export (JSON) feature in addition to print/PDF.---
+Task ID: 2
+Agent: Main
+Task: Build complete HeartFirst Clarify application
+
+Work Log:
+- Created TypeScript types (clarify-types.ts) with full information model
+- Built Zustand store (clarify-store.ts) with localStorage persistence
+- Created utility functions (clarify-utils.ts) for auto-unknown generation, person labels, privacy
+- Built ClarifyShell with stage navigation, hydration handling, responsive mobile/desktop nav
+- Built WelcomeScreen with product description, disclaimer, and start button
+- Built PersonSelector with tab-based person switching
+- Built Stage1Who: self/loved-one selection, person form with name/age/sex/relationship
+- Built Stage2Known: 5-section accordion (Measurements, Lifestyle, Medical History, Family History, Other Factors) with "I don't know" checkboxes and badge counters
+- Built Stage3Unknown: auto-populated unknowns from Stage 2 gaps, priority grouping, manual additions
+- Built Stage4Discuss: discussion points with urgency, linked unknowns, who-should-be-present
+- Built Stage5Next: decisions with nested actions, completion tracking, appointment details
+- Built OutputsHub: 6 output cards with View/Print, full renderers for each output type, privacy controls, Take-Forward Pack with checkbox selection
+- Updated page.tsx to render ClarifyShell
+- Updated layout.tsx with HeartFirst metadata and en-GB lang
+- Added print CSS to globals.css
+- Fixed lint error (hydration pattern), import mismatches, CSS parsing error
+- Verified all 6 stages and outputs hub in browser
+- Confirmed localStorage persistence, mobile responsive nav, sticky footer
+
+Stage Summary:
+- Complete 5-stage wizard + outputs hub working end-to-end
+- All 6 outputs viewable with print support
+- Privacy controls (display name, age, sex, relationship toggles)
+- Save/resume via Zustand + localStorage
+- Responsive design (mobile nav uses short labels, desktop uses full labels)
+- Clean lint, no runtime errors
+- Screenshot saved at /home/z/my-project/clarify-outputs.png
