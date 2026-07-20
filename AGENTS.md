@@ -4,7 +4,7 @@ This repository supports HeartFirst by Shyntesy, a heart risk navigation platfor
 
 HeartFirst’s public journey language is:
 
-Recognise → Clarify → Navigate → Prevent → Protect.
+Recognise → Clarify → Navigate → Prevent → Protect
 
 Public positioning:
 
