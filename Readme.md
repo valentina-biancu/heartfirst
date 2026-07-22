@@ -1933,3 +1933,184 @@ HeartFirst_Recognise_Hub_Content_Master_v0.6.md
 
 ---
 
+===
+
+---
+
+What I've Done (Code Changes)
+1. ✅ Build Script Fixed
+package.json — Build script changed from the old server-mode copy command to simply:
+
+text
+
+"build": "next build"
+
+With output: "export" in next.config.ts, this produces an out/ folder with pure static HTML/CSS/JS. That's what Cloudflare Pages expects.
+
+2. ✅ Access Gate (Paywall) Built
+I created two files:
+
+src/components/clarify/access-gate.tsx — Client-side gate component that:
+
+Shows a branded code-entry screen before anyone can use Clarify
+Checks URL query params for magic links (?code=HF-XXXX-XXXX, ?access=..., or ?c=...)
+Validates codes against the server API
+Stores a time-limited session in localStorage (default 1 year)
+In development (when the API isn't reachable), accepts the code DEV as a bypass
+Has helpful "Purchase Clarify" link for visitors who don't have a code
+
+functions/api/verify-code.ts — Cloudflare Pages Function that:
+
+Runs on Cloudflare's edge (NOT in Next.js — separate concern)
+Validates submitted codes against a comma-separated list in environment variable ACCESS_CODES
+Returns a session expiry timestamp on success
+Returns clear error messages on failure
+Supports SESSION_DURATION_DAYS env var (default: 365)
+
+src/app/page.tsx — Updated to wrap ClarifyShell with AccessGate:
+
+tsx
+
+<AccessGate>
+  <ClarifyShell />
+</AccessGate>
+
+Answers to Your Questions
+
+Point 2: Framework Preset — Can you add it after setup?
+Yes. In Cloudflare Pages:
+
+Go to Cloudflare Dashboard → Pages → your project → Settings → Builds & deployments
+You'll see Framework preset, Build command, and Build output directory
+Change Framework preset to Next.js (Static HTML Export)
+Set Build command to: npx next build (see Point 3 about bun)
+Set Build output directory to: out
+Click Save and then Retry deployment
+
+This can be changed at any time — it's just configuration, not a one-time choice.
+
+Point 3: Bun on Cloudflare Pages
+Cloudflare Pages does NOT have Bun pre-installed, and you can't add it to the build environment directly. But here's the key insight: you don't need Bun for a static export.
+
+Since output: "export" generates pure static files, the build command just needs to run next build. This works fine with Node.js (which Cloudflare Pages provides natively).
+
+Set your build command to:
+
+text
+
+npx next build
+
+Set Node.js version in Cloudflare Pages Settings → Environment Variables:
+
+text
+
+NODE_VERSION = 18
+
+This will:
+
+Install dependencies with npm (Cloudflare auto-detects package-lock.json or falls back to npm)
+Run next build which produces the out/ directory
+Deploy the out/ directory
+Important: Since your project uses bun as the package manager, you should generate a package-lock.json so Cloudflare can install deps:
+
+bash
+
+npm install --package-lock-only
+
+# Then commit package-lock.json to your repo
+Alternatively, you can force bun installation in the build command:
+
+text
+
+curl -fsSL https://bun.sh/install | bash && bun install && bun run build
+But the npx next build approach is simpler and more reliable on Cloudflare.
+
+Point 4: URL Structure — Subdomain vs Subdirectory
+You're right to think about this now. There are two approaches, and the subdomain approach is strongly recommended for Cloudflare Pages:
+
+Option A: Subdomains (RECOMMENDED)
+text
+
+clarify.heartfirst.shyntesy.com   → Clarify product
+navigate.heartfirst.shyntesy.com  → Navigate product (future)
+assess.heartfirst.shyntesy.com    → Another product (future)
+Why this is better:
+
+Each product is a separate Cloudflare Pages project with its own repo/branch
+No basePath needed — URLs are clean at root
+API functions (like the access code verifier) work naturally
+Each product can be deployed/updated independently
+Cloudflare Pages custom domains work perfectly with subdomains
+DNS setup in Cloudflare:
+
+Add CNAME: clarify → your-project.pages.dev
+Repeat for each product subdomain
+I've already set basePath: "" in next.config.ts for this approach. There's a comment block in the file explaining how to switch to Option B if needed.
+
+Option B: Subdirectory (more complex)
+text
+
+heartfirst.shyntesy.com/clarify   → Clarify
+heartfirst.shyntesy.com/navigate  → Navigate
+This requires:
+
+A Cloudflare Worker to route /clarify/* to the Clarify Pages project
+basePath: "/clarify" in next.config.ts
+More complex routing rules as products grow
+The access code API function would also need special routing
+My recommendation: go with subdomains. It's simpler, more maintainable, and each product is truly independent. The "nav unmanageable" concern goes away because there's no shared nav — each product owns its subdomain. Your main HeartFirst site (on Systeme.io or wherever) simply links to each product subdomain.
+
+Point 5: Paywall / Access Code System
+Already built. Here's how it works end-to-end:
+
+The User Flow
+Someone buys Clarify on Systeme.io (€17)
+Systeme.io sends a confirmation email with a unique access code (e.g., HF-A1B2-C3D4)
+The email also contains a magic link: https://clarify.heartfirst.shyntesy.com/?code=HF-A1B2-C3D4
+User clicks the link → code is auto-submitted → session stored → they're in
+Next visit: auto-detected via localStorage, no code needed again
+Session lasts 1 year by default (configurable)
+How to Set Up Access Codes
+On Cloudflare Pages Dashboard:
+
+Go to your project → Settings → Environment Variables
+Add:
+ACCESS_CODES = HF-AAAA-BBBB,HF-CCCC-DDDD,HF-EEEE-FFFF (comma-separated, case-insensitive)
+SESSION_DURATION_DAYS = 365 (optional, defaults to 365)
+Redeploy for the variables to take effect
+Adding new codes when someone purchases:
+
+Manual (v1): Go to Cloudflare Pages → Settings → Environment Variables → edit ACCESS_CODES → add the new code → redeploy
+Automated (later): Set up a Systeme.io automation that calls a Cloudflare Worker to add the code to Cloudflare KV (more advanced, but eliminates manual steps)
+Generating codes: Use any format you like. Suggestions:
+
+HF- prefix + 4 random hex + - + 4 random hex = HF-A1B2-C3D4
+Or simpler: HF-8CHARACTERS = HF-XK9FM2PQ
+The system is case-insensitive, so hf-a1b2-c3d4 = HF-A1B2-C3D4
+Point 6: Sandbox Inactive
+This is the same issue I hit during development — the sandbox environment periodically goes inactive. It's not caused by your code. The dev server was running correctly (compiled and returned 200) before the sandbox dropped. To get it running again, you'd just need to restart the dev session.
+
+Deployment Checklist (Summary)
+Here's the step-by-step for getting clarify.heartfirst.shyntesy.com live:
+
+Generate package-lock.json for Cloudflare: npm install --package-lock-only
+Commit all code to your GitHub repo (including the new functions/ directory and updated files)
+Create Cloudflare Pages project connected to the GitHub repo
+Settings → Builds & deployments:
+Framework preset: Next.js (Static HTML Export)
+Build command: npx next build
+Build output directory: out
+Node.js version: 18
+Settings → Environment variables:
+ACCESS_CODES = your generated codes (comma-separated)
+SESSION_DURATION_DAYS = 365
+Settings → Custom domains:
+Add clarify.heartfirst.shyntesy.com
+Cloudflare DNS (if not already done):
+Add CNAME record: clarify → your-project.pages.dev
+Deploy — Cloudflare will build and deploy automatically
+Test by visiting clarify.heartfirst.shyntesy.com with one of your access codes
+The functions/api/verify-code.ts file will be automatically deployed as a Cloudflare Pages Function — no extra configuration needed.
+
+
+
