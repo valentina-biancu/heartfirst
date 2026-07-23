@@ -2114,3 +2114,193 @@ The functions/api/verify-code.ts file will be automatically deployed as a Cloudf
 
 
 
+
+# Quick cleanup before committing
+rm -rf .next
+rm -rf node_modules
+
+# Remove the existing .git folder entirely
+
+rm -rf .git
+
+# Create your own fresh git repo
+git init
+
+# Add all your files
+git add .
+
+# Make your first commit
+git commit -m "Initial commit: HeartFirst Clarify v1"
+
+# Add YOUR GitHub repo as the remote
+git remote add origin https://github.com/valentina.biancu/clarify.git
+
+# Push to your repo
+git push -u origin main
+
+
+λ git push -u origin main
+remote: Repository not found.
+fatal: repository 'https://github.com/valentina.biancu/clarify.git/' not found
+
+---
+
+Step 1: Create the repo on GitHub
+Go to https://github.com/new
+Repository name: clarify
+Set it to Private (recommended — it's a paid product)
+Do NOT tick "Add a README", "Add .gitignore", or "Add license" — leave them all unchecked
+Click Create repository
+Step 2: Push
+bash
+
+git push -u origin main
+
+It should work now.
+
+One thing to watch: if GitHub asks you to authenticate, it will want a Personal Access Token (not your password). If that happens:
+
+Go to https://github.com/settings/tokens
+Click Generate new token (classic)
+Tick repo scope
+Copy the token
+When git asks for your password, paste the token instead
+
+
+This means your local default branch isn't called `main`. Git probably named it `master` instead (older convention).
+
+## Quick fix
+
+```bash
+# Check what your branch is actually called
+git branch
+```
+
+If you see `master`, then:
+
+```bash
+# Rename it to match the remote
+git branch -M main
+
+# Push again
+git push -u origin main
+```
+
+## If the command shows nothing at all
+
+That means you haven't committed yet. Run through the sequence:
+
+```bash
+git add .
+git commit -m "t"
+git branch -M main
+git push -u origin main
+```
+
+
+---
+
+bun install --package-lock-only
+
+
+git add package-lock.json
+git commit -m "Add package-lock.json for Cloudflare Pages build"
+git push
+
+
+npm approve-scripts es5-ext prisma sharp unrs-resolver @parcel/watcher @prisma/client @prisma/engines @swc/core
+
+npm config set ignore-scripts false
+npm install --package-lock-only
+
+git add package-lock.json
+git commit -m "Add package-lock.json for Cloudflare build"
+git push
+
+
+---
+
+Step 2: Create the Cloudflare Pages project
+Go to https://dash.cloudflare.com
+In the left sidebar, click Workers & Pages
+Click Create (top right)
+Choose Pages tab
+Choose Connect to Git
+Select GitHub → authorise if asked
+Select your clarify repository
+You'll see a settings form — fill it in (see Step 3)
+Step 3: Build settings (on the Cloudflare web form)
+Setting
+What to put
+Why
+Framework preset	Next.js (Static HTML Export)	Tells Cloudflare how to interpret the output
+Build command	npx next build	Runs Next.js build → produces the out/ folder
+Build output directory	out	Where the static files end up
+Node.js version	18 (or 20 — both work)	Ensures the right Node version is used
+
+Then click Save and Deploy.
+
+Cloudflare will now:
+
+Pull your code from GitHub
+Install dependencies using package-lock.json
+Run npx next build
+Upload everything in the out/ folder to their global network
+If anything fails, you'll see an error log — just tell me and I'll help.
+
+Step 4: Add environment variables (for the paywall)
+After the first deploy (successful or not), go to:
+
+Settings → Environment variables → Add
+
+Variable
+Value
+What it does
+ACCESS_CODES	HF-TEST-CODE1,HF-TEST-CODE2	Comma-separated list of valid access codes (you'll add real ones when buyers purchase)
+SESSION_DURATION_DAYS	365	How long a code stays valid after first use
+
+Click Save then Retry deployment (so the variables are picked up).
+
+Step 5: Add your custom domain
+In the Cloudflare Pages project:
+
+Custom domains tab → Add custom domain
+Enter: clarify.heartfirst.shyntesy.com
+Cloudflare will automatically add the DNS CNAME record for you (since they already manage your DNS)
+This is the magic of having Cloudflare DNS + Cloudflare Pages — the DNS record is created automatically. No manual DNS work needed.
+
+Step 6: Deploy & Test
+Cloudflare deploys automatically every time you git push to GitHub. After Step 5 completes:
+
+Visit https://clarify.heartfirst.shyntesy.com
+You should see the access gate screen asking for a code
+Type one of your test codes from Step 4
+You're in!
+Step 7: The access code API (automatic)
+The file I created at functions/api/verify-code.ts is a Cloudflare Pages Function. This is a special thing Cloudflare does:
+
+Any file in the functions/ directory becomes a serverless API endpoint
+functions/api/verify-code.ts → available at /api/verify-code
+It runs on Cloudflare's edge network automatically — no configuration needed
+Your access gate component (access-gate.tsx) calls this endpoint when someone submits a code
+You don't need to do anything extra for this. Just make sure the functions/ folder is in your GitHub repo (it should be, since I created it in the project).
+
+Summary
+text
+
+Your machine          GitHub              Cloudflare
+─────────────        ──────              ──────────
+git add / commit      
+git push ────────→   Code lives here
+     
+                     Cloudflare pulls ──→   Builds & deploys
+                                             (automatic on push)
+                    
+                     (only first time)    Settings configured
+                     (only first time)    Domain connected
+                    
+                     Future pushes ────→   Auto-redeploys
+The deployment summary is correct with one update — use bun install --package-lock-only instead of the npm version I wrote before, since you're using Bun locally. Everything else stands.
+
+Want me to walk you through any specific step in more detail?
+
