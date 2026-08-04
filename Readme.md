@@ -2151,6 +2151,7 @@ Repository name: clarify
 Set it to Private (recommended — it's a paid product)
 Do NOT tick "Add a README", "Add .gitignore", or "Add license" — leave them all unchecked
 Click Create repository
+
 Step 2: Push
 bash
 
@@ -2229,6 +2230,7 @@ Choose Connect to Git
 Select GitHub → authorise if asked
 Select your clarify repository
 You'll see a settings form — fill it in (see Step 3)
+
 Step 3: Build settings (on the Cloudflare web form)
 Setting
 What to put
@@ -2304,3 +2306,15 @@ The deployment summary is correct with one update — use bun install --package-
 
 Want me to walk you through any specific step in more detail?
 
+---
+
+# Check what's in there
+ls src/app/api/
+
+# Remove the whole folder
+rm -rf src/app/api/
+
+# Commit and push
+git add -A
+git commit -m "Remove Next.js API route (incompatible with static export)"
+git push
